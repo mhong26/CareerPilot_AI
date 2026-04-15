@@ -9,112 +9,167 @@ CareerPilot AI is an AI-powered resume and job match platform for students, new 
 - [Amie Nguyen] - GitHub: [honganhnguyen-lab]
 - [Hung-Ju Lin] - GitHub: [NSYSUHermit]
 
+---
+
+## Required Tools and Dependencies
+
+### Docker setup (recommended)
+
+| Tool | Version | Notes |
+|---|---|---|
+| Docker | >= 24 | [Install Docker](https://docs.docker.com/get-docker/) |
+| Docker Compose | >= 2.x | Bundled with Docker Desktop |
+| Git | any | |
+
+### Local development (without Docker)
+
+| Tool | Version | Notes |
+|---|---|---|
+| Python | 3.11+ | [python.org](https://www.python.org/downloads/) |
+| uv | latest | `pip install uv` or [install guide](https://github.com/astral-sh/uv) |
+| Node.js | 20+ | [nodejs.org](https://nodejs.org/) |
+| npm | 10+ | Bundled with Node.js |
+| PostgreSQL | 16 + pgvector | Required for local backend |
+
+### External accounts
+
+| Service | Purpose |
+|---|---|
+| Google AI Studio | Gemini API key — [aistudio.google.com](https://aistudio.google.com/) |
+
+---
+
 ## Development Environment Setup
 
-### 1. Clone the repository
+### Quick Start with Docker (Recommended)
 
+**1. Clone and configure:**
 ```bash
-git clone https://github.com/your-org/careerpilot-ai.git
-cd careerpilot-ai
-```
-
-### 2. Create environment files
-
-Copy the sample environment file and fill in your own values:
-
-```bash
+git clone <repo-url>
+cd CareerPilot_AI
 cp .env.example .env
 ```
 
-### 3. Start the database services
-
-The project uses PostgreSQL and pgvector through Docker Compose.
-
-```bash
-docker compose up -d db
+**2. Fill in the required secrets in `.env`:**
+```
+GEMINI_API_KEY=your-gemini-api-key
+JWT_SECRET=any-random-string-at-least-32-chars
 ```
 
-### 4. Backend setup
+**3. Start all services:**
+```bash
+docker compose up --build
+```
 
+**4. Run database migrations (first time only):**
+```bash
+docker compose exec backend alembic upgrade head
+```
+
+**5. Open in browser:**
+- Frontend: http://localhost:3000
+- Backend API: http://localhost:8000
+- API docs (Swagger): http://localhost:8000/docs
+
+---
+
+### Local Development (without Docker)
+
+Requires a running PostgreSQL 16 instance with the pgvector extension available.
+
+**Backend:**
 ```bash
 cd backend
-python -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
+uv pip install -e ".[dev]"
+
+# Set environment variables (or create a .env file in backend/)
+export DATABASE_URL=postgresql://user:password@localhost:5432/careerpilot
+export JWT_SECRET=your-secret
+export GEMINI_API_KEY=your-key
+
+# Run migrations
+alembic upgrade head
+
+# Start dev server
 uvicorn app.main:app --reload
 ```
 
-### 5. Frontend setup
-
-Open a second terminal:
-
+**Frontend:**
 ```bash
 cd frontend
 npm install
 npm run dev
 ```
 
-### 6. Access the app
+---
 
-- Frontend: `http://localhost:3000`
-- Backend API: `http://localhost:8000`
-- API docs: `http://localhost:8000/docs`
+## Running Tests
 
-## Required Tools and Dependencies
+**Backend:**
+```bash
+cd backend
+pytest -v
+```
 
-### Core tools
-- Python 3.11+
-- Node.js 20+
-- npm 10+
-- Docker and Docker Compose
-- Git
+**Frontend:**
+```bash
+cd frontend
+npm test
+```
 
-### Backend dependencies
-- FastAPI
-- Uvicorn
-- SQLAlchemy
-- Alembic
-- psycopg / asyncpg
-- pgvector
-- Pydantic
-- python-multipart
-- pytest
+**Run all checks (mirrors CI):**
+```bash
+# Backend lint + tests
+cd backend
+ruff check .
+mypy app --ignore-missing-imports
+pytest -v --cov=app
 
-### Frontend dependencies
-- Next.js
-- React
-- TypeScript
-- Tailwind CSS
-- React Query
-- Zod
+# Frontend lint + tests
+cd frontend
+npm run lint
+npm run typecheck
+npm test
+```
 
-### AI / data dependencies
-- OpenAI or Anthropic SDK (via provider wrapper)
-- tiktoken or equivalent tokenizer utility
-- PDF / DOCX text extraction library
-- sentence-transformers or provider embedding SDK (if applicable)
+---
 
-## `.env.example`
+## Project Structure
 
-This repository includes a sample `.env.example` file. At minimum, it should define values similar to the following:
-
-```env
-APP_ENV=development
-FRONTEND_URL=http://localhost:3000
-BACKEND_URL=http://localhost:8000
-
-DATABASE_URL=postgresql://postgres:postgres@localhost:5432/careerpilot
-VECTOR_DB_ENABLED=true
-
-JWT_SECRET=replace_me
-JWT_ALGORITHM=HS256
-ACCESS_TOKEN_EXPIRE_MINUTES=60
-
-LLM_PROVIDER=openai
-OPENAI_API_KEY=replace_me
-OPENAI_MODEL=gpt-4.1-mini
-EMBEDDING_MODEL=text-embedding-3-large
-
-MAX_UPLOAD_SIZE_MB=10
-LOG_LEVEL=INFO
+```
+CareerPilot_AI/
+├── backend/
+│   ├── app/
+│   │   ├── api/            # FastAPI routers
+│   │   ├── core/           # config, security, deps
+│   │   ├── db/             # session, models, migrations
+│   │   ├── schemas/        # Pydantic schemas
+│   │   ├── services/       # business logic
+│   │   └── ai/
+│   │       ├── llm/        # Gemini wrapper
+│   │       ├── embeddings/
+│   │       ├── parsers/    # structured resume/job parsing
+│   │       ├── rag/        # chunk, retrieve, rerank
+│   │       ├── agents/     # LangGraph workflows
+│   │       └── prompts/
+│   ├── tests/
+│   ├── alembic/            # database migrations
+│   └── pyproject.toml
+├── frontend/
+│   ├── src/
+│   │   ├── pages/
+│   │   ├── components/
+│   │   ├── api/            # axios client + hooks
+│   │   ├── lib/
+│   │   └── types/
+│   └── tests/
+├── eval/
+│   ├── datasets/           # 25+ curated profiles/jobs
+│   ├── metrics/            # precision@k, mrr, rubric scorer
+│   ├── baselines/          # keyword-only matcher
+│   └── run_eval.py
+├── docs/
+├── .github/workflows/ci.yml
+├── docker-compose.yml
+└── .env.example
 ```

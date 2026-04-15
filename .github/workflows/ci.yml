@@ -1,0 +1,95 @@
+name: CI
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+    branches: ["**"]
+
+jobs:
+  backend-lint:
+    name: Backend Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install uv
+      - run: uv pip install --system ruff mypy
+      - name: ruff check
+        working-directory: backend
+        run: ruff check .
+      - name: mypy
+        working-directory: backend
+        run: mypy app --ignore-missing-imports
+
+  backend-test:
+    name: Backend Tests
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: pgvector/pgvector:pg16
+        env:
+          POSTGRES_USER: careerpilot
+          POSTGRES_PASSWORD: careerpilot
+          POSTGRES_DB: careerpilot
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      DATABASE_URL: postgresql://careerpilot:careerpilot@localhost:5432/careerpilot
+      JWT_SECRET: ci-test-secret-key
+      GEMINI_API_KEY: dummy-key-for-ci
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install uv
+      - name: Install dependencies
+        working-directory: backend
+        run: uv pip install --system -e ".[dev]"
+      - name: Run Alembic migrations
+        working-directory: backend
+        run: alembic upgrade head
+      - name: Run tests
+        working-directory: backend
+        run: pytest tests/ -v --cov=app --cov-report=term-missing
+
+  frontend-lint:
+    name: Frontend Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Install dependencies
+        working-directory: frontend
+        run: npm install
+      - name: ESLint
+        working-directory: frontend
+        run: npm run lint
+      - name: TypeScript check
+        working-directory: frontend
+        run: npm run typecheck
+
+  frontend-test:
+    name: Frontend Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Install dependencies
+        working-directory: frontend
+        run: npm install
+      - name: Run tests
+        working-directory: frontend
+        run: npm test
