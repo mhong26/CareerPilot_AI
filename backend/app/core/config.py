@@ -1,4 +1,4 @@
-from pydantic import field_validator
+from pydantic import field_validator, Field, computed_field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -14,8 +14,8 @@ class Settings(BaseSettings):
     jwt_access_token_expire_minutes: int = 30
     jwt_refresh_token_expire_days: int = 7
 
-    # CORS — accepts comma-separated string or list
-    cors_origins: list[str] = ["http://localhost:3000"]
+    # CORS — accepts comma-separated string
+    cors_origins_str: str = Field(default="http://localhost:3000", alias="cors_origins")
 
     # AI (Google Gemini)
     gemini_api_key: str = ""
@@ -27,12 +27,10 @@ class Settings(BaseSettings):
     log_level: str = "INFO"
     max_upload_size_mb: int = 10
 
-    @field_validator("cors_origins", mode="before")
-    @classmethod
-    def parse_cors_origins(cls, v: str | list) -> list[str]:
-        if isinstance(v, str):
-            return [origin.strip() for origin in v.split(",")]
-        return v
+    @computed_field
+    @property
+    def cors_origins(self) -> list[str]:
+        return [origin.strip() for origin in self.cors_origins_str.split(",") if origin.strip()]
 
 
 settings = Settings()
