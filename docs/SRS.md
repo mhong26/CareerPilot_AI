@@ -14,10 +14,9 @@ SER 594: AI for Software Engineers Course Project
 # 1. Introduction
 
 ## 1.1 Purpose
-本文件定義 **CareerPilot AI** 的軟體需求。此系統面向求職者，提供履歷上傳、職缺匯入、職缺匹配、技能缺口分析、客製化履歷建議、Cover Letter 草稿生成、面試準備題生成，以及偏好與申請歷史記憶等功能。本文件同時作為團隊開發、測試、驗收與課程交付的正式依據。此系統設計目標也明確對齊課程文件所要求的 production-grade AI-powered system，而非單純聊天介面。
-
+本文件定義 **CareerPilot AI** 的軟體需求。此系統面向求職者，提供履歷上傳、職缺匯入、職缺匹配、技能缺口分析、客製化履歷建議、Cover Letter 草稿生成、面試準備題生成，以及偏好與申請歷史記憶等功能。本文件同時作為團隊開發、測試、驗收與課程交付的正式依據。
 ## 1.2 Scope
-CareerPilot AI 是一個全端 AI 求職輔助平台。使用者可建立帳號、登入、上傳履歷、輸入目標職缺內容，系統會對履歷與職缺進行結構化解析，將職缺建立向量索引，進行職缺匹配排名，透過 RAG 找出技能缺口，再以 agent workflow 產生履歷修改建議、Cover Letter 草稿與面試準備題目，並跨 session 記住使用者求職偏好與申請歷史。此設計直接呼應課程文件第 9 個建議題目內容。
+CareerPilot AI 是一個全端 AI 求職輔助平台。使用者可建立帳號、登入、上傳履歷、輸入目標職缺內容，系統會對履歷與職缺進行結構化解析，將職缺建立向量索引，進行職缺匹配排名，透過 RAG 找出技能缺口，再以 agent workflow 產生履歷修改建議、Cover Letter 草稿與面試準備題目，並跨 session 記住使用者求職偏好與申請歷史。
 
 ## 1.3 Definitions, Acronyms, and Abbreviations
 - **SRS**: Software Requirements Specification  
@@ -31,7 +30,7 @@ CareerPilot AI 是一個全端 AI 求職輔助平台。使用者可建立帳號�
 - **Match Score**: 系統對履歷與職缺適配程度的量化分數  
 
 ## 1.4 References
-本 SRS 依據課程專案規格文件撰寫，特別對齊以下要求：  
+本 SRS 對齊以下要求：  
 - full-stack application  
 - authentication mandatory  
 - persistent data layer  
@@ -46,7 +45,7 @@ CareerPilot AI 是一個全端 AI 求職輔助平台。使用者可建立帳號�
 # 2. Overall Description
 
 ## 2.1 Product Perspective
-CareerPilot AI 是一個獨立的 web-based full-stack system，由前端、後端、主資料庫、向量資料庫、檔案處理模組、AI orchestration 層與 evaluation 模組組成。系統不是單純聊天工具，而是完整求職工作流平台，符合課程對 multi-step workflows、persistent state、domain-specific logic 的要求。
+CareerPilot AI 是一個獨立的 web-based full-stack system，由前端、後端、主資料庫、向量資料庫、檔案處理模組、AI orchestration 層與 evaluation 模組組成。系統不是單純聊天工具，而是完整求職工作流平台，符合對 multi-step workflows、persistent state、domain-specific logic 的要求。
 
 ## 2.2 Product Functions
 系統主要提供以下高階功能：
@@ -103,7 +102,7 @@ CareerPilot AI 是一個獨立的 web-based full-stack system，由前端、後�
 2. 使用者可貼入或上傳 job descriptions。  
 3. LLM 與 embedding provider 在系統運行時可存取。  
 4. Docker、資料庫與 API key 會由團隊正確配置。  
-5. 評估資料集將由團隊自行建立至少 25 個 curated profiles / scenarios，以支援最終 evaluation。這與題目示例中對 resume/job match platform 的 evaluation 描述一致。
+5. 評估資料集將由團隊自行建立至少 25 個 curated profiles / scenarios，以支援最終 evaluation。
 
 ---
 
@@ -245,7 +244,7 @@ CareerPilot AI 是一個獨立的 web-based full-stack system，由前端、後�
 
 ### FR-30 Improvement Suggestions
 系統應為 skill gap 提供補強建議。  
-這些需求直接符合文件對 RAG 的 minimum expectation：chunking、retrieval、re-ranking、generation with source attribution。
+這些需求直接符合對 RAG 的 minimum expectation：chunking、retrieval、re-ranking、generation with source attribution。
 
 ---
 
@@ -416,7 +415,7 @@ UI 應提供明確操作流程，避免將主要使用情境退化為單純文�
 - Embedding API
 - Docker / docker-compose
 - CI system (GitHub Actions)  
-課程文件明確要求 tests 可單一命令執行，且 CI 在每次 push 執行。
+明確要求 tests 可單一命令執行，且 CI 在每次 push 執行。
 
 ---
 
@@ -446,7 +445,7 @@ UI 應提供明確操作流程，避免將主要使用情境退化為單純文�
 - 匹配結果
 - AI 生成內容
 - 偏好與歷史。  
-這直接對齊課程對 data persistence 的要求。
+
 
 ## 5.3 Data Integrity Requirements
 1. 所有資料應帶 user ownership。  
@@ -483,7 +482,6 @@ UI 應提供明確操作流程，避免將主要使用情境退化為單純文�
 
 ### FR-58 Conditional Logic
 agent 應可根據 match score 或 skill gaps 決定後續流程，例如先做 gap analysis 再做 resume tailoring。  
-這符合文件對 AI agent 的 minimum expectation。
 
 ## 6.3 Structured Output Requirements
 ### FR-59 Structured Parsing
@@ -519,7 +517,7 @@ API keys 不得寫入程式碼庫，應使用 environment variables。
 - job indexing
 - match generation
 - application kit generation  
-課程文件要求最終需報告 key user actions 的 latency。
+最終需報告 key user actions 的 latency。
 
 ### NFR-2 Responsiveness
 一般 UI 操作應在合理時間內回應，長任務應顯示 loading/progress 狀態。
@@ -532,7 +530,7 @@ API keys 不得寫入程式碼庫，應使用 environment variables。
 單一 AI 模組失敗不應導致整體系統 crash。
 
 ### NFR-5 Error Rate Tracking
-系統應可統計正常使用情況下的 error rate。這是文件要求的 system evaluation 指標之一。
+系統應可統計正常使用情況下的 error rate。
 
 ## 7.3 Security
 ### NFR-6 Credential Security
@@ -549,7 +547,7 @@ API keys 不得寫入程式碼庫，應使用 environment variables。
 系統應採模組化設計，分離 frontend、backend、eval、tests 與 docs。
 
 ### NFR-10 Repository Structure
-repository 應遵守課程建議的 monorepo 或最多兩個 repo 的限制，且結構清楚。
+repository 應遵守 monorepo 或最多兩個 repo 的限制，且結構清楚。
 
 ### NFR-11 Code Quality
 系統應使用 formatter、明確依賴管理與一致命名規則。
@@ -566,7 +564,7 @@ repository 應遵守課程建議的 monorepo 或最多兩個 repo 的限制，�
 系統應能提供公開 URL，或提供可完整重現的 Docker deployment。
 
 ### NFR-15 Setup Reproducibility
-README 與 `.env.example` 應足以讓助教在乾淨環境中建置並執行系統。
+README 與 `.env.example` 應足以在乾淨環境中建置並執行系統。
 
 ---
 
@@ -613,7 +611,7 @@ README 與 `.env.example` 應足以讓助教在乾淨環境中建置並執行系
 - p95 latency
 - error rate
 - test coverage percentage  
-這些是文件要求的 system-level quality 指標。
+這些是要求的 system-level quality 指標。
 
 ---
 

@@ -2,7 +2,7 @@
 
 ## Context
 
-從零開發 SRS 定義的 CareerPilot AI（履歷 × 職缺 AI 平台），本計畫覆蓋從空目錄到本地 Docker 可重現交付的完整路徑，對齊 SER 594 課程要求（15+ tests、CI、RAG、agent、structured output、memory、quantitative eval、baseline）。
+從零開發 SRS 定義的 CareerPilot AI（履歷 × 職缺 AI 平台），本計畫覆蓋從空目錄到本地 Docker 可重現交付的完整路徑。
 
 ## 技術棧（已確認）
 
