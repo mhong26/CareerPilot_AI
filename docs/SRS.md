@@ -1,3 +1,6 @@
+
+---
+
 # Software Requirements Specification (SRS)  
 ## Project Title
 **CareerPilot AI: AI-Powered Resume and Job Match Platform**
@@ -11,28 +14,28 @@ SER 594: AI for Software Engineers Course Project
 # 1. Introduction
 
 ## 1.1 Purpose
-This document defines the software requirements for **CareerPilot AI**. This system is intended for job seekers and provides features including resume upload, job posting import, job matching, skill gap analysis, customized resume suggestions, cover letter draft generation, interview preparation question generation, as well as memory for preferences and application history. This document also serves as the formal basis for team development, testing, acceptance, and course deliverables. The design objective of this system is also explicitly aligned with the course document’s requirement for a production-grade AI-powered system, rather than a simple chat interface.
+本文件定義 **CareerPilot AI** 的軟體需求。此系統面向求職者，提供履歷上傳、職缺匯入、職缺匹配、技能缺口分析、客製化履歷建議、Cover Letter 草稿生成、面試準備題生成，以及偏好與申請歷史記憶等功能。本文件同時作為團隊開發、測試、驗收與課程交付的正式依據。此系統設計目標也明確對齊課程文件所要求的 production-grade AI-powered system，而非單純聊天介面。
 
 ## 1.2 Scope
-CareerPilot AI is a full-stack AI job search assistance platform. Users can create accounts, log in, upload resumes, and input target job posting content. The system will structurally parse resumes and job postings, create vector indexes for job postings, perform job match ranking, use RAG to identify skill gaps, then use an agent workflow to generate resume revision suggestions, cover letter drafts, and interview preparation questions, while also remembering users’ job search preferences and application history across sessions. This design directly responds to the content of the 9th suggested project topic in the course document.
+CareerPilot AI 是一個全端 AI 求職輔助平台。使用者可建立帳號、登入、上傳履歷、輸入目標職缺內容，系統會對履歷與職缺進行結構化解析，將職缺建立向量索引，進行職缺匹配排名，透過 RAG 找出技能缺口，再以 agent workflow 產生履歷修改建議、Cover Letter 草稿與面試準備題目，並跨 session 記住使用者求職偏好與申請歷史。此設計直接呼應課程文件第 9 個建議題目內容。
 
 ## 1.3 Definitions, Acronyms, and Abbreviations
 - **SRS**: Software Requirements Specification  
 - **RAG**: Retrieval-Augmented Generation  
 - **LLM**: Large Language Model  
-- **Embedding**: A method for converting text into vector representations  
-- **Vector Store**: A database that stores vectors and supports similarity retrieval  
-- **Structured Output**: JSON or typed objects output by an LLM according to a schema  
-- **Agent Workflow**: An AI orchestration process that can make multi-step decisions, choose tools, and execute tasks  
-- **Memory**: A mechanism for preserving user preferences, history, and summary information across sessions  
-- **Match Score**: A quantitative score of how well a resume fits a job posting  
+- **Embedding**: 將文字轉換為向量表示的方法  
+- **Vector Store**: 儲存向量並支援相似度檢索的資料庫  
+- **Structured Output**: 由 LLM 依 schema 輸出的 JSON 或 typed object  
+- **Agent Workflow**: 可做多步驟決策、選工具、執行任務的 AI orchestration 流程  
+- **Memory**: 跨 session 保存使用者偏好、歷史與摘要資訊的機制  
+- **Match Score**: 系統對履歷與職缺適配程度的量化分數  
 
 ## 1.4 References
-This SRS is written based on the course project specification document and is particularly aligned with the following requirements:  
+本 SRS 依據課程專案規格文件撰寫，特別對齊以下要求：  
 - full-stack application  
 - authentication mandatory  
 - persistent data layer  
-- AI integration such as RAG / embeddings / agent / structured outputs / memory  
+- RAG / embeddings / agent / structured outputs / memory 等 AI integration  
 - 15+ tests  
 - CI  
 - deployment  
@@ -43,105 +46,105 @@ This SRS is written based on the course project specification document and is pa
 # 2. Overall Description
 
 ## 2.1 Product Perspective
-CareerPilot AI is an independent web-based full-stack system composed of a frontend, backend, primary database, vector database, file processing module, AI orchestration layer, and evaluation module. The system is not merely a chat tool, but a complete job search workflow platform that meets the course requirements for multi-step workflows, persistent state, and domain-specific logic.
+CareerPilot AI 是一個獨立的 web-based full-stack system，由前端、後端、主資料庫、向量資料庫、檔案處理模組、AI orchestration 層與 evaluation 模組組成。系統不是單純聊天工具，而是完整求職工作流平台，符合課程對 multi-step workflows、persistent state、domain-specific logic 的要求。
 
 ## 2.2 Product Functions
-The system mainly provides the following high-level functions:
+系統主要提供以下高階功能：
 
-1. User registration, login, and logout  
-2. Resume upload, text extraction, and structured parsing  
-3. Job posting content import, structured parsing, and vector indexing  
-4. Job match ranking and score explanation  
+1. 使用者註冊、登入、登出  
+2. 履歷上傳、文字抽取與結構化解析  
+3. 職缺內容匯入、結構化解析與向量索引  
+4. Job match ranking 與分數解釋  
 5. Skill gap analysis with RAG and source attribution  
 6. Tailored resume suggestions  
 7. Cover letter draft generation  
 8. Interview preparation question generation  
-9. Memory for user job search preferences and application history  
+9. 使用者求職偏好與申請歷史記憶  
 10. Application tracking  
-11. AI result storage, version control, and feedback collection  
-12. Support for evaluation, testing, deployment, and monitoring。
+11. AI 結果儲存、版本控管與回饋收集  
+12. 評估、測試、部署與監控支援。
 
 ## 2.3 User Classes and Characteristics
 ### 2.3.1 End User (Job Seeker)
-- Primary user
-- No technical background required
-- Wants to quickly analyze the degree of fit between themselves and job postings
-- Wants actionable and specific resume and interview suggestions
+- 主要使用者
+- 不需技術背景
+- 希望快速分析自己與職缺的匹配度
+- 希望獲得可行、具體的履歷與面試建議
 
 ### 2.3.2 Admin / Developer
-- Maintains the system, reviews logs, performs evaluations, and fixes workflow errors
-- Manages deployment, CI, and environment configuration
+- 維護系統、查看 logs、執行 evaluation、修復流程錯誤
+- 管理 deployment、CI、環境設定
 
 ## 2.4 Operating Environment
-- Frontend: modern browsers (Chrome, Edge, Firefox, Safari)
-- Backend: Dockerized Linux environment
-- Primary database: PostgreSQL
-- Vector store: pgvector
-- Backend language: Python
-- Backend framework: FastAPI
-- Frontend framework: React / Next.js
-- AI provider: one of OpenAI / Anthropic / Gemini, abstracted through a replaceable wrapper  
-All build / local deployment dependencies must be freely obtainable and reproducible.
+- 前端：現代瀏覽器（Chrome, Edge, Firefox, Safari）
+- 後端：Dockerized Linux environment
+- 主資料庫：PostgreSQL
+- Vector store：pgvector
+- 後端語言：Python
+- 後端框架：FastAPI
+- 前端框架：React / Next.js
+- AI provider：OpenAI / Anthropic / Gemini 其一，透過可替換 wrapper 抽象化  
+所有 build / local deployment 依賴必須可免費取得並可重現。
 
 ## 2.5 Design and Implementation Constraints
-1. The system must not be merely a chatbot wrapper.  
-2. The system must not be just a single API call.  
-3. Authentication is required.  
-4. Persistent storage is required.  
-5. If RAG/semantic search is used, a vector store is required.  
-6. The system must be publicly deployable or reproducible locally with Docker.  
-7. There must be at least 15 unit/integration tests.  
-8. Quantitative AI evaluation and baseline comparison must be provided.  
-9. CI is required.  
-10. Secrets must not be committed to the repository.
+1. 系統不得只是 chatbot wrapper。  
+2. 系統不得只是 single API call。  
+3. 必須有 authentication。  
+4. 必須有 persistent storage。  
+5. 若使用 RAG/semantic search，必須有 vector store。  
+6. 必須可公開部署或以 Docker 本地重現。  
+7. 必須有至少 15 個 unit/integration tests。  
+8. 必須提供 quantitative AI evaluation 與 baseline comparison。  
+9. 必須有 CI。  
+10. 不得把 secrets 提交到 repository。
 
 ## 2.6 Assumptions and Dependencies
-1. Users can provide parseable resume files (PDF / DOCX / text).  
-2. Users can paste or upload job descriptions.  
-3. The LLM and embedding provider are accessible when the system runs.  
-4. Docker, the database, and API keys will be correctly configured by the team.  
-5. The evaluation dataset will be created by the team with at least 25 curated profiles / scenarios to support the final evaluation. This is consistent with the evaluation description for a resume/job match platform in the example topic.
+1. 使用者可提供可解析的履歷檔案（PDF / DOCX / text）。  
+2. 使用者可貼入或上傳 job descriptions。  
+3. LLM 與 embedding provider 在系統運行時可存取。  
+4. Docker、資料庫與 API key 會由團隊正確配置。  
+5. 評估資料集將由團隊自行建立至少 25 個 curated profiles / scenarios，以支援最終 evaluation。這與題目示例中對 resume/job match platform 的 evaluation 描述一致。
 
 ---
 
 # 3. System Features and Functional Requirements
 
-The following requirements use **FR-x** numbering and are expressed using **shall**.
+以下需求使用 **FR-x** 編號，並採用 **shall** 表述。
 
 ## 3.1 User Authentication and Account Management
 
 ### FR-1 User Registration
-The system shall allow new users to complete registration with email and password.
+系統應允許新使用者以 email 與 password 完成註冊。
 
 ### FR-2 User Login
-The system shall allow registered users to log in and establish a protected session.
+系統應允許已註冊使用者登入並建立受保護 session。
 
 ### FR-3 User Logout
-The system shall allow users to log out and invalidate the current session.
+系統應允許使用者登出並使當前 session 失效。
 
 ### FR-4 Session Isolation
-The system shall ensure that different users’ resumes, job postings, AI artifacts, preferences, and application records are isolated from one another.
+系統應確保不同使用者的履歷、職缺、AI 產物、偏好與申請紀錄彼此隔離。
 
 ### FR-5 Protected Routes
-Unauthenticated users shall not access protected functions, including resume management, job analysis, and AI-generated results.
+未登入使用者不得存取受保護功能，包括履歷管理、職缺分析與 AI 生成結果。
 
 ### FR-6 Persistent User Identity
-The system shall still recognize the same user across sessions and load their historical data.  
-The above directly aligns with the course document’s requirements for authentication and at least two distinct user sessions.
+系統應在跨 session 後仍能辨識同一使用者並載入其歷史資料。  
+以上直接對齊課程文件對 authentication 與至少兩個 distinct user sessions 的要求。
 
 ---
 
 ## 3.2 Resume Ingestion and Parsing
 
 ### FR-7 Resume Upload
-The system shall allow users to upload resume files, supporting at least PDF and DOCX, and may optionally support direct text paste.
+系統應允許使用者上傳履歷檔案，至少支援 PDF、DOCX，並可選擇直接貼上文字。
 
 ### FR-8 Resume Text Extraction
-The system shall convert uploaded resumes into plain text and preserve both the original content and the extracted result.
+系統應將上傳履歷轉換為純文字並保存原始內容與抽取結果。
 
 ### FR-9 Structured Resume Parsing
-The system shall use an LLM and a structured output schema to parse resumes into structured data, including but not limited to:
-- Basic information
+系統應使用 LLM 與 structured output schema 將履歷解析為結構化資料，包括但不限於：
+- 基本資料
 - Summary
 - Skills
 - Work Experience
@@ -151,23 +154,23 @@ The system shall use an LLM and a structured output schema to parse resumes into
 - Skill evidence
 
 ### FR-10 Resume Validation
-The system shall perform schema validation on parsing results. If the output format is incorrect, it shall execute retry or fallback parsing instead of failing directly.
+系統應對解析結果做 schema 驗證，若輸出格式錯誤，應執行 retry 或 fallback parsing，而非直接失敗。
 
 ### FR-11 Resume Editing
-The system shall allow users to inspect and manually correct parsed resume results in the UI.
+系統應允許使用者在 UI 中檢查與手動修正履歷解析結果。
 
 ### FR-12 Resume Versioning
-The system shall preserve resume versions to support comparison and rollback between the original version and AI-suggested versions.
+系統應保存履歷版本，以支援原始版本與 AI 建議版本之間的比較與回復。
 
 ---
 
 ## 3.3 Job Description Ingestion and Indexing
 
 ### FR-13 Job Input
-The system shall allow users to add job descriptions, supporting at least text paste and file upload.
+系統應允許使用者新增 job description，至少支援文字貼上與檔案上傳。
 
 ### FR-14 Job Parsing
-The system shall parse job descriptions into structured fields, including but not limited to:
+系統應將 job description 解析為結構化欄位，包括但不限於：
 - Company
 - Job title
 - Responsibilities
@@ -178,27 +181,27 @@ The system shall parse job descriptions into structured fields, including but no
 - Location / work mode
 
 ### FR-15 Job Chunking
-The system shall split job descriptions into semantically meaningful chunks and preserve section metadata.
+系統應將 job description 切分為具語意的 chunks，並保留 section metadata。
 
 ### FR-16 Job Embedding Generation
-The system shall generate embeddings for each job chunk.
+系統應為每個 job chunk 產生 embeddings。
 
 ### FR-17 Vector Indexing
-The system shall write job embeddings into the vector store and support subsequent similarity search.
+系統應將 job embeddings 寫入 vector store 並支援後續相似度搜尋。
 
 ### FR-18 Persistent Job Storage
-The system shall persistently store the original job text, parsed results, chunks, and indexing metadata.  
-These requirements align with the document’s requirements for the ingestion pipeline, chunking, and indexing for embeddings and RAG.
+系統應將 job 原文、解析結果、chunks 與索引 metadata 持久化保存。  
+這些需求對齊文件對 embeddings 與 RAG 所要求的 ingestion pipeline、chunking、indexing。
 
 ---
 
 ## 3.4 Job Matching and Ranking
 
 ### FR-19 Match Execution
-The system shall allow users to select one resume and one or more job postings to perform match analysis.
+系統應允許使用者選擇一份履歷與一個或多個職缺來執行匹配分析。
 
 ### FR-20 Match Score
-The system shall calculate a match score for each resume-job pair, and the score shall reflect at least:
+系統應為每個履歷-職缺配對計算 match score，分數至少反映：
 - embedding similarity
 - required skill coverage
 - preferred skill coverage
@@ -206,102 +209,102 @@ The system shall calculate a match score for each resume-job pair, and the score
 - optional rerank score
 
 ### FR-21 Ranked Results
-The system shall provide a job list sorted by match score.
+系統應提供依 match score 排序的 job list。
 
 ### FR-22 Match Explanation
-The system shall provide a readable explanation for each match result, including:
-- why it matches
-- major skill overlap
-- missing key skills
-- risks or weaknesses
+系統應對每個 match 結果提供可讀解釋，包括：
+- 為何匹配
+- 主要 skill overlap
+- 缺少的關鍵技能
+- 風險或弱點
 
 ### FR-23 Match Persistence
-The system shall preserve match results so users can review and compare them later.
+系統應保存匹配結果，以便使用者日後查看與比較。
 
 ---
 
 ## 3.5 Skill Gap Analysis with RAG
 
 ### FR-24 Skill Gap Workflow
-The system shall be able to perform skill gap analysis for a specific job posting.
+系統應能針對特定職缺執行 skill gap analysis。
 
 ### FR-25 Retrieval
-The system shall retrieve job chunks related to skill gaps from the vector store.
+系統應從 vector store 中檢索與 skill gaps 相關的 job chunks。
 
 ### FR-26 Re-ranking
-The system shall support re-ranking of retrieval results to improve evidence relevance.
+系統應支援 retrieval result re-ranking，以提升 evidence relevance。
 
 ### FR-27 RAG Generation
-The system shall use retrieved results and structured resume data to generate skill gap analysis.
+系統應使用檢索結果與履歷結構化資料生成技能缺口分析。
 
 ### FR-28 Source Attribution
-The system shall provide source attribution for each skill gap, indicating at least the corresponding job evidence.
+系統應對每項 skill gap 提供 source attribution，至少指出相對應 job evidence。
 
 ### FR-29 Gap Severity
-The system shall classify skill gaps into different severity levels, such as high / medium / low.
+系統應將 skill gap 區分為不同嚴重程度，例如 high / medium / low。
 
 ### FR-30 Improvement Suggestions
-The system shall provide improvement suggestions for skill gaps.  
-These requirements directly satisfy the document’s minimum expectations for RAG: chunking, retrieval, re-ranking, and generation with source attribution.
+系統應為 skill gap 提供補強建議。  
+這些需求直接符合文件對 RAG 的 minimum expectation：chunking、retrieval、re-ranking、generation with source attribution。
 
 ---
 
 ## 3.6 AI-Generated Resume Suggestions
 
 ### FR-31 Tailored Suggestions
-The system shall generate customized resume suggestions for a specific job posting rather than general resume advice.
+系統應針對特定職缺產生客製化履歷建議，而非一般性履歷建議。
 
 ### FR-32 Section-Level Suggestions
-The system shall allocate suggestions to specific sections, such as Summary, Experience, Projects, and Skills.
+系統應將建議分配到具體 section，例如 Summary、Experience、Projects、Skills。
 
 ### FR-33 Bullet Rewrite Suggestions
-The system shall provide bullet rewrite suggestions that can be directly adopted.
+系統應提供可直接採用的 bullet rewrite 建議。
 
 ### FR-34 Keyword Suggestions
-The system shall identify keywords and skill expressions that are recommended to be added or strengthened.
+系統應指出建議加入或強化的關鍵字與技能表述。
 
 ### FR-35 Reasoning Evidence
-Each suggestion shall include reasons whenever possible, and shall align with job requirements or skill gap analysis.
+每項建議應盡可能附上原因，且應與 job requirement 或 skill gap analysis 對齊。
 
 ### FR-36 Save Suggestions
-The system shall preserve generated resume suggestions and their corresponding job context.
+系統應保存產生的履歷建議與其對應 job context。
 
 ---
 
 ## 3.7 Cover Letter Generation
 
 ### FR-37 Cover Letter Draft
-The system shall be able to generate a cover letter draft for a specific job.
+系統應能針對特定 job 生成 cover letter draft。
 
 ### FR-38 Personalization
-The cover letter shall be customized based on the following information:
-- resume content
+Cover letter 應依下列資訊客製化：
+- 履歷內容
 - target job requirements
-- user preferences
-- match / skill gap analysis results
+- 使用者偏好
+- match / skill gap 分析結果
 
 ### FR-39 Structured Cover Letter Output
-The system shall manage the cover letter in at least structured sections such as intro, body, and closing, to facilitate editing and testing.
+系統應至少以結構化區塊管理 cover letter，如 intro、body、closing，以利編輯與測試。
 
 ### FR-40 Editable Draft
-Users shall be able to edit the cover letter in the UI and save the final version.
+使用者應能在 UI 中編輯 cover letter，並保存最終版本。
 
 ---
 
 ## 3.8 Interview Preparation Generation
 
 ### FR-41 Interview Questions
-The system shall be able to generate interview preparation questions based on the job posting and the resume.
+系統應能根據職缺與履歷生成面試準備題目。
 
 ### FR-42 Question Categories
-The system shall support at least the following types:
+系統應至少支援以下類型：
 - technical
 - behavioral
 - project-based
 - skill-gap-focused
 
 ### FR-43 Structured Output for Questions
-Each question shall include at least:
+每題應至少包含：
 - question
 - category
 - why it matters
@@ -309,14 +312,14 @@ Each question shall include at least:
 - suggested answer outline
 
 ### FR-44 Persist Interview Prep
-The system shall preserve generated interview preparation artifacts.
+系統應保存已產生的 interview preparation artifacts。
 
 ---
 
 ## 3.9 User Preferences and Memory
 
 ### FR-45 Preference Storage
-The system shall preserve user preferences, including but not limited to:
+系統應保存使用者偏好，包括但不限於：
 - target roles
 - preferred locations
 - remote/hybrid/onsite preference
@@ -325,24 +328,24 @@ The system shall preserve user preferences, including but not limited to:
 - skills to strengthen
 
 ### FR-46 Preference Reuse
-The system shall use preserved preferences in subsequent job ranking, cover letter generation, and interview prep generation.
+系統應在後續 job ranking、cover letter generation 與 interview prep generation 中使用已保存偏好。
 
 ### FR-47 Application History Memory
-The system shall preserve the user’s application history and status.
+系統應保存使用者的申請歷史與狀態。
 
 ### FR-48 Cross-Session Memory
-The system shall preserve preferences and application history across login sessions.
+系統應在跨登入 session 後保留偏好與申請歷史。
 
 ### FR-49 Feedback Memory
-The system shall be able to record user feedback on AI suggestions for subsequent optimization.  
-These requirements align with the document’s requirements for persistent memory / user preference learning / application history tracking.
+系統應可記錄使用者對 AI 建議的回饋，供後續優化使用。  
+這些需求對齊文件所要求的 persistent memory / user preference learning / application history tracking。
 
 ---
 
 ## 3.10 Application Tracking
 
 ### FR-50 Status Tracking
-The system shall allow users to mark application status for job postings, such as:
+系統應允許使用者對職缺標記申請狀態，例如：
 - saved
 - ready to apply
 - applied
@@ -351,32 +354,32 @@ The system shall allow users to mark application status for job postings, such a
 - offer
 
 ### FR-51 Notes
-The system shall allow users to save private notes.
+系統應允許使用者保存私人備註。
 
 ### FR-52 Timeline View
-The system shall be able to display the user’s job application history.
+系統應能顯示使用者的 job application history。
 
 ---
 
 ## 3.11 Feedback and Result Management
 
 ### FR-53 AI Feedback
-The system shall allow users to provide ratings and text feedback on match results, resume suggestions, cover letters, or interview prep.
+系統應允許使用者對 match result、resume suggestion、cover letter 或 interview prep 提供評分與文字回饋。
 
 ### FR-54 Artifact History
-The system shall preserve the historical records of all generated artifacts.
+系統應保存所有生成 artifacts 的歷史紀錄。
 
 ### FR-55 Export Capability
-The system shall support at least copying or exporting generated content in a readable format.
+系統應至少支援將生成內容複製或匯出為可讀格式。
 
 ---
 
 # 4. External Interface Requirements
 
 ## 4.1 User Interface Requirements
-The system frontend shall provide the following pages or equivalent interfaces:
+系統前端應提供以下頁面或等價介面：
 
-1. Login / Registration Page  
+1. 登入 / 註冊頁  
 2. Dashboard  
 3. Resume Management Page  
 4. Job Management Page  
@@ -385,10 +388,10 @@ The system frontend shall provide the following pages or equivalent interfaces:
 7. Preferences Page  
 8. Application Tracker Page  
 
-The UI shall provide a clear operational flow and avoid degrading the primary use case into simple text chat.
+UI 應提供明確操作流程，避免將主要使用情境退化為單純文字聊天。
 
 ## 4.2 API Interface Requirements
-The frontend and backend shall communicate through well-defined APIs, preferably REST. Core endpoints include:
+前後端應透過定義良好的 API 溝通，建議採 REST。核心 endpoints 包括：
 
 - `/auth/register`
 - `/auth/login`
@@ -404,7 +407,7 @@ The frontend and backend shall communicate through well-defined APIs, preferably
 - `/feedback`
 
 ## 4.3 Hardware Interfaces
-No special hardware requirements. A general personal computer and cloud deployment environment are sufficient.
+無特殊硬體需求。一般個人電腦與雲端部署環境即可。
 
 ## 4.4 Software Interfaces
 - PostgreSQL
@@ -413,14 +416,14 @@ No special hardware requirements. A general personal computer and cloud deployme
 - Embedding API
 - Docker / docker-compose
 - CI system (GitHub Actions)  
-The course document explicitly requires that tests be executable with a single command and that CI run on every push.
+課程文件明確要求 tests 可單一命令執行，且 CI 在每次 push 執行。
 
 ---
 
 # 5. Data Requirements
 
 ## 5.1 Primary Entities
-The system shall include at least the following main data entities:
+系統至少應包含以下主要資料實體：
 - User
 - Resume
 - ResumeVersion
@@ -435,28 +438,28 @@ The system shall include at least the following main data entities:
 - AIFeedback
 
 ## 5.2 Persistence Requirements
-All data must be persistently stored and must not exist only in memory. This requirement includes:
-- user accounts
-- original resume text and parsed results
-- original job text and parsed results
-- vector indexes
-- match results
-- AI-generated content
-- preferences and history.  
-This directly aligns with the course requirement for data persistence.
+所有資料必須持久化保存，不得僅存在記憶體。此要求包括：
+- 使用者帳號
+- 履歷原文與解析結果
+- 職缺原文與解析結果
+- 向量索引
+- 匹配結果
+- AI 生成內容
+- 偏好與歷史。  
+這直接對齊課程對 data persistence 的要求。
 
 ## 5.3 Data Integrity Requirements
-1. All data shall include user ownership.  
-2. Each artifact shall be associated with its source resume, job, and user.  
-3. Structured outputs shall have schema validation.  
-4. Deleting or replacing versions shall avoid damaging historical records.  
+1. 所有資料應帶 user ownership。  
+2. 每個 artifact 應與來源履歷、job、使用者關聯。  
+3. 結構化輸出應有 schema validation。  
+4. 刪除或替換版本時應避免破壞歷史紀錄。  
 
 ---
 
 # 6. AI and Workflow Requirements
 
 ## 6.1 Required AI Techniques
-This system will implement and declare the following AI techniques:
+本系統將實作並聲明以下 AI techniques：
 
 1. **Vector Search / Embeddings**  
 2. **RAG**  
@@ -468,42 +471,42 @@ This system will implement and declare the following AI techniques:
 
 ## 6.2 Agent Requirements
 ### FR-56 Multi-Step Agent
-The system shall implement at least one agent workflow responsible for determining and executing multi-step tasks from job and resume data.
+系統應實作至少一個 agent workflow，負責從 job 與履歷資料中決定並執行多步驟任務。
 
 ### FR-57 Tool Selection
-The agent shall be able to use at least 3 different tools / action types, such as:
-- obtaining resume data
-- retrieving job evidence
-- calculating match scores
-- generating structured content
-- preserving artifacts
+該 agent 應至少可使用 3 種不同工具 / action types，例如：
+- 取得履歷資料
+- 檢索 job evidence
+- 計算匹配分數
+- 生成結構化內容
+- 保存 artifacts
 
 ### FR-58 Conditional Logic
-The agent shall be able to determine subsequent flow based on match score or skill gaps, such as performing gap analysis before resume tailoring.  
-This satisfies the document’s minimum expectations for AI agents.
+agent 應可根據 match score 或 skill gaps 決定後續流程，例如先做 gap analysis 再做 resume tailoring。  
+這符合文件對 AI agent 的 minimum expectation。
 
 ## 6.3 Structured Output Requirements
 ### FR-59 Structured Parsing
-Resume parsing, job parsing, skill gap reports, interview prep, and cover letters shall all use structured outputs with verifiable schemas.
+履歷解析、職缺解析、skill gap report、interview prep 與 cover letter 都應使用可驗證 schema 的 structured outputs。
 
 ### FR-60 Malformed Output Handling
-If the LLM returns a nonconforming format, the system shall automatically retry or fall back.
+若 LLM 回傳格式不符，系統應自動 retry 或 fallback。
 
 ### FR-61 Auditability
-The system shall preserve parsing failure or schema validation failure logs for debugging and evaluation.
+系統應保存解析失敗或 schema validation failure logs 供除錯與評估。
 
 ## 6.4 LLM API Wrapper Requirements
 ### FR-62 Provider Abstraction
-The system shall use a provider-agnostic wrapper to encapsulate LLM calls so that models can be replaced.
+系統應使用 provider-agnostic wrapper 封裝 LLM 呼叫，使模型可替換。
 
 ### FR-63 API Key Security
-API keys shall not be written into the code repository and shall use environment variables.
+API keys 不得寫入程式碼庫，應使用 environment variables。
 
 ### FR-64 Retry Logic
-The system shall execute retry on transient API failures.
+系統應對 transient API failure 執行 retry。
 
 ### FR-65 Cost and Token Tracking
-The system shall record token usage, latency, and estimated cost.  
+系統應記錄 token usage、latency 與估計成本。  
 
 ---
 
@@ -511,59 +514,59 @@ The system shall record token usage, latency, and estimated cost.
 
 ## 7.1 Performance
 ### NFR-1 Latency
-The system shall measure at least the p50 and p95 latency of the following operations:
+系統應量測至少以下操作的 p50 與 p95 latency：
 - resume parsing
 - job indexing
 - match generation
 - application kit generation  
-The course document requires reporting latency for key user actions in the final deliverable.
+課程文件要求最終需報告 key user actions 的 latency。
 
 ### NFR-2 Responsiveness
-General UI operations shall respond within a reasonable time, and long tasks shall display loading/progress status.
+一般 UI 操作應在合理時間內回應，長任務應顯示 loading/progress 狀態。
 
 ## 7.2 Reliability
 ### NFR-3 Error Handling
-The system shall provide understandable error messages when failures occur in the LLM, embedding service, file processing, or database.
+系統應在 LLM、embedding、檔案處理與資料庫失敗時提供可理解錯誤訊息。
 
 ### NFR-4 Graceful Degradation
-Failure of a single AI module shall not cause the entire system to crash.
+單一 AI 模組失敗不應導致整體系統 crash。
 
 ### NFR-5 Error Rate Tracking
-The system shall be able to track the error rate under normal usage conditions. This is one of the system evaluation metrics required by the document.
+系統應可統計正常使用情況下的 error rate。這是文件要求的 system evaluation 指標之一。
 
 ## 7.3 Security
 ### NFR-6 Credential Security
-API keys, passwords, or credentials shall not be committed to the repository.
+不得在 repository 中提交 API keys、密碼或憑證。
 
 ### NFR-7 Access Control
-All user data shall be protected by authentication and authorization.
+所有使用者資料應受身份驗證與授權保護。
 
 ### NFR-8 Data Isolation
-Data between different users shall not be visible to one another.
+不同使用者之間資料不得互相可見。
 
 ## 7.4 Maintainability
 ### NFR-9 Modular Architecture
-The system shall adopt a modular design that separates frontend, backend, eval, tests, and docs.
+系統應採模組化設計，分離 frontend、backend、eval、tests 與 docs。
 
 ### NFR-10 Repository Structure
-The repository shall follow the course recommendation of a monorepo or at most two repos, and the structure shall be clear.
+repository 應遵守課程建議的 monorepo 或最多兩個 repo 的限制，且結構清楚。
 
 ### NFR-11 Code Quality
-The system shall use a formatter, explicit dependency management, and consistent naming conventions.
+系統應使用 formatter、明確依賴管理與一致命名規則。
 
 ## 7.5 Testability
 ### NFR-12 Automated Tests
-The system shall include at least 15 unit/integration tests covering APIs, the data layer, the AI pipeline, and authentication.
+系統應具備至少 15 個 unit/integration tests，涵蓋 API、data layer、AI pipeline、authentication。
 
 ### NFR-13 CI
-The system shall automatically run tests through GitHub Actions on every push.  
+系統應在每次 push 由 GitHub Actions 自動執行測試。  
 
 ## 7.6 Deployability
 ### NFR-14 Public or Docker Deployment
-The system shall provide a public URL, or provide a fully reproducible Docker deployment.
+系統應能提供公開 URL，或提供可完整重現的 Docker deployment。
 
 ### NFR-15 Setup Reproducibility
-The README and `.env.example` shall be sufficient for the teaching assistant to build and run the system in a clean environment.
+README 與 `.env.example` 應足以讓助教在乾淨環境中建置並執行系統。
 
 ---
 
@@ -571,53 +574,53 @@ The README and `.env.example` shall be sufficient for the teaching assistant to 
 
 ## 8.1 Test Suite Requirements
 ### TR-1 Minimum Test Count
-The system shall provide at least 15 unit/integration tests.
+系統應提供至少 15 個 unit/integration tests。
 
 ### TR-2 Coverage Areas
-Tests shall cover at least:
+測試應至少覆蓋：
 - authentication
 - API endpoints
 - data layer operations
 - AI pipeline components
 
 ### TR-3 Single Command Execution
-All tests shall be executable with a single command.
+所有測試應能以單一命令執行。
 
 ### TR-4 CI Execution
-All tests shall be automatically executed in GitHub Actions.  
+所有測試應在 GitHub Actions 中自動執行。  
 
 ## 8.2 AI Evaluation Requirements
 ### ER-1 Quantitative Metrics
-The system shall define and calculate at least two quantitative AI metrics.
+系統應定義並計算至少兩種 quantitative AI metrics。
 
 ### ER-2 Baseline Comparison
-All major AI metrics shall be compared against a baseline.
+所有主要 AI metrics 應與 baseline 比較。
 
 ### ER-3 Suggested Metrics for This Project
-This project shall implement at least the following two:
+本專案至少應實作以下兩項：
 1. **Job matching relevance metric**  
-   For example, Precision@K, MRR, or a custom relevance score  
+   例如 Precision@K、MRR 或自定義 relevance score  
 2. **Resume suggestion quality metric**  
-   For example, a rubric-based average score  
+   例如 rubric-based average score  
 
 ### ER-4 Evaluation Dataset
-At least 25 curated profile / job scenario pairs shall be established for evaluation.
+應建立至少 25 組 curated profiles / job scenarios 用於 evaluation。
 
 ## 8.3 System Evaluation Requirements
 ### ER-5 System Metrics
-The following shall be reported:
+應報告：
 - p50 latency
 - p95 latency
 - error rate
 - test coverage percentage  
-These are the system-level quality metrics required by the document.
+這些是文件要求的 system-level quality 指標。
 
 ---
 
 # 9. Architecture Requirements
 
 ## 9.1 High-Level Architecture
-The system shall include the following core layers:
+系統應包含以下核心層：
 
 1. **Frontend Layer**  
    - React
@@ -669,41 +672,44 @@ project-root/
 
 # 10. Acceptance Criteria
 
-This system shall be considered complete and ready for submission only if it satisfies at least the following acceptance criteria:
+本系統被視為完成並可提交，至少需滿足以下驗收條件：
 
-1. Users can complete registration and login, and data is isolated across different accounts.  
-2. Users can upload resumes and obtain editable structured parsing results.  
-3. Users can add job descriptions, and the system can build indexes and preserve them.  
-4. The system can generate job match rankings and match explanations.  
-5. The system can perform skill gap analysis with source attribution.  
-6. The system can generate resume suggestions, cover letters, and interview prep for a specific job.  
-7. The system can preserve user preferences and application history across sessions.  
-8. The system implements at least 3 in-depth AI techniques.  
-9. The system includes at least 15 automated tests and CI.  
-10. The system has a deployment result or a Docker reproduction method.  
-11. The system provides at least two quantitative AI metrics and baseline comparison.  
-12. The system is not merely a chatbot wrapper, nor a single API call system.  
+1. 使用者可完成註冊、登入，且不同帳號資料隔離。  
+2. 使用者可上傳履歷並取得可編輯的結構化解析結果。  
+3. 使用者可新增 job descriptions，系統可建立索引並保存。  
+4. 系統可產生職缺匹配排名與 match explanation。  
+5. 系統可執行 skill gap analysis，且有 source attribution。  
+6. 系統可針對特定 job 產生 resume suggestions、cover letter 與 interview prep。  
+7. 系統可跨 session 保存使用者偏好與申請歷史。  
+8. 系統至少實作 3 種以上有深度的 AI techniques。  
+9. 系統具備至少 15 個自動化測試與 CI。  
+10. 系統有部署成果或 Docker 重現方式。  
+11. 系統提供至少兩項 quantitative AI metrics 與 baseline comparison。  
+12. 系統不是單純 chatbot wrapper，也不是 single API call system。  
 
 ---
 
 # 11. Out of Scope
 
-The following are not included in the scope of v1.0 for now:
-- Automatically scraping all job postings from external job boards
-- Real-time official LinkedIn / Indeed integration
-- Multilingual resume optimization
-- Real-time voice interview simulation
-- Multi-tenant enterprise admin backend
+以下內容暫不納入 v1.0 範圍：
+- 自動抓取外部 job board 全網職缺
+- 即時 LinkedIn / Indeed 官方整合
+- 多語言履歷最佳化
+- 即時語音面試模擬
+- 多租戶企業版管理後台
 
 ---
 
 # 12. Risks and Mitigation
 
-## Risk 1: Unstable LLM Output
-**Mitigation:** structured outputs, schema validation, retry, fallback parser
+## Risk 1: LLM 輸出不穩定
+**Mitigation:** structured outputs、schema validation、retry、fallback parser
 
-## Risk 2: Insufficient Job Matching Quality
-**Mitigation:** hybrid ranking strategy, reranking, manually labeled datasets, and baseline evaluation
+## Risk 2: Job matching 品質不足
+**Mitigation:** 混合 ranking strategy、reranking、人工標註資料集與 baseline evaluation
 
-## Risk 3: Excessive Cost or Unstable APIs
-**Mitigation:** provider wrapper, token tracking, caching, limiting generation length
+## Risk 3: 成本過高或 API 不穩
+**Mitigation:** provider wrapper、token tracking、快取、限制生成長度
+
+---
+
