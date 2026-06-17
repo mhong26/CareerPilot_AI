@@ -14,7 +14,7 @@ SER 594: AI for Software Engineers Course Project
 # 1. Introduction
 
 ## 1.1 Purpose
-本文件定義 **CareerPilot AI** 的軟體需求。此系統面向求職者，提供履歷上傳、職缺匯入、職缺匹配、技能缺口分析、客製化履歷建議、Cover Letter 草稿生成、面試準備題生成，以及偏好與申請歷史記憶等功能。本文件同時作為團隊開發、測試、驗收與課程交付的正式依據。
+本文件定義 **CareerPilot AI** 的軟體需求。此系統面向求職者，提供履歷上傳、職缺匯入、職缺匹配、技能缺口分析、客製化履歷建議、Cover Letter 草稿生成、面試準備題生成，以及偏好與申請歷史記憶等功能。本文件同時作為開發、測試、驗收的正式依據。
 ## 1.2 Scope
 CareerPilot AI 是一個全端 AI 求職輔助平台。使用者可建立帳號、登入、上傳履歷、輸入目標職缺內容，系統會對履歷與職缺進行結構化解析，將職缺建立向量索引，進行職缺匹配排名，透過 RAG 找出技能缺口，再以 agent workflow 產生履歷修改建議、Cover Letter 草稿與面試準備題目，並跨 session 記住使用者求職偏好與申請歷史。
 
@@ -83,7 +83,7 @@ CareerPilot AI 是一個獨立的 web-based full-stack system，由前端、後�
 - 後端框架：FastAPI
 - 前端框架：React / Next.js
 - AI provider：OpenAI / Anthropic / Gemini 其一，透過可替換 wrapper 抽象化  
-所有 build / local deployment 依賴必須可免費取得並可重現。
+所有 build / local deployment 依賴必須可重現。
 
 ## 2.5 Design and Implementation Constraints
 1. 系統不得只是 chatbot wrapper。  
@@ -129,7 +129,6 @@ CareerPilot AI 是一個獨立的 web-based full-stack system，由前端、後�
 
 ### FR-6 Persistent User Identity
 系統應在跨 session 後仍能辨識同一使用者並載入其歷史資料。  
-以上直接對齊課程文件對 authentication 與至少兩個 distinct user sessions 的要求。
 
 ---
 
@@ -150,7 +149,6 @@ CareerPilot AI 是一個獨立的 web-based full-stack system，由前端、後�
 - Projects
 - Education
 - Certifications
-- Skill evidence
 
 ### FR-10 Resume Validation
 系統應對解析結果做 schema 驗證，若輸出格式錯誤，應執行 retry 或 fallback parsing，而非直接失敗。
@@ -166,7 +164,7 @@ CareerPilot AI 是一個獨立的 web-based full-stack system，由前端、後�
 ## 3.3 Job Description Ingestion and Indexing
 
 ### FR-13 Job Input
-系統應允許使用者新增 job description，至少支援文字貼上與檔案上傳。
+系統應允許使用者新增 job description，支援文字貼上。
 
 ### FR-14 Job Parsing
 系統應將 job description 解析為結構化欄位，包括但不限於：
@@ -190,7 +188,6 @@ CareerPilot AI 是一個獨立的 web-based full-stack system，由前端、後�
 
 ### FR-18 Persistent Job Storage
 系統應將 job 原文、解析結果、chunks 與索引 metadata 持久化保存。  
-這些需求對齊文件對 embeddings 與 RAG 所要求的 ingestion pipeline、chunking、indexing。
 
 ---
 
@@ -244,7 +241,6 @@ CareerPilot AI 是一個獨立的 web-based full-stack system，由前端、後�
 
 ### FR-30 Improvement Suggestions
 系統應為 skill gap 提供補強建議。  
-這些需求直接符合對 RAG 的 minimum expectation：chunking、retrieval、re-ranking、generation with source attribution。
 
 ---
 
@@ -313,35 +309,10 @@ Cover letter 應依下列資訊客製化：
 ### FR-44 Persist Interview Prep
 系統應保存已產生的 interview preparation artifacts。
 
----
-
-## 3.9 User Preferences and Memory
-
-### FR-45 Preference Storage
-系統應保存使用者偏好，包括但不限於：
-- target roles
-- preferred locations
-- remote/hybrid/onsite preference
-- industries
-- preferred tone/style
-- skills to strengthen
-
-### FR-46 Preference Reuse
-系統應在後續 job ranking、cover letter generation 與 interview prep generation 中使用已保存偏好。
-
-### FR-47 Application History Memory
-系統應保存使用者的申請歷史與狀態。
-
-### FR-48 Cross-Session Memory
-系統應在跨登入 session 後保留偏好與申請歷史。
-
-### FR-49 Feedback Memory
-系統應可記錄使用者對 AI 建議的回饋，供後續優化使用。  
-這些需求對齊文件所要求的 persistent memory / user preference learning / application history tracking。
 
 ---
 
-## 3.10 Application Tracking
+## 3.9 Application Tracking
 
 ### FR-50 Status Tracking
 系統應允許使用者對職缺標記申請狀態，例如：
@@ -360,10 +331,7 @@ Cover letter 應依下列資訊客製化：
 
 ---
 
-## 3.11 Feedback and Result Management
-
-### FR-53 AI Feedback
-系統應允許使用者對 match result、resume suggestion、cover letter 或 interview prep 提供評分與文字回饋。
+## 3.11 Result Management
 
 ### FR-54 Artifact History
 系統應保存所有生成 artifacts 的歷史紀錄。
@@ -383,11 +351,10 @@ Cover letter 應依下列資訊客製化：
 3. Resume Management Page  
 4. Job Management Page  
 5. Job Detail / Match Analysis Page  
-6. Application Kit Page  
-7. Preferences Page  
-8. Application Tracker Page  
+6. Application Kit Page   
+7. Application Tracker Page  
 
-UI 應提供明確操作流程，避免將主要使用情境退化為單純文字聊天。
+UI 應提供明確操作流程。
 
 ## 4.2 API Interface Requirements
 前後端應透過定義良好的 API 溝通，建議採 REST。核心 endpoints 包括：
@@ -401,7 +368,6 @@ UI 應提供明確操作流程，避免將主要使用情境退化為單純文�
 - `/matches/run`
 - `/jobs/{id}/skill-gap`
 - `/jobs/{id}/generate-application-kit`
-- `/preferences`
 - `/applications`
 - `/feedback`
 
@@ -432,9 +398,7 @@ UI 應提供明確操作流程，避免將主要使用情境退化為單純文�
 - MatchResult
 - SkillGapReport
 - GeneratedArtifact
-- UserPreference
 - ApplicationHistory
-- AIFeedback
 
 ## 5.2 Persistence Requirements
 所有資料必須持久化保存，不得僅存在記憶體。此要求包括：
@@ -443,8 +407,7 @@ UI 應提供明確操作流程，避免將主要使用情境退化為單純文�
 - 職缺原文與解析結果
 - 向量索引
 - 匹配結果
-- AI 生成內容
-- 偏好與歷史。  
+- AI 生成內容 
 
 
 ## 5.3 Data Integrity Requirements
@@ -682,19 +645,8 @@ project-root/
 8. 系統至少實作 3 種以上有深度的 AI techniques。  
 9. 系統具備至少 15 個自動化測試與 CI。  
 10. 系統有部署成果或 Docker 重現方式。  
-11. 系統提供至少兩項 quantitative AI metrics 與 baseline comparison。  
-12. 系統不是單純 chatbot wrapper，也不是 single API call system。  
+11. 系統提供至少兩項 quantitative AI metrics 與 baseline comparison。   
 
----
-
-# 11. Out of Scope
-
-以下內容暫不納入 v1.0 範圍：
-- 自動抓取外部 job board 全網職缺
-- 即時 LinkedIn / Indeed 官方整合
-- 多語言履歷最佳化
-- 即時語音面試模擬
-- 多租戶企業版管理後台
 
 ---
 
