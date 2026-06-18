@@ -1,4 +1,4 @@
-from pydantic import Field, computed_field
+from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -27,7 +27,7 @@ class Settings(BaseSettings):
     log_level: str = "INFO"
     max_upload_size_mb: int = 10
 
-    @computed_field
+    @property
     def cors_origins(self) -> list[str]:
         return [origin.strip() for origin in self.cors_origins_str.split(",") if origin.strip()]
 

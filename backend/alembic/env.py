@@ -17,6 +17,7 @@ database_url = os.environ.get("DATABASE_URL")
 if database_url:
     config.set_main_option("sqlalchemy.url", database_url)
 
+import app.db.models  # noqa: E402, F401  (populates Base.metadata)
 from app.db.session import Base  # noqa: E402
 
 target_metadata = Base.metadata
