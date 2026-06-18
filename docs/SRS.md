@@ -1,7 +1,7 @@
 
 ---
 
-# Software Requirements Specification (SRS)  
+# Software Requirements Specification (SRS)
 ## Project Title
 **CareerPilot AI: AI-Powered Resume and Job Match Platform**
 
@@ -19,25 +19,25 @@ SER 594: AI for Software Engineers Course Project
 CareerPilot AI 是一個全端 AI 求職輔助平台。使用者可建立帳號、登入、上傳履歷、輸入目標職缺內容，系統會對履歷與職缺進行結構化解析，將職缺建立向量索引，進行職缺匹配排名，透過 RAG 找出技能缺口，再以 agent workflow 產生履歷修改建議、Cover Letter 草稿與面試準備題目，並跨 session 記住使用者求職偏好與申請歷史。
 
 ## 1.3 Definitions, Acronyms, and Abbreviations
-- **SRS**: Software Requirements Specification  
-- **RAG**: Retrieval-Augmented Generation  
-- **LLM**: Large Language Model  
-- **Embedding**: 將文字轉換為向量表示的方法  
-- **Vector Store**: 儲存向量並支援相似度檢索的資料庫  
-- **Structured Output**: 由 LLM 依 schema 輸出的 JSON 或 typed object  
-- **Agent Workflow**: 可做多步驟決策、選工具、執行任務的 AI orchestration 流程  
-- **Memory**: 跨 session 保存使用者偏好、歷史與摘要資訊的機制  
-- **Match Score**: 系統對履歷與職缺適配程度的量化分數  
+- **SRS**: Software Requirements Specification
+- **RAG**: Retrieval-Augmented Generation
+- **LLM**: Large Language Model
+- **Embedding**: 將文字轉換為向量表示的方法
+- **Vector Store**: 儲存向量並支援相似度檢索的資料庫
+- **Structured Output**: 由 LLM 依 schema 輸出的 JSON 或 typed object
+- **Agent Workflow**: 可做多步驟決策、選工具、執行任務的 AI orchestration 流程
+- **Memory**: 跨 session 保存使用者偏好、歷史與摘要資訊的機制
+- **Match Score**: 系統對履歷與職缺適配程度的量化分數
 
 ## 1.4 References
-本 SRS 對齊以下要求：  
-- full-stack application  
-- authentication mandatory  
-- persistent data layer  
-- RAG / embeddings / agent / structured outputs / memory 等 AI integration  
-- 15+ tests  
-- CI  
-- deployment  
+本 SRS 對齊以下要求：
+- full-stack application
+- authentication mandatory
+- persistent data layer
+- RAG / embeddings / agent / structured outputs / memory 等 AI integration
+- 15+ tests
+- CI
+- deployment
 - quantitative AI evaluation and system evaluation。
 
 ---
@@ -50,17 +50,17 @@ CareerPilot AI 是一個獨立的 web-based full-stack system，由前端、後�
 ## 2.2 Product Functions
 系統主要提供以下高階功能：
 
-1. 使用者註冊、登入、登出  
-2. 履歷上傳、文字抽取與結構化解析  
-3. 職缺內容匯入、結構化解析與向量索引  
-4. Job match ranking 與分數解釋  
-5. Skill gap analysis with RAG and source attribution  
-6. Tailored resume suggestions  
-7. Cover letter draft generation  
-8. Interview preparation question generation  
-9. 使用者求職偏好與申請歷史記憶  
-10. Application tracking  
-11. AI 結果儲存、版本控管與回饋收集  
+1. 使用者註冊、登入、登出
+2. 履歷上傳、文字抽取與結構化解析
+3. 職缺內容匯入、結構化解析與向量索引
+4. Job match ranking 與分數解釋
+5. Skill gap analysis with RAG and source attribution
+6. Tailored resume suggestions
+7. Cover letter draft generation
+8. Interview preparation question generation
+9. 使用者求職偏好與申請歷史記憶
+10. Application tracking
+11. AI 結果儲存、版本控管與回饋收集
 12. 評估、測試、部署與監控支援。
 
 ## 2.3 User Classes and Characteristics
@@ -82,26 +82,26 @@ CareerPilot AI 是一個獨立的 web-based full-stack system，由前端、後�
 - 後端語言：Python
 - 後端框架：FastAPI
 - 前端框架：React / Next.js
-- AI provider：OpenAI / Anthropic / Gemini 其一，透過可替換 wrapper 抽象化  
+- AI provider：OpenAI / Anthropic / Gemini 其一，透過可替換 wrapper 抽象化
 所有 build / local deployment 依賴必須可重現。
 
 ## 2.5 Design and Implementation Constraints
-1. 系統不得只是 chatbot wrapper。  
-2. 系統不得只是 single API call。  
-3. 必須有 authentication。  
-4. 必須有 persistent storage。  
-5. 若使用 RAG/semantic search，必須有 vector store。  
-6. 必須可公開部署或以 Docker 本地重現。  
-7. 必須有至少 15 個 unit/integration tests。  
-8. 必須提供 quantitative AI evaluation 與 baseline comparison。  
-9. 必須有 CI。  
+1. 系統不得只是 chatbot wrapper。
+2. 系統不得只是 single API call。
+3. 必須有 authentication。
+4. 必須有 persistent storage。
+5. 若使用 RAG/semantic search，必須有 vector store。
+6. 必須可公開部署或以 Docker 本地重現。
+7. 必須有至少 15 個 unit/integration tests。
+8. 必須提供 quantitative AI evaluation 與 baseline comparison。
+9. 必須有 CI。
 10. 不得把 secrets 提交到 repository。
 
 ## 2.6 Assumptions and Dependencies
-1. 使用者可提供可解析的履歷檔案（PDF / DOCX / text）。  
-2. 使用者可貼入或上傳 job descriptions。  
-3. LLM 與 embedding provider 在系統運行時可存取。  
-4. Docker、資料庫與 API key 會由團隊正確配置。  
+1. 使用者可提供可解析的履歷檔案（PDF / DOCX / text）。
+2. 使用者可貼入或上傳 job descriptions。
+3. LLM 與 embedding provider 在系統運行時可存取。
+4. Docker、資料庫與 API key 會由團隊正確配置。
 5. 評估資料集將由團隊自行建立至少 25 個 curated profiles / scenarios，以支援最終 evaluation。
 
 ---
@@ -128,7 +128,7 @@ CareerPilot AI 是一個獨立的 web-based full-stack system，由前端、後�
 未登入使用者不得存取受保護功能，包括履歷管理、職缺分析與 AI 生成結果。
 
 ### FR-6 Persistent User Identity
-系統應在跨 session 後仍能辨識同一使用者並載入其歷史資料。  
+系統應在跨 session 後仍能辨識同一使用者並載入其歷史資料。
 
 ---
 
@@ -187,7 +187,7 @@ CareerPilot AI 是一個獨立的 web-based full-stack system，由前端、後�
 系統應將 job embeddings 寫入 vector store 並支援後續相似度搜尋。
 
 ### FR-18 Persistent Job Storage
-系統應將 job 原文、解析結果、chunks 與索引 metadata 持久化保存。  
+系統應將 job 原文、解析結果、chunks 與索引 metadata 持久化保存。
 
 ---
 
@@ -240,7 +240,7 @@ CareerPilot AI 是一個獨立的 web-based full-stack system，由前端、後�
 系統應將 skill gap 區分為不同嚴重程度，例如 high / medium / low。
 
 ### FR-30 Improvement Suggestions
-系統應為 skill gap 提供補強建議。  
+系統應為 skill gap 提供補強建議。
 
 ---
 
@@ -346,13 +346,13 @@ Cover letter 應依下列資訊客製化：
 ## 4.1 User Interface Requirements
 系統前端應提供以下頁面或等價介面：
 
-1. 登入 / 註冊頁  
-2. Dashboard  
-3. Resume Management Page  
-4. Job Management Page  
-5. Job Detail / Match Analysis Page  
-6. Application Kit Page   
-7. Application Tracker Page  
+1. 登入 / 註冊頁
+2. Dashboard
+3. Resume Management Page
+4. Job Management Page
+5. Job Detail / Match Analysis Page
+6. Application Kit Page
+7. Application Tracker Page
 
 UI 應提供明確操作流程。
 
@@ -380,7 +380,7 @@ UI 應提供明確操作流程。
 - LLM provider API
 - Embedding API
 - Docker / docker-compose
-- CI system (GitHub Actions)  
+- CI system (GitHub Actions)
 明確要求 tests 可單一命令執行，且 CI 在每次 push 執行。
 
 ---
@@ -407,14 +407,14 @@ UI 應提供明確操作流程。
 - 職缺原文與解析結果
 - 向量索引
 - 匹配結果
-- AI 生成內容 
+- AI 生成內容
 
 
 ## 5.3 Data Integrity Requirements
-1. 所有資料應帶 user ownership。  
-2. 每個 artifact 應與來源履歷、job、使用者關聯。  
-3. 結構化輸出應有 schema validation。  
-4. 刪除或替換版本時應避免破壞歷史紀錄。  
+1. 所有資料應帶 user ownership。
+2. 每個 artifact 應與來源履歷、job、使用者關聯。
+3. 結構化輸出應有 schema validation。
+4. 刪除或替換版本時應避免破壞歷史紀錄。
 
 ---
 
@@ -423,12 +423,12 @@ UI 應提供明確操作流程。
 ## 6.1 Required AI Techniques
 本系統將實作並聲明以下 AI techniques：
 
-1. **Vector Search / Embeddings**  
-2. **RAG**  
-3. **AI Agents / Multi-Step Workflows**  
-4. **Prompt Engineering with Structured Outputs**  
-5. **Memory / Conversation Management**  
-6. **LLM API Integration**  
+1. **Vector Search / Embeddings**
+2. **RAG**
+3. **AI Agents / Multi-Step Workflows**
+4. **Prompt Engineering with Structured Outputs**
+5. **Memory / Conversation Management**
+6. **LLM API Integration**
 
 
 ## 6.2 Agent Requirements
@@ -444,7 +444,7 @@ UI 應提供明確操作流程。
 - 保存 artifacts
 
 ### FR-58 Conditional Logic
-agent 應可根據 match score 或 skill gaps 決定後續流程，例如先做 gap analysis 再做 resume tailoring。  
+agent 應可根據 match score 或 skill gaps 決定後續流程，例如先做 gap analysis 再做 resume tailoring。
 
 ## 6.3 Structured Output Requirements
 ### FR-59 Structured Parsing
@@ -467,7 +467,7 @@ API keys 不得寫入程式碼庫，應使用 environment variables。
 系統應對 transient API failure 執行 retry。
 
 ### FR-65 Cost and Token Tracking
-系統應記錄 token usage、latency 與估計成本。  
+系統應記錄 token usage、latency 與估計成本。
 
 ---
 
@@ -479,7 +479,7 @@ API keys 不得寫入程式碼庫，應使用 environment variables。
 - resume parsing
 - job indexing
 - match generation
-- application kit generation  
+- application kit generation
 最終需報告 key user actions 的 latency。
 
 ### NFR-2 Responsiveness
@@ -520,7 +520,7 @@ repository 應遵守 monorepo 或最多兩個 repo 的限制，且結構清楚�
 系統應具備至少 15 個 unit/integration tests，涵蓋 API、data layer、AI pipeline、authentication。
 
 ### NFR-13 CI
-系統應在每次 push 由 GitHub Actions 自動執行測試。  
+系統應在每次 push 由 GitHub Actions 自動執行測試。
 
 ## 7.6 Deployability
 ### NFR-14 Public or Docker Deployment
@@ -548,7 +548,7 @@ README 與 `.env.example` 應足以在乾淨環境中建置並執行系統。
 所有測試應能以單一命令執行。
 
 ### TR-4 CI Execution
-所有測試應在 GitHub Actions 中自動執行。  
+所有測試應在 GitHub Actions 中自動執行。
 
 ## 8.2 AI Evaluation Requirements
 ### ER-1 Quantitative Metrics
@@ -559,10 +559,10 @@ README 與 `.env.example` 應足以在乾淨環境中建置並執行系統。
 
 ### ER-3 Suggested Metrics for This Project
 本專案至少應實作以下兩項：
-1. **Job matching relevance metric**  
-   例如 Precision@K、MRR 或自定義 relevance score  
-2. **Resume suggestion quality metric**  
-   例如 rubric-based average score  
+1. **Job matching relevance metric**
+   例如 Precision@K、MRR 或自定義 relevance score
+2. **Resume suggestion quality metric**
+   例如 rubric-based average score
 
 ### ER-4 Evaluation Dataset
 應建立至少 25 組 curated profiles / job scenarios 用於 evaluation。
@@ -573,7 +573,7 @@ README 與 `.env.example` 應足以在乾淨環境中建置並執行系統。
 - p50 latency
 - p95 latency
 - error rate
-- test coverage percentage  
+- test coverage percentage
 這些是要求的 system-level quality 指標。
 
 ---
@@ -583,34 +583,34 @@ README 與 `.env.example` 應足以在乾淨環境中建置並執行系統。
 ## 9.1 High-Level Architecture
 系統應包含以下核心層：
 
-1. **Frontend Layer**  
+1. **Frontend Layer**
    - React
-   - dashboard, forms, results, editing interface  
+   - dashboard, forms, results, editing interface
 
-2. **Backend API Layer**  
-   - authentication  
-   - business logic  
-   - orchestration  
-   - persistence  
+2. **Backend API Layer**
+   - authentication
+   - business logic
+   - orchestration
+   - persistence
 
-3. **AI Services Layer**  
-   - resume parser  
-   - job parser  
-   - embedding/indexing  
-   - retrieval/rerank  
-   - agent workflow  
-   - content generation  
-   - memory service  
+3. **AI Services Layer**
+   - resume parser
+   - job parser
+   - embedding/indexing
+   - retrieval/rerank
+   - agent workflow
+   - content generation
+   - memory service
 
-4. **Data Layer**  
-   - PostgreSQL  
-   - pgvector  
-   - file storage  
+4. **Data Layer**
+   - PostgreSQL
+   - pgvector
+   - file storage
 
-5. **Evaluation Layer**  
-   - metrics scripts  
-   - baseline comparison  
-   - reporting outputs  
+5. **Evaluation Layer**
+   - metrics scripts
+   - baseline comparison
+   - reporting outputs
 
 
 
@@ -635,17 +635,17 @@ project-root/
 
 本系統被視為完成並可提交，至少需滿足以下驗收條件：
 
-1. 使用者可完成註冊、登入，且不同帳號資料隔離。  
-2. 使用者可上傳履歷並取得可編輯的結構化解析結果。  
-3. 使用者可新增 job descriptions，系統可建立索引並保存。  
-4. 系統可產生職缺匹配排名與 match explanation。  
-5. 系統可執行 skill gap analysis，且有 source attribution。  
-6. 系統可針對特定 job 產生 resume suggestions、cover letter 與 interview prep。  
-7. 系統可跨 session 保存使用者偏好與申請歷史。  
-8. 系統至少實作 3 種以上有深度的 AI techniques。  
-9. 系統具備至少 15 個自動化測試與 CI。  
-10. 系統有部署成果或 Docker 重現方式。  
-11. 系統提供至少兩項 quantitative AI metrics 與 baseline comparison。   
+1. 使用者可完成註冊、登入，且不同帳號資料隔離。
+2. 使用者可上傳履歷並取得可編輯的結構化解析結果。
+3. 使用者可新增 job descriptions，系統可建立索引並保存。
+4. 系統可產生職缺匹配排名與 match explanation。
+5. 系統可執行 skill gap analysis，且有 source attribution。
+6. 系統可針對特定 job 產生 resume suggestions、cover letter 與 interview prep。
+7. 系統可跨 session 保存使用者偏好與申請歷史。
+8. 系統至少實作 3 種以上有深度的 AI techniques。
+9. 系統具備至少 15 個自動化測試與 CI。
+10. 系統有部署成果或 Docker 重現方式。
+11. 系統提供至少兩項 quantitative AI metrics 與 baseline comparison。
 
 
 ---
@@ -662,4 +662,3 @@ project-root/
 **Mitigation:** provider wrapper、token tracking、快取、限制生成長度
 
 ---
-

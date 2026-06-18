@@ -29,7 +29,7 @@ CareerPilot_AI/
 │   │   ├── schemas/        # Pydantic schemas
 │   │   ├── services/       # business logic
 │   │   ├── ai/
-│   │   │   ├── llm/        
+│   │   │   ├── llm/
 │   │   │   ├── embeddings/
 │   │   │   ├── parsers/    # resume / job structured parsing
 │   │   │   ├── rag/        # chunk, retrieve, rerank
