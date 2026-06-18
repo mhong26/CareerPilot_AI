@@ -11,7 +11,6 @@
 | 前端 | Vite + React 18 + TypeScript + TanStack Query + Tailwind |
 | 後端 | FastAPI (Python 3.11) + SQLAlchemy 2 + Alembic + Pydantic v2 |
 | DB | PostgreSQL 16 + pgvector |
-| LLM / Embedding | Google Gemini (`gemini-1.5-pro` / `text-embedding-004`) |
 | Agent | LangGraph |
 | Auth | JWT (access + refresh) + bcrypt |
 | Deploy | docker-compose（frontend / backend / db 三服務） |
@@ -30,7 +29,7 @@ CareerPilot_AI/
 │   │   ├── schemas/        # Pydantic schemas
 │   │   ├── services/       # business logic
 │   │   ├── ai/
-│   │   │   ├── llm/        # Gemini wrapper (provider-agnostic)
+│   │   │   ├── llm/
 │   │   │   ├── embeddings/
 │   │   │   ├── parsers/    # resume / job structured parsing
 │   │   │   ├── rag/        # chunk, retrieve, rerank
@@ -97,7 +96,7 @@ CareerPilot_AI/
 
 **對應 SRS**：FR-1~6、FR-4 isolation、NFR-6~8、entity 定義 §5.1
 
-1. DB models（SQLAlchemy）：`User`、`Resume`、`ResumeVersion`、`Job`、`JobChunk`、`JobEmbedding`（含 `vector(768)` 欄）、`MatchResult`、`SkillGapReport`、`GeneratedArtifact`、`UserPreference`、`ApplicationHistory`、`AIFeedback`。全部帶 `user_id` FK 並建 index。
+1. DB models（SQLAlchemy）：`User`、`Resume`、`ResumeVersion`、`Job`、`JobChunk`、`JobEmbedding`（含 `vector(768)` 欄）、`MatchResult`、`SkillGapReport`、`GeneratedArtifact`、`ApplicationHistory`。全部帶 `user_id` FK 並建 index。
 2. Alembic 初始 migration（含 pgvector ivfflat index）
 3. Auth：
    - `POST /auth/register`、`POST /auth/login`（JWT access+refresh）、`POST /auth/logout`（blacklist）、`GET /auth/me`
@@ -173,7 +172,7 @@ CareerPilot_AI/
    - Required skill coverage（normalized string match + Gemini semantic equivalence fallback）
    - Preferred skill coverage
    - Experience alignment（年資、title 語意比對）
-   - 加權合成 `match_score`（例：0.35/0.3/0.15/0.2）
+   - 加權合成 `match_score`
 2. `POST /matches/run`（body: resume_id, job_ids[]）→ 批次計算存 `MatchResult`
 3. Explanation：LLM 根據結構化分數與 skill diff 生 structured explanation（why_matched, top_overlap, missing_skills, risks）
 4. `GET /matches?resume_id=...` 排序回傳
@@ -228,19 +227,17 @@ CareerPilot_AI/
 
 ---
 
-## Phase 8 — Preferences + Memory + Application Tracking（Week 6 後半, 約 3-4 天）
+## Phase 8 — Memory + Application Tracking（Week 6 後半, 約 3-4 天）
 
 **對應**：FR-45~55
 
-1. Preferences CRUD：`GET/PUT /preferences`（target roles, locations, remote mode, industries, tone, skills_to_strengthen）
-2. Memory 注入：agent state 自動 load preferences，ranking / cover letter / interview 都帶入
-3. Application Tracking：`POST/PATCH /applications`（status enum、notes、timeline）
-4. Feedback：`POST /feedback`（artifact_id、rating 1-5、comment）→ 存 `AIFeedback`
-5. 前端：Preferences 頁、Application Tracker 頁（timeline + status board）
-6. Cross-session 驗證（登出再登入資料還在）
-7. Tests（2+）：preference reuse、application CRUD
+1. Memory 注入：agent state 自動 load preferences，ranking / cover letter / interview 都帶入
+2. Application Tracking：`POST/PATCH /applications`（status enum、notes、timeline）
+3. 前端：Application Tracker 頁（timeline + status board）
+4. Cross-session 驗證（登出再登入資料還在）
+5. Tests（2+）：preference reuse、application CRUD
 
-**驗收**：設定偏好後產出的 cover letter tone / 鎖定技能有反映偏好。
+**驗收**：
 
 ---
 
@@ -309,7 +306,6 @@ CareerPilot_AI/
 - [ ] ≥15 tests + CI（Phase 10 + 全程累積）
 - [ ] Docker 重現（Phase 11）
 - [ ] ≥2 quantitative metrics + baseline（Phase 9）
-- [ ] 非 chatbot / 非 single API call（整體架構滿足）
 
 ## 風險與緩解
 
