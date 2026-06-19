@@ -121,7 +121,7 @@ CareerPilot_AI/
    - Retry（tenacity，指數退避）
    - Token / latency / cost 紀錄（寫 `GeneratedArtifact.meta` 或 dedicated `LLMCallLog`）
    - Timeout、streaming 預留
-3. `app/ai/embeddings/gemini.py`：`text-embedding-004`（768 維），batch 呼叫
+3. `app/ai/embeddings/gemini.py`：`gemini-embedding-001`（768 維），batch 呼叫
 4. Structured output 測試：定義一個 toy schema（e.g. `{name, age}`），驗證 schema validation + retry + fallback parser（修破 JSON）
 5. `LLMCallLog` table：provider、model、prompt_hash、tokens_in/out、latency_ms、cost_estimate、status
 
