@@ -19,7 +19,7 @@ class Settings(BaseSettings):
 
     # AI (Google Gemini)
     gemini_api_key: str = ""
-    gemini_model: str = "gemini-1.5-pro"
+    gemini_model: str = "gemini-2.5-flash-lite"
     embedding_model: str = "text-embedding-004"
 
     # App
