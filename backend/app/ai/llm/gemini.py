@@ -1,9 +1,9 @@
 """Gemini 實作的 LLMProvider。
 
-第 3 步只完成 ``generate``（純文字生成）+ retry + 用量/延遲統計。
-``generate_structured``（第 5 步）與 ``embed``（第 6 步）暫為 stub。
+第 3 步完成 ``generate``（純文字）。第 5 步完成 ``generate_structured``
+（結構化輸出 + 驗證 + retry + fallback）。``embed``（第 6 步）暫為 stub。
 
-設計上保持「純」：本類別只負責呼叫 Gemini 並回傳 ``LLMResult``，不碰資料庫。
+設計上保持「純」：本類別只負責呼叫 Gemini 並回傳結果，不碰資料庫。
 記帳（寫入 llm_call_logs）由 ``services/llm_call_log_service.py`` 負責，方便單元測試。
 """
 
@@ -11,6 +11,7 @@ import time
 
 import google.generativeai as genai
 from google.api_core import exceptions as gexc
+from pydantic import ValidationError
 from tenacity import (
     retry,
     retry_if_exception_type,
@@ -23,9 +24,11 @@ from app.ai.llm.base import (
     LLMError,
     LLMProvider,
     LLMResult,
+    StructuredOutputError,
     T,
     TokenUsage,
 )
+from app.ai.llm.json_repair import repair_json
 from app.core.config import settings
 
 # 只對「暫時性」錯誤重試（伺服器忙、超時、額度節流）；
@@ -36,6 +39,10 @@ _TRANSIENT_ERRORS = (
     gexc.InternalServerError,
     gexc.ResourceExhausted,
 )
+
+# 「驗證 retry」次數：連線成功但回傳內容不符 schema 時，重新請模型生成的最大次數。
+# 與上面的 tenacity「網路 retry」是不同層次的機制。
+_STRUCTURED_ATTEMPTS = 2
 
 
 class GeminiProvider(LLMProvider):
@@ -53,13 +60,37 @@ class GeminiProvider(LLMProvider):
         stop=stop_after_attempt(3),
         reraise=True,
     )
-    def _call_gemini(self, prompt: str, system: str | None, temperature: float):
-        """實際打 API；被 tenacity 包住，暫時性錯誤會指數退避重試。"""
+    def _generate_content(self, prompt: str, system: str | None, generation_config: dict):
+        """唯一真正打 API 的地方。
+
+        必須獨立成一個 method：``@retry`` 只能罩在這層，才不會把外面的計時、
+        JSON 驗證等邏輯也跟著重跑。``generate`` 與 ``generate_structured`` 都用它，
+        差別只在傳入的 generation_config。
+        """
         model = genai.GenerativeModel(self.model, system_instruction=system)
-        return model.generate_content(
-            prompt,
-            generation_config={"temperature": temperature},
+        # 下面的 ignore：SDK 型別標註未含 response_schema 等鍵，但 runtime 接受。
+        return model.generate_content(prompt, generation_config=generation_config)  # type: ignore[arg-type]
+
+    @staticmethod
+    def _parse(response) -> tuple[str, TokenUsage]:
+        """從回應取出文字與 token 用量；被安全機制擋下或空白時丟可理解錯誤。"""
+        try:
+            text = response.text
+        except Exception as exc:
+            feedback = getattr(response, "prompt_feedback", None)
+            raise LLMError(
+                f"Gemini 沒有回傳可用文字（可能被安全機制阻擋）：{feedback or exc}"
+            ) from exc
+        if not text:
+            raise LLMError("Gemini 回傳空白內容")
+
+        meta = getattr(response, "usage_metadata", None)
+        usage = TokenUsage(
+            prompt_tokens=getattr(meta, "prompt_token_count", 0) or 0,
+            completion_tokens=getattr(meta, "candidates_token_count", 0) or 0,
+            total_tokens=getattr(meta, "total_token_count", 0) or 0,
         )
+        return text, usage
 
     def generate(
         self,
@@ -70,49 +101,13 @@ class GeminiProvider(LLMProvider):
     ) -> LLMResult:
         start = time.perf_counter()
         try:
-            response = self._call_gemini(prompt, system, temperature)
-        except _TRANSIENT_ERRORS as exc:
-            # 重試耗盡仍失敗。
-            raise LLMError(f"Gemini 呼叫失敗（重試後仍失敗）：{exc}") from exc
+            response = self._generate_content(prompt, system, {"temperature": temperature})
         except Exception as exc:
-            # 永久性 / 非預期錯誤（key 錯、model 名錯…）。
             raise LLMError(f"Gemini 呼叫失敗：{exc}") from exc
         latency_ms = int((time.perf_counter() - start) * 1000)
 
-        text = self._extract_text(response)
-        usage = self._extract_usage(response)
-        return LLMResult(
-            text=text,
-            model=self.model,
-            usage=usage,
-            latency_ms=latency_ms,
-        )
-
-    @staticmethod
-    def _extract_text(response) -> str:
-        """取回應文字；被安全機制擋下或無 candidates 時丟可理解錯誤。"""
-        try:
-            text = response.text
-        except Exception as exc:
-            feedback = getattr(response, "prompt_feedback", None)
-            raise LLMError(
-                f"Gemini 沒有回傳可用文字（可能被安全機制阻擋）：{feedback or exc}"
-            ) from exc
-        if not text:
-            raise LLMError("Gemini 回傳空白內容")
-        return text
-
-    @staticmethod
-    def _extract_usage(response) -> TokenUsage:
-        """從 response.usage_metadata 取 token 用量，缺值以 0 容錯。"""
-        meta = getattr(response, "usage_metadata", None)
-        if meta is None:
-            return TokenUsage()
-        return TokenUsage(
-            prompt_tokens=getattr(meta, "prompt_token_count", 0) or 0,
-            completion_tokens=getattr(meta, "candidates_token_count", 0) or 0,
-            total_tokens=getattr(meta, "total_token_count", 0) or 0,
-        )
+        text, usage = self._parse(response)
+        return LLMResult(text=text, model=self.model, usage=usage, latency_ms=latency_ms)
 
     def generate_structured(
         self,
@@ -121,7 +116,38 @@ class GeminiProvider(LLMProvider):
         *,
         system: str | None = None,
     ) -> tuple[T, TokenUsage]:
-        raise NotImplementedError("generate_structured 將在 Phase 2 第 5 步實作")
+        config = {
+            "response_mime_type": "application/json",
+            "response_schema": schema,
+            "temperature": 0.1,  # 結構化抽取要穩定，溫度壓低。
+        }
+        last_raw = ""
+        last_usage = TokenUsage()
+        last_error: Exception | None = None
+
+        # 「驗證 retry」迴圈：內容不符 schema 就重新請模型生一次。
+        for _ in range(_STRUCTURED_ATTEMPTS):
+            try:
+                response = self._generate_content(prompt, system, config)
+            except Exception as exc:
+                raise LLMError(f"Gemini 結構化呼叫失敗：{exc}") from exc
+            last_raw, last_usage = self._parse(response)
+            try:
+                return schema.model_validate_json(last_raw), last_usage
+            except ValidationError as exc:
+                last_error = exc
+
+        # Fallback：對最後一次回應嘗試修復壞 JSON，再驗證一次。
+        repaired = repair_json(last_raw)
+        if repaired is not None:
+            try:
+                return schema.model_validate_json(repaired), last_usage
+            except ValidationError as exc:
+                last_error = exc
+
+        raise StructuredOutputError(
+            f"結構化輸出在 {_STRUCTURED_ATTEMPTS} 次重試與 fallback 後仍不符 schema：{last_error}"
+        )
 
     def embed(self, texts: list[str]) -> EmbeddingResult:
         raise NotImplementedError("embed 將在 Phase 2 第 6 步實作")
