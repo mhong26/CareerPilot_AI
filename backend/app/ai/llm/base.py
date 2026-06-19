@@ -130,11 +130,18 @@ class LLMProvider(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def embed(self, texts: list[str]) -> EmbeddingResult:
+    def embed(
+        self,
+        texts: list[str],
+        *,
+        task_type: str = "RETRIEVAL_DOCUMENT",
+    ) -> EmbeddingResult:
         """將多段文字轉為向量（batch）。
 
         Args:
             texts: 待轉換的文字清單。
+            task_type: 嵌入用途。存入索引的文件用 ``RETRIEVAL_DOCUMENT``，
+                檢索時的查詢用 ``RETRIEVAL_QUERY``（Phase 6 RAG 會用到此區分）。
 
         Returns:
             ``EmbeddingResult``，其中 ``vectors`` 與 ``texts`` 一一對應。

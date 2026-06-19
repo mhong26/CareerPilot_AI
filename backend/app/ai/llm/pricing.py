@@ -12,8 +12,8 @@ _PER_MILLION = Decimal(1_000_000)
 _PRICING: dict[str, tuple[Decimal, Decimal]] = {
     "gemini-2.5-flash-lite": (Decimal("0.10"), Decimal("0.40")),
     "gemini-2.5-flash": (Decimal("0.30"), Decimal("2.50")),
-    # Embedding 目前不另計費（免費額度內），先記 0；第 6 步可再調整。
-    "text-embedding-004": (Decimal("0"), Decimal("0")),
+    # Embedding 只計 input tokens（無 output）。
+    "gemini-embedding-001": (Decimal("0.15"), Decimal("0")),
 }
 
 

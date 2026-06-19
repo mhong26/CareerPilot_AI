@@ -7,6 +7,7 @@
 記帳（寫入 llm_call_logs）由 ``services/llm_call_log_service.py`` 負責，方便單元測試。
 """
 
+import math
 import time
 
 import google.generativeai as genai
@@ -40,26 +41,38 @@ _TRANSIENT_ERRORS = (
     gexc.ResourceExhausted,
 )
 
+# 「網路 retry」：暫時性錯誤指數退避重試。所有「真正打 API」的 method 共用這份設定。
+_network_retry = retry(
+    retry=retry_if_exception_type(_TRANSIENT_ERRORS),
+    wait=wait_exponential(multiplier=1, min=1, max=10),
+    stop=stop_after_attempt(3),
+    reraise=True,
+)
+
 # 「驗證 retry」次數：連線成功但回傳內容不符 schema 時，重新請模型生成的最大次數。
-# 與上面的 tenacity「網路 retry」是不同層次的機制。
+# 與上面的「網路 retry」是不同層次的機制。
 _STRUCTURED_ATTEMPTS = 2
 
 
 class GeminiProvider(LLMProvider):
-    def __init__(self, *, api_key: str, model: str) -> None:
+    def __init__(
+        self,
+        *,
+        api_key: str,
+        model: str,
+        embedding_model: str = "",
+        embedding_dim: int = 768,
+    ) -> None:
         if not api_key:
             raise LLMError("缺少 Gemini API key（請設定 GEMINI_API_KEY）")
         if not model:
             raise LLMError("缺少 Gemini model 名稱（請設定 GEMINI_MODEL）")
         genai.configure(api_key=api_key)
         self.model = model
+        self.embedding_model = embedding_model
+        self.embedding_dim = embedding_dim
 
-    @retry(
-        retry=retry_if_exception_type(_TRANSIENT_ERRORS),
-        wait=wait_exponential(multiplier=1, min=1, max=10),
-        stop=stop_after_attempt(3),
-        reraise=True,
-    )
+    @_network_retry
     def _generate_content(self, prompt: str, system: str | None, generation_config: dict):
         """唯一真正打 API 的地方。
 
@@ -149,10 +162,53 @@ class GeminiProvider(LLMProvider):
             f"結構化輸出在 {_STRUCTURED_ATTEMPTS} 次重試與 fallback 後仍不符 schema：{last_error}"
         )
 
-    def embed(self, texts: list[str]) -> EmbeddingResult:
-        raise NotImplementedError("embed 將在 Phase 2 第 6 步實作")
+    @_network_retry
+    def _embed_content(self, texts: list[str], task_type: str):
+        """唯一真正打 embedding API 的地方（同 `_generate_content` 的理由：@retry 只罩這層）。"""
+        return genai.embed_content(
+            model=f"models/{self.embedding_model}",
+            content=texts,
+            task_type=task_type,
+            output_dimensionality=self.embedding_dim,
+        )
+
+    def embed(
+        self,
+        texts: list[str],
+        *,
+        task_type: str = "RETRIEVAL_DOCUMENT",
+    ) -> EmbeddingResult:
+        if not self.embedding_model:
+            raise LLMError("缺少 embedding model 名稱（請設定 EMBEDDING_MODEL）")
+
+        start = time.perf_counter()
+        try:
+            response = self._embed_content(texts, task_type)
+        except Exception as exc:
+            raise LLMError(f"Gemini embedding 呼叫失敗：{exc}") from exc
+        latency_ms = int((time.perf_counter() - start) * 1000)
+
+        # embed_content 回傳 {"embedding": [...]}；content 為清單時，embedding 也是清單的清單。
+        # L2 正規化成單位向量：MRL 縮維(<3072)回傳的向量未正規化，cosine/dot 會失準；
+        # 零向量原樣保留以免除以零。
+        vectors = []
+        for vec in response["embedding"]:
+            norm = math.sqrt(sum(x * x for x in vec))
+            vectors.append([x / norm for x in vec] if norm else vec)
+
+        return EmbeddingResult(
+            vectors=vectors,
+            model=self.embedding_model,
+            usage=TokenUsage(),  # embedding API 不回傳 token 數，誠實記 0。
+            latency_ms=latency_ms,
+        )
 
 
 def build_gemini_provider() -> GeminiProvider:
     """依環境設定建立 GeminiProvider 實例。"""
-    return GeminiProvider(api_key=settings.gemini_api_key, model=settings.gemini_model)
+    return GeminiProvider(
+        api_key=settings.gemini_api_key,
+        model=settings.gemini_model,
+        embedding_model=settings.embedding_model,
+        embedding_dim=settings.embedding_dim,
+    )
