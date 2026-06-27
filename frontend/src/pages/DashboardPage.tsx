@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom'
+
 import { useAuth } from '../hooks/useAuth'
 
 export default function DashboardPage() {
@@ -28,6 +30,12 @@ export default function DashboardPage() {
             Your dashboard is empty. Resume, job matching, and AI features arrive in
             upcoming phases.
           </p>
+          <Link
+            to="/resume"
+            className="inline-block rounded-md bg-blue-600 px-4 py-2 text-sm text-white hover:bg-blue-700"
+          >
+            Manage resume
+          </Link>
         </div>
       </main>
     </div>

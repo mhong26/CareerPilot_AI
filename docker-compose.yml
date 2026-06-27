@@ -24,6 +24,8 @@ services:
     environment:
       DATABASE_URL: postgresql://${POSTGRES_USER:-careerpilot}:${POSTGRES_PASSWORD:-careerpilot}@db:5432/${POSTGRES_DB:-careerpilot}
       GEMINI_API_KEY: ${GEMINI_API_KEY}
+      GEMINI_MODEL: ${GEMINI_MODEL:-gemini-2.5-flash}
+      EMBEDDING_MODEL: ${EMBEDDING_MODEL:-gemini-embedding-001}
       JWT_SECRET: ${JWT_SECRET}
       CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:3000}
       APP_ENV: ${APP_ENV:-development}

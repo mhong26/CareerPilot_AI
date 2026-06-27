@@ -32,7 +32,12 @@ def _clean_tables():
     """Truncate auth tables after each test so cases stay isolated."""
     yield
     with engine.begin() as conn:
-        conn.execute(text("TRUNCATE users, refresh_tokens, llm_call_logs RESTART IDENTITY CASCADE"))
+        conn.execute(
+            text(
+                "TRUNCATE users, refresh_tokens, llm_call_logs, resumes, resume_versions "
+                "RESTART IDENTITY CASCADE"
+            )
+        )
 
 
 def override_get_db():

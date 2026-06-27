@@ -30,6 +30,7 @@ from app.ai.llm.base import (
     TokenUsage,
 )
 from app.ai.llm.json_repair import repair_json
+from app.ai.llm.schema_utils import to_gemini_schema
 from app.core.config import settings
 
 # 只對「暫時性」錯誤重試（伺服器忙、超時、額度節流）；
@@ -131,7 +132,9 @@ class GeminiProvider(LLMProvider):
     ) -> tuple[T, TokenUsage]:
         config = {
             "response_mime_type": "application/json",
-            "response_schema": schema,
+            # 送 Gemini 的是清過的 dict（移除 default 等不支援鍵、$ref 內聯）；
+            # 驗證仍用原本帶預設值的 Pydantic schema（容錯，見 schema_utils 說明）。
+            "response_schema": to_gemini_schema(schema),
             "temperature": 0.1,  # 結構化抽取要穩定，溫度壓低。
         }
         last_raw = ""

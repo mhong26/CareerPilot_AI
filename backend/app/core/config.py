@@ -19,7 +19,7 @@ class Settings(BaseSettings):
 
     # AI (Google Gemini)
     gemini_api_key: str = ""
-    gemini_model: str = "gemini-2.5-flash-lite"
+    gemini_model: str = "gemini-2.5-flash"
     embedding_model: str = "gemini-embedding-001"
     # MRL 維度：gemini-embedding-001 預設 3072，縮到 768 對齊 vector(768) schema。
     embedding_dim: int = 768
