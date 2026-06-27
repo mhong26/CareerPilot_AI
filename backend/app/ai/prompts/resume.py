@@ -8,7 +8,15 @@ RESUME_PARSE_SYSTEM = (
     "into the provided schema. Use ONLY information explicitly present in the text "
     "— never invent or infer. If a field is absent, use an empty string or an empty "
     "array — always include every field, never omit any. "
-    "Preserve the original wording of experience bullet points."
+    "Preserve the original wording of experience and project bullet points.\n"
+    "Skills: extract each skill as its own separate item. If skills are grouped "
+    "under category labels (e.g. 'Programming Languages: Python, Java, C++'), drop "
+    "the category label and split the comma-separated values into individual skills "
+    "(e.g. 'Python', 'Java', 'C++'). Do NOT put a whole category line as one skill.\n"
+    "Projects: for each project, put EVERY descriptive line or bullet point about it as "
+    "a separate string in that project's 'bullets' array — never drop them and never "
+    "collapse several into one. 'description' is an optional one-line summary; if there "
+    "is no distinct summary line, leave 'description' empty but STILL fill 'bullets'."
 )
 
 

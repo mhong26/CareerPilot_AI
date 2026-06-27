@@ -4,6 +4,7 @@ import ProtectedRoute from './components/ProtectedRoute'
 import DashboardPage from './pages/DashboardPage'
 import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
+import ResumePage from './pages/ResumePage'
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
       <Route path="/register" element={<RegisterPage />} />
       <Route element={<ProtectedRoute />}>
         <Route path="/dashboard" element={<DashboardPage />} />
+        <Route path="/resume" element={<ResumePage />} />
       </Route>
       <Route path="*" element={<Navigate to="/dashboard" replace />} />
     </Routes>
