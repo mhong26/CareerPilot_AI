@@ -15,6 +15,7 @@ from app.ai.llm.base import (
     LLMError,
     LLMProvider,
     StructuredOutputError,
+    StructuredResult,
     TokenUsage,
 )
 from app.ai.parsers.job_schema import JobParsed
@@ -69,7 +70,11 @@ class _FakeProvider(LLMProvider):
     def generate_structured(self, prompt, schema, *, system=None):
         if self._parse_error is not None:
             raise self._parse_error
-        return self._parsed, TokenUsage(prompt_tokens=10, completion_tokens=20, total_tokens=30)
+        return StructuredResult(
+            data=self._parsed,
+            model=self.model,
+            usage=TokenUsage(prompt_tokens=10, completion_tokens=20, total_tokens=30),
+        )
 
     def embed(self, texts, *, task_type="RETRIEVAL_DOCUMENT"):
         if self._embed_error is not None:

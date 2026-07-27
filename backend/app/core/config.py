@@ -1,3 +1,5 @@
+import os
+
 from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
@@ -20,9 +22,16 @@ class Settings(BaseSettings):
     # AI (Google Gemini)
     gemini_api_key: str = ""
     gemini_model: str = "gemini-2.5-flash"
+    # primary 完整失敗（retry / repair 皆盡）時整套重跑一次的備援模型（FR-67）。
+    gemini_fallback_model: str = "gemini-2.5-pro"
     embedding_model: str = "gemini-embedding-001"
     # MRL 維度：gemini-embedding-001 預設 3072，縮到 768 對齊 vector(768) schema。
     embedding_dim: int = 768
+
+    # Observability（LangSmith，FR-69）。未設定時 tracing 靜默停用。
+    langsmith_tracing: bool = False
+    langsmith_api_key: str = ""
+    langsmith_project: str = "careerpilot-ai"
 
     # App
     app_env: str = "development"
@@ -35,3 +44,13 @@ class Settings(BaseSettings):
 
 
 settings = Settings()
+
+# LangSmith SDK 只讀 os.environ，不讀 .env 檔；把 pydantic 讀到的設定回填進去。
+# 必須在模組載入時做（不能放 FastAPI startup hook）：langsmith 內部以 lru_cache
+# 快取環境變數，第一次被讀取後即定型。setdefault 讓真正的環境變數優先。
+if settings.langsmith_tracing:
+    os.environ.setdefault("LANGSMITH_TRACING", "true")
+    if settings.langsmith_api_key:
+        os.environ.setdefault("LANGSMITH_API_KEY", settings.langsmith_api_key)
+    if settings.langsmith_project:
+        os.environ.setdefault("LANGSMITH_PROJECT", settings.langsmith_project)

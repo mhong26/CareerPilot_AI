@@ -9,7 +9,7 @@
 import uuid
 from decimal import Decimal
 
-from sqlalchemy import ForeignKey, Integer, Numeric, String, Text, text
+from sqlalchemy import Boolean, ForeignKey, Integer, Numeric, String, Text, text
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column
 
@@ -29,6 +29,8 @@ class LLMCallLog(UUIDPKMixin, TimestampMixin, Base):
         nullable=True,
     )
     provider: Mapped[str] = mapped_column(String(32), nullable=False)
+    # 實際成功（或最後嘗試）的模型；fallback 觸發時記的是 fallback 模型，
+    # 不必然等於 settings.gemini_model（FR-67）。
     model: Mapped[str] = mapped_column(String(128), nullable=False)
     # "generate" / "generate_structured" / "embed" —— 方便依操作類型分析。
     operation: Mapped[str] = mapped_column(String(32), nullable=False)
@@ -40,6 +42,16 @@ class LLMCallLog(UUIDPKMixin, TimestampMixin, Base):
     # 估計美金成本用 Numeric/Decimal —— 金額不可用浮點數（會有累積誤差）。
     cost_estimate: Mapped[Decimal] = mapped_column(
         Numeric(10, 6), nullable=False, server_default=text("0")
+    )
+    # --- malformed-rate 追蹤（FR-68）---
+    # attempts：協調層發出的「生成請求」次數（primary 驗證重試 × 各模型，含 fallback；
+    # 不含 tenacity 網路層重試，該層次數無法可靠取得）。
+    attempts: Mapped[int] = mapped_column(Integer, nullable=False, server_default=text("1"))
+    # 最終回傳物件是否經 repair_json 修復而來。
+    repair_used: Mapped[bool] = mapped_column(Boolean, nullable=False, server_default=text("false"))
+    # 是否切換到 fallback model。
+    fallback_used: Mapped[bool] = mapped_column(
+        Boolean, nullable=False, server_default=text("false")
     )
     # "success" / "error"。
     status: Mapped[str] = mapped_column(String(16), nullable=False)
