@@ -6,6 +6,7 @@
 
 import hashlib
 import uuid
+from decimal import Decimal
 
 from sqlalchemy.orm import Session
 
@@ -26,14 +27,20 @@ def record_call(
     status: str,
     error: str | None = None,
     user_id: uuid.UUID | None = None,
+    attempts: int = 1,
+    repair_used: bool = False,
+    fallback_used: bool = False,
+    cost: Decimal | None = None,
 ) -> LLMCallLog:
     """寫入一筆 LLM 呼叫紀錄並回傳。
 
     - prompt 只存 sha256 指紋（不存原文：省空間 + 保護隱私）。
-    - cost_estimate 由 token 用量與單價表估算。
+    - cost 未給時由 model + token 用量查價估算；跨模型 fallback 的呼叫因各次嘗試
+      單價不同，須由 provider 分價加總後帶入（單一單價算不準）。
     """
     prompt_hash = hashlib.sha256(prompt.encode("utf-8")).hexdigest()
-    cost = estimate_cost(model, usage.prompt_tokens, usage.completion_tokens)
+    if cost is None:
+        cost = estimate_cost(model, usage.prompt_tokens, usage.completion_tokens)
     log = LLMCallLog(
         user_id=user_id,
         provider=provider,
@@ -44,6 +51,9 @@ def record_call(
         tokens_out=usage.completion_tokens,
         latency_ms=latency_ms,
         cost_estimate=cost,
+        attempts=attempts,
+        repair_used=repair_used,
+        fallback_used=fallback_used,
         status=status,
         error=error,
     )

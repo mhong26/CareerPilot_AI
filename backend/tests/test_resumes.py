@@ -4,9 +4,12 @@ LLM 全程以假 provider 替換（override ``get_llm_provider`` 依賴），不
 所以這些測試是 deterministic 的，CI 也能跑。
 """
 
-import pytest
+from decimal import Decimal
 
-from app.ai.llm.base import LLMProvider, StructuredOutputError, TokenUsage
+import pytest
+from sqlalchemy import select
+
+from app.ai.llm.base import LLMProvider, StructuredOutputError, StructuredResult, TokenUsage
 from app.ai.parsers.resume_schema import (
     BasicInfo,
     ExperienceItem,
@@ -54,7 +57,11 @@ class _FakeProvider(LLMProvider):
     def generate_structured(self, prompt, schema, *, system=None):
         if self._error is not None:
             raise self._error
-        return self._parsed, TokenUsage(prompt_tokens=10, completion_tokens=20, total_tokens=30)
+        return StructuredResult(
+            data=self._parsed,
+            model=self.model,
+            usage=TokenUsage(prompt_tokens=10, completion_tokens=20, total_tokens=30),
+        )
 
     def embed(self, texts, *, task_type="RETRIEVAL_DOCUMENT"):  # pragma: no cover
         raise NotImplementedError
@@ -197,3 +204,67 @@ def test_user_isolation(client, auth, use_provider):
 def test_requires_auth(client):
     """未登入存取受保護路由 → 401。"""
     assert client.get("/resumes/current").status_code == 401
+
+
+# --- 記帳 metadata（FR-67/68，service → LLMCallLog 接線）-----------------------
+
+
+def _latest_log(db_session):
+    from app.db.models import LLMCallLog
+
+    return db_session.scalar(select(LLMCallLog).order_by(LLMCallLog.created_at.desc()).limit(1))
+
+
+def test_parse_success_records_result_metadata(db_session):
+    """成功路徑：model / usage / cost / attempts / repair / fallback 全取自 StructuredResult。"""
+    from app.services.resume_service import parse_resume_text
+
+    class _MetaProvider(_FakeProvider):
+        def generate_structured(self, prompt, schema, *, system=None):
+            return StructuredResult(
+                data=self._parsed,
+                model="gemini-2.5-pro",  # 模擬 fallback 成功：實際模型 ≠ provider.model
+                usage=TokenUsage(prompt_tokens=30, completion_tokens=12, total_tokens=42),
+                cost_estimate=Decimal("0.001234"),
+                attempts=3,
+                repair_used=True,
+                fallback_used=True,
+            )
+
+    parsed, error = parse_resume_text(
+        db_session, raw_text="some resume text", provider=_MetaProvider()
+    )
+    assert error is None and parsed is not None
+
+    log = _latest_log(db_session)
+    assert log.model == "gemini-2.5-pro"
+    assert log.attempts == 3
+    assert log.repair_used is True
+    assert log.fallback_used is True
+    assert log.tokens_in == 30
+    assert log.cost_estimate == Decimal("0.001234")  # provider 分價加總的值原樣入帳
+    assert log.status == "success"
+
+
+def test_parse_failure_records_exception_metadata(db_session):
+    """失敗路徑（最容易寫錯）：metadata 從例外物件取出照樣入帳。"""
+    from app.services.resume_service import parse_resume_text
+
+    err = StructuredOutputError(
+        "both models failed",
+        model="gemini-2.5-pro",
+        attempts=4,
+        fallback_used=True,
+        usage=TokenUsage(prompt_tokens=20, completion_tokens=8, total_tokens=28),
+    )
+    parsed, error = parse_resume_text(
+        db_session, raw_text="some resume text", provider=_FakeProvider(error=err)
+    )
+    assert parsed is None and error
+
+    log = _latest_log(db_session)
+    assert log.status == "error"
+    assert log.model == "gemini-2.5-pro"
+    assert log.attempts == 4
+    assert log.fallback_used is True
+    assert log.tokens_in == 20  # 失敗嘗試花掉的 token 也要入帳

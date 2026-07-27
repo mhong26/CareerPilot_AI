@@ -33,37 +33,48 @@ def parse_job_text(
     建立 Job 並保存 parse_error（FR-10 容錯 / NFR-4 不整體 crash）。
     """
     prompt = build_job_parse_prompt(raw_text)
-    model = getattr(provider, "model", settings.gemini_model)
     start = time.perf_counter()
     try:
-        parsed, usage = provider.generate_structured(prompt, JobParsed, system=JOB_PARSE_SYSTEM)
+        result = provider.generate_structured(prompt, JobParsed, system=JOB_PARSE_SYSTEM)
     except (StructuredOutputError, LLMError) as exc:
+        # 失敗路徑的記帳 metadata 掛在例外物件上（FR-68）；getattr 防禦：
+        # 測試的假例外可能沒帶完整屬性，實際模型退回 provider 設定值。
         record_call(
             db,
             provider="gemini",
-            model=model,
+            model=getattr(exc, "model", "") or getattr(provider, "model", settings.gemini_model),
             operation="generate_structured",
             prompt=prompt,
-            usage=TokenUsage(),
+            usage=getattr(exc, "usage", None) or TokenUsage(),
             latency_ms=int((time.perf_counter() - start) * 1000),
             status="error",
             error=str(exc),
             user_id=user_id,
+            attempts=getattr(exc, "attempts", 1),
+            repair_used=getattr(exc, "repair_used", False),
+            fallback_used=getattr(exc, "fallback_used", False),
+            cost=getattr(exc, "cost_estimate", None),
         )
         return None, str(exc)
 
+    # model / usage / cost 一律取自回傳值：fallback 可能觸發，實際用了哪個模型、
+    # 花了多少（含失敗嘗試）只有 provider 知道。
     record_call(
         db,
         provider="gemini",
-        model=model,
+        model=result.model,
         operation="generate_structured",
         prompt=prompt,
-        usage=usage,
+        usage=result.usage,
         latency_ms=int((time.perf_counter() - start) * 1000),
         status="success",
         user_id=user_id,
+        attempts=result.attempts,
+        repair_used=result.repair_used,
+        fallback_used=result.fallback_used,
+        cost=result.cost_estimate,
     )
-    return parsed, None
+    return result.data, None
 
 
 def embed_job_chunks(

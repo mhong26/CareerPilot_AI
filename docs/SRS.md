@@ -36,9 +36,10 @@ CareerPilot AI 是一個全端 AI 求職輔助平台。使用者可建立帳號�
 - persistent data layer
 - RAG / embeddings / agent / structured outputs / memory 等 AI integration
 - 15+ tests
-- CI
+- CI/CD（含 container image 發佈至 GHCR）
 - deployment
-- quantitative AI evaluation and system evaluation。
+- quantitative AI evaluation and system evaluation
+- LLM observability / evaluation tooling（LangSmith）。
 
 ---
 
@@ -81,8 +82,10 @@ CareerPilot AI 是一個獨立的 web-based full-stack system，由前端、後�
 - Vector store：pgvector
 - 後端語言：Python
 - 後端框架：FastAPI
-- 前端框架：React / Next.js
-- AI provider：OpenAI / Anthropic / Gemini 其一，透過可替換 wrapper 抽象化
+- 前端框架：React（Vite）
+- AI provider：Google Gemini（primary `gemini-2.5-flash`，fallback `gemini-2.5-pro`），透過可替換 wrapper 抽象化，單一 `GEMINI_API_KEY`
+- Observability / Evaluation：LangSmith（tracing 與 evaluation；未設定 API key 時靜默停用，不影響核心功能）
+- Container registry：GitHub Container Registry（GHCR）
 所有 build / local deployment 依賴必須可重現。
 
 ## 2.5 Design and Implementation Constraints
@@ -96,6 +99,7 @@ CareerPilot AI 是一個獨立的 web-based full-stack system，由前端、後�
 8. 必須提供 quantitative AI evaluation 與 baseline comparison。
 9. 必須有 CI。
 10. 不得把 secrets 提交到 repository。
+11. CI 應於 push 至 main 與 version tag 時自動 build production Docker images 並發佈至 GHCR；部署方式為 `docker compose pull && docker compose up`，不含雲端自動部署。
 
 ## 2.6 Assumptions and Dependencies
 1. 使用者可提供可解析的履歷檔案（PDF / DOCX / text）。
@@ -103,6 +107,7 @@ CareerPilot AI 是一個獨立的 web-based full-stack system，由前端、後�
 3. LLM 與 embedding provider 在系統運行時可存取。
 4. Docker、資料庫與 API key 會由團隊正確配置。
 5. 評估資料集將由團隊自行建立至少 25 個 curated profiles / scenarios，以支援最終 evaluation。
+6. LangSmith 帳號與 API key 可用（free tier 即可）；tracing / evaluation 為外部 SaaS 依賴，核心功能不得因其不可用而失效。
 
 ---
 
@@ -312,7 +317,26 @@ Cover letter 應依下列資訊客製化：
 
 ---
 
-## 3.9 Application Tracking
+## 3.9 User Preference and Memory
+
+### FR-45 Preference Capture
+系統應允許使用者建立與更新求職偏好，至少包括 target roles、locations、work mode、seniority 與 writing tone。
+
+### FR-46 Preference Persistence
+偏好應以 per-user 方式持久化，並於跨 session 登入後自動載入（對齊 FR-6）。
+
+### FR-47 Memory Injection
+Agent workflow 與內容生成（match explanation、cover letter、interview prep）應自動載入使用者偏好作為 context。
+
+### FR-48 Application History Memory
+系統應在後續分析與生成中引用使用者的申請歷史，例如避免重複建議、參考先前生成的 artifacts。
+
+### FR-49 Memory Transparency and Control
+使用者應能檢視並清除自己的記憶資料（偏好與歷史摘要）。
+
+---
+
+## 3.10 Application Tracking
 
 ### FR-50 Status Tracking
 系統應允許使用者對職缺標記申請狀態，例如：
@@ -331,7 +355,10 @@ Cover letter 應依下列資訊客製化：
 
 ---
 
-## 3.11 Result Management
+## 3.11 Result Management and Feedback
+
+### FR-53 Feedback Collection
+系統應允許使用者對 AI 生成 artifacts 給予回饋（rating 與 comment）並持久化保存，供 evaluation 與後續改進使用。
 
 ### FR-54 Artifact History
 系統應保存所有生成 artifacts 的歷史紀錄。
@@ -369,6 +396,7 @@ UI 應提供明確操作流程。
 - `/jobs/{id}/skill-gap`
 - `/jobs/{id}/generate-application-kit`
 - `/applications`
+- `/preferences`
 - `/feedback`
 
 ## 4.3 Hardware Interfaces
@@ -379,9 +407,11 @@ UI 應提供明確操作流程。
 - pgvector
 - LLM provider API
 - Embedding API
+- LangSmith（tracing / datasets / evaluation runs）
 - Docker / docker-compose
-- CI system (GitHub Actions)
-明確要求 tests 可單一命令執行，且 CI 在每次 push 執行。
+- CI/CD system (GitHub Actions)
+- GitHub Container Registry（production image 發佈）
+明確要求 tests 可單一命令執行、CI 在每次 push 執行，且 push 至 main / version tag 觸發 image build 與 GHCR 發佈。
 
 ---
 
@@ -399,6 +429,10 @@ UI 應提供明確操作流程。
 - SkillGapReport
 - GeneratedArtifact
 - ApplicationHistory
+- LLMCallLog
+- ResumeEmbedding
+- UserPreference
+- Feedback
 
 ## 5.2 Persistence Requirements
 所有資料必須持久化保存，不得僅存在記憶體。此要求包括：
@@ -429,22 +463,28 @@ UI 應提供明確操作流程。
 4. **Prompt Engineering with Structured Outputs**
 5. **Memory / Conversation Management**
 6. **LLM API Integration**
+7. **Function Calling / Tool Use**
 
 
 ## 6.2 Agent Requirements
 ### FR-56 Multi-Step Agent
-系統應實作至少一個 agent workflow，負責從 job 與履歷資料中決定並執行多步驟任務。
+系統應實作至少一個 agent workflow（以 LangGraph 實作），負責從 job 與履歷資料中決定並執行多步驟任務。Application kit agent 的單次執行應產出並保存全部三類 artifacts（tailored resume suggestions、cover letter、interview prep）。
 
 ### FR-57 Tool Selection
-該 agent 應至少可使用 3 種不同工具 / action types，例如：
-- 取得履歷資料
-- 檢索 job evidence
-- 計算匹配分數
-- 生成結構化內容
-- 保存 artifacts
+該 agent 應可使用恰好 7 種工具：
+1. `fetch_resume` — 取得履歷結構化資料
+2. `retrieve_job_evidence` — RAG 檢索 job chunks
+3. `compute_match` — 計算 match score
+4. `generate_tailored_resume` — 生成客製化履歷建議
+5. `generate_cover_letter` — 生成 cover letter
+6. `generate_interview_qs` — 生成面試準備題
+7. `save_artifact` — 保存生成 artifacts
 
 ### FR-58 Conditional Logic
 agent 應可根據 match score 或 skill gaps 決定後續流程，例如先做 gap analysis 再做 resume tailoring。
+
+### FR-66 LLM-Driven Tool Selection (Function Calling)
+Agent 的工具選擇應由 LLM 透過 native function calling（tool binding）在 FR-57 所列 7 個工具間動態決定；graph 不得以固定順序硬性串接全部工具，僅允許以 match score 為條件的 routing（FR-58）與安全防護（step limit、timeout）約束 LLM 的選擇空間。
 
 ## 6.3 Structured Output Requirements
 ### FR-59 Structured Parsing
@@ -468,6 +508,21 @@ API keys 不得寫入程式碼庫，應使用 environment variables。
 
 ### FR-65 Cost and Token Tracking
 系統應記錄 token usage、latency 與估計成本。
+
+### FR-67 Model Fallback Chain
+Wrapper 應實作同 provider 雙模型 fallback：primary `gemini-2.5-flash`；當 transient-error retry 耗盡，或 structured output 的 schema validation retry 與 JSON repair 皆失敗時，應以 `gemini-2.5-pro` 完整重試該操作一次。Fallback 僅適用 `generate` / `generate_structured`（embedding 無 fallback 模型）。實際使用之 model 與 `fallback_used` 應記錄於 LLMCallLog。（實作採廣義觸發：primary 完整流程之任何失敗——含安全機制阻擋、空回應、model 設定錯誤——皆觸發 fallback，為上述兩種情境之超集。）
+
+### FR-68 Malformed-Response Rate Tracking
+LLMCallLog 應記錄每次呼叫的 `attempts`、`repair_used`、`fallback_used` 與最終 status；token 用量與成本估計跨所有生成嘗試加總（失敗嘗試亦計費），成本按各次嘗試實際使用模型之單價分別計算。系統據此可計算：
+- **raw malformed rate**：首次嘗試即 schema validation 失敗之比率
+- **final malformed rate**：經 retry / repair / fallback 後仍失敗（StructuredOutputError）之比率
+
+Final malformed rate 以 < 1% 為 measure-and-report 目標，於 eval report 報告實測值，非硬性驗收門檻。
+
+## 6.5 Observability and Tracing
+
+### FR-69 LLM Observability and Tracing
+所有 LLM wrapper 呼叫（generate / generate_structured / embed）與 agent graph 執行應可透過 LangSmith tracing 觀測：wrapper 方法以 `@traceable` 裝飾，LangGraph 以環境變數自動 trace。未設定 `LANGSMITH_API_KEY` / `LANGSMITH_TRACING` 時應靜默停用，不影響功能與測試。
 
 ---
 
@@ -517,7 +572,7 @@ repository 應遵守 monorepo 或最多兩個 repo 的限制，且結構清楚�
 
 ## 7.5 Testability
 ### NFR-12 Automated Tests
-系統應具備至少 15 個 unit/integration tests，涵蓋 API、data layer、AI pipeline、authentication。
+系統應具備至少 15 個 unit/integration tests，涵蓋 API、data layer、AI pipeline、authentication。後端 test coverage 以 ≥80% 為工作目標（working target），實測值須量測並報告於 eval report；此為 measure-and-report 項目。
 
 ### NFR-13 CI
 系統應在每次 push 由 GitHub Actions 自動執行測試。
@@ -528,6 +583,9 @@ repository 應遵守 monorepo 或最多兩個 repo 的限制，且結構清楚�
 
 ### NFR-15 Setup Reproducibility
 README 與 `.env.example` 應足以在乾淨環境中建置並執行系統。
+
+### NFR-16 Continuous Delivery
+GitHub Actions 應在 push 至 main 與 `v*` version tag 時，build production Docker images（backend、frontend）並推送至 GHCR；部署以 `docker compose -f docker-compose.prod.yml pull && docker compose -f docker-compose.prod.yml up -d` 一鍵完成。
 
 ---
 
@@ -560,20 +618,32 @@ README 與 `.env.example` 應足以在乾淨環境中建置並執行系統。
 ### ER-3 Suggested Metrics for This Project
 本專案至少應實作以下兩項：
 1. **Job matching relevance metric**
-   例如 Precision@K、MRR 或自定義 relevance score
+   Precision@K 與 MRR，與 TF-IDF keyword-only baseline 比較，並報告改善百分比（參考目標 35%，measure-and-report，非驗收門檻）
 2. **Resume suggestion quality metric**
    例如 rubric-based average score
 
 ### ER-4 Evaluation Dataset
 應建立至少 25 組 curated profiles / job scenarios 用於 evaluation。
 
+### ER-5 RAG Retrieval Quality
+對 skill-gap retrieval，應以 ground-truth relevant chunks 標註計算 Precision@K 與 MRR，並比較 rerank 前後之差異。
+
+### ER-6 Hallucination / Faithfulness Detection
+應以 LLM-as-a-judge（judge model 使用 `gemini-2.5-pro`）逐條檢驗 skill-gap claims 是否被其 cited chunks 支持（supported / partially supported / unsupported），並報告 hallucination rate（= unsupported / total）。此評估應透過 LangSmith evaluator 執行並保留 traces。
+
+### ER-7 Malformed-Response Rate Reporting
+應自 LLMCallLog 統計 raw 與 final malformed-response rate（定義見 FR-68），於 eval report 報告；final rate 以 < 1% 為 measure-and-report 目標。
+
+### ER-8 LangSmith Evaluation Infrastructure
+Eval dataset 應同步至 LangSmith datasets，judge 類評估經 `langsmith.evaluate()` 執行；本地 JSON 為 source of truth，離線（無 API key）時 quantitative metrics 仍可本地計算，judge 類評估得跳過並於 report 註明。
+
 ## 8.3 System Evaluation Requirements
-### ER-5 System Metrics
+### ER-9 System Metrics
 應報告：
 - p50 latency
 - p95 latency
 - error rate
-- test coverage percentage
+- backend test coverage percentage（目標 ≥80%，報告實測值）
 這些是要求的 system-level quality 指標。
 
 ---
@@ -643,14 +713,15 @@ project-root/
 6. 系統可針對特定 job 產生 resume suggestions、cover letter 與 interview prep。
 7. 系統可跨 session 保存使用者偏好與申請歷史。
 8. 系統至少實作 3 種以上有深度的 AI techniques。
-9. 系統具備至少 15 個自動化測試與 CI。
-10. 系統有部署成果或 Docker 重現方式。
-11. 系統提供至少兩項 quantitative AI metrics 與 baseline comparison。
+9. 系統具備至少 15 個自動化測試與 CI；後端 coverage 以 ≥80% 為工作目標並報告實測值。
+10. 系統可以 Docker 一鍵重現，且 CI/CD 於 main / version tag 自動發佈 images 至 GHCR。
+11. 系統提供 quantitative AI metrics 與 baseline comparison，至少含：matching Precision@K / MRR vs keyword baseline（報告改善 %）、RAG retrieval Precision@K / MRR、hallucination rate、rubric score、malformed-response rate。
+12. Application kit agent 以 LLM function calling 在 7 個工具間動態選擇，並依 match score 條件分流；LangSmith 可觀測完整 trace。
 
 
 ---
 
-# 12. Risks and Mitigation
+# 11. Risks and Mitigation
 
 ## Risk 1: LLM 輸出不穩定
 **Mitigation:** structured outputs、schema validation、retry、fallback parser
@@ -660,5 +731,11 @@ project-root/
 
 ## Risk 3: 成本過高或 API 不穩
 **Mitigation:** provider wrapper、token tracking、快取、限制生成長度
+
+## Risk 4: Fallback 模型成本較高
+**Mitigation:** fallback 僅在 primary retry 耗盡後觸發、LLMCallLog 追蹤 `fallback_used` 比率、pricing 表含 `gemini-2.5-pro` 價目
+
+## Risk 5: Ground-truth 標註成本（relevant chunks / ranking）
+**Mitigation:** 25 組 dataset 自 Week 1 起零散累積、標註 guideline 文件化、chunk 級標註僅針對 skill-gap queries
 
 ---
