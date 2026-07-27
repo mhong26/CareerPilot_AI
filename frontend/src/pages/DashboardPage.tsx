@@ -27,15 +27,23 @@ export default function DashboardPage() {
             Welcome{user?.full_name ? `, ${user.full_name}` : ''}!
           </h2>
           <p className="text-gray-500">
-            Your dashboard is empty. Resume, job matching, and AI features arrive in
+            Manage your resume and jobs below. Matching and AI features arrive in
             upcoming phases.
           </p>
-          <Link
-            to="/resume"
-            className="inline-block rounded-md bg-blue-600 px-4 py-2 text-sm text-white hover:bg-blue-700"
-          >
-            Manage resume
-          </Link>
+          <div className="flex justify-center gap-3">
+            <Link
+              to="/resume"
+              className="inline-block rounded-md bg-blue-600 px-4 py-2 text-sm text-white hover:bg-blue-700"
+            >
+              Manage resume
+            </Link>
+            <Link
+              to="/jobs"
+              className="inline-block rounded-md bg-blue-600 px-4 py-2 text-sm text-white hover:bg-blue-700"
+            >
+              Manage jobs
+            </Link>
+          </div>
         </div>
       </main>
     </div>
