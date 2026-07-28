@@ -1,7 +1,11 @@
-"""履歷 ingestion / 解析 / 版本 service（FR-7~12, FR-65）。
+"""履歷 ingestion / 解析 / 版本 / 向量 service（FR-7~12, FR-20, FR-65）。
 
-職責：把「純文字 → 結構化履歷 → 寫入 Resume + 版本」這條鏈路封裝成函式，
-router 只負責 HTTP 轉接。沿用專案慣例：函式 + ``db: Session`` 第一參數 + 自訂例外。
+職責：把「純文字 → 結構化履歷 → 寫入 Resume + 版本 → 產生 section 向量」
+這條鏈路封裝成函式，router 只負責 HTTP 轉接。沿用專案慣例：函式 +
+``db: Session`` 第一參數 + 自訂例外。
+
+向量（ResumeEmbedding）於解析 / 編輯完成後產生（Phase 5 前置）：失敗不影響
+儲存（NFR-4），match 執行時會 lazy backfill 再試一次。
 """
 
 import time
@@ -10,12 +14,13 @@ import uuid
 from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
+from app.ai.embeddings.resume_texts import build_resume_embedding_texts
 from app.ai.llm.base import LLMError, LLMProvider, StructuredOutputError, TokenUsage
 from app.ai.parsers.resume_schema import ResumeParsed
 from app.ai.parsers.text_extract import extract_text
 from app.ai.prompts.resume import RESUME_PARSE_SYSTEM, build_resume_parse_prompt
 from app.core.config import settings
-from app.db.models import Resume, ResumeVersion, User
+from app.db.models import Resume, ResumeEmbedding, ResumeVersion, User
 from app.services.llm_call_log_service import record_call
 
 
@@ -76,6 +81,108 @@ def parse_resume_text(
     return result.data, None
 
 
+def embed_resume_texts(
+    db: Session, *, texts: list[str], provider: LLMProvider, user_id: uuid.UUID | None = None
+) -> tuple[list[list[float]] | None, str | None]:
+    """一次 batch 把履歷 section 文字轉為向量；計時 + 記帳（同 ``embed_job_chunks``）。
+
+    查詢側用 ``task_type="RETRIEVAL_QUERY"``：Gemini embedding 為非對稱設計，
+    履歷（查詢側）與 job chunks（文件側，RETRIEVAL_DOCUMENT）各用各的 task_type
+    才會投影到對齊的檢索空間。失敗回 ``(None, error)`` 而**不丟例外**。
+    """
+    model = getattr(provider, "embedding_model", settings.embedding_model)
+    prompt = "\n\n".join(texts)
+    start = time.perf_counter()
+    try:
+        result = provider.embed(texts, task_type="RETRIEVAL_QUERY")
+    except LLMError as exc:
+        record_call(
+            db,
+            provider="gemini",
+            model=model,
+            operation="embed",
+            prompt=prompt,
+            usage=TokenUsage(),
+            latency_ms=int((time.perf_counter() - start) * 1000),
+            status="error",
+            error=str(exc),
+            user_id=user_id,
+        )
+        return None, str(exc)
+
+    record_call(
+        db,
+        provider="gemini",
+        model=model,
+        operation="embed",
+        prompt=prompt,
+        usage=result.usage,  # Gemini embedding API 不回 token 數，usage 記 0（已知限制）。
+        latency_ms=int((time.perf_counter() - start) * 1000),
+        status="success",
+        user_id=user_id,
+    )
+
+    # 防禦：數量 / 維度不符時當作失敗，避免 flush 時 pgvector 丟 ValueError 變成 500。
+    vectors = result.vectors
+    if len(vectors) != len(texts) or any(len(v) != settings.embedding_dim for v in vectors):
+        return None, "embedding 回傳的數量或維度與輸入不符"
+    return vectors, None
+
+
+def generate_resume_embeddings(
+    db: Session, *, version: ResumeVersion, provider: LLMProvider, user_id: uuid.UUID
+) -> None:
+    """為一個履歷版本產生 section 向量（summary / skills / experience；Phase 5 前置）。
+
+    冪等：已存在的 kind 跳過。失敗時靜默返回（``record_call`` 已留痕、儲存流程
+    不受影響——與 job index 失敗同一容錯策略，NFR-4）；match 執行時會 lazy
+    backfill 再試。**須在履歷 / 版本 commit 之後呼叫**（embed 的 ``record_call``
+    自帶 commit，不可夾在半成品實體中間）。
+    """
+    parsed = ResumeParsed.model_validate(version.parsed_data)
+    texts = build_resume_embedding_texts(parsed)
+    if not texts:
+        return
+    existing = set(
+        db.scalars(
+            select(ResumeEmbedding.kind).where(ResumeEmbedding.resume_version_id == version.id)
+        )
+    )
+    todo = [(kind, text) for kind, text in texts if kind not in existing]
+    if not todo:
+        return
+
+    vectors, _error = embed_resume_texts(
+        db, texts=[text for _, text in todo], provider=provider, user_id=user_id
+    )
+    if vectors is None:
+        return
+
+    model = getattr(provider, "embedding_model", settings.embedding_model)
+    db.add_all(
+        [
+            ResumeEmbedding(
+                resume_version_id=version.id,
+                resume_id=version.resume_id,
+                user_id=user_id,
+                kind=kind,
+                model=model,
+                vector=vector,
+            )
+            for (kind, _), vector in zip(todo, vectors, strict=True)
+        ]
+    )
+    db.commit()
+
+
+def get_version_embeddings(db: Session, *, version_id: uuid.UUID) -> dict[str, list[float]]:
+    """該版本的 ``kind → vector`` 對照表（match service 讀取）。"""
+    rows = db.scalars(
+        select(ResumeEmbedding).where(ResumeEmbedding.resume_version_id == version_id)
+    )
+    return {row.kind: row.vector for row in rows}
+
+
 def create_resume_from_text(
     db: Session,
     *,
@@ -88,7 +195,8 @@ def create_resume_from_text(
     """以已抽取的純文字建立 Resume；解析成功則同時建初版（v1, label='original'）。
 
     提交順序刻意：先 ``parse_resume_text``（其 ``record_call`` 自帶 commit，此時尚未
-    add Resume，安全），再 add Resume(+version) 並 commit。
+    add Resume，安全），再 add Resume(+version) 並 commit，最後才產生 embeddings
+    （其內部的 LLM 記帳 commit 不會夾到半成品實體）。
     """
     parsed, error = parse_resume_text(db, raw_text=raw_text, provider=provider, user_id=user.id)
     resume = Resume(
@@ -101,18 +209,20 @@ def create_resume_from_text(
     )
     db.add(resume)
     db.flush()  # 取得 resume.id
+    version: ResumeVersion | None = None
     if parsed is not None:
-        db.add(
-            ResumeVersion(
-                resume_id=resume.id,
-                user_id=user.id,
-                version_number=1,
-                label="original",
-                parsed_data=parsed.model_dump(),
-            )
+        version = ResumeVersion(
+            resume_id=resume.id,
+            user_id=user.id,
+            version_number=1,
+            label="original",
+            parsed_data=parsed.model_dump(),
         )
+        db.add(version)
     db.commit()
     db.refresh(resume)
+    if version is not None:
+        generate_resume_embeddings(db, version=version, provider=provider, user_id=user.id)
     return resume
 
 
@@ -138,9 +248,18 @@ def create_resume_from_upload(
 
 
 def update_resume(
-    db: Session, *, user: User, resume_id: uuid.UUID, new_parsed: ResumeParsed
+    db: Session,
+    *,
+    user: User,
+    resume_id: uuid.UUID,
+    new_parsed: ResumeParsed,
+    provider: LLMProvider,
 ) -> Resume:
-    """手動編輯：以完整 ResumeParsed 存為新版本（snapshot, FR-11/12）。"""
+    """手動編輯：以完整 ResumeParsed 存為新版本（snapshot, FR-11/12）。
+
+    新版本 commit 後為其產生 embeddings（內容變了，向量必須跟著新版本重算；
+    舊版向量保留，歷史不破壞）。
+    """
     resume = get_resume(db, user=user, resume_id=resume_id)
     max_version = (
         db.scalar(
@@ -150,20 +269,20 @@ def update_resume(
         )
         or 0
     )
-    db.add(
-        ResumeVersion(
-            resume_id=resume.id,
-            user_id=user.id,
-            version_number=max_version + 1,
-            label="edit",
-            parsed_data=new_parsed.model_dump(),
-        )
+    version = ResumeVersion(
+        resume_id=resume.id,
+        user_id=user.id,
+        version_number=max_version + 1,
+        label="edit",
+        parsed_data=new_parsed.model_dump(),
     )
+    db.add(version)
     # 編輯後即有可用結構化資料；若先前解析失敗，狀態更新為 parsed。
     resume.parse_status = "parsed"
     resume.parse_error = None
     db.commit()
     db.refresh(resume)
+    generate_resume_embeddings(db, version=version, provider=provider, user_id=user.id)
     return resume
 
 

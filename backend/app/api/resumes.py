@@ -148,10 +148,15 @@ def edit_resume(
     data: ResumeUpdate,
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db),
+    provider: LLMProvider = Depends(get_llm_provider),
 ) -> ResumeResponse:
     try:
         resume = resume_service.update_resume(
-            db, user=current_user, resume_id=resume_id, new_parsed=data.parsed_data
+            db,
+            user=current_user,
+            resume_id=resume_id,
+            new_parsed=data.parsed_data,
+            provider=provider,
         )
     except ResumeNotFoundError as exc:
         raise HTTPException(

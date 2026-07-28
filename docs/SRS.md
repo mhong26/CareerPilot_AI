@@ -83,7 +83,7 @@ CareerPilot AI 是一個獨立的 web-based full-stack system，由前端、後�
 - 後端語言：Python
 - 後端框架：FastAPI
 - 前端框架：React（Vite）
-- AI provider：Google Gemini（primary `gemini-2.5-flash`，fallback `gemini-2.5-pro`），透過可替換 wrapper 抽象化，單一 `GEMINI_API_KEY`
+- AI provider：Google Gemini（primary `gemini-3.5-flash-lite`，fallback `gemini-3.6-flash`），透過可替換 wrapper 抽象化，單一 `GEMINI_API_KEY`
 - Observability / Evaluation：LangSmith（tracing 與 evaluation；未設定 API key 時靜默停用，不影響核心功能）
 - Container registry：GitHub Container Registry（GHCR）
 所有 build / local deployment 依賴必須可重現。
@@ -510,7 +510,7 @@ API keys 不得寫入程式碼庫，應使用 environment variables。
 系統應記錄 token usage、latency 與估計成本。
 
 ### FR-67 Model Fallback Chain
-Wrapper 應實作同 provider 雙模型 fallback：primary `gemini-2.5-flash`；當 transient-error retry 耗盡，或 structured output 的 schema validation retry 與 JSON repair 皆失敗時，應以 `gemini-2.5-pro` 完整重試該操作一次。Fallback 僅適用 `generate` / `generate_structured`（embedding 無 fallback 模型）。實際使用之 model 與 `fallback_used` 應記錄於 LLMCallLog。（實作採廣義觸發：primary 完整流程之任何失敗——含安全機制阻擋、空回應、model 設定錯誤——皆觸發 fallback，為上述兩種情境之超集。）
+Wrapper 應實作同 provider 雙模型 fallback：primary `gemini-3.5-flash-lite`；當 transient-error retry 耗盡，或 structured output 的 schema validation retry 與 JSON repair 皆失敗時，應以 `gemini-3.6-flash`（較強模型，free tier 額度僅作救援用）完整重試該操作一次。Fallback 僅適用 `generate` / `generate_structured`（embedding 無 fallback 模型）。實際使用之 model 與 `fallback_used` 應記錄於 LLMCallLog。（實作採廣義觸發：primary 完整流程之任何失敗——含安全機制阻擋、空回應、model 設定錯誤——皆觸發 fallback，為上述兩種情境之超集。）
 
 ### FR-68 Malformed-Response Rate Tracking
 LLMCallLog 應記錄每次呼叫的 `attempts`、`repair_used`、`fallback_used` 與最終 status；token 用量與成本估計跨所有生成嘗試加總（失敗嘗試亦計費），成本按各次嘗試實際使用模型之單價分別計算。系統據此可計算：
@@ -629,7 +629,7 @@ GitHub Actions 應在 push 至 main 與 `v*` version tag 時，build production 
 對 skill-gap retrieval，應以 ground-truth relevant chunks 標註計算 Precision@K 與 MRR，並比較 rerank 前後之差異。
 
 ### ER-6 Hallucination / Faithfulness Detection
-應以 LLM-as-a-judge（judge model 使用 `gemini-2.5-pro`）逐條檢驗 skill-gap claims 是否被其 cited chunks 支持（supported / partially supported / unsupported），並報告 hallucination rate（= unsupported / total）。此評估應透過 LangSmith evaluator 執行並保留 traces。
+應以 LLM-as-a-judge（judge model 使用 `gemini-3.6-flash`，較 primary 強一級之同 provider 模型）逐條檢驗 skill-gap claims 是否被其 cited chunks 支持（supported / partially supported / unsupported），並報告 hallucination rate（= unsupported / total）。此評估應透過 LangSmith evaluator 執行並保留 traces。
 
 ### ER-7 Malformed-Response Rate Reporting
 應自 LLMCallLog 統計 raw 與 final malformed-response rate（定義見 FR-68），於 eval report 報告；final rate 以 < 1% 為 measure-and-report 目標。
@@ -733,7 +733,7 @@ project-root/
 **Mitigation:** provider wrapper、token tracking、快取、限制生成長度
 
 ## Risk 4: Fallback 模型成本較高
-**Mitigation:** fallback 僅在 primary retry 耗盡後觸發、LLMCallLog 追蹤 `fallback_used` 比率、pricing 表含 `gemini-2.5-pro` 價目
+**Mitigation:** fallback 僅在 primary retry 耗盡後觸發、LLMCallLog 追蹤 `fallback_used` 比率、pricing 表含 `gemini-3.6-flash` 價目
 
 ## Risk 5: Ground-truth 標註成本（relevant chunks / ranking）
 **Mitigation:** 25 組 dataset 自 Week 1 起零散累積、標註 guideline 文件化、chunk 級標註僅針對 skill-gap queries

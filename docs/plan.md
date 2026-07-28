@@ -13,7 +13,7 @@
 | 前端 | Vite + React 18 + TypeScript + TanStack Query + Tailwind |
 | 後端 | FastAPI (Python 3.11) + SQLAlchemy 2 + Alembic + Pydantic v2 |
 | DB | PostgreSQL 16 + pgvector |
-| LLM | Gemini 2.5 Flash（primary）+ Gemini 2.5 Pro（fallback），單一 `GEMINI_API_KEY` |
+| LLM | Gemini 3.5 Flash Lite（primary）+ Gemini 3.6 Flash（fallback），單一 `GEMINI_API_KEY` |
 | Agent | LangGraph + langchain-google-genai（Gemini function calling / `bind_tools`） |
 | Observability / Eval | LangSmith（`@traceable` tracing、datasets、`evaluate()`、LLM-as-judge） |
 | Auth | JWT (access + refresh) + bcrypt |
@@ -149,15 +149,15 @@ CareerPilot_AI/
 
 **對應**：FR-67~69
 
-1. **Model fallback chain**：`GeminiProvider` 增加 `fallback_model` 參數（`build_gemini_provider` 讀 `settings.gemini_fallback_model`，default `gemini-2.5-pro`）；`generate` / `generate_structured` 外層包 fallback 迴圈——primary 完整流程任何失敗（廣義觸發：含 network retry 耗盡、validation+repair 皆敗、安全阻擋、空回應、model 名錯誤）→ 以 fallback model 完整重跑一次；兩個模型都失敗才丟 `LLMError` / `StructuredOutputError`（例外物件帶記帳 metadata）。`embed` 不設 fallback。
+1. **Model fallback chain**：`GeminiProvider` 增加 `fallback_model` 參數（`build_gemini_provider` 讀 `settings.gemini_fallback_model`，default `gemini-3.6-flash`）；`generate` / `generate_structured` 外層包 fallback 迴圈——primary 完整流程任何失敗（廣義觸發：含 network retry 耗盡、validation+repair 皆敗、安全阻擋、空回應、model 名錯誤）→ 以 fallback model 完整重跑一次；兩個模型都失敗才丟 `LLMError` / `StructuredOutputError`（例外物件帶記帳 metadata）。`embed` 不設 fallback。
 2. **LLMCallLog 擴充**（migration 0006）：追加 `attempts`（int，default 1，含 fallback 的總生成次數）、`repair_used`（bool）、`fallback_used`（bool）；`model` 欄記實際成功（或最後嘗試）之模型；token/成本跨所有嘗試加總、成本按各次實際模型單價分價計算（`record_call` 增 `cost` 參數承接，簽名同步更新）。
 3. **LangSmith tracing**：新增 `langsmith` 依賴；`generate` / `generate_structured` / `embed` 加 `@traceable`（未設 key 時 no-op）；`config.py` 增 `gemini_fallback_model`、`langsmith_tracing`、`langsmith_api_key`、`langsmith_project`。
 4. **`.env.example`** 追加：`GEMINI_FALLBACK_MODEL`、`LANGSMITH_TRACING`、`LANGSMITH_API_KEY`、`LANGSMITH_PROJECT`；順手補漏的 `EMBEDDING_DIM`。
-5. **`pricing.py`** 補 `gemini-2.5-pro` 價目。
+5. **`pricing.py`** 補 fallback 模型價目（現行 `gemini-3.6-flash`；歷史條目保留）。
 6. Tests（2+）：mock primary 永遠回壞 JSON → 驗證 fallback 被呼叫且 `fallback_used=True`；驗證新欄位正確寫入。
 7. **Prompt 模板集中**：各任務 system prompts 集中至 `app/ai/prompts/`，parsers 與後續生成服務統一引用，作為 prompt engineering 的明確交付物。
 
-**驗收**：primary 連續失敗時 fallback 至 `gemini-2.5-pro` 成功並於 `LLMCallLog` 留下 `fallback_used=True` 記錄；設定 `LANGSMITH_TRACING=true` 後可在 LangSmith 看到 wrapper trace。
+**驗收**：primary 連續失敗時 fallback 至 `gemini-3.6-flash` 成功並於 `LLMCallLog` 留下 `fallback_used=True` 記錄；設定 `LANGSMITH_TRACING=true` 後可在 LangSmith 看到 wrapper trace。
 
 ---
 
@@ -287,7 +287,7 @@ CareerPilot_AI/
 1. **Curated dataset**（`eval/datasets/`）：手刻 25 組 `{resume, jobs[], ground_truth_ranking, ground_truth_gaps, ground_truth_relevant_chunks}`（chunk 級標註僅針對 skill-gap queries），JSON/YAML；`eval/langsmith/sync_datasets.py` 同步至 LangSmith datasets（本地 JSON 為 source of truth）。dataset 設計說明須記錄 ground truth 含「語意匹配但關鍵字不重疊」案例的理由
 2. **Matching eval**：hybrid matcher 之 `Precision@K`（K=3,5）與 `MRR` vs **TF-IDF keyword-only baseline**（sklearn）；報告改善百分比（resume 參考目標 35%，measure-and-report）
 3. **RAG retrieval eval**：retrieval `Precision@K` / `MRR` vs ground-truth relevant chunks；rerank 前後對比
-4. **Hallucination detection（LLM-as-a-judge）**：`langsmith.evaluate()` + custom evaluator，judge = `gemini-2.5-pro`，逐 claim 判 supported / partially / unsupported vs cited chunk 原文；報告 hallucination rate；與「無 RAG 直接生成」baseline 對比。eval_report 須註明 judge 評 flash 產物的 self-grading caveat
+4. **Hallucination detection（LLM-as-a-judge）**：`langsmith.evaluate()` + custom evaluator，judge = `gemini-3.6-flash`，逐 claim 判 supported / partially / unsupported vs cited chunk 原文；報告 hallucination rate；與「無 RAG 直接生成」baseline 對比。eval_report 須註明 judge 評同家族 flash-lite 產物的 self-grading caveat
 5. **Rubric scorer**：resume suggestion 品質（LLM-as-judge + 固定 rubric：relevance / specificity / actionability / alignment；1-5 分）
 6. **Malformed-response rate**：script 查 `LLMCallLog` → raw rate、final rate（參考目標 <1%，measure-and-report）、fallback 觸發率
 7. **System metrics**：p50/p95 latency（resume parse / job index / match / kit gen）、error rate、backend test coverage（pytest-cov 實測值）
@@ -354,11 +354,11 @@ CareerPilot_AI/
 
 | Risk | Mitigation |
 |---|---|
-| Gemini structured output 不穩 | schema validation + retry + fallback JSON repair（Phase 2 內建）+ `gemini-2.5-pro` model fallback（Phase 2R） |
+| Gemini structured output 不穩 | schema validation + retry + fallback JSON repair（Phase 2 內建）+ `gemini-3.6-flash` model fallback（Phase 2R） |
 | pgvector index 小資料集效果差 | HNSW cosine index（Phase 4 已建）；資料集小時必要可退回 exact search |
 | Agent 無限迴圈 | LangGraph recursion_limit + timeout |
 | Token 成本爆炸 | Phase 2 token log、長文先摘要、cache resume 向量 |
-| 2.5-pro fallback 成本 | 僅 primary retry 耗盡後觸發、LLMCallLog 追蹤 `fallback_used` 比率 |
+| fallback 模型（3.6-flash）成本與 20 RPD 額度 | 僅 primary retry 耗盡後觸發、LLMCallLog 追蹤 `fallback_used` 比率 |
 | LangSmith 不可用 | tracing 未設 env 即停用、judge 類 eval 可跳過、本地 metrics 照算 |
 | chunk 級 ground-truth 標註耗時 | 只標 skill-gap queries、標註 guideline 先行 |
 | Eval dataset 太花時間 | Week 1 就開始零散蒐集 real job posts、Week 7 統一整理 |

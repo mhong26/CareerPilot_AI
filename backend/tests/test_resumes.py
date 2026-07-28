@@ -9,7 +9,13 @@ from decimal import Decimal
 import pytest
 from sqlalchemy import select
 
-from app.ai.llm.base import LLMProvider, StructuredOutputError, StructuredResult, TokenUsage
+from app.ai.llm.base import (
+    EmbeddingResult,
+    LLMProvider,
+    StructuredOutputError,
+    StructuredResult,
+    TokenUsage,
+)
 from app.ai.parsers.resume_schema import (
     BasicInfo,
     ExperienceItem,
@@ -17,6 +23,16 @@ from app.ai.parsers.resume_schema import (
 )
 from app.api.resumes import get_llm_provider
 from app.main import app
+
+_EMBEDDING_DIM = 768
+
+
+def _basis(i: int) -> list[float]:
+    """第 i 維為 1、其餘為 0 的單位向量（正交基底，同 test_jobs.py）。"""
+    vec = [0.0] * _EMBEDDING_DIM
+    vec[i] = 1.0
+    return vec
+
 
 # --- 假 provider --------------------------------------------------------------
 
@@ -44,12 +60,20 @@ def _sample_parsed(skills: list[str] | None = None) -> ResumeParsed:
 
 
 class _FakeProvider(LLMProvider):
-    """可設定回傳值或丟錯的假 provider。"""
+    """可設定回傳值 / 解析錯誤 / embedding 錯誤的假 provider。"""
 
-    def __init__(self, *, parsed: ResumeParsed | None = None, error: Exception | None = None):
+    def __init__(
+        self,
+        *,
+        parsed: ResumeParsed | None = None,
+        error: Exception | None = None,
+        embed_error: Exception | None = None,
+    ):
         self._parsed = parsed if parsed is not None else _sample_parsed()
         self._error = error
+        self._embed_error = embed_error
         self.model = "fake-model"
+        self.embedding_model = "fake-embed"
 
     def generate(self, prompt, *, system=None, temperature=0.7):  # pragma: no cover
         raise NotImplementedError
@@ -63,8 +87,13 @@ class _FakeProvider(LLMProvider):
             usage=TokenUsage(prompt_tokens=10, completion_tokens=20, total_tokens=30),
         )
 
-    def embed(self, texts, *, task_type="RETRIEVAL_DOCUMENT"):  # pragma: no cover
-        raise NotImplementedError
+    def embed(self, texts, *, task_type="RETRIEVAL_DOCUMENT"):
+        if self._embed_error is not None:
+            raise self._embed_error
+        return EmbeddingResult(
+            vectors=[_basis(i) for i in range(len(texts))],
+            model="fake-embed",
+        )
 
 
 @pytest.fixture
@@ -116,6 +145,45 @@ def test_upload_parse_failure_still_creates_resume(client, auth, use_provider):
     assert body["parse_error"]
     assert body["current_version_number"] is None
     assert body["parsed_data"] is None
+
+
+def test_upload_generates_resume_embeddings(client, auth, use_provider, db_session):
+    """上傳成功 → 為 v1 產生 summary / skills / experience 三種向量（Phase 5 前置，FR-20）。"""
+    use_provider(_FakeProvider())
+    headers = auth()["headers"]
+
+    resp = client.post(
+        "/resumes/upload",
+        data={"text_content": "Jane Smith resume text long enough."},
+        headers=headers,
+    )
+    assert resp.status_code == 201
+
+    from app.db.models import ResumeEmbedding
+
+    rows = db_session.scalars(select(ResumeEmbedding)).all()
+    assert {r.kind for r in rows} == {"summary", "skills", "experience"}
+    assert all(r.model == "fake-embed" for r in rows)
+
+
+def test_upload_embed_failure_still_saves_resume(client, auth, use_provider, db_session):
+    """Embedding 失敗 → 履歷照存 201、無 embedding rows（NFR-4；match 時 lazy backfill）。"""
+    from app.ai.llm.base import LLMError
+
+    use_provider(_FakeProvider(embed_error=LLMError("embed down")))
+    headers = auth()["headers"]
+
+    resp = client.post(
+        "/resumes/upload",
+        data={"text_content": "Jane Smith resume text long enough."},
+        headers=headers,
+    )
+    assert resp.status_code == 201
+    assert resp.json()["parse_status"] == "parsed"
+
+    from app.db.models import ResumeEmbedding
+
+    assert db_session.scalars(select(ResumeEmbedding)).all() == []
 
 
 def test_upload_requires_exactly_one_input(client, auth, use_provider):
