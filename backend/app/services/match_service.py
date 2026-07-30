@@ -192,7 +192,10 @@ def _score_job(
     job_parsed = JobParsed.model_validate(job.parsed_data)
 
     # 技能覆蓋：exact 層先行，剩餘的一次 LLM 等價（失敗降級為只用 exact）。
-    matched_req, missing_req = match_scoring.match_skills(job_parsed.required_skills, skill_pool)
+    # required 為空時回退 qualifications（phase5_notes 問題 6）。
+    matched_req, missing_req = match_scoring.match_skills(
+        match_scoring.job_required_skills(job_parsed), skill_pool
+    )
     matched_pref, missing_pref = match_scoring.match_skills(job_parsed.preferred_skills, skill_pool)
     kept_pairs: list[tuple[str, str]] = []
     llm_equivalence_used = False

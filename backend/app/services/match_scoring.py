@@ -14,6 +14,7 @@ import re
 from collections.abc import Mapping, Sequence
 from datetime import date
 
+from app.ai.parsers.job_schema import JobParsed
 from app.ai.parsers.resume_schema import ExperienceItem, ResumeParsed
 
 # 加權合成權重；成分缺失時按剩餘權重歸一化（見 compose_match_score）。
@@ -27,10 +28,11 @@ WEIGHTS: dict[str, float] = {
 # 履歷向量的三種 kind（與 build_resume_embedding_texts 對應）。
 KINDS = ("summary", "skills", "experience")
 
-# Gemini embedding 的 cosine 實際分布壓縮在約 [0.35, 0.95]（完全無關的文字也
-# 有 ~0.35），線性拉伸到 [0,1] 才有鑑別度。
-_SIM_FLOOR = 0.35
-_SIM_CEIL = 0.95
+# Gemini embedding 的 cosine 實測落在約 [0.527, 0.780]——完全無關的職業也有
+# ~0.53，上限遠不及 0.95。初版 [0.35, 0.95] 上下各浪費一大段刻度，收緊視窗
+# 才有鑑別度（phase5_notes 問題 7）。
+_SIM_FLOOR = 0.50
+_SIM_CEIL = 0.85
 
 
 # --- 技能比對 -----------------------------------------------------------------
@@ -61,6 +63,18 @@ def resume_skill_pool(parsed: ResumeParsed) -> list[str]:
             seen.add(norm)
             pool.append(skill)
     return pool
+
+
+def job_required_skills(parsed: JobParsed) -> list[str]:
+    """required_skills 為空時回退用 qualifications（phase5_notes 問題 6）。
+
+    有些職缺的硬性要求被解析進 qualifications 而非 required_skills，required
+    為空會讓 coverage 回 None → 最強的負面證據整個消失、權重被重新分配而
+    憑空加分。回退後 exact 層對句子必然不中，coverage 趨近 0，正確反映不
+    匹配；真正相符者（如 "Strong experience with Python" ↔ "Python"）仍可由
+    LLM 等價層救回。
+    """
+    return parsed.required_skills if parsed.required_skills else parsed.qualifications
 
 
 def match_skills(job_skills: list[str], resume_pool: list[str]) -> tuple[list[str], list[str]]:
@@ -233,12 +247,22 @@ def years_score(resume_years: float | None, required_years: float | None) -> flo
     return min(resume_years / required_years, 1.0)
 
 
+# 年資本質是篩選條件（不足才扣分）而非加分項：任何資深者對任何低門檻職缺都
+# 拿滿分，等權平均只會墊高所有分數的地板；title similarity 才是有領域鑑別力
+# 的那半（phase5_notes 問題 5）。
+_EXP_YEARS_WEIGHT = 0.25
+_EXP_TITLE_WEIGHT = 0.75
+
+
 def experience_alignment(years: float | None, title_similarity: float | None) -> float | None:
-    """年資與職稱兩個子分數取可用者的平均；都缺回 None。"""
-    parts = [p for p in (years, title_similarity) if p is not None]
-    if not parts:
+    """0.25×years + 0.75×title_similarity；單邊缺失只用可用邊；都缺回 None。"""
+    if years is None and title_similarity is None:
         return None
-    return float(sum(parts) / len(parts))
+    if years is None:
+        return float(title_similarity)  # type: ignore[arg-type]
+    if title_similarity is None:
+        return float(years)
+    return float(_EXP_YEARS_WEIGHT * years + _EXP_TITLE_WEIGHT * title_similarity)
 
 
 # --- 合成 ---------------------------------------------------------------------

@@ -23,6 +23,7 @@ dependencies = [
     "langchain>=0.2.0",
     "langgraph>=0.1.0",
     "langsmith>=0.3.45",
+    "sentence-transformers>=3.0",
 ]
 
 [project.optional-dependencies]
@@ -34,6 +35,12 @@ dev = [
     "ruff>=0.4.0",
     "mypy>=1.10.0",
 ]
+
+# torch CPU-only：不用 extra-index-url——PyTorch index 同時掛著 2022 年的
+# requests/urllib3/certifi，uv 的 first-index 策略會把它們靜默釘舊（帶 CVE）。
+# 改為 Dockerfile 與 CI 各自先跑
+# `uv pip install --system torch --index-url https://download.pytorch.org/whl/cpu`
+# 再從 PyPI 裝其餘依賴（見 phase6_notes 問題 3）。macOS 本地無 CUDA wheel，直接裝即可。
 
 [build-system]
 requires = ["hatchling"]
