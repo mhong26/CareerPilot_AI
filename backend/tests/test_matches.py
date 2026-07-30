@@ -72,13 +72,14 @@ def _sample_resume_parsed() -> ResumeParsed:
 
 
 def _strong_job_parsed() -> JobParsed:
-    """手算分數 0.80 的 job：
+    """手算分數 0.75 的 job：
 
     required ["Python", "Go"]：Python exact + Go≈Golang（LLM 等價）→ coverage 1.0
     preferred ["Docker"]：missing → 0.0
     embedding_similarity = 1.0（正交基底幾何）
-    experience：3 年 vs "2+ years" → years 1.0；title_sim 0.0 → alignment 0.5
-    composite = 0.35×1 + 0.35×1 + 0.10×0 + 0.20×0.5 = 0.80
+    experience：3 年 vs "2+ years" → years 1.0；title_sim 0.0
+      → alignment = 0.25×1.0 + 0.75×0.0 = 0.25（校準後加權，phase5_notes 問題 5）
+    composite = 0.35×1 + 0.35×1 + 0.10×0 + 0.20×0.25 = 0.75
     """
     return JobParsed(
         company="Acme Corp",
@@ -91,11 +92,12 @@ def _strong_job_parsed() -> JobParsed:
 
 
 def _weak_job_parsed() -> JobParsed:
-    """手算分數 ≈0.456 的 job（無 preferred → 權重歸一化）：
+    """手算分數 ≈0.422 的 job（無 preferred → 權重歸一化）：
 
     required ["Rust", "Kubernetes"] 全 missing（等價 pair 驗證不過）→ 0.0
-    embedding_similarity = 1.0；3 年 vs "5+ years" → years 0.6；title 0.0 → 0.3
-    composite = (0.35×1 + 0.35×0 + 0.20×0.3) / 0.9 = 0.41 / 0.9
+    embedding_similarity = 1.0；3 年 vs "5+ years" → years 0.6；title 0.0
+      → alignment = 0.25×0.6 = 0.15
+    composite = (0.35×1 + 0.35×0 + 0.20×0.15) / 0.9 = 0.38 / 0.9
     """
     return JobParsed(
         company="Beta LLC",
@@ -107,8 +109,9 @@ def _weak_job_parsed() -> JobParsed:
     )
 
 
-_STRONG_SCORE = 0.80
-_WEAK_SCORE = 0.41 / 0.9
+_STRONG_SCORE = 0.75
+_WEAK_SCORE = 0.38 / 0.9
+# 無 embedding → title_similarity 也缺 → alignment 單邊用 years=1.0（校準前後同值）。
 _NO_EMBEDDING_SCORE = (0.35 * 1.0 + 0.10 * 0.0 + 0.20 * 1.0) / 0.65
 
 

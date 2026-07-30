@@ -53,7 +53,11 @@ jobs:
       - run: pip install uv
       - name: Install dependencies
         working-directory: backend
-        run: uv pip install --system -e ".[dev]"
+        # torch 先從官方 CPU index 單獨裝（避免 CUDA 版 ~2GB，也避免該 index
+        # 的舊版 requests/urllib3/certifi 汙染解析——見 phase6_notes 問題 3）。
+        run: |
+          uv pip install --system torch --index-url https://download.pytorch.org/whl/cpu
+          uv pip install --system -e ".[dev]"
       - name: Run Alembic migrations
         working-directory: backend
         run: alembic upgrade head

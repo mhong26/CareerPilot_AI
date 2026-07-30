@@ -9,6 +9,7 @@ from app.db.models.job import Job, JobChunk, JobEmbedding
 from app.db.models.llm_call_log import LLMCallLog
 from app.db.models.match import MatchResult
 from app.db.models.resume import Resume, ResumeEmbedding, ResumeVersion
+from app.db.models.skill_gap import SkillGapReport
 from app.db.models.token import RefreshToken
 from app.db.models.user import User
 
@@ -22,5 +23,6 @@ __all__ = [
     "Resume",
     "ResumeEmbedding",
     "ResumeVersion",
+    "SkillGapReport",
     "User",
 ]

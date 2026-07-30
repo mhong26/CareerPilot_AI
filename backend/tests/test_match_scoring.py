@@ -5,6 +5,7 @@ from datetime import date
 import pytest
 
 from app.ai.embeddings.resume_texts import _MAX_EMBED_CHARS, build_resume_embedding_texts
+from app.ai.parsers.job_schema import JobParsed
 from app.ai.parsers.resume_schema import ExperienceItem, ProjectItem, ResumeParsed
 from app.services.match_scoring import (
     WEIGHTS,
@@ -12,7 +13,9 @@ from app.services.match_scoring import (
     compose_match_score,
     coverage,
     embedding_similarity,
+    experience_alignment,
     extract_required_years,
+    job_required_skills,
     match_skills,
     normalize_skill,
     rescale_similarity,
@@ -105,10 +108,30 @@ def test_extract_required_years_lower_bound_and_max():
 
 
 def test_rescale_similarity_endpoints_and_midpoint():
-    """Rescale：地板以下 → 0、天花板以上 → 1、中點 0.65 → 精確 0.5。"""
+    """Rescale [0.50, 0.85]：端點精確 0 / 1、地板以下 → 0、天花板以上 → 1、中點 0.675 → 0.5。"""
+    assert rescale_similarity(0.50) == 0.0
+    assert rescale_similarity(0.85) == 1.0
     assert rescale_similarity(0.2) == 0.0
     assert rescale_similarity(1.0) == 1.0
-    assert rescale_similarity(0.65) == pytest.approx(0.5)
+    assert rescale_similarity(0.675) == pytest.approx(0.5)
+
+
+def test_experience_alignment_weighted():
+    """0.25×years + 0.75×title（年資是門檻不是訊號）；單邊缺失用可用邊；都缺 None。"""
+    assert experience_alignment(1.0, 0.0) == pytest.approx(0.25)
+    assert experience_alignment(0.4, 0.8) == pytest.approx(0.25 * 0.4 + 0.75 * 0.8)
+    assert experience_alignment(0.6, None) == pytest.approx(0.6)
+    assert experience_alignment(None, 0.8) == pytest.approx(0.8)
+    assert experience_alignment(None, None) is None
+
+
+def test_job_required_skills_fallback():
+    """required_skills 為空回退 qualifications；非空不回退；雙空回空清單。"""
+    with_required = JobParsed(required_skills=["Python"], qualifications=["BSc CS"])
+    assert job_required_skills(with_required) == ["Python"]
+    only_quals = JobParsed(required_skills=[], qualifications=["RN license", "ICU experience"])
+    assert job_required_skills(only_quals) == ["RN license", "ICU experience"]
+    assert job_required_skills(JobParsed()) == []
 
 
 def test_embedding_similarity_max_per_kind_then_mean():

@@ -35,8 +35,8 @@ def _clean_tables():
         conn.execute(
             text(
                 "TRUNCATE users, refresh_tokens, llm_call_logs, resumes, resume_versions, "
-                "resume_embeddings, jobs, job_chunks, job_embeddings, match_results "
-                "RESTART IDENTITY CASCADE"
+                "resume_embeddings, jobs, job_chunks, job_embeddings, match_results, "
+                "skill_gap_reports RESTART IDENTITY CASCADE"
             )
         )
 
