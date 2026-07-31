@@ -21,7 +21,8 @@ dependencies = [
     "tenacity>=8.3.0",
     "httpx>=0.27.0",
     "langchain>=0.2.0",
-    "langgraph>=0.1.0",
+    "langchain-google-genai>=2.0",
+    "langgraph>=0.2",
     "langsmith>=0.3.45",
     "sentence-transformers>=3.0",
 ]
