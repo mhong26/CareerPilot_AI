@@ -42,7 +42,17 @@ def upgrade() -> None:
         sa.ForeignKeyConstraint(["resume_version_id"], ["resume_versions.id"], ondelete="CASCADE"),
         sa.ForeignKeyConstraint(["job_id"], ["jobs.id"], ondelete="CASCADE"),
         sa.PrimaryKeyConstraint("id"),
-        # append-only：同 (resume_id, job_id, kind) 允許多 row，故無 unique constraint。
+        # append-only：同 (resume_id, job_id, kind) 允許多 row；unique 只鎖到
+        # version_number——同版號重複代表 select-max+1 撞到並發，寫入端捕捉
+        # IntegrityError 重讀重試。此 constraint 的前導欄位同時充當
+        # 「查某 pair 某 kind 的最新版」的查詢索引（慣例：不另建 index）。
+        sa.UniqueConstraint(
+            "resume_id",
+            "job_id",
+            "kind",
+            "version_number",
+            name="uq_generated_artifacts_pair_kind_version",
+        ),
     )
     op.create_index(
         op.f("ix_generated_artifacts_user_id"), "generated_artifacts", ["user_id"], unique=False
@@ -59,17 +69,9 @@ def upgrade() -> None:
     op.create_index(
         op.f("ix_generated_artifacts_run_id"), "generated_artifacts", ["run_id"], unique=False
     )
-    # 「查某 pair 某 kind 的最新版」的主要查詢路徑。
-    op.create_index(
-        op.f("ix_generated_artifacts_pair_kind"),
-        "generated_artifacts",
-        ["resume_id", "job_id", "kind"],
-        unique=False,
-    )
 
 
 def downgrade() -> None:
-    op.drop_index(op.f("ix_generated_artifacts_pair_kind"), table_name="generated_artifacts")
     op.drop_index(op.f("ix_generated_artifacts_run_id"), table_name="generated_artifacts")
     op.drop_index(op.f("ix_generated_artifacts_job_id"), table_name="generated_artifacts")
     op.drop_index(

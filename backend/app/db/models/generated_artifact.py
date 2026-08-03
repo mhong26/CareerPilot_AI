@@ -12,7 +12,7 @@ SkillGapReport 的「每對唯一、覆寫升級」刻意不同：那兩者是�
 import uuid
 from typing import Any
 
-from sqlalchemy import ForeignKey, Index, Integer, String
+from sqlalchemy import ForeignKey, Integer, String, UniqueConstraint
 from sqlalchemy.dialects.postgresql import JSONB, UUID
 from sqlalchemy.orm import Mapped, mapped_column
 
@@ -64,6 +64,15 @@ class GeneratedArtifact(UUIDPKMixin, TimestampMixin, Base):
     content: Mapped[dict[str, Any]] = mapped_column(JSONB, nullable=False)
 
     __table_args__ = (
-        # 「查某 pair 某 kind 的最新版」的主要查詢路徑。
-        Index("ix_generated_artifacts_pair_kind", "resume_id", "job_id", "kind"),
+        # append-only 下仍鎖同版號重複：select-max+1 的並發撞版由 DB 擋下，
+        # 寫入端（application_kit_service.insert_artifact_version）捕捉
+        # IntegrityError 重讀重試。前導欄位 (resume_id, job_id, kind) 同時
+        # 充當「查最新版」的查詢索引（慣例：不另建 index）。
+        UniqueConstraint(
+            "resume_id",
+            "job_id",
+            "kind",
+            "version_number",
+            name="uq_generated_artifacts_pair_kind_version",
+        ),
     )

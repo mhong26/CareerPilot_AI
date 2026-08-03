@@ -33,6 +33,9 @@
 | POST | `/jobs/{job_id}/skill-gap` | ✓ | 執行 skill gap 分析（檢索 + rerank + 生成） |
 | GET | `/jobs/{job_id}/skill-gap?resume_id=` | ✓ | 讀取該 (resume, job) 的既有報告 |
 | GET | `/skill-gaps/{report_id}` | ✓ | 依報告 id 讀取 |
+| POST | `/jobs/{job_id}/generate-application-kit` | ✓ | 跑 kit agent，一次產出三類 artifacts |
+| GET | `/jobs/{job_id}/application-kit?resume_id=` | ✓ | 讀取該 (resume, job) 各類 artifact 最新版 |
+| PATCH | `/artifacts/{artifact_id}` | ✓ | 保存編輯版（append-only 出新版本） |
 
 ---
 
@@ -291,6 +294,58 @@
 
 ---
 
+## 7. Application Kit
+
+Phase 7 的 LangGraph agent：LLM 以 function calling 在 7 個工具間動態決策
+（`fetch_resume`、`retrieve_job_evidence`、`compute_match`、三個 generate、
+`save_artifact`），依 match score（0.5 / 0.8 門檻）條件分流，一次 run 產出並
+保存三類 artifacts。artifact 採 **append-only** 版本控：生成與編輯都插新
+row，「最新版」= 同 (resume, job, kind) 下 `version_number` 最大者。
+
+共同回應 **`ApplicationKitResponse`**
+```json
+{
+  "job_id": "uuid", "resume_id": "uuid", "match_score": 0.75,
+  "tailored_resume": { "id": "uuid", "kind": "tailored_resume", "source": "agent | edit",
+                       "version_number": 1, "run_id": "uuid", "resume_version_number": 1,
+                       "content": { "overall_strategy": "", "section_suggestions": [],
+                                    "top_keywords": [] },
+                       "created_at": "datetime" },
+  "cover_letter":   { "content": { "intro": "", "body_paragraphs": [], "closing": "" }, "…": "…" },
+  "interview_prep": { "content": { "questions": [{ "question": "", "category": "",
+                                    "why_it_matters": "", "related_resume_area": "",
+                                    "answer_outline": [] }] }, "…": "…" },
+  "missing": [], "errors": []
+}
+```
+> partial 語意（NFR-4）：agent run 部分失敗仍回 `200`，缺的 kind 為 `null`
+> 並列於 `missing`，降級原因在 `errors`（GET 時恆空）。
+
+### `POST /jobs/{job_id}/generate-application-kit` → `200`
+同步跑 agent（多次 AI 呼叫，30~90 秒）。
+
+**Request**：`{ "resume_id": "uuid（可省略，預設 current resume）" }`
+
+**錯誤**
+- `404` Resume not found. / Job not found.
+- `409` No parsed resume is available to build the application kit.
+- `409` Job is not indexed for retrieval. Re-add the job to rebuild its index.
+
+### `GET /jobs/{job_id}/application-kit?resume_id={uuid}` → `200`
+該 (resume, job) 各 kind 的最新版。`404` = 尚未生成 / Resume not found / Job not found。
+
+### `PATCH /artifacts/{artifact_id}` → `200`
+保存使用者編輯版；後端插入新 row（`source="edit"`、版號 +1），回傳單一
+artifact 物件（同 `ApplicationKitResponse` 內的 artifact 形狀）。
+
+**Request**：`{ "content": { …對應 kind 的完整 content… } }`
+
+**錯誤**
+- `404` Artifact not found.
+- `422` Artifact content does not match the expected structure for its kind.
+
+---
+
 ## 前端對應
 
 `frontend/src/api/` 各檔封裝上述 endpoint：
@@ -303,3 +358,4 @@
 | `job.ts` | `/jobs` CRUD |
 | `match.ts` | `/matches/run`、`/matches` |
 | `skillGap.ts` | `/jobs/{id}/skill-gap`（POST / GET） |
+| `applicationKit.ts` | `/jobs/{id}/generate-application-kit`、`/jobs/{id}/application-kit`、`PATCH /artifacts/{id}` |

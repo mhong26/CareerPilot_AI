@@ -17,7 +17,7 @@ from datetime import date
 from typing import Any, Literal
 
 from langchain_core.tools import BaseTool, tool
-from sqlalchemy import func, select
+from sqlalchemy import select
 
 from app.ai.agents.context import KitRunContext
 from app.ai.embeddings.resume_texts import build_resume_embedding_texts
@@ -29,12 +29,13 @@ from app.ai.prompts.kit import (
 )
 from app.ai.rag.rerank import rerank_order
 from app.ai.rag.retrieval import TOP_K, retrieve_job_chunks
-from app.db.models import GeneratedArtifact, SkillGapReport
+from app.db.models import SkillGapReport
 from app.services import match_scoring, match_service, resume_service
 from app.services.application_kit_service import (
     generate_cover_letter_payload,
     generate_interview_prep_payload,
     generate_tailored_resume_payload,
+    insert_artifact_version,
 )
 
 # query 向量的 kind 優先序（同 skill_gap_service._QUERY_KIND_PRIORITY）。
@@ -54,25 +55,24 @@ def _ensure_resume_parsed(ctx: KitRunContext) -> tuple[ResumeParsed, str]:
 
 
 def _resume_sections(parsed: ResumeParsed) -> list[tuple[str, str]]:
-    """把 experience / projects 組成 ``(section 名, 原文區塊)``——bullet rewrite 素材。"""
+    """把 experience / projects 組成 ``(section 名, 原文區塊)``——bullet rewrite 素材。
+
+    一份 role / project 一個 tuple：prompt 端的截斷（``_MAX_SECTION_CHARS`` /
+    ``_MAX_SECTIONS``）逐塊套用，長履歷不會因整類擠成一大塊而被砍掉大半。
+    """
     sections: list[tuple[str, str]] = []
-    if parsed.experience:
-        blocks = []
-        for item in parsed.experience:
-            header = f"{item.title} at {item.company} ({item.start_date} - {item.end_date})"
-            blocks.append("\n".join([header, *(f"- {b}" for b in item.bullets)]))
-        sections.append(("experience", "\n\n".join(blocks)))
-    if parsed.projects:
-        blocks = []
-        for project in parsed.projects:
-            lines = [project.name]
-            if project.description:
-                lines.append(project.description)
-            lines.extend(f"- {b}" for b in project.bullets)
-            if project.tech:
-                lines.append("Tech: " + ", ".join(project.tech))
-            blocks.append("\n".join(lines))
-        sections.append(("projects", "\n\n".join(blocks)))
+    for item in parsed.experience:
+        header = f"{item.title} at {item.company} ({item.start_date} - {item.end_date})"
+        block = "\n".join([header, *(f"- {b}" for b in item.bullets)])
+        sections.append((f"experience: {item.title} at {item.company}", block))
+    for project in parsed.projects:
+        lines = [project.name]
+        if project.description:
+            lines.append(project.description)
+        lines.extend(f"- {b}" for b in project.bullets)
+        if project.tech:
+            lines.append("Tech: " + ", ".join(project.tech))
+        sections.append((f"project: {project.name}", "\n".join(lines)))
     return sections
 
 
@@ -287,17 +287,11 @@ def build_kit_tools(ctx: KitRunContext) -> list[BaseTool]:
                 f"Nothing to save: '{kind}' has not been generated yet. "
                 "Call the matching generate tool first."
             )
-        current_max = (
-            ctx.db.scalar(
-                select(func.max(GeneratedArtifact.version_number)).where(
-                    GeneratedArtifact.resume_id == ctx.resume.id,
-                    GeneratedArtifact.job_id == ctx.job.id,
-                    GeneratedArtifact.kind == kind,
-                )
-            )
-            or 0
-        )
-        artifact = GeneratedArtifact(
+        # 逐 artifact commit（helper 內）：agent run 交替 LLM 記帳（自帶 commit）
+        # 與寫入，無法維持單一最終 commit；每件獨立原子，run 中途失敗已保存者
+        # 仍有效（NFR-4）。版號並發撞版由 helper 的 IntegrityError 重試處理。
+        artifact = insert_artifact_version(
+            ctx.db,
             user_id=ctx.user.id,
             resume_id=ctx.resume.id,
             resume_version_id=ctx.version.id,
@@ -305,14 +299,8 @@ def build_kit_tools(ctx: KitRunContext) -> list[BaseTool]:
             run_id=ctx.run_id,
             kind=kind,
             source="agent",
-            version_number=current_max + 1,
             content=payload.model_dump(),
         )
-        # 逐 artifact commit：agent run 交替 LLM 記帳（自帶 commit）與寫入，
-        # 無法維持單一最終 commit；每件獨立原子，run 中途失敗已保存者仍有效（NFR-4）。
-        ctx.db.add(artifact)
-        ctx.db.commit()
-        ctx.db.refresh(artifact)
         ctx.saved[kind] = artifact.id
         return f"Saved {kind} as version {artifact.version_number}."
 

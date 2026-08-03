@@ -1,6 +1,7 @@
 import { Navigate, Route, Routes } from 'react-router-dom'
 
 import ProtectedRoute from './components/ProtectedRoute'
+import ApplicationKitPage from './pages/ApplicationKitPage'
 import DashboardPage from './pages/DashboardPage'
 import JobDetailPage from './pages/JobDetailPage'
 import JobsPage from './pages/JobsPage'
@@ -18,6 +19,7 @@ function App() {
         <Route path="/resume" element={<ResumePage />} />
         <Route path="/jobs" element={<JobsPage />} />
         <Route path="/jobs/:jobId" element={<JobDetailPage />} />
+        <Route path="/jobs/:jobId/application-kit" element={<ApplicationKitPage />} />
       </Route>
       <Route path="*" element={<Navigate to="/dashboard" replace />} />
     </Routes>

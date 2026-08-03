@@ -264,14 +264,32 @@ export default function JobDetailPage() {
                       .join(' · ')}
                   </p>
                 </div>
-                <button
-                  type="button"
-                  onClick={() => void handleDelete()}
-                  disabled={deleting}
-                  className="text-sm text-red-500 hover:underline disabled:opacity-50"
-                >
-                  {deleting ? 'Deleting…' : 'Delete'}
-                </button>
+                <div className="flex items-center gap-4">
+                  {/* 未索引時 agent 的 gates 必 409——入口直接禁用並給提示。 */}
+                  {job.index_status === 'indexed' ? (
+                    <Link
+                      to={`/jobs/${job.id}/application-kit`}
+                      className="text-sm text-blue-600 hover:underline"
+                    >
+                      Application kit
+                    </Link>
+                  ) : (
+                    <span
+                      className="text-sm text-gray-400"
+                      title="Job is not indexed for retrieval, so the kit cannot be generated."
+                    >
+                      Application kit
+                    </span>
+                  )}
+                  <button
+                    type="button"
+                    onClick={() => void handleDelete()}
+                    disabled={deleting}
+                    className="text-sm text-red-500 hover:underline disabled:opacity-50"
+                  >
+                    {deleting ? 'Deleting…' : 'Delete'}
+                  </button>
+                </div>
               </div>
               <p className="text-xs text-gray-400">
                 Added {new Date(job.created_at).toLocaleString()} · Indexed as {job.chunk_count}{' '}

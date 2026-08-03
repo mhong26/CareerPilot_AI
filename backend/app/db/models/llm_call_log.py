@@ -32,7 +32,8 @@ class LLMCallLog(UUIDPKMixin, TimestampMixin, Base):
     # 實際成功（或最後嘗試）的模型；fallback 觸發時記的是 fallback 模型，
     # 不必然等於 settings.gemini_model（FR-67）。
     model: Mapped[str] = mapped_column(String(128), nullable=False)
-    # "generate" / "generate_structured" / "embed" —— 方便依操作類型分析。
+    # "generate" / "generate_structured" / "embed" / "agent_planner"（Phase 7
+    # planner 呼叫，FR-65）—— 方便依操作類型分析。
     operation: Mapped[str] = mapped_column(String(32), nullable=False)
     # prompt 的 sha256 十六進位指紋（不存原文：省空間 + 保護隱私 + 可偵測重複）。
     prompt_hash: Mapped[str] = mapped_column(String(64), nullable=False)

@@ -41,7 +41,11 @@ TAILORED_RESUME_SYSTEM = (
     "rewrite must keep the candidate's real facts and include a reason tied to a "
     "specific job requirement. Suggest a keyword only where the resume genuinely "
     "supports it. When rewriting, quote the original bullet exactly in 'original'; "
-    "leave 'original' empty only for genuinely new bullets."
+    "leave 'original' empty only for genuinely new bullets.\n"
+    # flash-lite 實測會偷懶只回 strategy + keywords——結構最低量必須點名。
+    "Structural requirements: section_suggestions must contain 2-4 sections, and each "
+    "section must contain at least one bullet_rewrite. Never return an empty "
+    "section_suggestions list."
 )
 
 COVER_LETTER_SYSTEM = (
@@ -53,7 +57,12 @@ COVER_LETTER_SYSTEM = (
     "employers, or numbers. Lead with the candidate's strongest evidence for this "
     "specific job; address the company and role by name when provided. Keep the tone "
     "confident and specific, avoid generic filler, and keep the whole letter under "
-    "roughly 350 words."
+    "roughly 350 words.\n"
+    # flash-lite 實測會把整封信塞進 intro——三個區塊的邊界必須點名。
+    "Structural requirements: 'intro' is ONLY the opening paragraph (2-4 sentences); "
+    "the middle of the letter goes in 'body_paragraphs' as 1-3 separate paragraphs; "
+    "'closing' is ONLY the final paragraph. Never leave body_paragraphs empty and "
+    "never put the whole letter into intro."
 )
 
 INTERVIEW_QS_SYSTEM = (
