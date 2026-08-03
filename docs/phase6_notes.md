@@ -10,7 +10,7 @@
 
 ### 決策 1：rerank 用本地 cross-encoder，不用 LLM rerank
 `cross-encoder/ms-marco-MiniLM-L-6-v2`（sentence-transformers，~90MB）。
-- **理由**：零 API 成本、確定性、CPU 上 k≤5 毫秒級；Phase 9 要對 25 組資料跑
+- **理由**：零 API 成本、確定性、CPU 上 k≤5 毫秒級；Phase 8 要對 25 組資料跑
   「rerank 前後對比」（ER-5），LLM rerank 會大量消耗額度且結果不可重現。
 - **代價**：拖進 torch 依賴（見決策 9）；image 變大、CI 安裝 +1~2 分鐘。
 - 失敗（模型載入、推論、分數長度不符）一律降級回向量排序並記
@@ -29,7 +29,7 @@ list[int]`；service 層再映射回 chunk UUID。36 字元 UUID 要 LLM 回抄�
 
 ### 決策 4：`TOP_K = 5`，模組常數不進 settings
 職缺典型 4~8 chunks：5 覆蓋多數職缺、對長職缺仍有實際篩選，同時就是 rerank
-候選數。放 `retrieval.py` 模組常數（同 `match_scoring.WEIGHTS` 的理由：Phase 9
+候選數。放 `retrieval.py` 模組常數（同 `match_scoring.WEIGHTS` 的理由：Phase 8
 eval 是調整它的回饋迴路，不得隨部署環境漂移）。不排除任何 section——k=5 下
 不相關的 overview 自然沉底，硬排除會失去職稱／領域級 gap 的證據。
 
@@ -42,7 +42,7 @@ query 文字用同 kind 的 embedding 文字，讓兩段檢索看到同一個查
 ### 決策 6：職缺未索引 → 409（與 Phase 5 決策 17 刻意分歧）
 Match 裡 embedding 只是可歸一化的成分之一，未索引照算分；RAG 裡檢索就是
 本體：無向量 = 無證據 = 無 citation（驗收條件）。回 409 並提示重新加入職缺
-（目前無 re-index endpoint，Phase 10 硬化再議）。
+（目前無 re-index endpoint，Phase 9 硬化再議）。
 
 ### 決策 7：生成失敗照存報告、回 200（鏡像 MatchResult 降級對）
 檢索與 rerank 是已付費的確定性結果，永遠落地（`retrieval` JSONB not null）；

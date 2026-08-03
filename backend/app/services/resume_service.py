@@ -1,4 +1,4 @@
-"""履歷 ingestion / 解析 / 版本 / 向量 service（FR-7~12, FR-20, FR-65）。
+"""履歷 ingestion / 解析 / 版本 / 向量 service（FR-7~12, FR-20, FR-56）。
 
 職責：把「純文字 → 結構化履歷 → 寫入 Resume + 版本 → 產生 section 向量」
 這條鏈路封裝成函式，router 只負責 HTTP 轉接。沿用專案慣例：函式 +
@@ -41,7 +41,7 @@ def parse_resume_text(
     try:
         result = provider.generate_structured(prompt, ResumeParsed, system=RESUME_PARSE_SYSTEM)
     except (StructuredOutputError, LLMError) as exc:
-        # 失敗路徑的記帳 metadata 掛在例外物件上（FR-68）；getattr 防禦：
+        # 失敗路徑的記帳 metadata 掛在例外物件上（FR-59）；getattr 防禦：
         # 測試的假例外可能沒帶完整屬性，實際模型退回 provider 設定值。
         record_call(
             db,

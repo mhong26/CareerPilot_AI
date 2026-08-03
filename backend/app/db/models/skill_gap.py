@@ -2,7 +2,7 @@
 
 每組 (resume, job) 只保留最新一筆（unique constraint + service 層 upsert），
 ``updated_at`` 即「上次執行時間」。``resume_version_id`` 記錄分析當下的履歷
-快照。``retrieval`` 保存 rerank 前後兩份排序與分數（Phase 9 ER-5 對比的
+快照。``retrieval`` 保存 rerank 前後兩份排序與分數（Phase 8 ER-5 對比的
 資料來源）；``analysis`` 為 LLM 產物、允許失敗（NFR-4 降級對）。
 """
 

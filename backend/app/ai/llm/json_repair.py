@@ -1,4 +1,4 @@
-"""壞 JSON 的保守修復 —— structured output 的最後一道防線（FR-60）。
+"""壞 JSON 的保守修復 —— structured output 的最後一道防線（FR-51）。
 
 LLM 偶爾會把 JSON 包在 markdown ```json fence 裡，或在前後多寫幾句話。
 本模組只做「安全、可預期」的修復：拔掉外殼、抓出最外層的 JSON 主體。

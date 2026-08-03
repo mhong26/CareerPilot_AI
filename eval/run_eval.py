@@ -2,7 +2,7 @@
 """
 CareerPilot AI — Evaluation Runner
 
-Phase 9 will implement:
+Phase 8 will implement:
   - Precision@K and MRR for job match ranking
   - Rubric-based resume suggestion quality scorer (LLM-as-judge)
   - Baseline comparison: TF-IDF keyword matcher vs. full RAG system
@@ -10,4 +10,4 @@ Phase 9 will implement:
 """
 
 if __name__ == "__main__":
-    print("Evaluation runner not yet implemented. See Phase 9 in plan.md.")
+    print("Evaluation runner not yet implemented. See Phase 8 in plan.md.")

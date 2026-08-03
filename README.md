@@ -1,6 +1,6 @@
 # CareerPilot AI
 
-CareerPilot AI is an AI-powered resume and job match platform for students, new graduates, and early-career professionals. The system allows a user to upload a resume and one or more target job descriptions, then analyzes job-fit relevance, highlights skill gaps with evidence, and generates tailored application materials such as resume improvement suggestions, cover letter drafts, and interview preparation questions. The platform is designed as a full-stack application with authentication, persistent storage, semantic retrieval, structured AI outputs, and cross-session user memory.
+CareerPilot AI is an AI-powered resume and job match platform for students, new graduates, and early-career professionals. The system allows a user to upload a resume and one or more target job descriptions, then analyzes job-fit relevance, highlights skill gaps with evidence, and generates tailored application materials such as resume improvement suggestions, cover letter drafts, and interview preparation questions. The platform is designed as a full-stack application with authentication, persistent storage, semantic retrieval, and structured AI outputs.
 
 ---
 

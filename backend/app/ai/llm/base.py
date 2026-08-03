@@ -4,7 +4,7 @@
 都只依賴這裡定義的 ``LLMProvider`` 介面，而不直接 import 任何廠商 SDK。
 
 如此一來「換模型 / 換廠商」只需新增一個實作此介面的 class（例如 ``gemini.py``），
-其餘程式一行都不必改 —— 這對應 SRS 的 FR-62 Provider Abstraction。
+其餘程式一行都不必改 —— 這對應 SRS 的 FR-53 Provider Abstraction。
 
 本模組只定義「介面長相」與「共用資料 / 例外型別」，不連網、不呼叫任何 API。
 實際的 Gemini 呼叫、retry、model fallback 由實作層負責。
@@ -30,9 +30,9 @@ T = TypeVar("T", bound=BaseModel)
 
 @dataclass
 class TokenUsage:
-    """單次呼叫的 token 用量，格式統一以便寫入 LLMCallLog（FR-65）。
+    """單次呼叫的 token 用量，格式統一以便寫入 LLMCallLog（FR-56）。
 
-    有 model fallback（FR-67）後，一次「呼叫」可能含多次「生成嘗試」；
+    有 model fallback（FR-58）後，一次「呼叫」可能含多次「生成嘗試」；
     此物件記錄的是**跨所有嘗試加總**的用量（失敗的嘗試也有花錢，誠實記帳）。
     """
 
@@ -45,7 +45,7 @@ class TokenUsage:
 class LLMResult:
     """純文字生成的回傳結果。
 
-    Phase 2R 追加記帳 metadata（FR-67/68）：``model`` 為實際成功的模型
+    Phase 2R 追加記帳 metadata（FR-58/59）：``model`` 為實際成功的模型
     （fallback 觸發時是 fallback 模型）；``cost_estimate`` 按各次嘗試實際
     模型的單價分別計算後加總。
     """
@@ -99,7 +99,7 @@ class EmbeddingResult:
 class LLMError(Exception):
     """所有 LLM 相關錯誤的基底類別。
 
-    失敗路徑也要精確記帳（FR-68）：兩個模型都失敗時，呼叫端仍需把
+    失敗路徑也要精確記帳（FR-59）：兩個模型都失敗時，呼叫端仍需把
     ``fallback_used=True``、累計 attempts 與已花費的 tokens 寫入 LLMCallLog
     —— 這些資訊只能掛在例外物件上帶出來。全部 keyword-only 且有預設值，
     既有 ``raise LLMError("訊息")`` 寫法完全不受影響。
@@ -170,7 +170,7 @@ class LLMProvider(ABC):
     ) -> StructuredResult[T]:
         """依 Pydantic schema 產生「已驗證」的結構化物件。
 
-        實作層負責驗證 retry、JSON 修復與 model fallback（FR-67）；合約上保證：
+        實作層負責驗證 retry、JSON 修復與 model fallback（FR-58）；合約上保證：
         ``result.data`` 一定通過 ``schema`` 驗證，否則丟出 ``StructuredOutputError``。
 
         Args:
@@ -198,7 +198,7 @@ class LLMProvider(ABC):
         """將多段文字轉為向量（batch）。
 
         Embedding 無 model fallback：不同 embedding 模型的向量空間互不相容，
-        混用會讓相似度比較失真，寧可失敗（FR-67）。
+        混用會讓相似度比較失真，寧可失敗（FR-58）。
 
         Args:
             texts: 待轉換的文字清單。

@@ -1,4 +1,4 @@
-"""7 個 agent 工具（FR-57，名稱與 SRS 逐字一致）＋ closure 工廠 ``build_kit_tools``。
+"""7 個 agent 工具（FR-48，名稱與 SRS 逐字一致）＋ closure 工廠 ``build_kit_tools``。
 
 兩個關鍵設計（詳見 context.py）：
 - **Closure 工廠**：工具經 ``@tool`` 暴露給 LLM 的參數表只剩業務參數；db /
@@ -118,7 +118,7 @@ def _generation_kwargs(ctx: KitRunContext, parsed: ResumeParsed) -> dict[str, An
 
 
 def build_kit_tools(ctx: KitRunContext) -> list[BaseTool]:
-    """建出 7 個綁定 ctx 的工具（FR-57）；順序即 SRS 條列順序。"""
+    """建出 7 個綁定 ctx 的工具（FR-48）；順序即 SRS 條列順序。"""
 
     @tool
     def fetch_resume() -> str:

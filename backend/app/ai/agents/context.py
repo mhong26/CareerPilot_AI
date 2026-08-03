@@ -22,7 +22,7 @@ from app.ai.rag.rerank import Reranker
 from app.ai.rag.retrieval import RetrievedChunk
 from app.db.models import Job, MatchResult, Resume, ResumeVersion, User
 
-# GeneratedArtifact.kind 的三個值——工具層與 graph 完成檢查共用（FR-56~57）。
+# GeneratedArtifact.kind 的三個值——工具層與 graph 完成檢查共用（FR-47~48）。
 KIT_KINDS = ("tailored_resume", "cover_letter", "interview_prep")
 
 

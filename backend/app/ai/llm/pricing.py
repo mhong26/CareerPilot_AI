@@ -1,4 +1,4 @@
-"""LLM 估價表 —— 把 token 用量換算成估計美金成本（FR-65）。
+"""LLM 估價表 —— 把 token 用量換算成估計美金成本（FR-56）。
 
 價格時常變動，集中在這一處維護。數值是「USD / 每百萬 (1M) tokens」。
 未知 model 回 ``Decimal("0")``（成本本來就是估計值，找不到價格不該讓主流程失敗）。
@@ -10,7 +10,7 @@ _PER_MILLION = Decimal(1_000_000)
 
 # model -> (input 單價, output 單價)，單位 USD / 1M tokens。
 _PRICING: dict[str, tuple[Decimal, Decimal]] = {
-    # 現行 primary / fallback（FR-67）。
+    # 現行 primary / fallback（FR-58）。
     "gemini-3.5-flash-lite": (Decimal("0.30"), Decimal("2.50")),
     "gemini-3.6-flash": (Decimal("1.50"), Decimal("7.50")),
     # 舊配置保留：歷史 LLMCallLog 仍參照這些 model 名。

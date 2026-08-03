@@ -1,4 +1,4 @@
-"""LLM call log: attempts / repair_used / fallback_used（FR-68）
+"""LLM call log: attempts / repair_used / fallback_used（FR-59）
 
 Revision ID: 0006
 Revises: 0005

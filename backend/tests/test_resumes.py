@@ -274,7 +274,7 @@ def test_requires_auth(client):
     assert client.get("/resumes/current").status_code == 401
 
 
-# --- 記帳 metadata（FR-67/68，service → LLMCallLog 接線）-----------------------
+# --- 記帳 metadata（FR-58/59，service → LLMCallLog 接線）-----------------------
 
 
 def _latest_log(db_session):

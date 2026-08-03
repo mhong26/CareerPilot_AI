@@ -1,4 +1,4 @@
-"""職缺 ingestion / 解析 / 切塊 / 向量索引 service（FR-13~18, FR-65）。
+"""職缺 ingestion / 解析 / 切塊 / 向量索引 service（FR-13~18, FR-56）。
 
 把「原文 → 結構化職缺 → section chunks → embeddings → 寫 Job/JobChunk/JobEmbedding」
 封裝成函式，router 只負責 HTTP 轉接。沿用 resume_service 的慣例與容錯策略：解析或
@@ -37,7 +37,7 @@ def parse_job_text(
     try:
         result = provider.generate_structured(prompt, JobParsed, system=JOB_PARSE_SYSTEM)
     except (StructuredOutputError, LLMError) as exc:
-        # 失敗路徑的記帳 metadata 掛在例外物件上（FR-68）；getattr 防禦：
+        # 失敗路徑的記帳 metadata 掛在例外物件上（FR-59）；getattr 防禦：
         # 測試的假例外可能沒帶完整屬性，實際模型退回 provider 設定值。
         record_call(
             db,

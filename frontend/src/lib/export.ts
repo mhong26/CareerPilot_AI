@@ -1,4 +1,4 @@
-// Artifact 匯出工具（FR-55）：structured content → markdown 字串，
+// Artifact 匯出工具（FR-46）：structured content → markdown 字串，
 // 加 clipboard 複製與 .md 檔下載。轉換函式是純函式（測試零 mock）。
 
 import type {

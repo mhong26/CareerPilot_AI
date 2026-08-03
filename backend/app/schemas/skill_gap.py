@@ -49,7 +49,7 @@ class RetrievedChunkMeta(BaseModel):
 
 
 class SkillGapRetrieval(BaseModel):
-    """retrieval JSONB 的 typed 鏡像；rerank 前後排序都保存（Phase 9 ER-5）。
+    """retrieval JSONB 的 typed 鏡像；rerank 前後排序都保存（Phase 8 ER-5）。
 
     ``chunks`` 為向量（pre-rerank）序、``ranked_chunk_ids`` 為 rerank 後序；
     rerank 失敗時 ``rerank_used=False``、``ranked_chunk_ids`` 即向量序。

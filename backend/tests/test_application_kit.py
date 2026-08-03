@@ -242,7 +242,7 @@ def test_generate_payload_success_logs_call(
 
 
 def test_generate_payload_failure_degrades(db_session):
-    """失敗：回 (None, error) 不丟例外，LLMCallLog 記一筆 error（NFR-4、FR-65）。"""
+    """失敗：回 (None, error) 不丟例外，LLMCallLog 記一筆 error（NFR-4、FR-56）。"""
     provider = _FakeProvider(kit_error=StructuredOutputError("cover letter gen down"))
     data, error = generate_cover_letter_payload(db_session, prompt="the prompt", provider=provider)
 
@@ -297,7 +297,7 @@ def _tools_by_name(ctx: KitRunContext):
 
 
 def test_build_kit_tools_names(kit_ctx):
-    """7 個工具、名稱與 FR-57 逐字一致、順序即 SRS 條列順序。"""
+    """7 個工具、名稱與 FR-48 逐字一致、順序即 SRS 條列順序。"""
     names = [t.name for t in build_kit_tools(kit_ctx())]
     assert names == [
         "fetch_resume",
@@ -464,7 +464,7 @@ def test_graph_happy_path_saves_all(kit_ctx, db_session):
     assert {r.kind for r in rows} == set(_ALL_KINDS)
     assert {r.run_id for r in rows} == {ctx.run_id}
     assert all(r.version_number == 1 and r.source == "agent" for r in rows)
-    # 7 個工具都綁給了 planner（FR-66 的前提）。
+    # 7 個工具都綁給了 planner（FR-57 的前提）。
     assert len(planner.bound_tools) == 7
     # planner 每輪記帳（8 個劇本步 + 1 次收尾決策 = 9）。
     planner_logs = [log for log in _logs(db_session) if log.operation == "agent_planner"]
@@ -693,7 +693,7 @@ def test_generate_kit_endpoint_happy(kit_api, client, db_session):
         assert artifact["version_number"] == 1
         assert artifact["resume_version_number"] == 1
     assert body["cover_letter"]["content"]["intro"] == "Dear team,"
-    # 三 rows 同 run_id（一次 run 的產出可歸組，FR-56）。
+    # 三 rows 同 run_id（一次 run 的產出可歸組，FR-47）。
     assert len({body[kind]["run_id"] for kind in _ALL_KINDS}) == 1
     assert len(db_session.scalars(select(GeneratedArtifact)).all()) == 3
 

@@ -2,7 +2,7 @@
 
 全專案第一個正式 pgvector 查詢。``job_embeddings`` 上冗餘的 ``job_id`` 正是
 為此而設（單一 job 內檢索免 join jobs），HNSW cosine 索引已由 Phase 4 建立。
-Phase 7 的 agent tool ``retrieve_job_evidence`` 與 Phase 9 retrieval eval 直接
+Phase 7 的 agent tool ``retrieve_job_evidence`` 與 Phase 8 retrieval eval 直接
 重用本模組。
 """
 
@@ -16,7 +16,7 @@ from app.db.models import JobChunk, JobEmbedding
 
 # 職缺典型 4-8 chunks：k=5 覆蓋多數職缺、對長職缺仍有實際篩選；同時就是
 # rerank 候選數（corpus 這麼小不需要兩段不同的 k）。模組常數而非 settings：
-# Phase 9 eval（P@K / MRR）是調整它的回饋迴路，不得隨部署環境漂移。
+# Phase 8 eval（P@K / MRR）是調整它的回饋迴路，不得隨部署環境漂移。
 TOP_K = 5
 
 

@@ -15,11 +15,11 @@
 
 工具執行採**自訂 executor node** 而非 prebuilt ToolNode，因為要在同一處做
 三件事：(a) 工具拋錯 → 錯誤 ToolMessage 降級不 crash（NFR-4）；(b) 把
-compute_match 分數同步進 state 供 score routing（FR-58）；(c) 保存狀態以
+compute_match 分數同步進 state 供 score routing（FR-49）；(c) 保存狀態以
 ctx.saved（DB 為準）供完成檢查。
 
-FR-66 合規：graph 沒有任何「工具 A 之後必然工具 B」的硬連線；唯二流程干預
-是 score directive（FR-58 允許）與 step/timeout 防護（FR-66 允許）。directive
+FR-57 合規：graph 沒有任何「工具 A 之後必然工具 B」的硬連線；唯二流程干預
+是 score directive（FR-49 允許）與 step/timeout 防護（FR-57 允許）。directive
 是「注入建議訊息」而非強制路徑，最終選擇權在 LLM。
 """
 
@@ -45,7 +45,7 @@ KIT_DEADLINE_SECONDS = 240
 KIT_RECURSION_LIMIT = 50
 # 完成檢查的重提示上限：點名缺漏最多兩次，仍不齊就 partial 收場。
 _MAX_REPROMPTS = 2
-# score routing 門檻（FR-58；與 MatchResult.match_score 註解、前端配色一致）。
+# score routing 門檻（FR-49；與 MatchResult.match_score 註解、前端配色一致）。
 _LOW_SCORE = 0.5
 _HIGH_SCORE = 0.8
 
@@ -98,7 +98,7 @@ def build_kit_graph(
         if response is None:
             ctx.errors.append(f"planner failed after retry: {last_exc}")
             return {}
-        # planner 呼叫記帳（FR-65）；usage_metadata 缺失時記零值。
+        # planner 呼叫記帳（FR-56）；usage_metadata 缺失時記零值。
         metadata = getattr(response, "usage_metadata", None) or {}
         usage = TokenUsage(
             prompt_tokens=metadata.get("input_tokens", 0),
@@ -165,7 +165,7 @@ def build_kit_graph(
         return "planner"
 
     def inject_directive(state: KitState) -> dict[str, Any]:
-        """依 score 門檻注入 [directive] 訊息（FR-58）——建議而非強制路徑（FR-66）。
+        """依 score 門檻注入 [directive] 訊息（FR-49）——建議而非強制路徑（FR-57）。
 
         用 HumanMessage 前綴 [directive]，不用 mid-conversation SystemMessage
         （Gemini 的 system 轉換對中途插入不友善）。

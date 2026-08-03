@@ -1,4 +1,4 @@
-"""Application kit API 的 request / response schemas（FR-31~44、FR-54~55）。
+"""Application kit API 的 request / response schemas（FR-31~44、FR-45~46）。
 
 ``ArtifactResponse.content`` 存的是 kind 對應 kit_schema 的 ``model_dump()``；
 router 組裝時會先過該 schema ``model_validate`` 再 dump——JSONB 明確轉回

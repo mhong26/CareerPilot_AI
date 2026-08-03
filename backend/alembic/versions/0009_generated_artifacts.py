@@ -1,4 +1,4 @@
-"""generated artifacts: generated_artifacts（Phase 7, FR-31~44、FR-54~55）
+"""generated artifacts: generated_artifacts（Phase 7, FR-31~44、FR-45~46）
 
 Revision ID: 0009
 Revises: 0008
