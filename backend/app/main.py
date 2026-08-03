@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from app.api.application_kits import router as application_kits_router
 from app.api.auth import router as auth_router
 from app.api.health import router as health_router
 from app.api.jobs import router as jobs_router
@@ -29,3 +30,4 @@ app.include_router(resumes_router)
 app.include_router(jobs_router)
 app.include_router(matches_router)
 app.include_router(skill_gaps_router)
+app.include_router(application_kits_router)
