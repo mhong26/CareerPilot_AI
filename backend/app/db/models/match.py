@@ -2,7 +2,7 @@
 
 每組 (resume, job) 只保留最新一筆（unique constraint + service 層 upsert），
 ``updated_at`` 即「上次執行時間」。``resume_version_id`` 記錄評分當下的履歷
-快照，供稽核與 Phase 9 evaluation 重現。
+快照，供稽核與 Phase 8 evaluation 重現。
 """
 
 import uuid

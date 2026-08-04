@@ -1,4 +1,4 @@
-"""Application kit service（FR-31~44、FR-54~58、FR-65）。
+"""Application kit service（FR-31~44、FR-45~49、FR-56）。
 
 分兩層：三個 artifact 的「call + log + 降級」生成函式（工具層呼叫），與
 agent 編排（``run_application_kit``：gates → ctx → tools → graph → 收集
@@ -10,7 +10,7 @@ agent 編排（``run_application_kit``：gates → ctx → tools → graph → �
 run 中途失敗時已保存者仍有效，NFR-4）。
 
 降級哲學（NFR-4）：LLM 生成失敗回 ``(None, error)`` 不丟例外，成功／失敗
-都入 ``LLMCallLog``（malformed rate 與成本追蹤自動涵蓋，FR-65、FR-68）。
+都入 ``LLMCallLog``（malformed rate 與成本追蹤自動涵蓋，FR-56、FR-59）。
 """
 
 import time
@@ -286,7 +286,7 @@ def run_application_kit(
     reranker: Reranker,
     planner_model: BaseChatModel,
 ) -> KitRunOutcome:
-    """跑 kit agent（FR-56~58、FR-66）：gates → graph → 收集已保存 artifacts。
+    """跑 kit agent（FR-47~49、FR-57）：gates → graph → 收集已保存 artifacts。
 
     Agent 啟動前先把必敗的 run 擋在 gates（409 語意），省 LLM 成本；啟動後
     任何失敗都降級（partial 結果照回，NFR-4）——含 recursion limit 保險絲。
@@ -385,7 +385,7 @@ def get_latest_kit(
 def update_artifact(
     db: Session, *, user: User, artifact_id: uuid.UUID, content: dict[str, Any]
 ) -> GeneratedArtifact:
-    """使用者編輯版（FR-40、FR-54）：驗證 content → **插入新 row**（append-only）。
+    """使用者編輯版（FR-40、FR-45）：驗證 content → **插入新 row**（append-only）。
 
     永不 UPDATE 舊 row——歷史不可破壞（SRS §5.3.4）。新 row 沿用原 pair /
     kind / run_id 與履歷版本快照，``source="edit"``、版號 +1。content 不符

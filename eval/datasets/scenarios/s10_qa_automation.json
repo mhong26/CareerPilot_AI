@@ -1,0 +1,246 @@
+{
+  "scenario_id": "s10",
+  "title": "QA automation engineer vs manual-QA keyword trap",
+  "description": "A 4-year QA automation engineer (Selenium, Cypress, Python, CI pipelines) evaluated against 8 postings: a senior SDET gap target, a mobile-leaning SET role, a clerical manual-QA documentation trap stuffed with automation keywords, a marginal build/release role, and four distractors.",
+  "tags": ["keyword-trap"],
+  "language": "en",
+  "rationale": "j3 is the keyword-trap family member: a clerical test-case documentation role whose posting is saturated with the resume's exact automation keywords (Selenium WebDriver, Cypress, pytest, TestRail) yet explicitly states 'no programming or automation work involved' — the duties are manual transcription and spreadsheet data entry, so it is grade 0 despite heavy lexical overlap. TF-IDF should over-rank it; the hybrid matcher should not. j1 is the gap target: strong overlap on Selenium, Cypress, Python, pytest and CI pipelines justifies grade 3, while Playwright and k6/JMeter performance testing (required) plus TypeScript and AWS (preferred) are genuine annotated gaps. j2 stays at grade 2 because the mobile emphasis (Appium, BrowserStack) is outside the resume while the web-automation core matches. j4 probes the graded boundary: real Jenkins/Python/Docker overlap but the job family is release engineering, not QA.",
+  "resume": {
+    "basic_info": {
+      "name": "Priya Nandakumar",
+      "email": "priya.nandakumar@example.com",
+      "phone": "",
+      "location": "Raleigh, NC",
+      "links": ["github.com/priya-nk"]
+    },
+    "summary": "QA automation engineer with 4 years of experience building end-to-end and API test suites in Selenium, Cypress, and Python. Owns test infrastructure end to end: framework design, CI integration, flaky-test triage, and release gating.",
+    "skills": ["Selenium WebDriver", "Cypress", "Python", "pytest", "JavaScript", "Jenkins", "GitHub Actions", "Postman", "SQL", "Docker", "Page Object Model", "Git"],
+    "experience": [
+      {
+        "company": "Veltrix Software",
+        "title": "QA Automation Engineer",
+        "start_date": "Mar 2024",
+        "end_date": "Present",
+        "bullets": [
+          "Built a Cypress end-to-end suite of 320 scenarios covering the billing and onboarding flows, cutting the regression cycle from 3 days to 4 hours",
+          "Parallelized the Selenium WebDriver grid across Docker containers, reducing nightly suite runtime by 60%",
+          "Wired test suites into Jenkins and GitHub Actions as merge-blocking release gates for 5 services",
+          "Introduced a flaky-test quarantine workflow that reduced false CI failures by 70%"
+        ]
+      },
+      {
+        "company": "Harborline Systems",
+        "title": "QA Engineer",
+        "start_date": "Jun 2022",
+        "end_date": "Feb 2024",
+        "bullets": [
+          "Wrote a pytest-based REST API test suite of 450 cases against the claims-processing backend",
+          "Migrated a 200-case manual regression checklist to Selenium WebDriver with the Page Object Model",
+          "Validated ETL output with SQL assertions, catching 14 data defects before release"
+        ]
+      }
+    ],
+    "projects": [
+      {
+        "name": "flaketrack",
+        "description": "Open-source CLI that detects and ranks flaky tests from CI history",
+        "bullets": [
+          "Parses JUnit XML across pipeline runs and scores tests by failure intermittency",
+          "Adopted by 3 internal teams to drive weekly flaky-test triage"
+        ],
+        "tech": ["Python", "pytest", "SQLite"]
+      }
+    ],
+    "education": [
+      {
+        "school": "North Carolina State University",
+        "degree": "B.S.",
+        "field": "Computer Science",
+        "graduation": "2022"
+      }
+    ],
+    "certifications": []
+  },
+  "jobs": [
+    {
+      "job_key": "j1",
+      "raw_text": "Senior QA Automation Engineer (SDET) — Streamvale (Remote, US)\n\nStreamvale's video platform serves 8M viewers on live event nights, and our release gates have to hold under that pressure. We are hiring a Senior SDET to own test automation across web and API layers.\n\nWhat you will do:\n- Own end-to-end regression suites in Cypress and Playwright\n- Extend our Selenium WebDriver grid and migrate legacy suites to Playwright\n- Gate releases through pytest-based API checks wired into Jenkins and GitHub Actions pipelines\n- Build load and performance test scenarios for peak live-event traffic\n\nRequirements: Selenium WebDriver, Cypress, Python, Playwright, and performance testing with k6 or JMeter. 5+ years in software test automation, 1+ years owning performance or load testing. Bachelor's degree in Computer Science or a related field.\n\nNice to have: TypeScript, AWS, contract testing with Pact.",
+      "parsed": {
+        "company": "Streamvale",
+        "title": "Senior QA Automation Engineer (SDET)",
+        "location": "Remote (US)",
+        "work_mode": "remote",
+        "responsibilities": [
+          "Own end-to-end regression suites in Cypress and Playwright across web and API layers",
+          "Extend the Selenium WebDriver grid and migrate legacy suites to Playwright",
+          "Gate releases through pytest-based API checks wired into Jenkins and GitHub Actions pipelines",
+          "Build load and performance test scenarios for peak live-event traffic"
+        ],
+        "required_skills": ["Selenium WebDriver", "Cypress", "Python", "Playwright", "Performance testing with k6 or JMeter"],
+        "preferred_skills": ["TypeScript", "AWS", "Contract testing with Pact"],
+        "qualifications": ["Bachelor's degree in Computer Science or a related field"],
+        "experience_requirements": [
+          "5+ years in software test automation",
+          "1+ years owning performance or load testing"
+        ]
+      }
+    },
+    {
+      "job_key": "j2",
+      "raw_text": "Software Engineer in Test — Appwave Mobile (Hybrid, Atlanta GA)\n\nAppwave builds a loyalty-rewards app used by 40 grocery chains. Our web dashboard is well covered; our mobile clients are not, and we want an SET to close that gap.\n\nYou will maintain and extend our Cypress suite for the merchant dashboard, stand up mobile UI automation for iOS and Android with Appium, and write REST API tests that run on every pull request. You will also help triage device-farm failures and keep our BrowserStack runs healthy.\n\nRequirements: Cypress, JavaScript, Appium, and REST API testing. 3+ years in test automation. Bonus: Python and BrowserStack experience. We value engineers who treat test code as production code.",
+      "parsed": {
+        "company": "Appwave Mobile",
+        "title": "Software Engineer in Test",
+        "location": "Atlanta, GA",
+        "work_mode": "hybrid",
+        "responsibilities": [
+          "Maintain and extend the Cypress suite for the merchant dashboard",
+          "Stand up mobile UI automation for iOS and Android with Appium",
+          "Write REST API tests that run on every pull request",
+          "Triage device-farm failures and keep BrowserStack runs healthy"
+        ],
+        "required_skills": ["Cypress", "JavaScript", "Appium", "REST API testing"],
+        "preferred_skills": ["Python", "BrowserStack"],
+        "qualifications": [],
+        "experience_requirements": ["3+ years in test automation"]
+      }
+    },
+    {
+      "job_key": "j3",
+      "raw_text": "QA Test Case Documentation Coordinator — Orbis Insurance Services (Onsite, Hartford CT)\n\nOur engineering group runs large Selenium WebDriver and Cypress automation suites, and the paperwork around them has fallen behind. We need a detail-oriented coordinator to document test cases for our Selenium suite, transcribe steps from Cypress and pytest scripts into plain-English test cases, and keep our TestRail library tidy.\n\nThis is a documentation and data-entry role — no programming or automation work is involved. You will manually execute scripted checklists during release weeks, log results in Excel spreadsheets that reference Selenium and Cypress spec names, and file tickets for the automation team.\n\nRequirements: manual test case writing, Microsoft Excel, TestRail data entry, and strong attention to detail. 1+ years in a clerical, documentation, or manual QA support role.",
+      "parsed": {
+        "company": "Orbis Insurance Services",
+        "title": "QA Test Case Documentation Coordinator",
+        "location": "Hartford, CT",
+        "work_mode": "onsite",
+        "responsibilities": [
+          "Document test cases for the Selenium suite and transcribe steps from Cypress and pytest scripts into plain English",
+          "Manually execute scripted checklists during release weeks and log results in Excel spreadsheets referencing Selenium and Cypress spec names",
+          "Keep the TestRail test-case library tidy and file tickets for the automation team"
+        ],
+        "required_skills": ["Manual test case writing", "Microsoft Excel", "TestRail data entry", "Attention to detail"],
+        "preferred_skills": ["Familiarity with terms like Selenium, Cypress, and pytest"],
+        "qualifications": [],
+        "experience_requirements": ["1+ years in a clerical, documentation, or manual QA support role"]
+      }
+    },
+    {
+      "job_key": "j4",
+      "raw_text": "Build & Release Engineer — Foundrix (Remote, US)\n\nFoundrix ships an embedded-analytics SDK to 200+ enterprise customers, and every release crosses 14 build variants. We are hiring a Build & Release Engineer to own that machinery.\n\nYou will maintain Jenkins pipelines and shared Groovy libraries, manage artifact promotion through Artifactory, script release tooling in Python, and keep our Docker-based build images current. You will coordinate release trains with engineering leads and cut hotfix branches under pressure.\n\nRequirements: Jenkins, Groovy, Python, Docker, and Artifactory. 3+ years in build, release, or DevOps engineering. Bonus: Bazel and macOS codesigning experience.",
+      "parsed": {
+        "company": "Foundrix",
+        "title": "Build & Release Engineer",
+        "location": "Remote (US)",
+        "work_mode": "remote",
+        "responsibilities": [
+          "Maintain Jenkins pipelines and shared Groovy libraries",
+          "Manage artifact promotion through Artifactory and keep Docker build images current",
+          "Script release tooling in Python and coordinate release trains with engineering leads"
+        ],
+        "required_skills": ["Jenkins", "Groovy", "Python", "Docker", "Artifactory"],
+        "preferred_skills": ["Bazel", "macOS codesigning"],
+        "qualifications": [],
+        "experience_requirements": ["3+ years in build, release, or DevOps engineering"]
+      }
+    },
+    {
+      "job_key": "j5",
+      "raw_text": "Android Engineer — Lumora Apps (Hybrid, Austin TX)\n\nLumora builds a sleep-tracking app with 2M monthly users. We are hiring an Android Engineer to lead our Jetpack Compose migration.\n\nYou will build new tracking and insights screens in Jetpack Compose, maintain the existing XML-based UI during migration, and profile battery and startup performance on low-end devices. You will work closely with our designer and backend team in two-week cycles.\n\nRequirements: Kotlin, Jetpack Compose, Android SDK, and Room. 3+ years shipping Android apps to the Play Store. Bonus: Wear OS and Bluetooth Low Energy experience.",
+      "parsed": {
+        "company": "Lumora Apps",
+        "title": "Android Engineer",
+        "location": "Austin, TX",
+        "work_mode": "hybrid",
+        "responsibilities": [
+          "Build new tracking and insights screens in Jetpack Compose",
+          "Maintain the existing XML-based UI during the migration",
+          "Profile battery and startup performance on low-end devices"
+        ],
+        "required_skills": ["Kotlin", "Jetpack Compose", "Android SDK", "Room"],
+        "preferred_skills": ["Wear OS", "Bluetooth Low Energy"],
+        "qualifications": [],
+        "experience_requirements": ["3+ years shipping Android apps to the Play Store"]
+      }
+    },
+    {
+      "job_key": "j6",
+      "raw_text": "Customer Success Manager — Brightline SaaS (Remote, US)\n\nBrightline sells workforce-scheduling software to mid-market retailers, and our CSM team owns everything after the contract is signed. We are hiring a Customer Success Manager for a book of 45 accounts.\n\nYou will run onboarding and quarterly business reviews, monitor product adoption and health scores, drive renewals and expansion conversations, and channel customer feedback to product management.\n\nRequirements: B2B SaaS account management, onboarding program delivery, renewal forecasting, and executive communication. 4+ years in customer success or account management. Bonus: Gainsight experience.",
+      "parsed": {
+        "company": "Brightline SaaS",
+        "title": "Customer Success Manager",
+        "location": "Remote (US)",
+        "work_mode": "remote",
+        "responsibilities": [
+          "Run onboarding and quarterly business reviews for a book of 45 accounts",
+          "Monitor product adoption and health scores to catch churn risk early",
+          "Drive renewals and expansion conversations",
+          "Channel customer feedback to product management"
+        ],
+        "required_skills": ["B2B SaaS account management", "Onboarding program delivery", "Renewal forecasting", "Executive communication"],
+        "preferred_skills": ["Gainsight"],
+        "qualifications": [],
+        "experience_requirements": ["4+ years in customer success or account management"]
+      }
+    },
+    {
+      "job_key": "j7",
+      "raw_text": "Digital Marketing Specialist — Hearthside Goods (Onsite, Nashville TN)\n\nHearthside is a direct-to-consumer cookware brand growing 40% year over year. We need a Digital Marketing Specialist to own paid and organic acquisition.\n\nYou will plan and run Google Ads and Meta campaigns, own the SEO roadmap with our content writers, build email flows in Klaviyo, and report weekly on CAC and ROAS.\n\nRequirements: Google Ads, Meta Ads Manager, SEO fundamentals, and email marketing. 2+ years in digital or growth marketing. Bonus: Shopify and basic HTML.",
+      "parsed": {
+        "company": "Hearthside Goods",
+        "title": "Digital Marketing Specialist",
+        "location": "Nashville, TN",
+        "work_mode": "onsite",
+        "responsibilities": [
+          "Plan and run Google Ads and Meta acquisition campaigns",
+          "Own the SEO roadmap with the content team",
+          "Build email flows in Klaviyo and report weekly on CAC and ROAS"
+        ],
+        "required_skills": ["Google Ads", "Meta Ads Manager", "SEO fundamentals", "Email marketing"],
+        "preferred_skills": ["Shopify", "Basic HTML"],
+        "qualifications": [],
+        "experience_requirements": ["2+ years in digital or growth marketing"]
+      }
+    },
+    {
+      "job_key": "j8",
+      "raw_text": "Product Designer — Nestora (Hybrid, Denver CO)\n\nNestora's home-maintenance marketplace connects homeowners with vetted contractors. We are hiring a Product Designer to own the homeowner booking experience end to end.\n\nYou will run discovery interviews with homeowners, design flows and high-fidelity prototypes in Figma, maintain and extend our design system, and pair with engineers through implementation.\n\nRequirements: Figma, interaction design, prototyping, and usability testing. 3+ years in product design for consumer web or mobile. Bonus: motion design and design-token workflows.",
+      "parsed": {
+        "company": "Nestora",
+        "title": "Product Designer",
+        "location": "Denver, CO",
+        "work_mode": "hybrid",
+        "responsibilities": [
+          "Run discovery interviews with homeowners",
+          "Design flows and high-fidelity prototypes in Figma",
+          "Maintain and extend the design system",
+          "Pair with engineers through implementation"
+        ],
+        "required_skills": ["Figma", "Interaction design", "Prototyping", "Usability testing"],
+        "preferred_skills": ["Motion design", "Design-token workflows"],
+        "qualifications": [],
+        "experience_requirements": ["3+ years in product design for consumer web or mobile"]
+      }
+    }
+  ],
+  "ground_truth_ranking": {
+    "j1": 3,
+    "j2": 2,
+    "j3": 0,
+    "j4": 1,
+    "j5": 0,
+    "j6": 0,
+    "j7": 0,
+    "j8": 0
+  },
+  "skill_gap": {
+    "job_key": "j1",
+    "relevant_chunks": [2, 3, 5],
+    "expected_gaps": [
+      { "skill": "Playwright", "severity": "high" },
+      { "skill": "Performance testing with k6 or JMeter", "severity": "high" },
+      { "skill": "TypeScript", "severity": "medium" },
+      { "skill": "AWS", "severity": "low" }
+    ],
+    "must_not_claim": ["Selenium WebDriver", "Cypress", "Python", "pytest", "Jenkins", "GitHub Actions"]
+  }
+}

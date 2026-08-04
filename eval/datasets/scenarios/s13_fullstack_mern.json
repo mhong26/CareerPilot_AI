@@ -1,0 +1,251 @@
+{
+  "scenario_id": "s13",
+  "title": "Full-stack MERN developer",
+  "description": "A 3-year MongoDB/Express/React/Node.js developer evaluated against 8 postings: a strong full-stack match with GraphQL/AWS gaps, a semantic match written entirely in generic stack-agnostic vocabulary, a marginal React Native role, and five cross-family distractors.",
+  "tags": ["semantic-no-keyword-overlap"],
+  "language": "en",
+  "rationale": "j2 is the semantic-no-keyword-overlap job: it describes exactly the resume's MERN competency ('a single language across client and server', 'schema-flexible document data stores', 'declarative component-based UI frameworks', 'non-blocking server runtimes') while sharing essentially no tokens with the resume's skill names — TF-IDF gets no signal, embeddings should still rank it grade 2. j3 (React Native with native Swift/Kotlin modules) is the marginal case: genuine React/TypeScript overlap, but the core family is native mobile delivery, so grade 1. The five distractors span SRE, machine learning, Salesforce administration, embedded firmware, and marketing to test cross-family separation. Gap target j1 overlaps fully on React, TypeScript, Node.js, Express, MongoDB, and Jest, with GraphQL and AWS as unambiguous required-skill gaps and Next.js/Redis as preferred gaps.",
+  "resume": {
+    "basic_info": {
+      "name": "Daniel Okafor",
+      "email": "daniel.okafor@example.com",
+      "phone": "",
+      "location": "Atlanta, GA",
+      "links": ["github.com/dokafor-dev"]
+    },
+    "summary": "Full-stack developer with 3 years of experience shipping web products on the MERN stack. Comfortable owning a feature from MongoDB schema and Express API through the React UI, with typed code in TypeScript and solid Jest test coverage.",
+    "skills": ["JavaScript", "TypeScript", "Node.js", "Express", "React", "MongoDB", "Mongoose", "Redux", "REST API design", "Jest", "Docker", "HTML/CSS", "Git"],
+    "experience": [
+      {
+        "company": "Cartwheel Labs",
+        "title": "Full-Stack Developer",
+        "start_date": "Aug 2024",
+        "end_date": "Present",
+        "bullets": [
+          "Built the merchant analytics dashboard in React and TypeScript, used weekly by 2,300 store owners",
+          "Designed Express REST APIs backed by MongoDB aggregation pipelines, cutting report load time from 6s to 1.2s",
+          "Introduced Redux Toolkit and normalized state, removing 14 duplicated data-fetching hooks",
+          "Raised backend Jest coverage from 35% to 80% and wired the suite into CI"
+        ]
+      },
+      {
+        "company": "Bluefin Digital",
+        "title": "Junior Web Developer",
+        "start_date": "Jun 2023",
+        "end_date": "Jul 2024",
+        "bullets": [
+          "Implemented booking-flow features in a Node.js/Express monolith serving 40k monthly users",
+          "Migrated legacy jQuery pages to React components across three client projects",
+          "Modeled customer and reservation data in MongoDB with Mongoose schemas and validation"
+        ]
+      }
+    ],
+    "projects": [
+      {
+        "name": "tasknest",
+        "description": "Open-source realtime kanban board",
+        "bullets": [
+          "Built a realtime kanban app with drag-and-drop columns and live presence via WebSockets",
+          "Reached 180 GitHub stars and 9 external contributors"
+        ],
+        "tech": ["React", "Node.js", "MongoDB", "Socket.IO", "TypeScript"]
+      }
+    ],
+    "education": [
+      {
+        "school": "Georgia State University",
+        "degree": "B.S.",
+        "field": "Information Systems",
+        "graduation": "2023"
+      }
+    ],
+    "certifications": []
+  },
+  "jobs": [
+    {
+      "job_key": "j1",
+      "raw_text": "Full-Stack Engineer — Harborview Software (Remote, US)\n\nHarborview builds shipment-tracking software for freight brokers. We are hiring a Full-Stack Engineer to own features across our customer portal and API layer.\n\nWhat you will do:\n- Build and evolve REST and GraphQL APIs with Node.js and Express\n- Design MongoDB schemas and aggregation pipelines for shipment tracking data\n- Develop React/TypeScript views for the customer-facing portal\n- Maintain Jest test suites and CI checks across the stack\n\nRequirements: React, TypeScript, Node.js, GraphQL, AWS. 3+ years building production web applications end to end, plus experience deploying and operating services on AWS. Bachelor's degree in Computer Science or equivalent practical experience.\n\nNice to have: Next.js, Redis, Kubernetes.",
+      "parsed": {
+        "company": "Harborview Software",
+        "title": "Full-Stack Engineer",
+        "location": "Remote (US)",
+        "work_mode": "remote",
+        "responsibilities": [
+          "Build and evolve REST and GraphQL APIs with Node.js and Express",
+          "Design MongoDB schemas and aggregation pipelines for shipment tracking data",
+          "Develop React/TypeScript views for the customer-facing portal",
+          "Maintain Jest test suites and CI checks across the stack"
+        ],
+        "required_skills": ["React", "TypeScript", "Node.js", "GraphQL", "AWS"],
+        "preferred_skills": ["Next.js", "Redis", "Kubernetes"],
+        "qualifications": ["Bachelor's degree in Computer Science or equivalent practical experience"],
+        "experience_requirements": [
+          "3+ years building production web applications end to end",
+          "Experience deploying and operating services on AWS"
+        ]
+      }
+    },
+    {
+      "job_key": "j2",
+      "raw_text": "Product Engineer, Web Platform — Foldline (Hybrid, Raleigh NC)\n\nFoldline builds scheduling tools for home-service businesses. We are deliberately unopinionated about brand names — we hire for fundamentals and teach the specifics.\n\nYou will ship end-to-end product features using a single modern language on both client and server, model product data in a schema-flexible document store, and build interactive views with a declarative, component-based UI framework.\n\nWe look for: fluency in one modern language across client and server, experience with document-oriented data stores, comfort with component-based frontend frameworks, and thoughtful HTTP API design. 2+ years building web products end to end. Bonus: event-driven non-blocking server runtimes, containerized deployments.",
+      "parsed": {
+        "company": "Foldline",
+        "title": "Product Engineer, Web Platform",
+        "location": "Raleigh, NC",
+        "work_mode": "hybrid",
+        "responsibilities": [
+          "Ship end-to-end product features using a single modern language on both client and server",
+          "Model product data in a schema-flexible document store",
+          "Build interactive views with a declarative, component-based UI framework"
+        ],
+        "required_skills": [
+          "One modern language across client and server",
+          "Document-oriented data stores",
+          "Component-based frontend frameworks",
+          "HTTP API design"
+        ],
+        "preferred_skills": ["Event-driven non-blocking server runtimes", "Containerized deployments"],
+        "qualifications": [],
+        "experience_requirements": ["2+ years building web products end to end"]
+      }
+    },
+    {
+      "job_key": "j3",
+      "raw_text": "Mobile Engineer (React Native) — Pocketporter (Remote, US)\n\nPocketporter is a consumer luggage-shipping app with 500k downloads. We need a Mobile Engineer to own our React Native app end to end.\n\nYou will ship features in React Native and TypeScript, write native modules in Swift and Kotlin for camera and background-location work, own App Store and Play Store releases, and keep crash-free sessions above 99.5%.\n\nRequirements: React Native, TypeScript, native iOS (Swift) or Android (Kotlin) module development, mobile release management. 3+ years shipping consumer mobile apps. Bonus: Detox end-to-end testing, mobile CI (Bitrise or Fastlane).",
+      "parsed": {
+        "company": "Pocketporter",
+        "title": "Mobile Engineer (React Native)",
+        "location": "Remote (US)",
+        "work_mode": "remote",
+        "responsibilities": [
+          "Ship features in React Native and TypeScript",
+          "Write native modules in Swift and Kotlin for camera and background-location features",
+          "Own App Store and Play Store release management",
+          "Keep crash-free sessions above 99.5%"
+        ],
+        "required_skills": ["React Native", "TypeScript", "Native iOS (Swift) or Android (Kotlin) modules", "Mobile release management"],
+        "preferred_skills": ["Detox end-to-end testing", "Mobile CI (Bitrise or Fastlane)"],
+        "qualifications": [],
+        "experience_requirements": ["3+ years shipping consumer mobile apps"]
+      }
+    },
+    {
+      "job_key": "j4",
+      "raw_text": "Site Reliability Engineer — Gridbase (Remote, US)\n\nGridbase runs billing infrastructure for utility companies with strict uptime SLOs. We are hiring an SRE to harden the platform.\n\nYou will own alerting and capacity planning, automate infrastructure with Terraform and Kubernetes operators, and lead incident response.\n\nRequirements: Kubernetes, Terraform, Go, Prometheus/Grafana, incident response ownership. 4+ years in SRE or infrastructure roles. Bonus: chaos engineering.",
+      "parsed": {
+        "company": "Gridbase",
+        "title": "Site Reliability Engineer",
+        "location": "Remote (US)",
+        "work_mode": "remote",
+        "responsibilities": [
+          "Own availability, alerting, and capacity planning for billing services",
+          "Automate infrastructure with Terraform and Kubernetes operators",
+          "Lead incident response and postmortems"
+        ],
+        "required_skills": ["Kubernetes", "Terraform", "Go", "Prometheus", "Grafana"],
+        "preferred_skills": ["Chaos engineering"],
+        "qualifications": [],
+        "experience_requirements": ["4+ years in SRE or infrastructure roles"]
+      }
+    },
+    {
+      "job_key": "j5",
+      "raw_text": "Machine Learning Engineer — Veldt AI (Hybrid, Austin TX)\n\nVeldt builds demand-forecasting models for grocery chains. We need an ML Engineer to productionize our forecasting stack.\n\nYou will train and tune gradient-boosting and deep models, build feature pipelines, and deploy models behind low-latency inference services.\n\nRequirements: Python, PyTorch or XGBoost, feature engineering, model serving and MLOps. 3+ years building production ML systems. Bonus: Spark, Kubeflow.",
+      "parsed": {
+        "company": "Veldt AI",
+        "title": "Machine Learning Engineer",
+        "location": "Austin, TX",
+        "work_mode": "hybrid",
+        "responsibilities": [
+          "Train and tune forecasting models for grocery demand",
+          "Build feature pipelines over sales and weather data",
+          "Deploy models behind low-latency inference services"
+        ],
+        "required_skills": ["Python", "PyTorch or XGBoost", "Feature engineering", "Model serving / MLOps"],
+        "preferred_skills": ["Spark", "Kubeflow"],
+        "qualifications": [],
+        "experience_requirements": ["3+ years building production ML systems"]
+      }
+    },
+    {
+      "job_key": "j6",
+      "raw_text": "Salesforce Administrator — Corvant Insurance (Onsite, Hartford CT)\n\nCorvant Insurance runs its agency operations on Salesforce. We need an Administrator to own the org.\n\nYou will manage users, profiles, and permission sets, build Flow automations, maintain dashboards for sales leadership, and coordinate releases with our consulting partner.\n\nRequirements: Salesforce administration, Flow automation, reports and dashboards, data loader operations. 3+ years administering a 200+ seat Salesforce org. Bonus: Advanced Administrator certification.",
+      "parsed": {
+        "company": "Corvant Insurance",
+        "title": "Salesforce Administrator",
+        "location": "Hartford, CT",
+        "work_mode": "onsite",
+        "responsibilities": [
+          "Manage users, profiles, and permission sets",
+          "Build and maintain Flow automations",
+          "Maintain dashboards for sales leadership",
+          "Coordinate releases with the consulting partner"
+        ],
+        "required_skills": ["Salesforce administration", "Flow automation", "Reports and dashboards", "Data loader operations"],
+        "preferred_skills": ["Advanced Administrator certification"],
+        "qualifications": [],
+        "experience_requirements": ["3+ years administering a 200+ seat Salesforce org"]
+      }
+    },
+    {
+      "job_key": "j7",
+      "raw_text": "Embedded Firmware Engineer — Signalcraft Devices (Onsite, San Diego CA)\n\nSignalcraft builds marine navigation instruments. We need a firmware engineer for our sensor product line.\n\nYou will write C/C++ firmware for ARM Cortex-M microcontrollers, implement sensor drivers over I2C and SPI, and optimize battery life for solar-charged buoys.\n\nRequirements: C, C++, ARM Cortex-M, I2C/SPI drivers, RTOS experience. 4+ years of embedded firmware development. Bonus: NMEA 2000, low-power design.",
+      "parsed": {
+        "company": "Signalcraft Devices",
+        "title": "Embedded Firmware Engineer",
+        "location": "San Diego, CA",
+        "work_mode": "onsite",
+        "responsibilities": [
+          "Write C/C++ firmware for ARM Cortex-M microcontrollers",
+          "Implement sensor drivers over I2C and SPI",
+          "Optimize battery life for solar-charged buoys"
+        ],
+        "required_skills": ["C", "C++", "ARM Cortex-M", "I2C/SPI drivers", "RTOS"],
+        "preferred_skills": ["NMEA 2000", "Low-power design"],
+        "qualifications": [],
+        "experience_requirements": ["4+ years of embedded firmware development"]
+      }
+    },
+    {
+      "job_key": "j8",
+      "raw_text": "Content Marketing Manager — Petalworks (Remote, US)\n\nPetalworks sells inventory software to florists and garden centers. We are hiring a Content Marketing Manager to grow organic traffic.\n\nYou will own the editorial calendar, write SEO-driven articles and case studies, manage two freelance writers, and report on pipeline influenced by content.\n\nRequirements: SEO content strategy, long-form B2B writing, editorial calendar management, marketing analytics (GA4). 4+ years in content marketing. Bonus: HubSpot, webinar production.",
+      "parsed": {
+        "company": "Petalworks",
+        "title": "Content Marketing Manager",
+        "location": "Remote (US)",
+        "work_mode": "remote",
+        "responsibilities": [
+          "Own the editorial calendar and content roadmap",
+          "Write SEO-driven articles and customer case studies",
+          "Manage two freelance writers",
+          "Report on pipeline influenced by content"
+        ],
+        "required_skills": ["SEO content strategy", "Long-form B2B writing", "Editorial calendar management", "Marketing analytics (GA4)"],
+        "preferred_skills": ["HubSpot", "Webinar production"],
+        "qualifications": [],
+        "experience_requirements": ["4+ years in content marketing"]
+      }
+    }
+  ],
+  "ground_truth_ranking": {
+    "j1": 3,
+    "j2": 2,
+    "j3": 1,
+    "j4": 0,
+    "j5": 0,
+    "j6": 0,
+    "j7": 0,
+    "j8": 0
+  },
+  "skill_gap": {
+    "job_key": "j1",
+    "relevant_chunks": [2, 3, 5],
+    "expected_gaps": [
+      { "skill": "GraphQL", "severity": "high" },
+      { "skill": "AWS", "severity": "high" },
+      { "skill": "Next.js", "severity": "low" },
+      { "skill": "Redis", "severity": "low" }
+    ],
+    "must_not_claim": ["React", "TypeScript", "Node.js", "MongoDB", "Express", "Jest"]
+  }
+}

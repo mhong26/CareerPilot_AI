@@ -1,0 +1,250 @@
+{
+  "scenario_id": "s03",
+  "title": "Junior data analyst (SQL / Excel / Tableau)",
+  "description": "A junior analyst with ~1.5 years of SQL/Excel/Tableau experience evaluated against 8 postings: one strong analyst match with clear gaps, one adjacent reporting role, one keyword-stuffed data-entry trap, one marginal analytics-engineering role, and four distractors.",
+  "tags": ["keyword-trap", "junior"],
+  "language": "en",
+  "rationale": "j3 is the keyword trap: a BPO Data Entry Specialist posting stuffed with the resume's exact tokens (SQL, Excel, Tableau, pivot tables, VLOOKUP) while the actual work is manual transcription and physical filing — a completely different job family, so grade 0; TF-IDF will over-rank it and the hybrid matcher should not. j2 is a grade-2 same-family reporting role whose BI tool is Power BI rather than Tableau, testing that near-synonym stacks still rank well. j4 probes the graded boundary: genuine expert-SQL overlap, but the core stack (dbt, Snowflake, Airflow) is absent from the resume, so grade 1. Gap target j1 is a same-family Data Analyst role with unambiguous annotated gaps (Python/pandas required and absent; Snowflake required but partially covered by PostgreSQL SQL experience; dbt and Looker preferred) plus heavy overlap on SQL/Tableau/Excel that justifies grade 3 and feeds must_not_claim.",
+  "resume": {
+    "basic_info": {
+      "name": "Priya Raman",
+      "email": "priya.raman@example.com",
+      "phone": "",
+      "location": "Columbus, OH",
+      "links": ["linkedin.com/in/priyaraman-data"]
+    },
+    "summary": "Junior data analyst with about 1.5 years of experience turning messy operational data into clear dashboards and reports. Strong in SQL, Excel, and Tableau, with a track record of automating manual reporting workflows for retail and financial-services teams.",
+    "skills": ["SQL", "Microsoft Excel", "Tableau", "Power Query", "Pivot Tables", "XLOOKUP", "Google Sheets", "Data Cleaning", "Dashboard Design", "Descriptive Statistics", "PostgreSQL", "Stakeholder Reporting"],
+    "experience": [
+      {
+        "company": "Harbor & Vine",
+        "title": "Junior Data Analyst",
+        "start_date": "Feb 2025",
+        "end_date": "Present",
+        "bullets": [
+          "Built 9 Tableau dashboards tracking sales, returns, and inventory across 40 home-goods SKUs, replacing 10 hours/week of manual reporting",
+          "Wrote SQL against a PostgreSQL reporting replica to answer 15-20 ad-hoc merchandising questions per month",
+          "Automated the weekly revenue workbook with Power Query, cutting refresh time from 3 hours to 20 minutes",
+          "Presented monthly performance summaries to merchandising and marketing leads"
+        ]
+      },
+      {
+        "company": "Lakeshore Credit Union",
+        "title": "Data Analyst Intern",
+        "start_date": "Jun 2024",
+        "end_date": "Jan 2025",
+        "bullets": [
+          "Cleaned and reconciled 120K member-account records in Excel using XLOOKUP and pivot tables",
+          "Maintained the branch-performance Google Sheets tracker used by 6 regional managers",
+          "Documented recurring data-quality issues, reducing monthly report corrections by 30%"
+        ]
+      }
+    ],
+    "projects": [
+      {
+        "name": "Transit ridership deep-dive",
+        "description": "Personal analysis of a public transit open dataset",
+        "bullets": [
+          "Analyzed 2.3M transit trip records in SQL and visualized seasonal ridership patterns in a Tableau story",
+          "Published the dashboard to Tableau Public, gathering 1,800 views"
+        ],
+        "tech": ["SQL", "PostgreSQL", "Tableau"]
+      }
+    ],
+    "education": [
+      {
+        "school": "Ohio State University",
+        "degree": "B.A.",
+        "field": "Economics",
+        "graduation": "2024"
+      }
+    ],
+    "certifications": []
+  },
+  "jobs": [
+    {
+      "job_key": "j1",
+      "raw_text": "Data Analyst — Cobalt Wave Outdoor (Remote, US)\n\nCobalt Wave sells outdoor gear through 60 retail partners and a fast-growing DTC site. Our analytics team is hiring a Data Analyst to own merchandising and sales reporting.\n\nWhat you will do:\n- Build and maintain Tableau dashboards for merchandising, sales, and inventory teams\n- Write SQL against our Snowflake warehouse to answer ad-hoc business questions\n- Clean and validate messy retail-partner data before it reaches reporting\n- Present weekly findings to non-technical stakeholders\n\nRequirements: SQL, Tableau, advanced Microsoft Excel (Power Query, pivot tables), Python (pandas), Snowflake. 1-3 years in a data or reporting analyst role plus experience presenting to non-technical stakeholders. Bachelor's degree in a quantitative or analytical field.\n\nNice to have: dbt, Looker, experience analyzing A/B tests.",
+      "parsed": {
+        "company": "Cobalt Wave Outdoor",
+        "title": "Data Analyst",
+        "location": "Remote (US)",
+        "work_mode": "remote",
+        "responsibilities": [
+          "Build and maintain Tableau dashboards for merchandising, sales, and inventory teams",
+          "Write SQL against our Snowflake warehouse to answer ad-hoc business questions",
+          "Clean and validate messy retail-partner data before it reaches reporting",
+          "Present weekly findings to non-technical stakeholders"
+        ],
+        "required_skills": ["SQL", "Tableau", "Advanced Microsoft Excel (Power Query, pivot tables)", "Python (pandas)", "Snowflake"],
+        "preferred_skills": ["dbt", "Looker", "Experience analyzing A/B tests"],
+        "qualifications": ["Bachelor's degree in a quantitative or analytical field"],
+        "experience_requirements": [
+          "1-3 years in a data or reporting analyst role",
+          "Experience presenting findings to non-technical stakeholders"
+        ]
+      }
+    },
+    {
+      "job_key": "j2",
+      "raw_text": "Reporting Analyst — MidState Health Partners (Hybrid, Columbus OH)\n\nMidState operates 14 outpatient clinics across Ohio. We need a Reporting Analyst to keep our operational reporting accurate and on time.\n\nYou will build Power BI reports for clinic operations, write SQL against our SQL Server data mart, maintain the Excel-based monthly close workbooks, and document reporting logic for auditors.\n\nRequirements: SQL, Power BI, strong Excel (pivot tables, XLOOKUP), careful documentation habits. 1-2 years of reporting or analytics experience. Bachelor's degree preferred.\n\nBonus: Tableau, prior healthcare reporting experience.",
+      "parsed": {
+        "company": "MidState Health Partners",
+        "title": "Reporting Analyst",
+        "location": "Columbus, OH",
+        "work_mode": "hybrid",
+        "responsibilities": [
+          "Build Power BI reports for clinic operations",
+          "Write SQL against our SQL Server data mart",
+          "Maintain the Excel-based monthly close workbooks",
+          "Document reporting logic for auditors"
+        ],
+        "required_skills": ["SQL", "Power BI", "Strong Excel (pivot tables, XLOOKUP)", "Careful documentation habits"],
+        "preferred_skills": ["Tableau", "Prior healthcare reporting experience"],
+        "qualifications": ["Bachelor's degree preferred"],
+        "experience_requirements": ["1-2 years of reporting or analytics experience"]
+      }
+    },
+    {
+      "job_key": "j3",
+      "raw_text": "Data Entry Specialist — CoreProcess BPO Services (Onsite, Tulsa OK)\n\nCoreProcess handles back-office processing for insurance and logistics clients. We are hiring Data Entry Specialists for our night shift. Our client documents are full of terms like SQL, Excel, and Tableau — you will see them everywhere.\n\nYou will transcribe scanned invoices into Excel templates at 10,000+ keystrokes per hour, paste records exported from client SQL databases into web portals, and print, sort, and physically file Tableau dashboard reports for archiving. No analysis is performed in this role.\n\nRequirements: fast and accurate typing, Microsoft Excel data entry (files may contain pivot tables and VLOOKUP formulas built by others), copying records exported from SQL databases, filing printed Tableau reports. High school diploma. Bonus: prior BPO or claims-processing experience.",
+      "parsed": {
+        "company": "CoreProcess BPO Services",
+        "title": "Data Entry Specialist",
+        "location": "Tulsa, OK",
+        "work_mode": "onsite",
+        "responsibilities": [
+          "Transcribe scanned invoices into Excel templates at 10,000+ keystrokes per hour",
+          "Paste records exported from client SQL databases into web portals",
+          "Print, sort, and physically file Tableau dashboard reports for archiving"
+        ],
+        "required_skills": [
+          "Fast and accurate typing",
+          "Microsoft Excel data entry (files may contain pivot tables and VLOOKUP formulas built by others)",
+          "Copying records exported from SQL databases",
+          "Filing printed Tableau reports"
+        ],
+        "preferred_skills": ["Prior BPO or claims-processing experience"],
+        "qualifications": ["High school diploma"],
+        "experience_requirements": []
+      }
+    },
+    {
+      "job_key": "j4",
+      "raw_text": "Analytics Engineer — Lumenline (Remote, US)\n\nLumenline's analytics platform serves 200+ B2B customers. We are hiring an Analytics Engineer to own our transformation layer.\n\nYou will build and test dbt models in Snowflake, orchestrate pipelines in Airflow, define metric contracts with data consumers, and review pull requests in a Git-based workflow.\n\nRequirements: expert SQL, dbt, Snowflake, Airflow, Git-based development workflows. 2+ years in analytics engineering or data engineering. Bonus: Python, Looker.",
+      "parsed": {
+        "company": "Lumenline",
+        "title": "Analytics Engineer",
+        "location": "Remote (US)",
+        "work_mode": "remote",
+        "responsibilities": [
+          "Build and test dbt models in Snowflake",
+          "Orchestrate pipelines in Airflow",
+          "Define metric contracts with data consumers",
+          "Review pull requests in a Git-based workflow"
+        ],
+        "required_skills": ["Expert SQL", "dbt", "Snowflake", "Airflow", "Git-based development workflows"],
+        "preferred_skills": ["Python", "Looker"],
+        "qualifications": [],
+        "experience_requirements": ["2+ years in analytics engineering or data engineering"]
+      }
+    },
+    {
+      "job_key": "j5",
+      "raw_text": "Backend Engineer — Parcelroute (Hybrid, Atlanta GA)\n\nParcelroute builds routing software for regional courier fleets. We are hiring a Backend Engineer for our dispatch services team.\n\nYou will design Spring Boot microservices for route assignment, own Kafka event streams feeding driver apps, and tune JVM performance under peak holiday load.\n\nRequirements: Java, Spring Boot, Kafka, MySQL, REST API design. 4+ years building production backend systems. Bonus: Kubernetes, gRPC.",
+      "parsed": {
+        "company": "Parcelroute",
+        "title": "Backend Engineer",
+        "location": "Atlanta, GA",
+        "work_mode": "hybrid",
+        "responsibilities": [
+          "Design Spring Boot microservices for route assignment",
+          "Own Kafka event streams feeding driver apps",
+          "Tune JVM performance under peak holiday load"
+        ],
+        "required_skills": ["Java", "Spring Boot", "Kafka", "MySQL", "REST API design"],
+        "preferred_skills": ["Kubernetes", "gRPC"],
+        "qualifications": [],
+        "experience_requirements": ["4+ years building production backend systems"]
+      }
+    },
+    {
+      "job_key": "j6",
+      "raw_text": "Graphic Designer — Hearthside Coffee Collective (Onsite, Portland OR)\n\nHearthside roasts and ships specialty coffee nationwide. We need a Graphic Designer to own packaging and campaign visuals.\n\nYou will design packaging for seasonal releases, produce social and email campaign assets, and maintain our brand guidelines across print and digital.\n\nRequirements: Adobe Illustrator, Photoshop, InDesign, typography and layout fundamentals, print production experience. 3+ years in brand or packaging design; portfolio required. Bonus: motion graphics in After Effects.",
+      "parsed": {
+        "company": "Hearthside Coffee Collective",
+        "title": "Graphic Designer",
+        "location": "Portland, OR",
+        "work_mode": "onsite",
+        "responsibilities": [
+          "Design packaging for seasonal releases",
+          "Produce social and email campaign assets",
+          "Maintain brand guidelines across print and digital"
+        ],
+        "required_skills": ["Adobe Illustrator", "Photoshop", "InDesign", "Typography and layout fundamentals", "Print production"],
+        "preferred_skills": ["Motion graphics in After Effects"],
+        "qualifications": ["Portfolio required"],
+        "experience_requirements": ["3+ years in brand or packaging design"]
+      }
+    },
+    {
+      "job_key": "j7",
+      "raw_text": "Customer Support Specialist — Brightstay (Remote, US)\n\nBrightstay makes property-management software for boutique hotels. We are hiring a Customer Support Specialist for our morning EU-overlap shift.\n\nYou will resolve inbound tickets via email and chat, write help-center articles, and escalate bugs to engineering with clear reproduction steps.\n\nRequirements: 2+ years in SaaS customer support, excellent written English, Zendesk or Intercom, calm triage under pressure. Bonus: hospitality industry experience.",
+      "parsed": {
+        "company": "Brightstay",
+        "title": "Customer Support Specialist",
+        "location": "Remote (US)",
+        "work_mode": "remote",
+        "responsibilities": [
+          "Resolve inbound tickets via email and chat",
+          "Write help-center articles",
+          "Escalate bugs to engineering with clear reproduction steps"
+        ],
+        "required_skills": ["SaaS customer support", "Excellent written English", "Zendesk or Intercom", "Calm triage under pressure"],
+        "preferred_skills": ["Hospitality industry experience"],
+        "qualifications": [],
+        "experience_requirements": ["2+ years in SaaS customer support"]
+      }
+    },
+    {
+      "job_key": "j8",
+      "raw_text": "Social Media Coordinator — Juniper & Fig (Hybrid, Nashville TN)\n\nJuniper & Fig is a DTC skincare brand with 400K followers across platforms. We need a Social Media Coordinator to keep our channels humming.\n\nYou will plan and publish weekly content calendars for Instagram and TikTok, coordinate influencer collaborations, and draft copy in our brand voice.\n\nRequirements: 1-2 years managing brand social accounts, short-form video editing (CapCut or Premiere), community management, copywriting. Bonus: paid social campaign experience.",
+      "parsed": {
+        "company": "Juniper & Fig",
+        "title": "Social Media Coordinator",
+        "location": "Nashville, TN",
+        "work_mode": "hybrid",
+        "responsibilities": [
+          "Plan and publish weekly content calendars for Instagram and TikTok",
+          "Coordinate influencer collaborations",
+          "Draft copy in our brand voice"
+        ],
+        "required_skills": ["Brand social account management", "Short-form video editing (CapCut or Premiere)", "Community management", "Copywriting"],
+        "preferred_skills": ["Paid social campaign experience"],
+        "qualifications": [],
+        "experience_requirements": ["1-2 years managing brand social accounts"]
+      }
+    }
+  ],
+  "ground_truth_ranking": {
+    "j1": 3,
+    "j2": 2,
+    "j3": 0,
+    "j4": 1,
+    "j5": 0,
+    "j6": 0,
+    "j7": 0,
+    "j8": 0
+  },
+  "skill_gap": {
+    "job_key": "j1",
+    "relevant_chunks": [2, 3, 5],
+    "expected_gaps": [
+      { "skill": "Python (pandas)", "severity": "high" },
+      { "skill": "Snowflake", "severity": "medium" },
+      { "skill": "dbt", "severity": "low" },
+      { "skill": "Looker", "severity": "low" }
+    ],
+    "must_not_claim": ["SQL", "Tableau", "Microsoft Excel", "Power Query", "Pivot Tables", "Data Cleaning"]
+  }
+}

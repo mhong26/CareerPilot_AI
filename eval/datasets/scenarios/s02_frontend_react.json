@@ -1,0 +1,248 @@
+{
+  "scenario_id": "s02",
+  "title": "Mid-level React/TypeScript frontend engineer",
+  "description": "A 3-year React/TypeScript engineer evaluated against 8 postings: a strong senior-frontend match with annotated gaps, a semantic match phrased without React/TypeScript keywords, a keyword-stuffed QA trap, a good full-stack match, a marginal UX-engineer role, and three distractors.",
+  "tags": ["semantic-no-keyword-overlap", "keyword-trap"],
+  "language": "en",
+  "rationale": "j2 describes the same job family in deliberately framework-agnostic vocabulary ('component-driven interfaces', 'strongly typed superset of JavaScript') — zero shared brand keywords with the resume, so TF-IDF misses it while embeddings should not. j3 is a manual-QA test-case role whose posting name-drops React, TypeScript and Next.js as the product under test — high lexical overlap, wrong job family. j4 vs j5 probes the graded boundary between a real adjacent match (full-stack with React) and a marginal one (UX engineer needing mostly Figma). Gap target j1 requires GraphQL and WCAG accessibility, which the resume lacks, with Storybook/React Native as preferred-tier gaps.",
+  "resume": {
+    "basic_info": {
+      "name": "Maya Chen",
+      "email": "maya.chen@example.com",
+      "phone": "",
+      "location": "Brooklyn, NY",
+      "links": ["mayachen.dev"]
+    },
+    "summary": "Frontend engineer with 3 years of experience building responsive single-page applications in React and TypeScript. Strong on component architecture, data fetching patterns, and test-driven UI development.",
+    "skills": ["React", "TypeScript", "JavaScript", "Next.js", "Redux Toolkit", "TanStack Query", "Tailwind CSS", "HTML", "CSS", "Vitest", "Playwright", "Git"],
+    "experience": [
+      {
+        "company": "Orbit Commerce",
+        "title": "Frontend Engineer",
+        "start_date": "Mar 2024",
+        "end_date": "Present",
+        "bullets": [
+          "Rebuilt the checkout flow as a Next.js app with TypeScript, lifting conversion by 8%",
+          "Introduced TanStack Query for server-state management, deleting 3k lines of hand-rolled fetching code",
+          "Set up Playwright end-to-end suites that gate every deploy",
+          "Led migration from styled-components to Tailwind CSS across 120 components"
+        ]
+      },
+      {
+        "company": "Lumen Analytics",
+        "title": "Junior Frontend Developer",
+        "start_date": "Jun 2022",
+        "end_date": "Feb 2024",
+        "bullets": [
+          "Built dashboard charts and filter panels in React with Redux Toolkit",
+          "Fixed cross-browser layout bugs and improved Lighthouse performance score from 61 to 92",
+          "Wrote Vitest unit tests for shared UI components"
+        ]
+      }
+    ],
+    "projects": [
+      {
+        "name": "hueframe",
+        "description": "Open-source color-palette playground",
+        "bullets": [
+          "Built an interactive palette editor with live WCAG-contrast preview badges",
+          "5k monthly visitors; featured in a frontend newsletter"
+        ],
+        "tech": ["React", "TypeScript", "Vite"]
+      }
+    ],
+    "education": [
+      {
+        "school": "NYU",
+        "degree": "B.A.",
+        "field": "Interactive Media",
+        "graduation": "2022"
+      }
+    ],
+    "certifications": []
+  },
+  "jobs": [
+    {
+      "job_key": "j1",
+      "raw_text": "Senior Frontend Engineer — Harborview (Remote, US)\n\nHarborview builds patient-facing insurance tooling. We are hiring a Senior Frontend Engineer to own our member portal.\n\nWhat you will do:\n- Own feature delivery across the React/TypeScript member portal\n- Design GraphQL queries and fragments against our federated gateway\n- Champion accessibility: our portal must meet WCAG 2.1 AA\n- Review code and mentor two mid-level engineers\n\nRequirements: React, TypeScript, GraphQL, Web accessibility (WCAG 2.1), modern CSS. 5+ years of production frontend experience, 1+ year working against GraphQL APIs. Bachelor's degree or equivalent experience.\n\nNice to have: Storybook design-system experience, React Native, Datadog RUM.",
+      "parsed": {
+        "company": "Harborview",
+        "title": "Senior Frontend Engineer",
+        "location": "Remote (US)",
+        "work_mode": "remote",
+        "responsibilities": [
+          "Own feature delivery across the React/TypeScript member portal",
+          "Design GraphQL queries and fragments against our federated gateway",
+          "Champion accessibility so the portal meets WCAG 2.1 AA",
+          "Review code and mentor two mid-level engineers"
+        ],
+        "required_skills": ["React", "TypeScript", "GraphQL", "Web accessibility (WCAG 2.1)", "Modern CSS"],
+        "preferred_skills": ["Storybook design-system experience", "React Native", "Datadog RUM"],
+        "qualifications": ["Bachelor's degree or equivalent experience"],
+        "experience_requirements": [
+          "5+ years of production frontend experience",
+          "1+ year working against GraphQL APIs"
+        ]
+      }
+    },
+    {
+      "job_key": "j2",
+      "raw_text": "UI Engineer — Fernwood Labs (Hybrid, Portland OR)\n\nFernwood Labs builds internal tools for climate research teams. Our interfaces are dense, data-heavy, and loved by scientists.\n\nYou will craft component-driven interfaces for data-heavy scientific tools, keep our strongly typed codebase honest, and own rendering performance for large tabular views.\n\nWe look for: deep fluency building component-driven interfaces for the browser, experience with a strongly typed superset of JavaScript, disciplined automated UI testing, and comfort consuming HTTP APIs. 3+ years building production web interfaces. Bonus: server-side rendering experience, utility-first styling.",
+      "parsed": {
+        "company": "Fernwood Labs",
+        "title": "UI Engineer",
+        "location": "Portland, OR",
+        "work_mode": "hybrid",
+        "responsibilities": [
+          "Craft component-driven interfaces for data-heavy scientific tools",
+          "Keep the strongly typed codebase honest and well-factored",
+          "Own rendering performance for large tabular views"
+        ],
+        "required_skills": [
+          "Component-driven interface development for the browser",
+          "A strongly typed superset of JavaScript",
+          "Automated UI testing discipline",
+          "Consuming HTTP APIs"
+        ],
+        "preferred_skills": ["Server-side rendering", "Utility-first styling"],
+        "qualifications": [],
+        "experience_requirements": ["3+ years building production web interfaces"]
+      }
+    },
+    {
+      "job_key": "j3",
+      "raw_text": "QA Test Case Writer — Veriscope QA Services (Onsite, Newark NJ)\n\nVeriscope provides outsourced manual QA. Our newest client ships a large React, TypeScript and Next.js web application, and we need a Test Case Writer to document regression suites for it.\n\nYou will write and maintain manual test cases covering the client's React, TypeScript and Next.js screens, execute regression passes before each release, and log defects with reproduction steps.\n\nRequirements: manual test-case authoring, defect tracking (Jira), attention to detail. 1+ years in manual QA. Bonus: ISTQB certification.",
+      "parsed": {
+        "company": "Veriscope QA Services",
+        "title": "QA Test Case Writer",
+        "location": "Newark, NJ",
+        "work_mode": "onsite",
+        "responsibilities": [
+          "Write and maintain manual test cases covering the client's React, TypeScript and Next.js screens",
+          "Execute regression passes before each release",
+          "Log defects with clear reproduction steps"
+        ],
+        "required_skills": ["Manual test-case authoring", "Defect tracking (Jira)", "Attention to detail"],
+        "preferred_skills": ["ISTQB certification"],
+        "qualifications": [],
+        "experience_requirements": ["1+ years in manual QA"]
+      }
+    },
+    {
+      "job_key": "j4",
+      "raw_text": "Full-Stack Engineer — Driftbase (Remote, US)\n\nDriftbase is a seed-stage startup building collaboration tooling for remote teams. You will ship features across a React/TypeScript frontend and a Node.js API.\n\nRequirements: React, TypeScript, Node.js, REST API design, PostgreSQL basics. 2+ years of full-stack or frontend experience. Bonus: WebSockets, Redis.",
+      "parsed": {
+        "company": "Driftbase",
+        "title": "Full-Stack Engineer",
+        "location": "Remote (US)",
+        "work_mode": "remote",
+        "responsibilities": [
+          "Ship features across the React/TypeScript frontend and Node.js API",
+          "Design REST endpoints together with the frontend surface that consumes them",
+          "Participate in product discovery with the founding team"
+        ],
+        "required_skills": ["React", "TypeScript", "Node.js", "REST API design", "PostgreSQL basics"],
+        "preferred_skills": ["WebSockets", "Redis"],
+        "qualifications": [],
+        "experience_requirements": ["2+ years of full-stack or frontend experience"]
+      }
+    },
+    {
+      "job_key": "j5",
+      "raw_text": "UX Engineer — Plumeria Design Co (Hybrid, Chicago IL)\n\nPlumeria is a design consultancy. Our UX Engineers turn Figma prototypes into clickable demos and design-system documentation.\n\nRequirements: Figma mastery, design-token thinking, HTML/CSS, basic React for prototype wiring. 2+ years in design engineering or UX roles.",
+      "parsed": {
+        "company": "Plumeria Design Co",
+        "title": "UX Engineer",
+        "location": "Chicago, IL",
+        "work_mode": "hybrid",
+        "responsibilities": [
+          "Turn Figma prototypes into clickable demos",
+          "Maintain design-system documentation and token libraries",
+          "Bridge designer-developer handoff on client projects"
+        ],
+        "required_skills": ["Figma", "Design tokens", "HTML", "CSS", "Basic React"],
+        "preferred_skills": ["Motion design", "Webflow"],
+        "qualifications": [],
+        "experience_requirements": ["2+ years in design engineering or UX roles"]
+      }
+    },
+    {
+      "job_key": "j6",
+      "raw_text": "Backend Engineer (Java) — Ledgerline (Onsite, Charlotte NC)\n\nLedgerline processes payroll for 40k businesses. We are hiring a Java backend engineer for our core ledger team.\n\nRequirements: Java, Spring Boot, SQL, Kafka. 4+ years of backend experience in JVM ecosystems.",
+      "parsed": {
+        "company": "Ledgerline",
+        "title": "Backend Engineer (Java)",
+        "location": "Charlotte, NC",
+        "work_mode": "onsite",
+        "responsibilities": [
+          "Build ledger and payment services in Java and Spring Boot",
+          "Design Kafka-based event flows between payroll systems",
+          "Tune SQL queries on the core transaction store"
+        ],
+        "required_skills": ["Java", "Spring Boot", "SQL", "Kafka"],
+        "preferred_skills": ["Kubernetes"],
+        "qualifications": [],
+        "experience_requirements": ["4+ years of backend experience in JVM ecosystems"]
+      }
+    },
+    {
+      "job_key": "j7",
+      "raw_text": "Data Analyst — Northbeam Retail (Hybrid, Columbus OH)\n\nNorthbeam's merchandising team needs a Data Analyst to own weekly performance reporting.\n\nRequirements: SQL, Tableau, Excel modeling, stakeholder communication. 2+ years in analytics.",
+      "parsed": {
+        "company": "Northbeam Retail",
+        "title": "Data Analyst",
+        "location": "Columbus, OH",
+        "work_mode": "hybrid",
+        "responsibilities": [
+          "Own weekly merchandising performance reporting",
+          "Build Tableau dashboards for buyers and planners",
+          "Answer ad-hoc SQL questions from stakeholders"
+        ],
+        "required_skills": ["SQL", "Tableau", "Excel modeling", "Stakeholder communication"],
+        "preferred_skills": ["Python for analytics"],
+        "qualifications": [],
+        "experience_requirements": ["2+ years in analytics"]
+      }
+    },
+    {
+      "job_key": "j8",
+      "raw_text": "DevOps Engineer — Straturn (Remote, US)\n\nStraturn hosts CI infrastructure for hardware companies. We need a DevOps Engineer to scale our build fleet.\n\nRequirements: Linux administration, Docker, Kubernetes, Terraform, Bash/Python scripting. 3+ years in DevOps or platform roles.",
+      "parsed": {
+        "company": "Straturn",
+        "title": "DevOps Engineer",
+        "location": "Remote (US)",
+        "work_mode": "remote",
+        "responsibilities": [
+          "Scale and monitor the CI build fleet",
+          "Automate infrastructure with Terraform modules",
+          "Harden container images and cluster policies"
+        ],
+        "required_skills": ["Linux administration", "Docker", "Kubernetes", "Terraform", "Bash or Python scripting"],
+        "preferred_skills": ["Nomad", "Packer"],
+        "qualifications": [],
+        "experience_requirements": ["3+ years in DevOps or platform roles"]
+      }
+    }
+  ],
+  "ground_truth_ranking": {
+    "j1": 3,
+    "j2": 2,
+    "j3": 0,
+    "j4": 2,
+    "j5": 1,
+    "j6": 0,
+    "j7": 0,
+    "j8": 0
+  },
+  "skill_gap": {
+    "job_key": "j1",
+    "relevant_chunks": [2, 3, 5],
+    "expected_gaps": [
+      { "skill": "GraphQL", "severity": "high" },
+      { "skill": "Web accessibility (WCAG 2.1)", "severity": "medium" },
+      { "skill": "Storybook", "severity": "low" },
+      { "skill": "React Native", "severity": "low" }
+    ],
+    "must_not_claim": ["React", "TypeScript", "Next.js", "CSS", "Playwright", "Vitest"]
+  }
+}

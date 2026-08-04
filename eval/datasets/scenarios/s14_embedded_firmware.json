@@ -1,0 +1,250 @@
+{
+  "scenario_id": "s14",
+  "title": "Embedded firmware engineer",
+  "description": "A 5-year C/C++/FreeRTOS/STM32 embedded firmware engineer evaluated against 8 postings: a strong connected-sensor firmware match with Zephyr/Yocto gaps, a good smart-metering firmware match, a marginal robotics software role, and five cross-domain distractors including pure web positions.",
+  "tags": ["cross-domain"],
+  "language": "en",
+  "rationale": "A cross-domain separation scenario: an embedded C/C++ resume is scored against firmware roles, an adjacent robotics role, and pure web/analytics/marketing/DevOps distractors. Gap target j1 (connected-sensor firmware) overlaps fully on C, C++, Cortex-M, I2C/SPI drivers, FreeRTOS, and battery-powered device work, while requiring Zephyr RTOS and Embedded Linux (Yocto) that the resume clearly lacks; secure OTA update workflows are only partially covered by the resume's encrypted UART bootloader (medium), and Rust is a preferred-only gap (low). j2 (smart water-meter firmware) is the same family and worth applying, but the role's ultrasonic-metrology and cellular-modem core is absent from the resume, so grade 2 rather than 3. j3 (robotics software) is the deliberate marginal case: genuine modern-C++ overlap, but the job family is Linux-based autonomy application software rather than microcontroller firmware, so grade 1. The React frontend and Node full-stack postings are pure web roles sharing essentially no tokens or competencies with the resume, and together with the data-analyst, marketing, and DevOps distractors they pin the grade-0 floor.",
+  "resume": {
+    "basic_info": {
+      "name": "Priya Raghavan",
+      "email": "priya.raghavan@example.com",
+      "phone": "",
+      "location": "San Jose, CA",
+      "links": ["github.com/praghavan-fw"]
+    },
+    "summary": "Embedded firmware engineer with 5 years of experience shipping C/C++ firmware for STM32 Cortex-M devices under FreeRTOS. Deep in sensor driver development over I2C, SPI, and UART, with a focus on low-power, battery-operated BLE products.",
+    "skills": ["C", "C++", "FreeRTOS", "STM32", "ARM Cortex-M", "I2C", "SPI", "UART", "Bluetooth Low Energy (BLE)", "JTAG/SWD debugging", "Low-power design", "CMake", "Ceedling/Unity unit testing", "Git"],
+    "experience": [
+      {
+        "company": "Helios Wearables",
+        "title": "Firmware Engineer",
+        "start_date": "Mar 2023",
+        "end_date": "Present",
+        "bullets": [
+          "Own the C firmware for a BLE heart-rate wearable built on STM32L4 and FreeRTOS, shipped to 120k users",
+          "Cut average sleep current from 41 uA to 9 uA via peripheral gating and tickless idle, extending battery life from 4 to 11 days",
+          "Wrote and maintain I2C and SPI drivers for six sensors, including PPG, IMU, and barometer parts",
+          "Built a UART bootloader with AES-encrypted image verification, reducing failed field updates from 3.1% to 0.2%"
+        ]
+      },
+      {
+        "company": "Vectra Instruments",
+        "title": "Embedded Software Engineer",
+        "start_date": "Jun 2021",
+        "end_date": "Feb 2023",
+        "bullets": [
+          "Developed STM32F4 data-acquisition firmware sampling a 24-bit ADC over SPI at 1 MSPS",
+          "Migrated a bare-metal super-loop codebase to FreeRTOS tasks and queues, eliminating a recurring class of timing bugs",
+          "Brought up Ceedling/Unity unit tests in CI, reaching 70% coverage on driver and protocol modules"
+        ]
+      }
+    ],
+    "projects": [
+      {
+        "name": "openthermo",
+        "description": "Open-source reflow-oven controller",
+        "bullets": [
+          "Designed PID temperature-control firmware on an STM32F1 with a 128x64 OLED UI",
+          "Reached 220 GitHub stars and merged contributions from 7 external developers"
+        ],
+        "tech": ["C", "STM32 HAL", "FreeRTOS", "CMake"]
+      }
+    ],
+    "education": [
+      {
+        "school": "Purdue University",
+        "degree": "B.S.",
+        "field": "Electrical Engineering",
+        "graduation": "2021"
+      }
+    ],
+    "certifications": []
+  },
+  "jobs": [
+    {
+      "job_key": "j1",
+      "raw_text": "Firmware Engineer, Connected Sensors — Brightmesh Systems (Hybrid, Boulder CO)\n\nBrightmesh builds wireless sensor networks that monitor air quality and energy use in commercial buildings. We are hiring a Firmware Engineer to own device firmware across our sensor line.\n\nWhat you will do:\n- Develop and maintain C/C++ firmware for our Cortex-M sensor nodes on Zephyr RTOS\n- Port legacy FreeRTOS-based STM32 products onto the Zephyr platform\n- Implement and debug sensor drivers over I2C and SPI\n- Extend the Embedded Linux (Yocto) gateway that aggregates sensor traffic\n\nRequirements: C, C++, Zephyr RTOS, Embedded Linux (Yocto), secure OTA firmware update workflows. 4+ years of embedded firmware development and experience shipping battery-powered wireless devices. BSEE/BSCS or equivalent practical experience.\n\nNice to have: Rust, LoRaWAN, MISRA C.",
+      "parsed": {
+        "company": "Brightmesh Systems",
+        "title": "Firmware Engineer, Connected Sensors",
+        "location": "Boulder, CO",
+        "work_mode": "hybrid",
+        "responsibilities": [
+          "Develop and maintain C/C++ firmware for Cortex-M sensor nodes on Zephyr RTOS",
+          "Port legacy FreeRTOS-based STM32 products onto the Zephyr platform",
+          "Implement and debug sensor drivers over I2C and SPI",
+          "Extend the Embedded Linux (Yocto) gateway that aggregates sensor traffic"
+        ],
+        "required_skills": ["C", "C++", "Zephyr RTOS", "Embedded Linux (Yocto)", "Secure OTA firmware update workflows"],
+        "preferred_skills": ["Rust", "LoRaWAN", "MISRA C"],
+        "qualifications": ["BSEE/BSCS or equivalent practical experience"],
+        "experience_requirements": [
+          "4+ years of embedded firmware development",
+          "Experience shipping battery-powered wireless devices"
+        ]
+      }
+    },
+    {
+      "job_key": "j2",
+      "raw_text": "Embedded Firmware Engineer — Aquaflow Metering (Onsite, Tulsa OK)\n\nAquaflow builds smart water meters deployed across municipal utilities. We are hiring an Embedded Firmware Engineer for our next-generation residential meter.\n\nYou will write C firmware for ultra-low-power ARM Cortex-M0+ microcontrollers under FreeRTOS, implement I2C/SPI drivers for flow and temperature sensors, tune sleep currents against a 10-year battery-life target, and integrate an NB-IoT modem for daily usage reporting.\n\nRequirements: C, FreeRTOS, ARM Cortex-M, I2C/SPI peripheral drivers, low-power firmware design. 4+ years of embedded development on battery-powered devices.\n\nBonus: NB-IoT or LTE-M modem integration, ultrasonic metrology signal processing.",
+      "parsed": {
+        "company": "Aquaflow Metering",
+        "title": "Embedded Firmware Engineer",
+        "location": "Tulsa, OK",
+        "work_mode": "onsite",
+        "responsibilities": [
+          "Write C firmware for ultra-low-power ARM Cortex-M0+ microcontrollers under FreeRTOS",
+          "Implement I2C/SPI drivers for flow and temperature sensors",
+          "Tune sleep currents against a 10-year battery-life target",
+          "Integrate an NB-IoT modem for daily usage reporting"
+        ],
+        "required_skills": ["C", "FreeRTOS", "ARM Cortex-M", "I2C/SPI peripheral drivers", "Low-power firmware design"],
+        "preferred_skills": ["NB-IoT or LTE-M modem integration", "Ultrasonic metrology signal processing"],
+        "qualifications": [],
+        "experience_requirements": ["4+ years of embedded development on battery-powered devices"]
+      }
+    },
+    {
+      "job_key": "j3",
+      "raw_text": "Robotics Software Engineer — Kinetic Harvest (Onsite, Fresno CA)\n\nKinetic Harvest builds autonomous orchard tractors. We need a Robotics Software Engineer for our navigation team.\n\nYou will develop C++ nodes in ROS 2 for perception and motion planning, integrate lidar and camera pipelines, tune path-tracking controllers on Ubuntu-based onboard computers, and run field tests with the hardware team during harvest season.\n\nRequirements: modern C++ (C++17), ROS 2, Linux application development, motion planning or controls. 3+ years building robotics or autonomy software.\n\nBonus: CUDA, sensor fusion (EKF).",
+      "parsed": {
+        "company": "Kinetic Harvest",
+        "title": "Robotics Software Engineer",
+        "location": "Fresno, CA",
+        "work_mode": "onsite",
+        "responsibilities": [
+          "Develop C++ nodes in ROS 2 for perception and motion planning",
+          "Integrate lidar and camera pipelines",
+          "Tune path-tracking controllers on Ubuntu-based onboard computers",
+          "Run field tests with the hardware team during harvest season"
+        ],
+        "required_skills": ["Modern C++ (C++17)", "ROS 2", "Linux application development", "Motion planning or controls"],
+        "preferred_skills": ["CUDA", "Sensor fusion (EKF)"],
+        "qualifications": [],
+        "experience_requirements": ["3+ years building robotics or autonomy software"]
+      }
+    },
+    {
+      "job_key": "j4",
+      "raw_text": "Frontend Engineer — Quillside (Remote, US)\n\nQuillside builds a collaborative writing platform used by 40k authors and editing teams. We are hiring a Frontend Engineer to own the editor experience.\n\nYou will build rich-text editing features in React and TypeScript, improve rendering performance for very long documents, partner with designers on interaction polish, and maintain our Storybook component library.\n\nRequirements: React, TypeScript, modern CSS, state management (Redux or Zustand), component testing. 3+ years of production frontend experience.\n\nBonus: ProseMirror or Slate, realtime collaboration over WebSockets.",
+      "parsed": {
+        "company": "Quillside",
+        "title": "Frontend Engineer",
+        "location": "Remote (US)",
+        "work_mode": "remote",
+        "responsibilities": [
+          "Build rich-text editing features in React and TypeScript",
+          "Improve rendering performance for very long documents",
+          "Partner with designers on interaction polish",
+          "Maintain the Storybook component library"
+        ],
+        "required_skills": ["React", "TypeScript", "Modern CSS", "Redux or Zustand", "Component testing"],
+        "preferred_skills": ["ProseMirror or Slate", "Realtime collaboration over WebSockets"],
+        "qualifications": [],
+        "experience_requirements": ["3+ years of production frontend experience"]
+      }
+    },
+    {
+      "job_key": "j5",
+      "raw_text": "Full-Stack Engineer — Fernwheel (Remote, US)\n\nFernwheel builds scheduling and payments software for yoga and pilates studios. We need a Full-Stack Engineer to ship features across the booking flow.\n\nYou will build REST APIs in Node.js and Express, design PostgreSQL schemas for class scheduling and billing, develop React views for the studio dashboard, and instrument new features with product analytics.\n\nRequirements: Node.js, Express, React, PostgreSQL, REST API design. 3+ years building production web applications.\n\nBonus: Stripe integrations, Redis.",
+      "parsed": {
+        "company": "Fernwheel",
+        "title": "Full-Stack Engineer",
+        "location": "Remote (US)",
+        "work_mode": "remote",
+        "responsibilities": [
+          "Build REST APIs in Node.js and Express",
+          "Design PostgreSQL schemas for class scheduling and billing",
+          "Develop React views for the studio dashboard",
+          "Instrument new features with product analytics"
+        ],
+        "required_skills": ["Node.js", "Express", "React", "PostgreSQL", "REST API design"],
+        "preferred_skills": ["Stripe integrations", "Redis"],
+        "qualifications": [],
+        "experience_requirements": ["3+ years building production web applications"]
+      }
+    },
+    {
+      "job_key": "j6",
+      "raw_text": "Data Analyst — Marlowe Retail Group (Hybrid, Columbus OH)\n\nMarlowe Retail Group operates 140 home-goods stores across the Midwest. We are hiring a Data Analyst to support merchandising decisions.\n\nYou will build weekly sales and inventory dashboards in Tableau, write SQL against our Snowflake warehouse, analyze promotion performance by category, and present findings to category managers and finance partners.\n\nRequirements: SQL, Tableau, Excel, stakeholder communication. 2+ years in an analytics role.\n\nBonus: Python (pandas), dbt.",
+      "parsed": {
+        "company": "Marlowe Retail Group",
+        "title": "Data Analyst",
+        "location": "Columbus, OH",
+        "work_mode": "hybrid",
+        "responsibilities": [
+          "Build weekly sales and inventory dashboards in Tableau",
+          "Write SQL against the Snowflake warehouse",
+          "Analyze promotion performance by category",
+          "Present findings to category managers and finance partners"
+        ],
+        "required_skills": ["SQL", "Tableau", "Excel", "Stakeholder communication"],
+        "preferred_skills": ["Python (pandas)", "dbt"],
+        "qualifications": [],
+        "experience_requirements": ["2+ years in an analytics role"]
+      }
+    },
+    {
+      "job_key": "j7",
+      "raw_text": "Product Marketing Manager — Meadowpoint Software (Remote, US)\n\nMeadowpoint sells field-service management software to HVAC and plumbing companies. We are hiring a PMM to own go-to-market for our flagship product.\n\nYou will own positioning and messaging, plan and execute launches with sales and customer success, build sales enablement content, and run win/loss interviews with customers.\n\nRequirements: B2B SaaS positioning, launch planning, sales enablement content, customer research. 4+ years in product marketing.\n\nBonus: trades or field-service industry experience.",
+      "parsed": {
+        "company": "Meadowpoint Software",
+        "title": "Product Marketing Manager",
+        "location": "Remote (US)",
+        "work_mode": "remote",
+        "responsibilities": [
+          "Own positioning and messaging for the flagship product",
+          "Plan and execute launches with sales and customer success",
+          "Build sales enablement content",
+          "Run win/loss interviews with customers"
+        ],
+        "required_skills": ["B2B SaaS positioning", "Launch planning", "Sales enablement content", "Customer research"],
+        "preferred_skills": ["Trades or field-service industry experience"],
+        "qualifications": [],
+        "experience_requirements": ["4+ years in product marketing"]
+      }
+    },
+    {
+      "job_key": "j8",
+      "raw_text": "DevOps Engineer — Stackharbor (Remote, US)\n\nStackharbor provides hosted CI/CD for mid-size software teams. We are hiring a DevOps Engineer to scale our build infrastructure.\n\nYou will operate Kubernetes clusters running customer build workloads, automate provisioning with Terraform on AWS, improve autoscaling for spiky build traffic, and share on-call ownership for the build platform.\n\nRequirements: Kubernetes, Terraform, AWS, CI/CD tooling, Linux administration. 4+ years in DevOps or platform engineering roles.\n\nBonus: Go, cloud cost optimization at scale.",
+      "parsed": {
+        "company": "Stackharbor",
+        "title": "DevOps Engineer",
+        "location": "Remote (US)",
+        "work_mode": "remote",
+        "responsibilities": [
+          "Operate Kubernetes clusters running customer build workloads",
+          "Automate provisioning with Terraform on AWS",
+          "Improve autoscaling for spiky build traffic",
+          "Share on-call ownership for the build platform"
+        ],
+        "required_skills": ["Kubernetes", "Terraform", "AWS", "CI/CD tooling", "Linux administration"],
+        "preferred_skills": ["Go", "Cloud cost optimization at scale"],
+        "qualifications": [],
+        "experience_requirements": ["4+ years in DevOps or platform engineering roles"]
+      }
+    }
+  ],
+  "ground_truth_ranking": {
+    "j1": 3,
+    "j2": 2,
+    "j3": 1,
+    "j4": 0,
+    "j5": 0,
+    "j6": 0,
+    "j7": 0,
+    "j8": 0
+  },
+  "skill_gap": {
+    "job_key": "j1",
+    "relevant_chunks": [2, 3, 5],
+    "expected_gaps": [
+      { "skill": "Zephyr RTOS", "severity": "high" },
+      { "skill": "Embedded Linux (Yocto)", "severity": "high" },
+      { "skill": "Secure OTA firmware update workflows", "severity": "medium" },
+      { "skill": "Rust", "severity": "low" }
+    ],
+    "must_not_claim": ["C", "C++", "FreeRTOS", "STM32", "I2C", "SPI"]
+  }
+}

@@ -1,7 +1,7 @@
-"""Application kit 提示詞（FR-31~44、FR-56~58、FR-66）。
+"""Application kit 提示詞（FR-31~44、FR-47~49、FR-57）。
 
 四組內容：planner 的 system prompt（agent 行為邊界——只講目標與完成條件，
-**不寫死工具順序**，FR-66）＋三個 generator 的 system + builder（產物品質）。
+**不寫死工具順序**，FR-57）＋三個 generator 的 system + builder（產物品質）。
 generator 的素材全部 optional-friendly：match / 檢索證據 / gap hints 可能因
 planner 決策或工具失敗而缺席，prompt 在缺席時仍能組出合法輸出（NFR-4）。
 """
@@ -165,8 +165,7 @@ def build_cover_letter_prompt(
 ) -> str:
     """組 cover letter 草稿的 user prompt（FR-37~39）。
 
-    ``matched_skills`` 是主賣點素材；使用者偏好（語氣等）Phase 8 才注入，
-    本 phase 不留參數。
+    ``matched_skills`` 是主賣點素材。
     """
     return (
         "Draft a tailored cover letter for this application.\n\n"

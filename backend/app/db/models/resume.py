@@ -40,7 +40,7 @@ class Resume(UUIDPKMixin, TimestampMixin, Base):
     raw_text: Mapped[str] = mapped_column(Text, nullable=False)
     # "parsed" / "failed" —— LLM 結構化解析結果狀態（FR-10 容錯）。
     parse_status: Mapped[str] = mapped_column(String(16), nullable=False)
-    # 解析失敗訊息，供前端提示手動修正、供稽核（FR-61）。
+    # 解析失敗訊息，供前端提示手動修正、供稽核（FR-52）。
     parse_error: Mapped[str | None] = mapped_column(Text, nullable=True)
 
     versions: Mapped[list["ResumeVersion"]] = relationship(

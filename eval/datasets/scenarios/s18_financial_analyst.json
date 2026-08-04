@@ -1,0 +1,246 @@
+{
+  "scenario_id": "s18",
+  "title": "Staff accountant moving toward FP&A financial analyst",
+  "description": "A 4-year staff accountant (Excel modeling, QuickBooks, NetSuite, GAAP, basic SQL) targeting FP&A financial analyst roles, evaluated against 8 postings: one strong FP&A match with planning-tool and SQL gaps, two more finance-analysis matches, one marginal BI analyst role, and four unrelated distractors.",
+  "tags": ["non-tech"],
+  "language": "en",
+  "rationale": "This is a non-tech finance scenario: relevance hinges on accounting/FP&A domain vocabulary rather than a software stack. Gap target j1 is a grade-3 FP&A analyst role the resume can credibly land — it overlaps heavily on Excel financial modeling, GAAP, variance analysis, and NetSuite — but demands forecasting platforms (Anaplan or Adaptive Planning) the resume has never touched and advanced SQL where the resume only has basics, giving clean annotated gaps. j2 and j3 are neighboring FP&A/financial-analysis roles (j3 graded 2, not 3, because it wants 5+ years against the resume's 4). j4 probes the graded boundary: a BI analyst role with real SQL/Excel/stakeholder overlap but a different job family and core stack (Tableau, Snowflake, dbt). j5-j8 are unrelated job-board noise.",
+  "resume": {
+    "basic_info": {
+      "name": "Danielle Okafor",
+      "email": "danielle.okafor@example.com",
+      "phone": "",
+      "location": "Columbus, OH",
+      "links": ["linkedin.com/in/danielle-okafor"]
+    },
+    "summary": "Staff accountant with 4 years across month-end close, GAAP reporting, and budget-vs-actual analysis for a mid-market food manufacturer. Built Excel models and Power Query pipelines that cut close time by a third, and now targeting an FP&A financial analyst seat. Comfortable pulling my own GL data with basic SQL.",
+    "skills": ["Microsoft Excel", "Financial modeling", "Power Query", "QuickBooks", "NetSuite", "GAAP", "Month-end close", "Account reconciliation", "Variance analysis", "Journal entries", "SQL (basic)", "Accounts payable"],
+    "experience": [
+      {
+        "company": "Harvest Ridge Foods",
+        "title": "Staff Accountant",
+        "start_date": "Aug 2023",
+        "end_date": "Present",
+        "bullets": [
+          "Own month-end close for three entities, cutting close time from 9 to 6 business days by rebuilding reconciliation workpapers in Excel with Power Query",
+          "Prepare monthly budget-vs-actual variance packets for 8 department heads, flagging drivers behind any variance over 5%",
+          "Built a 13-week cash flow model in Excel that the controller uses in weekly treasury reviews",
+          "Write basic SQL queries against the NetSuite data warehouse to pull GL detail for audit requests"
+        ]
+      },
+      {
+        "company": "Beacon & Slate CPA Group",
+        "title": "Junior Accountant",
+        "start_date": "Jun 2021",
+        "end_date": "Jul 2023",
+        "bullets": [
+          "Managed full-cycle bookkeeping in QuickBooks for 12 small-business clients",
+          "Prepared GAAP-compliant financial statements and supporting schedules for year-end reviews",
+          "Reconciled 40+ bank and credit card accounts monthly with an adjustment rate under 0.5%"
+        ]
+      }
+    ],
+    "projects": [
+      {
+        "name": "Close automation toolkit",
+        "description": "Excel and Power Query workpaper suite for month-end close",
+        "bullets": [
+          "Automated 14 recurring reconciliation workpapers with Power Query refreshes, saving roughly 10 hours per close",
+          "Documented the toolkit so two junior accountants could run the close steps unassisted"
+        ],
+        "tech": ["Excel", "Power Query", "VBA"]
+      }
+    ],
+    "education": [
+      {
+        "school": "The Ohio State University",
+        "degree": "B.S.B.A.",
+        "field": "Accounting",
+        "graduation": "2021"
+      }
+    ],
+    "certifications": ["CPA candidate (2 of 4 exam sections passed)"]
+  },
+  "jobs": [
+    {
+      "job_key": "j1",
+      "raw_text": "Financial Analyst, FP&A — Meridian Outdoor Co. (Hybrid, Columbus OH)\n\nMeridian Outdoor Co. designs camping gear sold through 900 retail doors. Our FP&A team of four is hiring an analyst to own forecasting for the wholesale channel.\n\nWhat you will do:\n- Build and maintain driver-based revenue and expense forecast models\n- Prepare monthly variance analysis comparing actuals to budget and forecast for leadership\n- Partner with department owners through the annual budgeting cycle\n- Automate recurring management reporting packages\n\nRequirements: advanced Excel financial modeling, GAAP fluency, variance analysis, hands-on experience with Anaplan or Adaptive Planning, and advanced SQL (multi-table joins, window functions). 3+ years in accounting or FP&A and at least one full annual budget cycle supported end to end. Bachelor's in Finance, Accounting, or related. Nice to have: Power BI, NetSuite, Python for data analysis. CPA or CFA progress is a plus.",
+      "parsed": {
+        "company": "Meridian Outdoor Co.",
+        "title": "Financial Analyst, FP&A",
+        "location": "Columbus, OH",
+        "work_mode": "hybrid",
+        "responsibilities": [
+          "Build and maintain driver-based revenue and expense forecast models",
+          "Prepare monthly variance analysis comparing actuals to budget and forecast for leadership",
+          "Partner with department owners through the annual budgeting cycle",
+          "Automate recurring management reporting packages"
+        ],
+        "required_skills": ["Advanced Excel financial modeling", "GAAP", "Variance analysis", "Anaplan or Adaptive Planning", "Advanced SQL (multi-table joins, window functions)"],
+        "preferred_skills": ["Power BI", "NetSuite", "Python for data analysis"],
+        "qualifications": [
+          "Bachelor's degree in Finance, Accounting, or a related field",
+          "CPA or CFA progress is a plus"
+        ],
+        "experience_requirements": [
+          "3+ years in accounting or FP&A",
+          "At least one full annual budget cycle supported end to end"
+        ]
+      }
+    },
+    {
+      "job_key": "j2",
+      "raw_text": "FP&A Analyst — Brightpath Logistics (Remote, US)\n\nBrightpath Logistics runs regional freight brokerage across the Midwest. Finance is a lean team and the FP&A Analyst touches everything from forecasting to board reporting support.\n\nYou will support monthly forecast updates and scenario models, publish budget-vs-actual reporting for operations leaders, and maintain headcount and opex planning files alongside the finance manager.\n\nWhat we look for: strong Excel modeling, budgeting and forecasting fundamentals, sharp variance analysis, and fluency with the three financial statements. 2+ years in FP&A, accounting, or corporate finance. Bachelor's degree in Finance or Accounting. Bonus points for Adaptive Planning or SQL exposure — neither is required, we will train the right person.",
+      "parsed": {
+        "company": "Brightpath Logistics",
+        "title": "FP&A Analyst",
+        "location": "Remote (US)",
+        "work_mode": "remote",
+        "responsibilities": [
+          "Support monthly forecast updates and scenario models",
+          "Publish budget-vs-actual reporting for operations leaders",
+          "Maintain headcount and opex planning files with the finance manager"
+        ],
+        "required_skills": ["Excel modeling", "Budgeting and forecasting", "Variance analysis", "Financial statement fluency (P&L, balance sheet, cash flow)"],
+        "preferred_skills": ["Adaptive Planning", "SQL"],
+        "qualifications": ["Bachelor's degree in Finance or Accounting"],
+        "experience_requirements": ["2+ years in FP&A, accounting, or corporate finance"]
+      }
+    },
+    {
+      "job_key": "j3",
+      "raw_text": "Senior Financial Analyst — Cobalt Medical Devices (Hybrid, Cleveland OH)\n\nCobalt Medical Devices manufactures surgical instruments in two Ohio plants. We are hiring a Senior Financial Analyst to own executive reporting.\n\nResponsibilities: own the consolidated monthly reporting package for the executive team, build product-line profitability models, and lead the quarterly reforecast with plant controllers.\n\nRequirements: advanced Excel, GAAP reporting, forecasting experience, and comfort with cost accounting concepts (standard costs, absorption). 5+ years in financial analysis or accounting. Bachelor's in Accounting or Finance; CPA preferred. Nice to have: Hyperion or Anaplan, Power BI. Relocation assistance available for the right candidate.",
+      "parsed": {
+        "company": "Cobalt Medical Devices",
+        "title": "Senior Financial Analyst",
+        "location": "Cleveland, OH",
+        "work_mode": "hybrid",
+        "responsibilities": [
+          "Own the consolidated monthly reporting package for the executive team",
+          "Build product-line profitability models",
+          "Lead the quarterly reforecast with plant controllers"
+        ],
+        "required_skills": ["Advanced Excel", "GAAP reporting", "Forecasting", "Cost accounting concepts"],
+        "preferred_skills": ["Hyperion or Anaplan", "Power BI"],
+        "qualifications": ["Bachelor's in Accounting or Finance; CPA preferred"],
+        "experience_requirements": ["5+ years in financial analysis or accounting"]
+      }
+    },
+    {
+      "job_key": "j4",
+      "raw_text": "Business Intelligence Analyst — Trellis Retail Group (Remote, US)\n\nTrellis Retail Group operates 140 home-goods stores and a growing e-commerce arm. The analytics team is hiring a BI Analyst to serve merchandising.\n\nYou will build dashboards in Tableau for merchandising teams, write SQL against our Snowflake warehouse, and partner with data engineering on new data models.\n\nRequirements: strong SQL, Tableau, dimensional data modeling, and clear stakeholder communication. 3+ years in analytics or BI. Bonus: Python, dbt. We ship weekly and measure everything — you will present findings directly to category directors.",
+      "parsed": {
+        "company": "Trellis Retail Group",
+        "title": "Business Intelligence Analyst",
+        "location": "Remote (US)",
+        "work_mode": "remote",
+        "responsibilities": [
+          "Build dashboards in Tableau for merchandising teams",
+          "Write SQL against the Snowflake warehouse",
+          "Partner with data engineering on new data models"
+        ],
+        "required_skills": ["SQL", "Tableau", "Dimensional data modeling", "Stakeholder communication"],
+        "preferred_skills": ["Python", "dbt"],
+        "qualifications": [],
+        "experience_requirements": ["3+ years in analytics or BI"]
+      }
+    },
+    {
+      "job_key": "j5",
+      "raw_text": "Backend Software Engineer — Kernelworks (Remote, US)\n\nKernelworks builds order-routing infrastructure for regional grocery chains. We are hiring a backend engineer for the fulfillment services team.\n\nYou will design and ship Java services on Spring Boot, own PostgreSQL schemas and query performance, and operate workloads on AWS with the platform team.\n\nRequirements: Java, Spring Boot, PostgreSQL, AWS. 4+ years building production backend services. Bonus: Kafka, Kubernetes. We run a two-week on-call rotation with comp time and invest heavily in test automation.",
+      "parsed": {
+        "company": "Kernelworks",
+        "title": "Backend Software Engineer",
+        "location": "Remote (US)",
+        "work_mode": "remote",
+        "responsibilities": [
+          "Design and ship Java services on Spring Boot",
+          "Own PostgreSQL schemas and query performance",
+          "Operate workloads on AWS with the platform team"
+        ],
+        "required_skills": ["Java", "Spring Boot", "PostgreSQL", "AWS"],
+        "preferred_skills": ["Kafka", "Kubernetes"],
+        "qualifications": [],
+        "experience_requirements": ["4+ years building production backend services"]
+      }
+    },
+    {
+      "job_key": "j6",
+      "raw_text": "Content Marketing Manager — Loomstead (Hybrid, Chicago IL)\n\nLoomstead sells direct-to-consumer home textiles and our organic channel drives 40% of revenue. We need a Content Marketing Manager to own it.\n\nYou will run the editorial calendar across blog, email, and social, brief and edit freelance writers, and report on organic traffic and conversion.\n\nRequirements: SEO content strategy, editorial planning, copy editing, and marketing analytics (GA4). 4+ years in content marketing, ideally in e-commerce. Bonus: email lifecycle experience with Klaviyo.",
+      "parsed": {
+        "company": "Loomstead",
+        "title": "Content Marketing Manager",
+        "location": "Chicago, IL",
+        "work_mode": "hybrid",
+        "responsibilities": [
+          "Run the editorial calendar across blog, email, and social",
+          "Brief and edit freelance writers",
+          "Report on organic traffic and conversion"
+        ],
+        "required_skills": ["SEO content strategy", "Editorial planning", "Copy editing", "Marketing analytics (GA4)"],
+        "preferred_skills": ["Klaviyo lifecycle email"],
+        "qualifications": [],
+        "experience_requirements": ["4+ years in content marketing"]
+      }
+    },
+    {
+      "job_key": "j7",
+      "raw_text": "Warehouse Operations Supervisor — Palleton Distribution (Onsite, Groveport OH)\n\nPalleton Distribution runs a 400,000 sq ft fulfillment center serving Midwest retailers. We are hiring a second-shift operations supervisor.\n\nYou will supervise a team of 25 associates across picking and packing, own shift safety briefings and incident reporting, and hit daily throughput and accuracy targets.\n\nRequirements: warehouse team leadership, WMS experience (Manhattan or Blue Yonder), forklift certification eligibility, and KPI-driven shift management. 3+ years in warehouse operations with 1+ year leading a team.",
+      "parsed": {
+        "company": "Palleton Distribution",
+        "title": "Warehouse Operations Supervisor",
+        "location": "Groveport, OH",
+        "work_mode": "onsite",
+        "responsibilities": [
+          "Supervise a team of 25 associates across picking and packing",
+          "Own shift safety briefings and incident reporting",
+          "Hit daily throughput and accuracy targets"
+        ],
+        "required_skills": ["Warehouse team leadership", "WMS experience (Manhattan or Blue Yonder)", "Forklift certification eligibility", "KPI-driven shift management"],
+        "preferred_skills": [],
+        "qualifications": [],
+        "experience_requirements": ["3+ years in warehouse operations with 1+ year leading a team"]
+      }
+    },
+    {
+      "job_key": "j8",
+      "raw_text": "UX Designer — Fernwave (Remote, US)\n\nFernwave makes scheduling software for veterinary clinics used by 2,000 practices. We are hiring a UX Designer to own the appointment-booking experience.\n\nYou will run discovery interviews with clinic staff, design flows and high-fidelity prototypes in Figma, and partner with engineers through delivery.\n\nRequirements: end-to-end product design, Figma, usability testing, and design systems. 3+ years designing B2B or healthcare software. Bonus: basic HTML/CSS. Portfolio required with your application.",
+      "parsed": {
+        "company": "Fernwave",
+        "title": "UX Designer",
+        "location": "Remote (US)",
+        "work_mode": "remote",
+        "responsibilities": [
+          "Run discovery interviews with clinic staff",
+          "Design flows and high-fidelity prototypes in Figma",
+          "Partner with engineers through delivery"
+        ],
+        "required_skills": ["End-to-end product design", "Figma", "Usability testing", "Design systems"],
+        "preferred_skills": ["Basic HTML/CSS"],
+        "qualifications": ["Portfolio required"],
+        "experience_requirements": ["3+ years designing B2B or healthcare software"]
+      }
+    }
+  ],
+  "ground_truth_ranking": {
+    "j1": 3,
+    "j2": 2,
+    "j3": 2,
+    "j4": 1,
+    "j5": 0,
+    "j6": 0,
+    "j7": 0,
+    "j8": 0
+  },
+  "skill_gap": {
+    "job_key": "j1",
+    "relevant_chunks": [2, 3, 5],
+    "expected_gaps": [
+      { "skill": "Anaplan or Adaptive Planning", "severity": "high" },
+      { "skill": "Advanced SQL", "severity": "medium" },
+      { "skill": "Power BI", "severity": "low" },
+      { "skill": "Python for data analysis", "severity": "low" }
+    ],
+    "must_not_claim": ["Microsoft Excel", "Financial modeling", "GAAP", "Variance analysis", "NetSuite"]
+  }
+}

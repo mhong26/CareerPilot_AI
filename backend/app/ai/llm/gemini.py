@@ -5,11 +5,11 @@
 1. 網路 retry（tenacity）：暫時性錯誤指數退避重打，同一模型。
 2. 驗證 retry：結構化輸出不符 schema 時重新請模型生成，同一模型。
 3. repair_json：不打 API，本地修補壞 JSON。
-4. **Model fallback（FR-67）**：primary 完整失敗（上面三層全失守，含安全阻擋、
+4. **Model fallback（FR-58）**：primary 完整失敗（上面三層全失守，含安全阻擋、
    空回應、model 名錯誤等任何失敗）→ 以 fallback model 把整套流程重跑一次。
    ``embed`` 無 fallback —— 不同 embedding 模型的向量空間互不相容，寧可失敗。
 
-記帳（FR-68）：token / 成本**跨所有嘗試加總**，成本按各次嘗試實際模型的單價
+記帳（FR-59）：token / 成本**跨所有嘗試加總**，成本按各次嘗試實際模型的單價
 分別計算（失敗的嘗試也有花錢）。全部失敗時 metadata 掛在例外物件上帶出。
 
 設計上保持「純」：本類別只負責呼叫 Gemini 並回傳結果（含 metadata），不碰
@@ -140,7 +140,7 @@ class GeminiProvider(LLMProvider):
         )
         return text, usage
 
-    # @traceable（FR-69）：LANGSMITH_TRACING=true 時上報輸入/輸出/耗時到 LangSmith，
+    # @traceable（FR-60）：LANGSMITH_TRACING=true 時上報輸入/輸出/耗時到 LangSmith，
     # 未設定時為 no-op（例外原樣穿透、開銷微秒級）。只裝在公開方法：裝在
     # _generate_content 會把每次網路 retry 都變成獨立 trace（噪音）。
     @traceable(run_type="llm", name="gemini.generate")

@@ -3,7 +3,7 @@
 兩段式檢索的第二段：bi-encoder（pgvector 向量搜尋）海選 top-k 後，由
 cross-encoder 對 (query, passage) 成對精排。選本地
 ``cross-encoder/ms-marco-MiniLM-L-6-v2``（~90MB）而非 LLM rerank：零 API
-成本、確定性、CPU 毫秒級，Phase 9 對 25 組資料反覆評估不消耗額度。
+成本、確定性、CPU 毫秒級，Phase 8 對 25 組資料反覆評估不消耗額度。
 
 ``sentence_transformers`` 在函式內 lazy import：app 啟動與不觸 rerank 的
 測試不付 torch import 代價；模型載入為模組級單例。任何失敗由呼叫端降級

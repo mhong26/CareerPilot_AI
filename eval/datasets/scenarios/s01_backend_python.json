@@ -1,0 +1,252 @@
+{
+  "scenario_id": "s01",
+  "title": "Mid-level Python backend engineer",
+  "description": "A 4-year Python/FastAPI/PostgreSQL backend engineer evaluated against 8 postings: one strong match with clear gaps, one semantic match with zero keyword overlap, one keyword-stuffed trap, one marginal data role, and four distractors.",
+  "tags": ["semantic-no-keyword-overlap", "keyword-trap"],
+  "language": "en",
+  "rationale": "j2 expresses a genuinely good backend fit using deliberately generic vocabulary ('modern dynamic server-side language', 'relational data modeling') that shares almost no tokens with the resume — TF-IDF cannot see it, embeddings should. j3 is a technical-recruiting role whose posting is stuffed with the resume's exact stack keywords (Python, FastAPI, PostgreSQL, Redis, Docker) — TF-IDF over-ranks it, the hybrid matcher should not. j4 (data engineering) probes the graded boundary: real Python/SQL overlap but the core stack (Spark/Airflow/dbt) is absent. Gap target j1 has unambiguous annotated gaps (Kubernetes/AWS required, Terraform/GraphQL preferred) and abundant must_not_claim skills the resume clearly holds.",
+  "resume": {
+    "basic_info": {
+      "name": "Alex Rivera",
+      "email": "alex.rivera@example.com",
+      "phone": "",
+      "location": "Austin, TX",
+      "links": ["github.com/arivera-dev"]
+    },
+    "summary": "Backend engineer with 4 years of experience building REST APIs and data-heavy services in Python. Comfortable owning features end to end: schema design, API implementation, testing, and containerized deployment with Docker and GitHub Actions.",
+    "skills": ["Python", "FastAPI", "Django", "PostgreSQL", "Redis", "SQLAlchemy", "Celery", "Docker", "GitHub Actions", "pytest", "REST API design", "Git"],
+    "experience": [
+      {
+        "company": "Freshlane",
+        "title": "Backend Engineer",
+        "start_date": "Jun 2023",
+        "end_date": "Present",
+        "bullets": [
+          "Designed and shipped a FastAPI order-management service handling 2M requests/day, backed by PostgreSQL and Redis caching",
+          "Cut p95 API latency from 800ms to 210ms by adding query-level indexes and connection pooling",
+          "Built async task pipelines with Celery for invoice generation and nightly reconciliation",
+          "Introduced a pytest-based integration test suite, raising backend coverage from 40% to 85%"
+        ]
+      },
+      {
+        "company": "Brightcart",
+        "title": "Junior Software Engineer",
+        "start_date": "Jul 2021",
+        "end_date": "May 2023",
+        "bullets": [
+          "Maintained the Django monolith powering the storefront checkout flow",
+          "Implemented webhook integrations with three payment providers",
+          "Wrote database migrations and tuned slow PostgreSQL queries flagged in production"
+        ]
+      }
+    ],
+    "projects": [
+      {
+        "name": "shiplog",
+        "description": "Open-source deployment audit-log CLI",
+        "bullets": [
+          "Built a CLI tool that records and diffs deployment metadata across environments",
+          "Grew the project to 300+ GitHub stars with 12 external contributors"
+        ],
+        "tech": ["Python", "SQLite", "Typer"]
+      }
+    ],
+    "education": [
+      {
+        "school": "University of Texas at Austin",
+        "degree": "B.S.",
+        "field": "Computer Science",
+        "graduation": "2021"
+      }
+    ],
+    "certifications": []
+  },
+  "jobs": [
+    {
+      "job_key": "j1",
+      "raw_text": "Senior Backend Engineer — Nimbus Health (Remote, US)\n\nNimbus Health builds scheduling infrastructure for outpatient clinics. We are hiring a Senior Backend Engineer to own core API services.\n\nWhat you will do:\n- Design and evolve REST APIs for our patient scheduling platform\n- Own PostgreSQL schema design, migrations, and query performance\n- Operate services deployed on Kubernetes in AWS\n- Mentor two junior engineers through code review and pairing\n\nRequirements: Python, FastAPI or Flask, PostgreSQL, Kubernetes, AWS. 5+ years building production backend services, 2+ years operating workloads on Kubernetes. Bachelor's degree in Computer Science or equivalent practical experience.\n\nNice to have: Terraform, GraphQL, HIPAA compliance experience.",
+      "parsed": {
+        "company": "Nimbus Health",
+        "title": "Senior Backend Engineer",
+        "location": "Remote (US)",
+        "work_mode": "remote",
+        "responsibilities": [
+          "Design and evolve REST APIs for our patient scheduling platform",
+          "Own PostgreSQL schema design, migrations, and query performance",
+          "Operate services deployed on Kubernetes in AWS",
+          "Mentor two junior engineers through code review and pairing"
+        ],
+        "required_skills": ["Python", "FastAPI or Flask", "PostgreSQL", "Kubernetes", "AWS"],
+        "preferred_skills": ["Terraform", "GraphQL", "HIPAA compliance experience"],
+        "qualifications": ["Bachelor's degree in Computer Science or equivalent practical experience"],
+        "experience_requirements": [
+          "5+ years building production backend services",
+          "2+ years operating workloads on Kubernetes"
+        ]
+      }
+    },
+    {
+      "job_key": "j2",
+      "raw_text": "Server-Side Engineer — Loopwire (Hybrid, Denver CO)\n\nLoopwire's customer portal is growing fast and the service layer behind it needs an owner. We care about fundamentals, not brand names — our stack is boring on purpose and we are language-agnostic for the right person.\n\nYou will build and maintain the service layer behind our customer-facing web product, model business data in a relational database, keep query performance healthy, and collaborate with frontend engineers on API contracts.\n\nWe look for: fluency in a modern dynamic server-side language, solid relational data modeling, thoughtful HTTP API design, and strong automated testing habits. 3+ years shipping server-side software. Bonus: familiarity with message queues and containerized deployments.",
+      "parsed": {
+        "company": "Loopwire",
+        "title": "Server-Side Engineer",
+        "location": "Denver, CO",
+        "work_mode": "hybrid",
+        "responsibilities": [
+          "Build and maintain the service layer behind our customer-facing web product",
+          "Model business data in a relational database and keep query performance healthy",
+          "Collaborate with frontend engineers on API contracts"
+        ],
+        "required_skills": [
+          "A modern dynamic server-side language",
+          "Relational data modeling",
+          "HTTP API design",
+          "Automated testing habits"
+        ],
+        "preferred_skills": ["Message queues", "Containerized deployments"],
+        "qualifications": [],
+        "experience_requirements": ["3+ years shipping server-side software"]
+      }
+    },
+    {
+      "job_key": "j3",
+      "raw_text": "Technical Sourcer / IT Recruiter — TalentBridge Staffing (Onsite, Dallas TX)\n\nTalentBridge places contract engineers with Fortune 500 clients. We need a Technical Sourcer who lives and breathes engineering keywords: Python, FastAPI, PostgreSQL, Redis, Docker, AWS, Kubernetes, React — if you can tell them apart in a resume, we want you.\n\nYou will source and screen candidates for client engineering teams, maintain a pipeline of contractors in our applicant tracking system, and write outreach emails referencing candidate tech stacks.\n\nRequirements: keyword sourcing for roles involving Python, FastAPI, PostgreSQL, Redis, Docker and AWS; Boolean search; ATS tooling (Greenhouse or Lever). 1+ years in technical recruiting or sourcing. Bonus: prior agency recruiting experience.",
+      "parsed": {
+        "company": "TalentBridge Staffing",
+        "title": "Technical Sourcer / IT Recruiter",
+        "location": "Dallas, TX",
+        "work_mode": "onsite",
+        "responsibilities": [
+          "Source and screen candidates for client engineering teams",
+          "Maintain a pipeline of contractors in our applicant tracking system",
+          "Write outreach emails referencing candidate tech stacks such as Python, FastAPI, PostgreSQL, Redis, Docker and AWS"
+        ],
+        "required_skills": [
+          "Keyword sourcing for roles involving Python, FastAPI, PostgreSQL, Redis, Docker, AWS",
+          "Boolean search",
+          "ATS tooling (Greenhouse or Lever)"
+        ],
+        "preferred_skills": ["Prior agency recruiting experience"],
+        "qualifications": [],
+        "experience_requirements": ["1+ years in technical recruiting or sourcing"]
+      }
+    },
+    {
+      "job_key": "j4",
+      "raw_text": "Data Engineer — Metriflow (Remote, US)\n\nMetriflow's analytics platform ingests billions of events a month. We are hiring a Data Engineer to own our batch pipelines.\n\nYou will build and operate Airflow DAGs, model warehouse tables with dbt, and optimize Spark jobs.\n\nRequirements: Python, SQL, Apache Spark, Airflow, dbt. 3+ years in data engineering. Bonus: Kafka, Snowflake.",
+      "parsed": {
+        "company": "Metriflow",
+        "title": "Data Engineer",
+        "location": "Remote (US)",
+        "work_mode": "remote",
+        "responsibilities": [
+          "Build and operate Airflow DAGs for batch ingestion",
+          "Model warehouse tables with dbt",
+          "Optimize Spark jobs for cost and runtime"
+        ],
+        "required_skills": ["Python", "SQL", "Apache Spark", "Airflow", "dbt"],
+        "preferred_skills": ["Kafka", "Snowflake"],
+        "qualifications": [],
+        "experience_requirements": ["3+ years in data engineering"]
+      }
+    },
+    {
+      "job_key": "j5",
+      "raw_text": "Frontend Engineer — Pixelforge (Hybrid, Seattle WA)\n\nPixelforge builds creative tooling for indie game studios. Join us to craft delightful editor UI.\n\nRequirements: React, TypeScript, modern CSS, state management (Redux or Zustand). 2+ years of frontend experience. Bonus: WebGL, Electron.",
+      "parsed": {
+        "company": "Pixelforge",
+        "title": "Frontend Engineer",
+        "location": "Seattle, WA",
+        "work_mode": "hybrid",
+        "responsibilities": [
+          "Build editor UI features in React and TypeScript",
+          "Own component performance and rendering smoothness",
+          "Partner with designers on interaction details"
+        ],
+        "required_skills": ["React", "TypeScript", "Modern CSS", "Redux or Zustand"],
+        "preferred_skills": ["WebGL", "Electron"],
+        "qualifications": [],
+        "experience_requirements": ["2+ years of frontend experience"]
+      }
+    },
+    {
+      "job_key": "j6",
+      "raw_text": "Site Reliability Engineer — Corely (Remote, US)\n\nCorely runs payment infrastructure with strict uptime SLOs. We are hiring an SRE to harden our platform.\n\nRequirements: Kubernetes, Terraform, Go, Prometheus/Grafana, incident response and on-call ownership. 4+ years in SRE or infrastructure roles.",
+      "parsed": {
+        "company": "Corely",
+        "title": "Site Reliability Engineer",
+        "location": "Remote (US)",
+        "work_mode": "remote",
+        "responsibilities": [
+          "Own availability, alerting, and capacity planning for payment services",
+          "Automate infrastructure with Terraform and Kubernetes operators",
+          "Lead incident response and blameless postmortems"
+        ],
+        "required_skills": ["Kubernetes", "Terraform", "Go", "Prometheus", "Grafana"],
+        "preferred_skills": ["AWS", "Chaos engineering"],
+        "qualifications": [],
+        "experience_requirements": ["4+ years in SRE or infrastructure roles"]
+      }
+    },
+    {
+      "job_key": "j7",
+      "raw_text": "iOS Engineer — Swiftly Mobile (Onsite, San Francisco CA)\n\nSwiftly Mobile ships consumer fitness apps used by 3M people. We need an iOS Engineer.\n\nRequirements: Swift, UIKit, SwiftUI, Core Data. 3+ years shipping iOS apps to the App Store.",
+      "parsed": {
+        "company": "Swiftly Mobile",
+        "title": "iOS Engineer",
+        "location": "San Francisco, CA",
+        "work_mode": "onsite",
+        "responsibilities": [
+          "Build new workout-tracking features in SwiftUI",
+          "Maintain the legacy UIKit codebase during migration",
+          "Profile and fix app startup and battery regressions"
+        ],
+        "required_skills": ["Swift", "UIKit", "SwiftUI", "Core Data"],
+        "preferred_skills": ["HealthKit", "Combine"],
+        "qualifications": [],
+        "experience_requirements": ["3+ years shipping iOS apps to the App Store"]
+      }
+    },
+    {
+      "job_key": "j8",
+      "raw_text": "Product Marketing Manager — Nimbus Health (Remote, US)\n\nNimbus Health is hiring a PMM to own go-to-market for our scheduling product.\n\nRequirements: B2B SaaS positioning, launch planning, sales enablement content, customer interviews. 4+ years in product marketing.",
+      "parsed": {
+        "company": "Nimbus Health",
+        "title": "Product Marketing Manager",
+        "location": "Remote (US)",
+        "work_mode": "remote",
+        "responsibilities": [
+          "Own positioning and messaging for the scheduling product line",
+          "Plan and execute product launches with sales and CS",
+          "Run customer interviews and turn insights into enablement content"
+        ],
+        "required_skills": ["B2B SaaS positioning", "Launch planning", "Sales enablement", "Customer research"],
+        "preferred_skills": ["Healthcare industry experience"],
+        "qualifications": [],
+        "experience_requirements": ["4+ years in product marketing"]
+      }
+    }
+  ],
+  "ground_truth_ranking": {
+    "j1": 3,
+    "j2": 2,
+    "j3": 0,
+    "j4": 1,
+    "j5": 0,
+    "j6": 0,
+    "j7": 0,
+    "j8": 0
+  },
+  "skill_gap": {
+    "job_key": "j1",
+    "relevant_chunks": [2, 3, 5],
+    "expected_gaps": [
+      { "skill": "Kubernetes", "severity": "high" },
+      { "skill": "AWS", "severity": "high" },
+      { "skill": "Terraform", "severity": "low" },
+      { "skill": "GraphQL", "severity": "low" }
+    ],
+    "must_not_claim": ["Python", "FastAPI", "PostgreSQL", "Docker", "pytest", "Redis"]
+  }
+}

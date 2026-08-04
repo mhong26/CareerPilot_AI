@@ -25,13 +25,13 @@
 
 | Resume bullet（摘要） | SRS 條款 | Plan Phase |
 |---|---|---|
-| Full-stack 平台：RAG + agentic workflows、skill gap、FastAPI、PostgreSQL + pgvector | §2.4、FR-24~30、FR-56~58、§9.1 | Phase 0~7 |
-| LLM API：prompt engineering、structured outputs、function calling、retry、model fallback、malformed rate（目標 <1%，量測報告） | FR-59~68 | Phase 2 + 2R、7、9 |
-| RAG eval：Precision@K、MRR、LLM-as-judge hallucination detection（LangSmith）、vs keyword baseline 改善 %（量測報告） | ER-1~8、FR-69 | Phase 9 |
-| LangGraph agent：7 tools 動態選擇 + match-score routing、一次產出三類 artifacts | FR-31~44、FR-56~58、FR-66 | Phase 7 |
-| Docker + GitHub Actions CI/CD、coverage ≥80% 工作目標、one-command 部署 | NFR-12~16、TR-1~4 | Phase 0、10、11 |
+| Full-stack 平台：RAG + agentic workflows、skill gap、FastAPI、PostgreSQL + pgvector | §2.4、FR-24~30、FR-47~49、§9.1 | Phase 0~7 |
+| LLM API：prompt engineering、structured outputs、function calling、retry、model fallback、malformed rate（目標 <1%，量測報告） | FR-50~59 | Phase 2 + 2R、7、8 |
+| RAG eval：Precision@K、MRR、LLM-as-judge hallucination detection（LangSmith）、vs keyword baseline 改善 %（量測報告） | ER-1~8、FR-60 | Phase 8 |
+| LangGraph agent：7 tools 動態選擇 + match-score routing、一次產出三類 artifacts | FR-31~44、FR-47~49、FR-57 | Phase 7 |
+| Docker + GitHub Actions CI/CD、coverage ≥80% 工作目標、one-command 部署 | NFR-12~16、TR-1~4 | Phase 0、9、10 |
 
-## Repo 結構（目標結構；`cd.yml`、`docker-compose.prod.yml`、`eval/langsmith/`、`docs/` 報告類為 Phase 9/11 交付）
+## Repo 結構（目標結構；`cd.yml`、`docker-compose.prod.yml`、`eval/langsmith/`、`docs/` 報告類為 Phase 8/10 交付）
 
 ```
 CareerPilot_AI/
@@ -114,12 +114,12 @@ CareerPilot_AI/
 
 **對應 SRS**：FR-1~6、FR-4 isolation、NFR-6~8、entity 定義 §5.1
 
-1. DB models（SQLAlchemy）：Phase 1 實際完成 `User`、`RefreshToken`；`Resume`/`ResumeVersion` 於 Phase 3、`Job`/`JobChunk`/`JobEmbedding`（含 `vector(768)` 欄）於 Phase 4 建立；`MatchResult`（Phase 5）、`SkillGapReport`（Phase 6）、`GeneratedArtifact`（Phase 7）、`ApplicationHistory`/`UserPreference`/`Feedback`（Phase 8）由各自 phase 建 model + migration。全部帶 `user_id` FK 並建 index。
+1. DB models（SQLAlchemy）：Phase 1 實際完成 `User`、`RefreshToken`；`Resume`/`ResumeVersion` 於 Phase 3、`Job`/`JobChunk`/`JobEmbedding`（含 `vector(768)` 欄）於 Phase 4 建立；`MatchResult`（Phase 5）、`SkillGapReport`（Phase 6）、`GeneratedArtifact`（Phase 7）由各自 phase 建 model + migration。全部帶 `user_id` FK 並建 index。
 2. Alembic migrations 隨 phase 演進（0001 enable pgvector、0002 auth tables、0003 llm_call_log、0004 resume tables、0005 job tables 含 HNSW index；0006 起由後續 phase 接續）
 3. Auth：
    - `POST /auth/register`、`POST /auth/login`（JWT access+refresh）、`POST /auth/logout`（blacklist）、`GET /auth/me`
    - bcrypt 雜湊、`get_current_user` 依賴注入
-   - Protected routes 以 `Depends(get_current_user)` 依賴注入實作（`app/api/deps.py`）；新增 router（matches / skill-gap / applications / preferences / feedback）時須逐一掛上
+   - Protected routes 以 `Depends(get_current_user)` 依賴注入實作（`app/api/deps.py`）；新增 router（matches / skill-gap）時須逐一掛上
 4. 前端：
    - Register / Login 頁、AuthContext、axios interceptor（attach token、401 refresh）
    - Protected route wrapper
@@ -131,7 +131,7 @@ CareerPilot_AI/
 
 ## Phase 2 — Gemini Wrapper + Structured Output 基建（Week 3 前半, 約 2-3 天）
 
-**對應**：FR-59~65、6.4
+**對應**：FR-50~56、6.4
 
 1. `app/ai/llm/base.py`：`LLMProvider` abstract（`generate`, `generate_structured(schema)`, `embed`）
 2. `app/ai/llm/gemini.py`：封裝 Gemini API，支援：
@@ -147,7 +147,7 @@ CareerPilot_AI/
 
 ### Phase 2R — Retrofit（回補已完成部分，於 Phase 5 開始前執行）
 
-**對應**：FR-67~69
+**對應**：FR-58~60
 
 1. **Model fallback chain**：`GeminiProvider` 增加 `fallback_model` 參數（`build_gemini_provider` 讀 `settings.gemini_fallback_model`，default `gemini-3.6-flash`）；`generate` / `generate_structured` 外層包 fallback 迴圈——primary 完整流程任何失敗（廣義觸發：含 network retry 耗盡、validation+repair 皆敗、安全阻擋、空回應、model 名錯誤）→ 以 fallback model 完整重跑一次；兩個模型都失敗才丟 `LLMError` / `StructuredOutputError`（例外物件帶記帳 metadata）。`embed` 不設 fallback。
 2. **LLMCallLog 擴充**（migration 0006）：追加 `attempts`（int，default 1，含 fallback 的總生成次數）、`repair_used`（bool）、`fallback_used`（bool）；`model` 欄記實際成功（或最後嘗試）之模型；token/成本跨所有嘗試加總、成本按各次實際模型單價分價計算（`record_call` 增 `cost` 參數承接，簽名同步更新）。
@@ -235,12 +235,12 @@ CareerPilot_AI/
 
 ## Phase 7 — Agent Workflow: Application Kit（Week 5 後半 + Week 6 前半, 約 5-6 天）
 
-**對應**：FR-31~44、FR-54~55、FR-56~58、FR-66（7 tools + LLM 動態選擇 + conditional logic）
+**對應**：FR-31~44、FR-45~46、FR-47~49、FR-57（7 tools + LLM 動態選擇 + conditional logic）
 
 1. 依賴：pyproject 增 `langchain-google-genai>=2.0`、`langsmith`；`langgraph` floor 升至 `>=0.2`（註：未來可將 wrapper 遷移至 `google-genai` SDK，非本次範圍）
-2. LangGraph agent 設計（hybrid：LLM tool-calling + score routing，對應 FR-66）：
+2. LangGraph agent 設計（hybrid：LLM tool-calling + score routing，對應 FR-57）：
    - **State**：`{resume, job, match_result, skill_gaps, tailored_resume, cover_letter, interview_prep, artifacts}`
-   - **Tools（恰好 7 個，名稱與 SRS FR-57 一致，以 `@tool` 包裝、Pydantic args schema）**：
+   - **Tools（恰好 7 個，名稱與 SRS FR-48 一致，以 `@tool` 包裝、Pydantic args schema）**：
      1. `fetch_resume` — DB 查履歷
      2. `retrieve_job_evidence` — RAG 檢索
      3. `compute_match` — 呼叫 match service
@@ -248,7 +248,7 @@ CareerPilot_AI/
      5. `generate_cover_letter` — Gemini structured（intro/body/closing）
      6. `generate_interview_qs` — Gemini structured
      7. `save_artifact` — 寫 `GeneratedArtifact`
-   - **Planner node（function calling）**：`ChatGoogleGenerativeAI(model=settings.gemini_model).bind_tools([7 tools])`，ReAct 迴圈（planner ↔ `ToolNode`）；system prompt 陳述目標（一次 run 產出並保存三類 artifacts）。工具選擇必須由 LLM 的 function calls 動態決定，graph 不得把 7 個工具寫成固定順序（FR-66）
+   - **Planner node（function calling）**：`ChatGoogleGenerativeAI(model=settings.gemini_model).bind_tools([7 tools])`，ReAct 迴圈（planner ↔ `ToolNode`）；system prompt 陳述目標（一次 run 產出並保存三類 artifacts）。工具選擇必須由 LLM 的 function calls 動態決定，graph 不得把 7 個工具寫成固定順序（FR-57）
    - **Conditional edge `route_on_match_score`**（`compute_match` 的 ToolMessage 更新 state 後觸發）：
      - `match_score < 0.5` → 注入 directive：先 `retrieve_job_evidence` + gap 分析，再 tailor resume
      - `match_score >= 0.8` → 注入 directive：跳過 heavy gap analysis，直接生成 tailored resume + cover letter + interview prep
@@ -256,7 +256,7 @@ CareerPilot_AI/
    - **完成檢查 node**：planner 提前結束但三類 artifact 未齊 → bounded re-prompt（`recursion_limit` + timeout 防無限迴圈）
    - **LangSmith**：`LANGSMITH_TRACING=true` 時 LangGraph 全自動 trace，與 wrapper 的 `@traceable` 巢狀呈現
 3. Endpoint：`POST /jobs/{id}/generate-application-kit` → 跑 agent → 回 artifacts
-4. `GeneratedArtifact` model + migration；artifact 儲存與版本控（FR-54~55：歷史與匯出）
+4. `GeneratedArtifact` model + migration；artifact 儲存與版本控（FR-45~46：歷史與匯出）
 5. 前端 Application Kit 頁：三區塊（resume suggestions / cover letter / interview prep），均可編輯、匯出（copy / .md）
 6. Tests（3+）：以 fake ChatModel 注入預錄 `tool_calls` 序列測 (a) 完整流程、(b) 兩個 score 分支、(c) tool failure degrade、(d) LLM 亂選工具時 recursion limit 保護
 
@@ -264,25 +264,9 @@ CareerPilot_AI/
 
 ---
 
-## Phase 8 — Memory + Application Tracking（Week 6 後半, 約 3-4 天）
+## Phase 8 — Evaluation Layer（Week 7, 約 5 天）
 
-**對應**：FR-45~53（FR-54~55 由 Phase 7 交付）
-
-1. Preferences：`UserPreference` model + migration、`GET/PUT /preferences`、前端偏好設定 UI（FR-45~46；FR-49 檢視／清除）
-2. Memory 注入：agent state 自動 load preferences，ranking explanation / cover letter / interview prep 都帶入（FR-47~48）
-3. Application Tracking：`ApplicationHistory` model + migration、`POST/PATCH /applications`（status enum、notes、timeline）
-4. Feedback：`Feedback` model + migration、`POST /feedback`（artifact_id、rating、comment）（FR-53），前端 artifact 卡片提供 rating UI
-5. 前端：Application Tracker 頁（timeline + status board）
-6. Cross-session 驗證（登出再登入資料還在）
-7. Tests（2+）：preference reuse、application CRUD、feedback 寫入
-
-**驗收**：登出重登後 preferences / applications / feedback 均保留；同一 job 的 cover letter 明顯反映偏好（tone、location）。
-
----
-
-## Phase 9 — Evaluation Layer（Week 7, 約 5 天）
-
-**對應**：ER-1~9、NFR-1、NFR-5、FR-68
+**對應**：ER-1~9、NFR-1、NFR-5、FR-59
 
 1. **Curated dataset**（`eval/datasets/`）：手刻 25 組 `{resume, jobs[], ground_truth_ranking, ground_truth_gaps, ground_truth_relevant_chunks}`（chunk 級標註僅針對 skill-gap queries），JSON/YAML；`eval/langsmith/sync_datasets.py` 同步至 LangSmith datasets（本地 JSON 為 source of truth）。dataset 設計說明須記錄 ground truth 含「語意匹配但關鍵字不重疊」案例的理由
 2. **Matching eval**：hybrid matcher 之 `Precision@K`（K=3,5）與 `MRR` vs **TF-IDF keyword-only baseline**（sklearn）；報告改善百分比（resume 參考目標 35%，measure-and-report）
@@ -298,7 +282,7 @@ CareerPilot_AI/
 
 ---
 
-## Phase 10 — 測試補齊 + 硬化（Week 8 前半, 約 3 天）
+## Phase 9 — 測試補齊 + 硬化（Week 8 前半, 約 3 天）
 
 1. 清點測試數到 **≥15**（auth / api / data / ai pipeline 各領域都覆蓋）；後端 coverage 工作目標 **≥80%**（`pytest --cov=app`），達標後於 CI 加 `--cov-fail-under=80`（達標前僅報告不擋）
 2. Integration test：完整 e2e flow（register → upload resume → add job → match → kit）用 `httpx.AsyncClient` + test DB
@@ -312,7 +296,7 @@ CareerPilot_AI/
 
 ---
 
-## Phase 11 — Docker 打包 + 文件 + 交付（Week 8 後半 ~ Week 9, 約 3-5 天）
+## Phase 10 — Docker 打包 + 文件 + 交付（Week 8 後半 ~ Week 9, 約 3-5 天）
 
 **對應**：NFR-14~16、Acceptance §10
 
@@ -339,16 +323,15 @@ CareerPilot_AI/
 - [ ] Match ranking + explanation（Phase 5）
 - [ ] Skill gap + source attribution（Phase 6）
 - [ ] Resume suggestions / cover letter / interview prep（Phase 7）
-- [ ] Cross-session 偏好與申請歷史（Phase 8）
-- [ ] ≥3 AI techniques（RAG / agent / structured output / embeddings / memory / function calling ✓ 全中）
-- [ ] ≥15 tests + CI（Phase 10 + 全程累積）
-- [ ] Docker 重現（Phase 11）
-- [ ] ≥2 quantitative metrics + baseline（Phase 9）
+- [ ] ≥3 AI techniques（RAG / agent / structured output / embeddings / function calling ✓ 全中）
+- [ ] ≥15 tests + CI（Phase 9 + 全程累積）
+- [ ] Docker 重現（Phase 10）
+- [ ] ≥2 quantitative metrics + baseline（Phase 8）
 - [ ] LLM function-calling 7-tool agent + match-score routing（Phase 7）
-- [ ] Model fallback chain + malformed rate 報告（Phase 2R + 9）
-- [ ] LangSmith eval：matching / RAG P@K・MRR + hallucination rate + rubric（Phase 9）
-- [ ] Backend coverage ≥80% 工作目標（Phase 10）
-- [ ] GHCR CD：main / `v*` tag 自動發佈 images（Phase 11）
+- [ ] Model fallback chain + malformed rate 報告（Phase 2R + 8）
+- [ ] LangSmith eval：matching / RAG P@K・MRR + hallucination rate + rubric（Phase 8）
+- [ ] Backend coverage ≥80% 工作目標（Phase 9）
+- [ ] GHCR CD：main / `v*` tag 自動發佈 images（Phase 10）
 
 ## 風險與緩解
 
@@ -372,10 +355,10 @@ CareerPilot_AI/
 | 3 | Phase 2 + 3 |
 | 4 | Phase 2R + 4 + 5 |
 | 5 | Phase 6 + 7a |
-| 6 | Phase 7b + 8 |
-| 7 | Phase 9 |
-| 8 | Phase 10 + 11a |
-| 9 | Phase 11b + buffer |
+| 6 | Phase 7b |
+| 7 | Phase 8 |
+| 8 | Phase 9 + 10a |
+| 9 | Phase 10b + buffer |
 | 10 | Demo 錄製 / 報告撰寫 / 最終修復 |
 
 ## 驗證（交付前手動 end-to-end 測試）

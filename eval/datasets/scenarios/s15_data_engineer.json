@@ -1,0 +1,247 @@
+{
+  "scenario_id": "s15",
+  "title": "Mid-level data engineer (Spark/Airflow/dbt/Snowflake)",
+  "description": "A 4-year Python/Spark/Airflow/dbt/Snowflake data engineer evaluated against 8 postings: one strong match with streaming/IaC gaps, one adjacent analytics-engineering match, one staffing-agency keyword trap stuffed with the exact data stack, one marginal Python backend role, and four distractors.",
+  "tags": ["keyword-trap"],
+  "language": "en",
+  "rationale": "j3 is the constructed keyword trap: a staffing-agency sourcer role whose posting is saturated with the resume's exact stack tokens (Spark, Airflow, Snowflake, dbt, Python) yet belongs to the recruiting job family, so it is graded 0 — TF-IDF will over-rank it and the hybrid matcher should not. j1 is the gap target: it overlaps strongly on Python, Spark, Airflow, dbt, and Snowflake (justifying grade 3) while requiring Kafka and Terraform, which the resume clearly lacks (high-severity gaps), plus preferred Databricks and Great Expectations (low). j2 (analytics engineer on dbt/Snowflake/SQL) is an adjacent-family good match at grade 2. j4 probes the graded boundary: a Python backend role with real Python/SQL overlap but a different core stack and job family, hence grade 1. The remaining four jobs (frontend, iOS, product marketing, SRE) share at most non-core tokens with the resume and are graded 0.",
+  "resume": {
+    "basic_info": {
+      "name": "Priya Natarajan",
+      "email": "priya.natarajan@example.com",
+      "phone": "",
+      "location": "Chicago, IL",
+      "links": ["github.com/pnatarajan-data"]
+    },
+    "summary": "Data engineer with 4 years of experience building batch pipelines and warehouse models on the modern data stack. Owns ingestion end to end: Airflow orchestration, Spark transformation, dbt modeling, and Snowflake performance tuning, with CI checks on every pipeline change.",
+    "skills": ["Python", "SQL", "Apache Spark", "Airflow", "dbt", "Snowflake", "AWS S3", "Docker", "Git", "pandas", "Dimensional data modeling", "GitHub Actions"],
+    "experience": [
+      {
+        "company": "Harborline Logistics",
+        "title": "Data Engineer",
+        "start_date": "Mar 2023",
+        "end_date": "Present",
+        "bullets": [
+          "Built Airflow-orchestrated pipelines ingesting 40M shipment events/day from S3 into Snowflake",
+          "Designed 60+ dbt models powering finance and ops dashboards, cutting warehouse refresh time from 3h to 35min",
+          "Tuned Spark transformation jobs to reduce monthly EMR spend by 28%",
+          "Added dbt tests and CI validation on every merge, dropping data incidents from ~6 to under 1 per month"
+        ]
+      },
+      {
+        "company": "Meridian Retail Group",
+        "title": "Junior Data Engineer",
+        "start_date": "Jul 2021",
+        "end_date": "Feb 2023",
+        "bullets": [
+          "Migrated 200 legacy SQL Server reports into Snowflake with dbt models and documentation",
+          "Wrote Python ingestion jobs pulling from 12 third-party marketing APIs on Airflow schedules",
+          "Rebuilt full-refresh tables as incremental dbt models, cutting warehouse compute costs 22%"
+        ]
+      }
+    ],
+    "projects": [
+      {
+        "name": "flightdeck",
+        "description": "Open-source Airflow DAG linting CLI",
+        "bullets": [
+          "Built a CLI that statically checks Airflow DAGs for scheduling and dependency anti-patterns",
+          "Adopted in CI by 8 external teams according to GitHub dependents"
+        ],
+        "tech": ["Python", "Airflow", "Click"]
+      }
+    ],
+    "education": [
+      {
+        "school": "University of Illinois Chicago",
+        "degree": "B.S.",
+        "field": "Information Systems",
+        "graduation": "2021"
+      }
+    ],
+    "certifications": []
+  },
+  "jobs": [
+    {
+      "job_key": "j1",
+      "raw_text": "Senior Data Engineer — Lakestone Analytics (Remote, US)\n\nLakestone Analytics provides demand forecasting for consumer brands. Our warehouse ingests billions of events a month and we are hiring a Senior Data Engineer to own the pipelines behind it.\n\nWhat you will do:\n- Own batch and streaming pipelines feeding our Snowflake warehouse\n- Design and review dbt model architecture and coding standards\n- Build streaming ingestion on Kafka for near-real-time forecasting\n- Provision and manage data infrastructure with Terraform\n\nRequirements: Python, Apache Spark, Snowflake, Kafka, Terraform. 4+ years building production data pipelines and 1+ years operating streaming ingestion at scale. Bachelor's degree in Computer Science, Information Systems, or equivalent practical experience.\n\nNice to have: Databricks, Great Expectations, Looker.",
+      "parsed": {
+        "company": "Lakestone Analytics",
+        "title": "Senior Data Engineer",
+        "location": "Remote (US)",
+        "work_mode": "remote",
+        "responsibilities": [
+          "Own batch and streaming pipelines feeding our Snowflake warehouse, orchestrated in Airflow",
+          "Design and review dbt model architecture and coding standards",
+          "Build streaming ingestion on Kafka for near-real-time forecasting",
+          "Provision and manage data infrastructure with Terraform"
+        ],
+        "required_skills": ["Python", "Apache Spark", "Snowflake", "Kafka", "Terraform"],
+        "preferred_skills": ["Databricks", "Great Expectations", "Looker"],
+        "qualifications": ["Bachelor's degree in Computer Science, Information Systems, or equivalent practical experience"],
+        "experience_requirements": [
+          "4+ years building production data pipelines",
+          "1+ years operating streaming ingestion at scale"
+        ]
+      }
+    },
+    {
+      "job_key": "j2",
+      "raw_text": "Analytics Engineer — Brightpath Health (Hybrid, Chicago IL)\n\nBrightpath Health builds care-coordination software for clinics. Our data team owns a Snowflake warehouse that powers clinical and financial reporting, and we need an Analytics Engineer to own the modeling layer.\n\nYou will design dbt models for clinical and billing data, own warehouse data quality with tests and documentation, and partner with analysts on metric definitions.\n\nRequirements: SQL, dbt, Snowflake, Python. 3+ years in analytics engineering or data engineering. Bonus: Airflow, Fivetran.",
+      "parsed": {
+        "company": "Brightpath Health",
+        "title": "Analytics Engineer",
+        "location": "Chicago, IL",
+        "work_mode": "hybrid",
+        "responsibilities": [
+          "Design and maintain dbt models for clinical and billing data",
+          "Own warehouse data quality with tests and documentation",
+          "Partner with analysts on shared metric definitions"
+        ],
+        "required_skills": ["SQL", "dbt", "Snowflake", "Python"],
+        "preferred_skills": ["Airflow", "Fivetran"],
+        "qualifications": [],
+        "experience_requirements": ["3+ years in analytics engineering or data engineering"]
+      }
+    },
+    {
+      "job_key": "j3",
+      "raw_text": "Data Engineering Recruiter / Talent Sourcer — StackScout Staffing (Onsite, Chicago IL)\n\nStackScout places contract data engineers with enterprise clients. We need a sourcer who knows the modern data stack cold: Apache Spark, Airflow, dbt, Snowflake, Python, Kafka — if you can spot the difference between a Spark tuning expert and a dashboard analyst from a resume, we want you.\n\nYou will source and screen candidates for client data teams, run Boolean searches across job boards for Spark, Airflow, Snowflake and dbt keywords, and maintain the contractor pipeline in our ATS.\n\nRequirements: keyword sourcing for data roles involving Spark, Airflow, dbt, Snowflake and Python; Boolean search; ATS tooling (Bullhorn or Greenhouse). 1+ years in agency recruiting or sourcing.",
+      "parsed": {
+        "company": "StackScout Staffing",
+        "title": "Data Engineering Recruiter / Talent Sourcer",
+        "location": "Chicago, IL",
+        "work_mode": "onsite",
+        "responsibilities": [
+          "Source and screen candidates for client data engineering teams",
+          "Run Boolean searches across job boards for Spark, Airflow, Snowflake and dbt keywords",
+          "Maintain the contractor pipeline in our applicant tracking system"
+        ],
+        "required_skills": [
+          "Keyword sourcing for data roles involving Spark, Airflow, dbt, Snowflake, Python",
+          "Boolean search",
+          "ATS tooling (Bullhorn or Greenhouse)"
+        ],
+        "preferred_skills": ["Prior agency recruiting experience"],
+        "qualifications": [],
+        "experience_requirements": ["1+ years in agency recruiting or sourcing"]
+      }
+    },
+    {
+      "job_key": "j4",
+      "raw_text": "Backend Engineer — Corvid Systems (Remote, US)\n\nCorvid Systems builds fleet-management APIs for delivery companies. We are hiring a Backend Engineer to own core services.\n\nYou will design REST APIs in Python, own PostgreSQL schema design and query performance, and build async task processing for dispatch workflows.\n\nRequirements: Python, FastAPI or Flask, PostgreSQL, Redis, Docker. 3+ years building production backend services. Bonus: AWS, Celery.",
+      "parsed": {
+        "company": "Corvid Systems",
+        "title": "Backend Engineer",
+        "location": "Remote (US)",
+        "work_mode": "remote",
+        "responsibilities": [
+          "Design and ship REST APIs in Python for dispatch and fleet tracking",
+          "Own PostgreSQL schema design and query performance",
+          "Build async task processing for dispatch workflows"
+        ],
+        "required_skills": ["Python", "FastAPI or Flask", "PostgreSQL", "Redis", "Docker"],
+        "preferred_skills": ["AWS", "Celery"],
+        "qualifications": [],
+        "experience_requirements": ["3+ years building production backend services"]
+      }
+    },
+    {
+      "job_key": "j5",
+      "raw_text": "Frontend Engineer — Glimmerworks (Hybrid, Austin TX)\n\nGlimmerworks builds interactive event-planning tools. Join us to craft polished, accessible UI.\n\nYou will build customer-facing features in React and TypeScript, own component performance, and partner with design on interaction details.\n\nRequirements: React, TypeScript, modern CSS, state management (Redux or Zustand). 3+ years of frontend experience. Bonus: Next.js, accessibility auditing.",
+      "parsed": {
+        "company": "Glimmerworks",
+        "title": "Frontend Engineer",
+        "location": "Austin, TX",
+        "work_mode": "hybrid",
+        "responsibilities": [
+          "Build customer-facing features in React and TypeScript",
+          "Own component performance and rendering smoothness",
+          "Partner with designers on interaction details"
+        ],
+        "required_skills": ["React", "TypeScript", "Modern CSS", "Redux or Zustand"],
+        "preferred_skills": ["Next.js", "Accessibility auditing"],
+        "qualifications": [],
+        "experience_requirements": ["3+ years of frontend experience"]
+      }
+    },
+    {
+      "job_key": "j6",
+      "raw_text": "iOS Engineer — Pacelane (Onsite, San Diego CA)\n\nPacelane ships a consumer running app used by 2M athletes. We need an iOS Engineer to own new training features.\n\nRequirements: Swift, SwiftUI, UIKit, Core Data. 3+ years shipping iOS apps to the App Store. Bonus: HealthKit, WidgetKit.",
+      "parsed": {
+        "company": "Pacelane",
+        "title": "iOS Engineer",
+        "location": "San Diego, CA",
+        "work_mode": "onsite",
+        "responsibilities": [
+          "Build new training-plan features in SwiftUI",
+          "Maintain the legacy UIKit codebase during migration",
+          "Profile and fix startup and battery regressions"
+        ],
+        "required_skills": ["Swift", "SwiftUI", "UIKit", "Core Data"],
+        "preferred_skills": ["HealthKit", "WidgetKit"],
+        "qualifications": [],
+        "experience_requirements": ["3+ years shipping iOS apps to the App Store"]
+      }
+    },
+    {
+      "job_key": "j7",
+      "raw_text": "Product Marketing Manager — Lakestone Analytics (Remote, US)\n\nLakestone Analytics is hiring a PMM to own go-to-market for our forecasting product.\n\nYou will own positioning and messaging, plan launches with sales, and run customer interviews to sharpen enablement content.\n\nRequirements: B2B SaaS positioning, launch planning, sales enablement content, customer research. 4+ years in product marketing.",
+      "parsed": {
+        "company": "Lakestone Analytics",
+        "title": "Product Marketing Manager",
+        "location": "Remote (US)",
+        "work_mode": "remote",
+        "responsibilities": [
+          "Own positioning and messaging for the forecasting product line",
+          "Plan and execute product launches with sales and CS",
+          "Run customer interviews and turn insights into enablement content"
+        ],
+        "required_skills": ["B2B SaaS positioning", "Launch planning", "Sales enablement", "Customer research"],
+        "preferred_skills": ["Retail industry experience"],
+        "qualifications": [],
+        "experience_requirements": ["4+ years in product marketing"]
+      }
+    },
+    {
+      "job_key": "j8",
+      "raw_text": "Site Reliability Engineer — Vantacore (Remote, US)\n\nVantacore runs identity infrastructure with strict uptime SLOs. We are hiring an SRE to harden the platform.\n\nYou will own availability and alerting, automate infrastructure with Kubernetes operators, and lead incident response.\n\nRequirements: Kubernetes, Terraform, Go, Prometheus/Grafana, on-call ownership. 4+ years in SRE or infrastructure roles.",
+      "parsed": {
+        "company": "Vantacore",
+        "title": "Site Reliability Engineer",
+        "location": "Remote (US)",
+        "work_mode": "remote",
+        "responsibilities": [
+          "Own availability, alerting, and capacity planning for identity services",
+          "Automate infrastructure with Kubernetes operators and Terraform",
+          "Lead incident response and blameless postmortems"
+        ],
+        "required_skills": ["Kubernetes", "Terraform", "Go", "Prometheus", "Grafana"],
+        "preferred_skills": ["Chaos engineering"],
+        "qualifications": [],
+        "experience_requirements": ["4+ years in SRE or infrastructure roles"]
+      }
+    }
+  ],
+  "ground_truth_ranking": {
+    "j1": 3,
+    "j2": 2,
+    "j3": 0,
+    "j4": 1,
+    "j5": 0,
+    "j6": 0,
+    "j7": 0,
+    "j8": 0
+  },
+  "skill_gap": {
+    "job_key": "j1",
+    "relevant_chunks": [2, 3, 5],
+    "expected_gaps": [
+      { "skill": "Kafka", "severity": "high" },
+      { "skill": "Terraform", "severity": "high" },
+      { "skill": "Databricks", "severity": "low" },
+      { "skill": "Great Expectations", "severity": "low" }
+    ],
+    "must_not_claim": ["Python", "Apache Spark", "Airflow", "dbt", "Snowflake"]
+  }
+}

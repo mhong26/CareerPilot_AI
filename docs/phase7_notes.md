@@ -1,4 +1,4 @@
-# Phase 7 開發筆記 — Agent Workflow: Application Kit（FR-31~44、FR-54~58、FR-66）
+# Phase 7 開發筆記 — Agent Workflow: Application Kit（FR-31~44、FR-45~49、FR-57）
 
 範圍：LangGraph agent（planner ↔ 7 tools 的 ReAct 迴圈 + match-score routing）
 → 三類 artifacts 生成與 append-only 持久化 → 三個 API endpoint → 前端
@@ -12,7 +12,7 @@ Application Kit 頁（檢視／編輯／匯出）。規劃書見 `phase7_plan.md
 Planner 用 `ChatGoogleGenerativeAI(...).bind_tools(7 tools)`（新增依賴
 `langchain-google-genai>=2.0`）；三個 generate 工具內部仍呼叫既有
 `GeminiProvider.generate_structured`。
-- **理由**：FR-66 要求 native function calling，自家 `LLMProvider` ABC 沒有
+- **理由**：FR-57 要求 native function calling，自家 `LLMProvider` ABC 沒有
   `bind_tools` 介面，硬加等於重寫一套 tool-calling 協定；反過來讓生成也走
   langchain 則會失去 Phase 2/2R 建好的四層防禦（tenacity 網路重試 →
   validation retry → JSON repair → model fallback）與 `LLMCallLog` 記帳。
@@ -27,7 +27,7 @@ Planner 用 `ChatGoogleGenerativeAI(...).bind_tools(7 tools)`（新增依賴
 - **理由**：三件事必須發生在同一處，prebuilt 節點都不便做——(a) 工具拋錯
   轉成錯誤 `ToolMessage` 讓 planner 看得見並改變策略（NFR-4，不是整個 run
   crash）；(b) `compute_match` 成功後把分數同步進 state 供 conditional edge
-  路由（FR-58）；(c) 錯誤時 rollback 共享 session（見問題 6）。
+  路由（FR-49）；(c) 錯誤時 rollback 共享 session（見問題 6）。
 - **代價**：少了 prebuilt 的維護紅利，但省下的是「為了繞開 ToolNode 而在
   外圍補三個 wrapper」的複雜度。
 
@@ -45,7 +45,7 @@ ctx，回給 LLM 的 `ToolMessage` 只放幾百字摘要。
 每次生成或編輯都 INSERT 新 row，永不 UPDATE content、永不 DELETE；最新版
 = 同 `(resume_id, job_id, kind)` 下 `version_number` 最大者。
 - **理由**：MatchResult / SkillGapReport 是「分析快照」——重跑代表舊分析已
-  過時，覆蓋才是正確語意。Artifacts 是「創作產物」，FR-54 明文要求保存歷史、
+  過時，覆蓋才是正確語意。Artifacts 是「創作產物」，FR-45 明文要求保存歷史、
   SRS §5.3.4 要求「刪除或替換版本時應避免破壞歷史紀錄」。使用者改了三次
   cover letter 後想回到第一版，是真實需求。
 - `run_id` 讓同一次 agent run 的三件產物可歸組；編輯版沿用原 `run_id`、
@@ -54,8 +54,8 @@ ctx，回給 LLM 的 `ToolMessage` 只放幾百字摘要。
 ### 決策 5：score directive 是「注入建議訊息」而非強制路徑
 `route_on_match_score` 觸發 `inject_directive` node，往對話插一則
 `[directive]` 開頭的 `HumanMessage`，然後回 planner——不是把流程導向特定工具。
-- **理由**：FR-66 禁止 graph 硬性串接工具順序，只允許 match score routing
-  （FR-58）與安全防護。注入訊息後最終選擇權仍在 LLM，兩條要求同時滿足。
+- **理由**：FR-57 禁止 graph 硬性串接工具順序，只允許 match score routing
+  （FR-49）與安全防護。注入訊息後最終選擇權仍在 LLM，兩條要求同時滿足。
 - 三個分支：`< 0.5` 建議先檢索證據再 tailor；`>= 0.8` 建議跳過檢索直接生成；
   中間帶只說「自行判斷」，刻意保留 LLM 決策空間。
 - 用 `HumanMessage` 不用中途 `SystemMessage`：Gemini 的 system instruction
@@ -77,8 +77,8 @@ ctx，回給 LLM 的 `ToolMessage` 只放幾百字摘要。
 
 ### 決策 8：planner 的 LLM 呼叫也寫進 `LLMCallLog`
 `operation="agent_planner"`（`LLMCallLog.operation` 值域新增第四個值）。
-- **理由**：FR-65 要求記錄 token / latency / 成本。一次 kit run 的 planner
-  呼叫次數與生成呼叫相當（實測 8~9 次），漏記會讓 Phase 9 的成本報告嚴重
+- **理由**：FR-56 要求記錄 token / latency / 成本。一次 kit run 的 planner
+  呼叫次數與生成呼叫相當（實測 8~9 次），漏記會讓 Phase 8 的成本報告嚴重
   低估。`usage_metadata` 缺失時記零值而非跳過，保持「一次呼叫一筆」的可數性。
 
 ### 決策 9：`resume_id` 可省略、預設 current resume（與 skill-gap 的強制參數分歧）
@@ -276,7 +276,7 @@ default 填成空字串，存出一版空白 artifact 且成為「最新版」�
 - **修正**：`docker compose up -d --build backend`。
 - **教訓**：`pyproject.toml` / `package.json` 有變動時，重啟容器必須帶
   `--build`。另：前端這句 catch-all 訊息在後端整個掛掉時會嚴重誤導，
-  Phase 10 錯誤處理硬化時應分辨「連線失敗 / 409 email 重複」。
+  Phase 9 錯誤處理硬化時應分辨「連線失敗 / 409 email 重複」。
 
 ### 問題 13：pytest 洗掉開發資料庫的使用者資料
 本機跑全套後端測試後，使用者原本註冊的帳號、履歷、職缺全部消失。

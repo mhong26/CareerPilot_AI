@@ -1,0 +1,253 @@
+{
+  "scenario_id": "s05",
+  "title": "Mid-level iOS engineer (Swift / SwiftUI / UIKit)",
+  "description": "A 4-year iOS engineer with a Swift/SwiftUI/UIKit/Core Data stack evaluated against 8 postings: one strong senior-iOS match with legacy-modernization gaps, one semantically equivalent mobile role phrased without any Apple-ecosystem brand names, one marginal Android role, and five cross-domain distractors.",
+  "tags": ["semantic-no-keyword-overlap"],
+  "language": "en",
+  "rationale": "j2 describes the resume's exact competency — building a native app for a major mobile ecosystem, migrating imperative screens to a declarative UI framework, first-party persistence and test frameworks — using generic vocabulary that shares zero tokens with the resume's skill names (Swift, SwiftUI, UIKit, Core Data, XCTest, Xcode Instruments), so TF-IDF has no signal while embeddings should recognize the match. Gap target j1 overlaps strongly (Swift, UIKit, SwiftUI, Core Data, XCTest, Fastlane all demanded or mentioned) while requiring Objective-C and GraphQL, which the resume clearly lacks (high), RxSwift, which is only partially covered by the resume's Combine experience (medium), and WidgetKit as a preferred item (low) — justifying grade 3 with unambiguous annotated gaps. j3 (Android) probes the graded boundary: same mobile job family and genuinely transferable fundamentals, but a different ecosystem and core stack, hence grade 1. The remaining five jobs are cross-domain distractors with no meaningful overlap.",
+  "resume": {
+    "basic_info": {
+      "name": "Daniel Okafor",
+      "email": "daniel.okafor@example.com",
+      "phone": "",
+      "location": "Chicago, IL",
+      "links": ["github.com/dokafor-ios"]
+    },
+    "summary": "iOS engineer with 4 years shipping consumer apps in Swift. Equally at home in SwiftUI and UIKit, and owns features end to end: design collaboration, Core Data persistence, XCTest coverage, and App Store release automation with Fastlane.",
+    "skills": ["Swift", "SwiftUI", "UIKit", "Combine", "Core Data", "URLSession", "XCTest", "Xcode Instruments", "Swift Package Manager", "Fastlane", "MVVM", "Git", "REST APIs"],
+    "experience": [
+      {
+        "company": "Lumore",
+        "title": "iOS Engineer",
+        "start_date": "Apr 2024",
+        "end_date": "Present",
+        "bullets": [
+          "Rebuilt the onboarding flow in SwiftUI, lifting completion rate from 61% to 79%",
+          "Cut cold-launch time from 2.4s to 1.1s using Xcode Instruments profiling and lazy dependency setup",
+          "Built the offline journaling sync layer on Core Data with background task scheduling",
+          "Raised crash-free sessions from 98.2% to 99.6% by expanding the XCTest unit and UI suites in CI"
+        ]
+      },
+      {
+        "company": "Pockettrail",
+        "title": "Junior iOS Engineer",
+        "start_date": "Jun 2022",
+        "end_date": "Mar 2024",
+        "bullets": [
+          "Built the expense list and filtering screens in UIKit using MVVM with Combine bindings",
+          "Automated TestFlight distribution with Fastlane lanes, cutting release prep from 2 days to 3 hours",
+          "Fixed memory leaks flagged in Instruments, reducing the app's memory footprint by 30%"
+        ]
+      }
+    ],
+    "projects": [
+      {
+        "name": "BrewNote",
+        "description": "Coffee-tasting log app on the App Store",
+        "bullets": [
+          "Designed and shipped the full app solo, from data model to App Store review",
+          "Reached 12k downloads with a 4.8-star average rating"
+        ],
+        "tech": ["Swift", "SwiftUI", "Core Data", "CloudKit"]
+      }
+    ],
+    "education": [
+      {
+        "school": "University of Illinois Chicago",
+        "degree": "B.S.",
+        "field": "Computer Science",
+        "graduation": "2022"
+      }
+    ],
+    "certifications": []
+  },
+  "jobs": [
+    {
+      "job_key": "j1",
+      "raw_text": "Senior iOS Engineer — Ledgerly (Hybrid, New York NY)\n\nLedgerly is a personal-finance app with 2M monthly users and a nine-year-old codebase. We are hiring a Senior iOS Engineer to ship new money-movement features while modernizing the legacy stack.\n\nWhat you will do:\n- Ship account and payments features in Swift across UIKit and SwiftUI surfaces\n- Modernize the legacy Objective-C modules screen by screen\n- Own the Core Data persistence layer and its migration paths\n- Keep the XCTest unit and UI suites green in CI\n\nRequirements: Swift, UIKit, Objective-C, GraphQL, and RxSwift. 4+ years building native iOS applications; at least one app shipped end to end on the App Store. Bachelor's degree in Computer Science or a related field, or equivalent experience.\n\nNice to have: SwiftUI, WidgetKit, Fastlane.",
+      "parsed": {
+        "company": "Ledgerly",
+        "title": "Senior iOS Engineer",
+        "location": "New York, NY",
+        "work_mode": "hybrid",
+        "responsibilities": [
+          "Ship account and payments features in Swift across UIKit and SwiftUI surfaces",
+          "Modernize the legacy Objective-C modules screen by screen",
+          "Own the Core Data persistence layer and its migration paths",
+          "Keep the XCTest unit and UI suites green in CI"
+        ],
+        "required_skills": ["Swift", "UIKit", "Objective-C", "GraphQL", "RxSwift"],
+        "preferred_skills": ["SwiftUI", "WidgetKit", "Fastlane"],
+        "qualifications": [
+          "Bachelor's degree in Computer Science or a related field, or equivalent experience"
+        ],
+        "experience_requirements": [
+          "4+ years building native iOS applications",
+          "At least one app shipped end to end on the App Store"
+        ]
+      }
+    },
+    {
+      "job_key": "j2",
+      "raw_text": "Mobile Engineer, Native Apps — Harborline (Remote, US)\n\nHarborline's flagship consumer app helps 1.5M people plan coastal trips. We deliberately describe this role in terms of craft, not brand names — if you have deep native experience on a major mobile platform, we want to talk.\n\nYou will build and ship features for our flagship native application on a major mobile ecosystem, migrate screens from the platform's older imperative UI toolkit to its declarative UI framework, and hunt down startup and scrolling regressions with the vendor's profiling tools.\n\nWe look for: native application development for a major mobile ecosystem, fluency with a declarative UI framework and its state-driven patterns, the platform's structured local persistence framework, and automated testing with the platform's first-party test framework. 3+ years shipping native mobile applications. Bonus: reactive event-stream programming; automated release pipelines to the platform's app marketplace.",
+      "parsed": {
+        "company": "Harborline",
+        "title": "Mobile Engineer, Native Apps",
+        "location": "Remote (US)",
+        "work_mode": "remote",
+        "responsibilities": [
+          "Build and ship features for the flagship native application on a major mobile ecosystem",
+          "Migrate screens from the platform's older imperative UI toolkit to its declarative UI framework",
+          "Hunt down startup and scrolling regressions with the vendor's profiling tools"
+        ],
+        "required_skills": [
+          "Native application development for a major mobile ecosystem",
+          "A declarative UI framework and its state-driven patterns",
+          "The platform's structured local persistence framework",
+          "Automated testing with the platform's first-party test framework"
+        ],
+        "preferred_skills": [
+          "Reactive event-stream programming",
+          "Automated release pipelines to the platform's app marketplace"
+        ],
+        "qualifications": [],
+        "experience_requirements": ["3+ years shipping native mobile applications"]
+      }
+    },
+    {
+      "job_key": "j3",
+      "raw_text": "Android Engineer — Quillhop (Hybrid, Seattle WA)\n\nQuillhop makes a language-learning app with 3M installs on Google Play. We are hiring an Android Engineer to own our lesson-player experience.\n\nYou will build interactive lesson features in Kotlin with Jetpack Compose, maintain offline lesson caching with Room, and keep frame rates smooth on low-end devices.\n\nRequirements: Kotlin, Jetpack Compose, Room, Coroutines, Retrofit. 3+ years shipping Android apps to Google Play. Bonus: ExoPlayer, Kotlin Multiplatform.",
+      "parsed": {
+        "company": "Quillhop",
+        "title": "Android Engineer",
+        "location": "Seattle, WA",
+        "work_mode": "hybrid",
+        "responsibilities": [
+          "Build interactive lesson features in Kotlin with Jetpack Compose",
+          "Maintain offline lesson caching with Room",
+          "Keep frame rates smooth on low-end devices"
+        ],
+        "required_skills": ["Kotlin", "Jetpack Compose", "Room", "Coroutines", "Retrofit"],
+        "preferred_skills": ["ExoPlayer", "Kotlin Multiplatform"],
+        "qualifications": [],
+        "experience_requirements": ["3+ years shipping Android apps to Google Play"]
+      }
+    },
+    {
+      "job_key": "j4",
+      "raw_text": "Backend Engineer — Ferrostack (Remote, US)\n\nFerrostack provides inventory APIs for industrial suppliers. We are hiring a Backend Engineer for our order-orchestration team.\n\nYou will design Spring Boot services behind our public API, model orders and stock levels in PostgreSQL, and keep p99 latency inside our contractual SLAs.\n\nRequirements: Java, Spring Boot, PostgreSQL, Kafka, and API design. 4+ years building production backend services. Bonus: Kubernetes, gRPC.",
+      "parsed": {
+        "company": "Ferrostack",
+        "title": "Backend Engineer",
+        "location": "Remote (US)",
+        "work_mode": "remote",
+        "responsibilities": [
+          "Design Spring Boot services behind the public API",
+          "Model orders and stock levels in PostgreSQL",
+          "Keep p99 latency inside contractual SLAs"
+        ],
+        "required_skills": ["Java", "Spring Boot", "PostgreSQL", "Kafka", "API design"],
+        "preferred_skills": ["Kubernetes", "gRPC"],
+        "qualifications": [],
+        "experience_requirements": ["4+ years building production backend services"]
+      }
+    },
+    {
+      "job_key": "j5",
+      "raw_text": "Data Analyst — Northglade Retail Group (Onsite, Minneapolis MN)\n\nNorthglade operates 60 home-goods stores across the upper Midwest. Our merchandising team is hiring a Data Analyst.\n\nYou will build weekly sell-through dashboards in Tableau, write SQL against our Snowflake warehouse, and size markdown recommendations with category managers.\n\nRequirements: SQL, Tableau, Excel, and stakeholder reporting. 2+ years in analytics. Bonus: Snowflake, retail or e-commerce experience.",
+      "parsed": {
+        "company": "Northglade Retail Group",
+        "title": "Data Analyst",
+        "location": "Minneapolis, MN",
+        "work_mode": "onsite",
+        "responsibilities": [
+          "Build weekly sell-through dashboards in Tableau",
+          "Write SQL against the Snowflake warehouse",
+          "Size markdown recommendations with category managers"
+        ],
+        "required_skills": ["SQL", "Tableau", "Excel", "Stakeholder reporting"],
+        "preferred_skills": ["Snowflake", "Retail or e-commerce experience"],
+        "qualifications": [],
+        "experience_requirements": ["2+ years in analytics"]
+      }
+    },
+    {
+      "job_key": "j6",
+      "raw_text": "DevOps Engineer — Cloudmoor (Remote, US)\n\nCloudmoor hosts compliance workloads for healthcare startups. We are hiring a DevOps Engineer to scale our platform.\n\nYou will manage our Kubernetes clusters on AWS, extend Terraform modules for customer environments, and improve Prometheus alerting so on-call pages stay actionable.\n\nRequirements: Kubernetes, Terraform, AWS, Prometheus, and CI/CD pipelines. 4+ years in DevOps or infrastructure roles. Bonus: HIPAA experience, Go.",
+      "parsed": {
+        "company": "Cloudmoor",
+        "title": "DevOps Engineer",
+        "location": "Remote (US)",
+        "work_mode": "remote",
+        "responsibilities": [
+          "Manage Kubernetes clusters on AWS",
+          "Extend Terraform modules for customer environments",
+          "Improve Prometheus alerting so on-call pages stay actionable"
+        ],
+        "required_skills": ["Kubernetes", "Terraform", "AWS", "Prometheus", "CI/CD pipelines"],
+        "preferred_skills": ["HIPAA experience", "Go"],
+        "qualifications": [],
+        "experience_requirements": ["4+ years in DevOps or infrastructure roles"]
+      }
+    },
+    {
+      "job_key": "j7",
+      "raw_text": "Content Marketing Manager — Saplingworks (Remote, US)\n\nSaplingworks sells HR software to companies with deskless workforces. We are hiring a Content Marketing Manager to own our editorial engine.\n\nYou will run the content calendar, write long-form guides and customer stories, grow organic traffic through SEO, and report pipeline influence to the demand-gen lead.\n\nRequirements: B2B content strategy, SEO, long-form writing and editing, and marketing analytics. 4+ years in content marketing. Bonus: HubSpot, webinar production.",
+      "parsed": {
+        "company": "Saplingworks",
+        "title": "Content Marketing Manager",
+        "location": "Remote (US)",
+        "work_mode": "remote",
+        "responsibilities": [
+          "Own the editorial calendar, long-form guides, and customer stories",
+          "Grow organic traffic through SEO",
+          "Report content-sourced pipeline to the demand-gen lead"
+        ],
+        "required_skills": ["B2B content strategy", "SEO", "Long-form writing and editing", "Marketing analytics"],
+        "preferred_skills": ["HubSpot", "Webinar production"],
+        "qualifications": [],
+        "experience_requirements": ["4+ years in content marketing"]
+      }
+    },
+    {
+      "job_key": "j8",
+      "raw_text": "Customer Success Manager — Veloway (Hybrid, Boston MA)\n\nVeloway provides route-planning software for last-mile delivery fleets. We are hiring a Customer Success Manager for our mid-market book of 45 accounts.\n\nYou will own onboarding and quarterly business reviews, drive adoption of new modules, forecast renewals, and turn at-risk accounts around with the support team.\n\nRequirements: B2B SaaS account management, onboarding and QBR ownership, renewal forecasting, and CRM hygiene (Salesforce or HubSpot). 3+ years in customer success. Bonus: logistics industry experience.",
+      "parsed": {
+        "company": "Veloway",
+        "title": "Customer Success Manager",
+        "location": "Boston, MA",
+        "work_mode": "hybrid",
+        "responsibilities": [
+          "Own onboarding and quarterly business reviews for 45 mid-market accounts",
+          "Drive adoption of new modules and forecast renewals",
+          "Turn at-risk accounts around with the support team"
+        ],
+        "required_skills": ["B2B SaaS account management", "Onboarding and QBR ownership", "Renewal forecasting", "CRM hygiene (Salesforce or HubSpot)"],
+        "preferred_skills": ["Logistics industry experience"],
+        "qualifications": [],
+        "experience_requirements": ["3+ years in customer success"]
+      }
+    }
+  ],
+  "ground_truth_ranking": {
+    "j1": 3,
+    "j2": 2,
+    "j3": 1,
+    "j4": 0,
+    "j5": 0,
+    "j6": 0,
+    "j7": 0,
+    "j8": 0
+  },
+  "skill_gap": {
+    "job_key": "j1",
+    "relevant_chunks": [2, 3, 5],
+    "expected_gaps": [
+      { "skill": "Objective-C", "severity": "high" },
+      { "skill": "GraphQL", "severity": "high" },
+      { "skill": "RxSwift", "severity": "medium" },
+      { "skill": "WidgetKit", "severity": "low" }
+    ],
+    "must_not_claim": ["Swift", "UIKit", "SwiftUI", "Core Data", "XCTest", "Fastlane"]
+  }
+}

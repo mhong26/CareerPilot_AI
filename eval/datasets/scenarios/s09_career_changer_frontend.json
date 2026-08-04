@@ -1,0 +1,250 @@
+{
+  "scenario_id": "s09",
+  "title": "Career-changer junior frontend engineer (math teacher to React)",
+  "description": "A former high-school math teacher (5 years) turned junior frontend engineer (1 year, React/TypeScript) evaluated against 8 postings: one strong junior React match with clear gaps, one solid entry-level frontend role, an ed-tech math-content marginal, a math-teaching distractor, and four unrelated roles.",
+  "tags": ["career-changer", "junior"],
+  "language": "en",
+  "rationale": "Stresses the career-changer + junior family: the resume's dominant experience by volume is five years of high-school math teaching, but its professional identity (summary, skills list, most recent role) is junior frontend engineering. j1 is the strongest junior React match and the gap target: Next.js and GraphQL are required but absent from the resume (high severity), Storybook and Cypress are preferred and absent (low), while strong React/TypeScript/Tailwind/Jest overlap and a matching 1+ year requirement justify grade 3. j4 (a math-teaching posting) is a deliberate distractor: it matches the candidate's past career, not the target one, testing whether the matcher keys on current professional identity rather than raw years of prior experience — grade 0. j3 (ed-tech math content development) is the graded boundary: genuine overlap with the teaching background plus light HTML/CSS, but a content role rather than an engineering one — grade 1.",
+  "resume": {
+    "basic_info": {
+      "name": "Maya Sullivan",
+      "email": "maya.sullivan@example.com",
+      "phone": "",
+      "location": "Portland, OR",
+      "links": ["github.com/maya-sullivan", "mayasullivan.dev"]
+    },
+    "summary": "Frontend engineer who moved into software after five years teaching high-school mathematics. Completed an intensive full-stack bootcamp and has spent the past year shipping production React features at a SaaS startup. Brings classroom-honed communication and a habit of explaining complex ideas simply.",
+    "skills": ["JavaScript", "TypeScript", "React", "HTML", "CSS", "Tailwind CSS", "Jest", "React Testing Library", "Git", "REST API integration", "Responsive design", "Web accessibility (WCAG)", "Vite"],
+    "experience": [
+      {
+        "company": "Brightpath Labs",
+        "title": "Junior Frontend Engineer",
+        "start_date": "Jul 2025",
+        "end_date": "Present",
+        "bullets": [
+          "Shipped 15+ production React features for the customer onboarding flow, lifting activation rate from 62% to 71%",
+          "Rebuilt the settings area in TypeScript and Tailwind CSS, cutting related bug reports by 40%",
+          "Wrote 120+ Jest and React Testing Library tests, raising frontend coverage from 35% to 70%",
+          "Fixed 25 WCAG issues flagged in a customer accessibility audit, reaching AA compliance"
+        ]
+      },
+      {
+        "company": "Cedar Ridge High School",
+        "title": "Mathematics Teacher",
+        "start_date": "Aug 2019",
+        "end_date": "Jun 2024",
+        "bullets": [
+          "Taught algebra and calculus to 150+ students per year across five sections",
+          "Raised the AP Calculus pass rate from 68% to 84% over three years by redesigning the practice curriculum",
+          "Built interactive graphing demos in JavaScript that were adopted by four other teachers",
+          "Led the district summer curriculum committee of 8 teachers for two consecutive years"
+        ]
+      }
+    ],
+    "projects": [
+      {
+        "name": "GraphQuest",
+        "description": "Interactive math-graphing practice app for high-school students",
+        "bullets": [
+          "Built a React app that generates graphing exercises and gives instant visual feedback",
+          "Reached 900 monthly active students across three school districts"
+        ],
+        "tech": ["React", "TypeScript", "Vite", "Tailwind CSS"]
+      }
+    ],
+    "education": [
+      {
+        "school": "University of Oregon",
+        "degree": "B.S.",
+        "field": "Mathematics",
+        "graduation": "2019"
+      },
+      {
+        "school": "Alder Grove Coding Bootcamp",
+        "degree": "Certificate",
+        "field": "Full-Stack Web Development",
+        "graduation": "2025"
+      }
+    ],
+    "certifications": []
+  },
+  "jobs": [
+    {
+      "job_key": "j1",
+      "raw_text": "Junior Frontend Engineer — Findora (Hybrid, Portland OR)\n\nFindora builds budgeting tools used by 200k households. Our web team is hiring a junior engineer to grow with us.\n\nWhat you will do:\n- Build customer-facing features in React and TypeScript within our Next.js app\n- Write unit tests with Jest and React Testing Library for every feature\n- Implement responsive, accessible UI from Figma designs using Tailwind CSS\n- Collaborate through Git pull requests and participate in code review\n\nRequirements: React, TypeScript, Next.js, Tailwind CSS, GraphQL client integration. 1+ years of professional frontend experience and experience shipping production React features. Bachelor's degree or an accredited bootcamp certificate.\n\nNice to have: Storybook, Cypress end-to-end testing, Figma familiarity.",
+      "parsed": {
+        "company": "Findora",
+        "title": "Junior Frontend Engineer",
+        "location": "Portland, OR",
+        "work_mode": "hybrid",
+        "responsibilities": [
+          "Build customer-facing features in React and TypeScript within our Next.js app",
+          "Write unit tests with Jest and React Testing Library for every feature",
+          "Implement responsive, accessible UI from Figma designs using Tailwind CSS",
+          "Collaborate through Git pull requests and participate in code review"
+        ],
+        "required_skills": ["React", "TypeScript", "Next.js", "Tailwind CSS", "GraphQL client integration"],
+        "preferred_skills": ["Storybook", "Cypress end-to-end testing", "Figma familiarity"],
+        "qualifications": ["Bachelor's degree or an accredited bootcamp certificate"],
+        "experience_requirements": [
+          "1+ years of professional frontend experience",
+          "Experience shipping production React features"
+        ]
+      }
+    },
+    {
+      "job_key": "j2",
+      "raw_text": "Frontend Engineer I — Pinemarten Software (Remote, US)\n\nPinemarten makes scheduling software for veterinary clinics. Our five-person web team is hiring an early-career frontend engineer.\n\nYou will build and maintain React components across the booking flow, integrate REST APIs from our Django backend, and keep our CSS design system consistent across browsers and devices.\n\nRequirements: React, JavaScript, CSS, REST API integration. 0-2 years of professional frontend experience; a portfolio or GitHub profile with shipped work. Bonus: TypeScript, Redux, experience collaborating with designers in Figma.",
+      "parsed": {
+        "company": "Pinemarten Software",
+        "title": "Frontend Engineer I",
+        "location": "Remote (US)",
+        "work_mode": "remote",
+        "responsibilities": [
+          "Build and maintain React components across the booking flow",
+          "Integrate REST APIs from our Django backend",
+          "Keep the CSS design system consistent across browsers and devices"
+        ],
+        "required_skills": ["React", "JavaScript", "CSS", "REST API integration"],
+        "preferred_skills": ["TypeScript", "Redux", "Figma collaboration experience"],
+        "qualifications": ["A portfolio or GitHub profile with shipped work"],
+        "experience_requirements": ["0-2 years of professional frontend experience"]
+      }
+    },
+    {
+      "job_key": "j3",
+      "raw_text": "Curriculum Content Developer, Mathematics — LearnLoop (Remote, US)\n\nLearnLoop builds adaptive math practice used in 2,000 schools. We are hiring a content developer to author our algebra and pre-calculus item banks.\n\nYou will write and review interactive math exercises, define hints and misconception feedback, and tag items to state standards. You will partner with engineers to prototype new interactive item types, occasionally adjusting HTML/CSS templates.\n\nRequirements: strong secondary-math subject expertise, curriculum or classroom experience, clear instructional writing. 2+ years teaching or in content development. Bonus: basic HTML/CSS, familiarity with learning management systems.",
+      "parsed": {
+        "company": "LearnLoop",
+        "title": "Curriculum Content Developer, Mathematics",
+        "location": "Remote (US)",
+        "work_mode": "remote",
+        "responsibilities": [
+          "Write and review interactive algebra and pre-calculus exercises",
+          "Define hints and misconception feedback for adaptive practice",
+          "Tag items to state standards and partner with engineers on new interactive item types, occasionally adjusting HTML/CSS templates"
+        ],
+        "required_skills": ["Secondary-math subject expertise", "Curriculum or classroom experience", "Clear instructional writing"],
+        "preferred_skills": ["Basic HTML/CSS", "Familiarity with learning management systems"],
+        "qualifications": [],
+        "experience_requirements": ["2+ years teaching or in content development"]
+      }
+    },
+    {
+      "job_key": "j4",
+      "raw_text": "High School Mathematics Teacher — Westfield Preparatory Academy (Onsite, Portland OR)\n\nWestfield Prep is a private secondary school of 600 students. We seek a full-time mathematics teacher for Algebra II and AP Calculus starting this fall.\n\nYou will teach five sections, develop assessments aligned to our honors curriculum, advise a student club, and communicate progress with families each quarter.\n\nRequirements: state teaching license or eligibility, strong classroom management, experience teaching upper-level high-school mathematics. Bachelor's degree in Mathematics or Math Education. 3+ years of classroom teaching preferred. Bonus: experience coaching math competition teams.",
+      "parsed": {
+        "company": "Westfield Preparatory Academy",
+        "title": "High School Mathematics Teacher",
+        "location": "Portland, OR",
+        "work_mode": "onsite",
+        "responsibilities": [
+          "Teach five sections of Algebra II and AP Calculus",
+          "Develop assessments aligned to the honors curriculum",
+          "Advise a student club and communicate progress with families quarterly"
+        ],
+        "required_skills": ["State teaching license or eligibility", "Classroom management", "Upper-level high-school mathematics instruction"],
+        "preferred_skills": ["Experience coaching math competition teams"],
+        "qualifications": ["Bachelor's degree in Mathematics or Math Education"],
+        "experience_requirements": ["3+ years of classroom teaching preferred"]
+      }
+    },
+    {
+      "job_key": "j5",
+      "raw_text": "Backend Engineer — Corvid Systems (Remote, US)\n\nCorvid builds fraud-detection infrastructure for online marketplaces. We are hiring a backend engineer for our rules-evaluation service.\n\nYou will design gRPC services in Go, model event data in PostgreSQL, and keep evaluation latency under 50ms at p99. You will join a nine-person platform team that owns the rules engine end to end, including on-call.\n\nRequirements: Go, PostgreSQL, gRPC, distributed systems fundamentals. 3+ years of backend experience. Bonus: Kafka, Redis.",
+      "parsed": {
+        "company": "Corvid Systems",
+        "title": "Backend Engineer",
+        "location": "Remote (US)",
+        "work_mode": "remote",
+        "responsibilities": [
+          "Design and operate gRPC services in Go for the rules-evaluation engine",
+          "Model event data in PostgreSQL and keep evaluation latency under 50ms at p99",
+          "Share on-call for the platform team's services"
+        ],
+        "required_skills": ["Go", "PostgreSQL", "gRPC", "Distributed systems fundamentals"],
+        "preferred_skills": ["Kafka", "Redis"],
+        "qualifications": [],
+        "experience_requirements": ["3+ years of backend experience"]
+      }
+    },
+    {
+      "job_key": "j6",
+      "raw_text": "Digital Marketing Coordinator — Bloomly (Hybrid, Portland OR)\n\nBloomly is a direct-to-consumer plant subscription brand. We are hiring a coordinator to run our day-to-day growth channels.\n\nYou will plan and schedule email and social campaigns, maintain the content calendar, report weekly on channel performance, and coordinate with two freelance designers.\n\nRequirements: email marketing tools (Klaviyo or Mailchimp), social media scheduling, copywriting, basic analytics (GA4). 1-3 years in digital marketing. Bonus: paid social experience, Canva.",
+      "parsed": {
+        "company": "Bloomly",
+        "title": "Digital Marketing Coordinator",
+        "location": "Portland, OR",
+        "work_mode": "hybrid",
+        "responsibilities": [
+          "Plan and schedule email and social campaigns",
+          "Maintain the content calendar and coordinate freelance designers",
+          "Report weekly on channel performance"
+        ],
+        "required_skills": ["Email marketing tools (Klaviyo or Mailchimp)", "Social media scheduling", "Copywriting", "Basic analytics (GA4)"],
+        "preferred_skills": ["Paid social experience", "Canva"],
+        "qualifications": [],
+        "experience_requirements": ["1-3 years in digital marketing"]
+      }
+    },
+    {
+      "job_key": "j7",
+      "raw_text": "Data Analyst — Quanta Retail Group (Onsite, Portland OR)\n\nQuanta operates 40 grocery stores across the Pacific Northwest. Our analytics team is hiring an analyst to own merchandising reports.\n\nYou will build dashboards in Tableau, write SQL against our Snowflake warehouse, and present weekly findings to category managers.\n\nRequirements: SQL, Tableau, Excel, stakeholder communication. 2+ years in analytics. Bonus: Python, dbt.",
+      "parsed": {
+        "company": "Quanta Retail Group",
+        "title": "Data Analyst",
+        "location": "Portland, OR",
+        "work_mode": "onsite",
+        "responsibilities": [
+          "Build merchandising dashboards in Tableau",
+          "Write SQL against the Snowflake warehouse",
+          "Present weekly findings to category managers"
+        ],
+        "required_skills": ["SQL", "Tableau", "Excel", "Stakeholder communication"],
+        "preferred_skills": ["Python", "dbt"],
+        "qualifications": [],
+        "experience_requirements": ["2+ years in analytics"]
+      }
+    },
+    {
+      "job_key": "j8",
+      "raw_text": "Senior Android Engineer — Mapfox (Remote, US)\n\nMapfox builds offline navigation apps for outdoor athletes with 5M downloads. We need a senior Android engineer to lead our maps rendering work.\n\nYou will build rendering and offline-sync features in Kotlin and Jetpack Compose, profile battery and memory usage in the field, and mentor two mid-level engineers.\n\nRequirements: Kotlin, Jetpack Compose, Android SDK, performance profiling. 5+ years shipping Android apps. Bonus: C++ NDK experience, MapLibre.",
+      "parsed": {
+        "company": "Mapfox",
+        "title": "Senior Android Engineer",
+        "location": "Remote (US)",
+        "work_mode": "remote",
+        "responsibilities": [
+          "Build maps rendering and offline-sync features in Kotlin and Jetpack Compose",
+          "Profile battery and memory usage in the field",
+          "Mentor two mid-level engineers"
+        ],
+        "required_skills": ["Kotlin", "Jetpack Compose", "Android SDK", "Performance profiling"],
+        "preferred_skills": ["C++ NDK experience", "MapLibre"],
+        "qualifications": [],
+        "experience_requirements": ["5+ years shipping Android apps"]
+      }
+    }
+  ],
+  "ground_truth_ranking": {
+    "j1": 3,
+    "j2": 2,
+    "j3": 1,
+    "j4": 0,
+    "j5": 0,
+    "j6": 0,
+    "j7": 0,
+    "j8": 0
+  },
+  "skill_gap": {
+    "job_key": "j1",
+    "relevant_chunks": [2, 3, 5],
+    "expected_gaps": [
+      { "skill": "Next.js", "severity": "high" },
+      { "skill": "GraphQL", "severity": "high" },
+      { "skill": "Storybook", "severity": "low" },
+      { "skill": "Cypress", "severity": "low" }
+    ],
+    "must_not_claim": ["React", "TypeScript", "Tailwind CSS", "Jest", "React Testing Library", "Git"]
+  }
+}

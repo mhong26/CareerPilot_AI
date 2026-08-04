@@ -1,0 +1,250 @@
+{
+  "scenario_id": "s23",
+  "title": "Unity game developer (C# / shaders / gameplay)",
+  "description": "A 5-year Unity gameplay engineer evaluated against 8 postings: a strong game-studio match with netcode gaps, a live-ops mobile Unity role, a marginal AR/VR industrial-visualization role, and five distractors spanning web, backend, DevOps, community, and analytics.",
+  "tags": ["cross-domain"],
+  "language": "en",
+  "rationale": "This scenario stresses cross-domain transfer of a Unity/C# skill set: the same engine skills appear in game studios, industrial AR/VR, and nowhere else, and the matcher must separate those domains from surface-level 'games' vocabulary. j1 and j2 are game-studio roles on the resume's exact stack (grades 3 and 2; j2 is 2 because its live-ops mobile focus differs from the resume's current PC gameplay emphasis, though the resume did ship two mobile F2P titles). j3 is the deliberate marginal case: AR/VR industrial visualization shares Unity, C#, and 3D math but sits in a different domain and demands an XR/CAD stack (OpenXR, MRTK, Pixyz) the resume lacks, hence grade 1. j7 (community manager at a game studio) shares the games domain but not the engineering family, testing that domain words alone do not rank; j4/j5/j6/j8 are web, backend, DevOps, and analytics roles with no core-stack overlap, all grade 0. Gap target j1 overlaps heavily on C#, Unity, HLSL/Shader Graph, Profiler, and Addressables while requiring multiplayer netcode the resume clearly lacks (high) and preferring DOTS/ECS, FMOD, and console certification (low).",
+  "resume": {
+    "basic_info": {
+      "name": "Nadia Petrov",
+      "email": "nadia.petrov.dev@example.com",
+      "phone": "",
+      "location": "Orlando, FL",
+      "links": ["github.com/npetrov-gamedev"]
+    },
+    "summary": "Game developer with 5 years of experience building gameplay systems and shaders in Unity. Shipped three titles across PC and mobile, owning features from prototype to live release with a focus on combat systems, designer tooling, and rendering performance.",
+    "skills": ["C#", "Unity", "HLSL", "Shader Graph", "Gameplay systems", "Unity Profiler", "Mecanim", "Unity Addressables", "Physics programming", "Perforce", "Git", "Jenkins"],
+    "experience": [
+      {
+        "company": "Emberforge Games",
+        "title": "Gameplay Engineer",
+        "start_date": "Feb 2023",
+        "end_date": "Present",
+        "bullets": [
+          "Built the combat and ability system for a PC action-roguelite that sold 400k copies, using data-driven ScriptableObject definitions",
+          "Wrote HLSL dissolve and hit-flash shaders plus Shader Graph effects reused across 60+ enemy types",
+          "Cut frame-time spikes 40% by pooling projectiles and reworking physics queries flagged in the Unity Profiler",
+          "Built designer-facing tuning tools in the Unity Editor that cut ability-balancing iteration from days to hours"
+        ]
+      },
+      {
+        "company": "Pocketpine Studios",
+        "title": "Unity Developer",
+        "start_date": "Jun 2020",
+        "end_date": "Jan 2023",
+        "bullets": [
+          "Shipped two free-to-play mobile puzzle games with 2M combined downloads",
+          "Implemented Addressables-based content delivery, cutting initial install size from 220MB to 90MB",
+          "Built the Mecanim-driven character animation controller and camera system for the studio's match-3 RPG"
+        ]
+      }
+    ],
+    "projects": [
+      {
+        "name": "GlyphDash",
+        "description": "48-hour game-jam winner, released on itch.io",
+        "bullets": [
+          "Won a 120-entry game jam with a 2D runner built around a custom vertex-displacement shader look",
+          "Released the polished build on itch.io, reaching 15k plays"
+        ],
+        "tech": ["Unity", "C#", "HLSL"]
+      }
+    ],
+    "education": [
+      {
+        "school": "University of Central Florida",
+        "degree": "B.S.",
+        "field": "Computer Science",
+        "graduation": "2020"
+      }
+    ],
+    "certifications": []
+  },
+  "jobs": [
+    {
+      "job_key": "j1",
+      "raw_text": "Gameplay Engineer — Foxglove Interactive (Hybrid, Austin TX)\n\nFoxglove is a 40-person studio building a 4-player co-op action game in Unity for PC and consoles.\n\nWhat you will do:\n- Own gameplay systems: abilities, enemy AI behaviors, and player progression\n- Implement and debug multiplayer gameplay on our Netcode for GameObjects stack\n- Write and optimize HLSL and Shader Graph effects alongside our tech artists\n- Profile and fix CPU/GPU hotspots with the Unity Profiler and manage content via Addressables\n\nRequirements: C#, Unity, gameplay systems experience, multiplayer netcode (Netcode for GameObjects or Photon), HLSL or Shader Graph. 5+ years of game programming and at least one shipped Unity title. Bachelor's degree in Computer Science or equivalent shipped-title experience.\n\nNice to have: Unity DOTS/ECS, FMOD audio middleware, console certification experience.",
+      "parsed": {
+        "company": "Foxglove Interactive",
+        "title": "Gameplay Engineer",
+        "location": "Austin, TX",
+        "work_mode": "hybrid",
+        "responsibilities": [
+          "Own gameplay systems: abilities, enemy AI behaviors, and player progression",
+          "Implement and debug multiplayer gameplay on the Netcode for GameObjects stack",
+          "Write and optimize HLSL and Shader Graph effects alongside tech artists",
+          "Profile and fix CPU/GPU hotspots with the Unity Profiler and manage content via Addressables"
+        ],
+        "required_skills": ["C#", "Unity", "Gameplay systems", "Multiplayer netcode (Netcode for GameObjects or Photon)", "HLSL or Shader Graph"],
+        "preferred_skills": ["Unity DOTS/ECS", "FMOD audio middleware", "Console certification experience"],
+        "qualifications": ["Bachelor's degree in Computer Science or equivalent shipped-title experience"],
+        "experience_requirements": [
+          "5+ years of game programming",
+          "At least one shipped Unity title"
+        ]
+      }
+    },
+    {
+      "job_key": "j2",
+      "raw_text": "Senior Unity Developer — Lanternfish Games (Remote, US)\n\nLanternfish operates two live free-to-play mobile titles with 5M combined MAU. We are hiring a senior Unity developer for our live-ops team.\n\nYou will build and ship new gameplay features and seasonal live events, optimize memory and frame rate for low-end Android and iOS devices, extend our Addressables content-delivery pipeline, and harden client stability against crash regressions.\n\nRequirements: C#, Unity, mobile performance optimization, live-ops feature development. 4+ years of professional Unity development with at least one shipped mobile title. Bonus: Firebase Analytics, in-app purchase integration.",
+      "parsed": {
+        "company": "Lanternfish Games",
+        "title": "Senior Unity Developer",
+        "location": "Remote (US)",
+        "work_mode": "remote",
+        "responsibilities": [
+          "Build and ship new gameplay features and seasonal live events",
+          "Optimize memory and frame rate for low-end Android and iOS devices",
+          "Extend the Addressables content-delivery pipeline",
+          "Harden client stability against crash regressions"
+        ],
+        "required_skills": ["C#", "Unity", "Mobile performance optimization", "Live-ops feature development"],
+        "preferred_skills": ["Firebase Analytics", "In-app purchase integration"],
+        "qualifications": [],
+        "experience_requirements": ["4+ years of professional Unity development", "At least one shipped mobile title"]
+      }
+    },
+    {
+      "job_key": "j3",
+      "raw_text": "AR/VR Visualization Engineer — Corten Industrial (Onsite, Detroit MI)\n\nCorten builds AR/VR training simulations and digital-twin visualizations for automotive manufacturers.\n\nYou will build interactive 3D visualizations of production lines in Unity, integrate CAD data through Pixyz import pipelines, develop and deploy for HoloLens and Quest headsets, and gather requirements onsite with enterprise clients.\n\nRequirements: C#, Unity, 3D math, XR SDKs (OpenXR, MRTK), CAD data handling. 3+ years in Unity or real-time 3D visualization. Bonus: manufacturing domain experience, multi-user session synchronization.",
+      "parsed": {
+        "company": "Corten Industrial",
+        "title": "AR/VR Visualization Engineer",
+        "location": "Detroit, MI",
+        "work_mode": "onsite",
+        "responsibilities": [
+          "Build interactive 3D visualizations of production lines in Unity",
+          "Integrate CAD data through Pixyz import pipelines",
+          "Develop and deploy for HoloLens and Quest headsets",
+          "Gather requirements onsite with enterprise clients"
+        ],
+        "required_skills": ["C#", "Unity", "3D math", "XR SDKs (OpenXR, MRTK)", "CAD data handling"],
+        "preferred_skills": ["Manufacturing domain experience", "Multi-user session synchronization"],
+        "qualifications": [],
+        "experience_requirements": ["3+ years in Unity or real-time 3D visualization"]
+      }
+    },
+    {
+      "job_key": "j4",
+      "raw_text": "Full-Stack Web Developer — Brightlist (Remote, US)\n\nBrightlist makes wedding-registry software used by 500k couples a year. We are hiring a full-stack developer for our checkout and registry team.\n\nYou will build registry and checkout features in React and TypeScript, design Node.js API endpoints backed by PostgreSQL, improve Core Web Vitals across key funnels, and ship behind feature flags with gradual rollouts.\n\nRequirements: React, TypeScript, Node.js, PostgreSQL, REST API design. 3+ years of professional web development. Bonus: Next.js, Stripe integration experience.",
+      "parsed": {
+        "company": "Brightlist",
+        "title": "Full-Stack Web Developer",
+        "location": "Remote (US)",
+        "work_mode": "remote",
+        "responsibilities": [
+          "Build registry and checkout features in React and TypeScript",
+          "Design Node.js API endpoints backed by PostgreSQL",
+          "Improve Core Web Vitals across key funnels",
+          "Ship behind feature flags with gradual rollouts"
+        ],
+        "required_skills": ["React", "TypeScript", "Node.js", "PostgreSQL", "REST API design"],
+        "preferred_skills": ["Next.js", "Stripe integration"],
+        "qualifications": [],
+        "experience_requirements": ["3+ years of professional web development"]
+      }
+    },
+    {
+      "job_key": "j5",
+      "raw_text": "Backend Engineer — Ordino (Hybrid, Denver CO)\n\nOrdino builds order-management APIs for restaurant chains, processing 1.5M orders a day at peak.\n\nYou will design and evolve Python services behind our ordering API, own PostgreSQL schema design and query performance, build async workflows for payment and refund processing, and improve observability with tracing and alerts.\n\nRequirements: Python, Django or FastAPI, PostgreSQL, Redis, AWS. 4+ years building production backend services. Bonus: event-driven architecture, Kubernetes.",
+      "parsed": {
+        "company": "Ordino",
+        "title": "Backend Engineer",
+        "location": "Denver, CO",
+        "work_mode": "hybrid",
+        "responsibilities": [
+          "Design and evolve Python services behind the ordering API",
+          "Own PostgreSQL schema design and query performance",
+          "Build async workflows for payment and refund processing",
+          "Improve observability with tracing and alerts"
+        ],
+        "required_skills": ["Python", "Django or FastAPI", "PostgreSQL", "Redis", "AWS"],
+        "preferred_skills": ["Event-driven architecture", "Kubernetes"],
+        "qualifications": [],
+        "experience_requirements": ["4+ years building production backend services"]
+      }
+    },
+    {
+      "job_key": "j6",
+      "raw_text": "DevOps Engineer — Skylark Systems (Remote, US)\n\nSkylark hosts compliance tooling for regional banks with strict audit and uptime requirements.\n\nYou will manage Kubernetes clusters across two cloud providers, codify infrastructure with Terraform, build and maintain CI/CD pipelines, and drive incident response and postmortem follow-through.\n\nRequirements: Kubernetes, Terraform, AWS or GCP, CI/CD tooling (GitHub Actions or GitLab CI), Linux administration. 4+ years in DevOps, SRE, or platform roles. Bonus: SOC 2 audit environment experience, Go scripting.",
+      "parsed": {
+        "company": "Skylark Systems",
+        "title": "DevOps Engineer",
+        "location": "Remote (US)",
+        "work_mode": "remote",
+        "responsibilities": [
+          "Manage Kubernetes clusters across two cloud providers",
+          "Codify infrastructure with Terraform",
+          "Build and maintain CI/CD pipelines",
+          "Drive incident response and postmortem follow-through"
+        ],
+        "required_skills": ["Kubernetes", "Terraform", "AWS or GCP", "GitHub Actions or GitLab CI", "Linux administration"],
+        "preferred_skills": ["SOC 2 audit environment experience", "Go scripting"],
+        "qualifications": [],
+        "experience_requirements": ["4+ years in DevOps, SRE, or platform roles"]
+      }
+    },
+    {
+      "job_key": "j7",
+      "raw_text": "Community Manager — Halcyon Games (Remote, US)\n\nHalcyon runs a cozy farming sim with a passionate player base of 1M. We need a community manager to be the voice between players and the dev team.\n\nYou will run our Discord and social channels, write patch-note and dev-blog posts, organize community events and creator programs, and compile weekly player-sentiment reports for the production team.\n\nRequirements: community moderation, Discord server management, social copywriting, sentiment reporting. 2+ years in community or social roles, ideally for games or entertainment. Bonus: video editing, livestream hosting.",
+      "parsed": {
+        "company": "Halcyon Games",
+        "title": "Community Manager",
+        "location": "Remote (US)",
+        "work_mode": "remote",
+        "responsibilities": [
+          "Run the Discord and social channels",
+          "Write patch-note and dev-blog posts",
+          "Organize community events and creator programs",
+          "Compile weekly player-sentiment reports for the production team"
+        ],
+        "required_skills": ["Community moderation", "Discord server management", "Social copywriting", "Sentiment reporting"],
+        "preferred_skills": ["Video editing", "Livestream hosting"],
+        "qualifications": [],
+        "experience_requirements": ["2+ years in community or social roles"]
+      }
+    },
+    {
+      "job_key": "j8",
+      "raw_text": "Data Analyst — Suncrest Health Partners (Hybrid, Tampa FL)\n\nSuncrest operates 30 outpatient clinics across Florida. Our analytics team turns scheduling and billing data into operational decisions.\n\nYou will build SQL reports on visit volume and no-show rates, maintain Tableau dashboards for clinic directors, automate recurring extracts with Python scripts, and validate data quality across billing systems.\n\nRequirements: SQL, Tableau, Excel, basic Python scripting. 2+ years in analytics roles. Bonus: healthcare revenue-cycle domain knowledge.",
+      "parsed": {
+        "company": "Suncrest Health Partners",
+        "title": "Data Analyst",
+        "location": "Tampa, FL",
+        "work_mode": "hybrid",
+        "responsibilities": [
+          "Build SQL reports on visit volume and no-show rates",
+          "Maintain Tableau dashboards for clinic directors",
+          "Automate recurring extracts with Python scripts",
+          "Validate data quality across billing systems"
+        ],
+        "required_skills": ["SQL", "Tableau", "Excel", "Basic Python scripting"],
+        "preferred_skills": ["Healthcare revenue-cycle domain knowledge"],
+        "qualifications": [],
+        "experience_requirements": ["2+ years in analytics roles"]
+      }
+    }
+  ],
+  "ground_truth_ranking": {
+    "j1": 3,
+    "j2": 2,
+    "j3": 1,
+    "j4": 0,
+    "j5": 0,
+    "j6": 0,
+    "j7": 0,
+    "j8": 0
+  },
+  "skill_gap": {
+    "job_key": "j1",
+    "relevant_chunks": [2, 3, 5],
+    "expected_gaps": [
+      { "skill": "Multiplayer netcode (Netcode for GameObjects or Photon)", "severity": "high" },
+      { "skill": "Unity DOTS/ECS", "severity": "low" },
+      { "skill": "FMOD audio middleware", "severity": "low" },
+      { "skill": "Console certification experience", "severity": "low" }
+    ],
+    "must_not_claim": ["C#", "Unity", "HLSL", "Shader Graph", "Unity Profiler", "Unity Addressables"]
+  }
+}

@@ -1,4 +1,4 @@
-"""Application kit routes（FR-31~44、FR-54~56）：agent run / 讀取 / 編輯。
+"""Application kit routes（FR-31~44、FR-45~47）：agent run / 讀取 / 編輯。
 
 Router 無 prefix（同 skill_gaps 慣例）：``/jobs/...`` 是以職缺為入口的動作
 與 pair 查詢，``/artifacts/...`` 是以 artifact 為入口的編輯，寫完整路徑。
@@ -111,7 +111,7 @@ def generate_application_kit_endpoint(
     reranker: Reranker = Depends(get_reranker),
     planner_model: BaseChatModel = Depends(get_planner_model),
 ) -> ApplicationKitResponse:
-    """跑 kit agent 並保存三類 artifacts（FR-56）。
+    """跑 kit agent 並保存三類 artifacts（FR-47）。
 
     回 200 而非 201：compute-and-save 動作端點（同 ``/matches/run``）；partial
     成功也回 200 + ``missing``/``errors``（NFR-4）。同步執行，30~90 秒。
@@ -160,7 +160,7 @@ def get_application_kit_endpoint(
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db),
 ) -> ApplicationKitResponse:
-    """該 (resume, job) 各類 artifact 的最新版（FR-54；404 = 尚未生成過）。"""
+    """該 (resume, job) 各類 artifact 的最新版（FR-45；404 = 尚未生成過）。"""
     try:
         resume, job, artifacts, match_score = application_kit_service.get_latest_kit(
             db, user=current_user, resume_id=resume_id, job_id=job_id

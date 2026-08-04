@@ -1,0 +1,252 @@
+{
+  "scenario_id": "s07",
+  "title": "Digital marketing manager vs affiliate ad-ops keyword trap",
+  "description": "A 6-year non-tech digital marketing manager (SEO, Google Ads, GA4, email automation) evaluated against 8 postings: one strong growth-marketing match with Amazon Ads/Klaviyo gaps, one lifecycle-marketing match, one affiliate ad-ops data-entry trap stuffed with SEO/Ads keywords, one marginal marketing-analyst role, and four cross-family distractors.",
+  "tags": ["non-tech", "keyword-trap"],
+  "language": "en",
+  "rationale": "The resume is a six-year non-tech digital-marketing manager with an SEO / Google Ads / GA4 / HubSpot email-automation core, exercising the platform outside engineering vocabularies. j3 is the keyword trap: an affiliate-network data-entry role whose posting is saturated with the resume's exact keywords (SEO, Google Ads, GA4, SEMrush, UTM) yet the actual work is rote checklist data entry with strategy explicitly excluded — TF-IDF over-ranks it while the guideline grades keyword-only overlap 0. Gap target j1 is a same-family growth role with heavy overlap on SEO, Google Ads, GA4, email automation, and A/B testing (justifying grade 3), while Amazon Ads (required, high), Klaviyo (preferred but only partially covered by the resume's HubSpot automation work, medium), and TikTok Ads and Google BigQuery (preferred, low) are the annotated gaps. j2 lifecycle/retention marketing is a close neighbor with most requirements covered, hence grade 2. j4 marketing data analyst probes the graded boundary: real GA4/analytics overlap but a SQL/BI core the resume lacks, hence grade 1.",
+  "resume": {
+    "basic_info": {
+      "name": "Danielle Okafor",
+      "email": "danielle.okafor@example.com",
+      "phone": "",
+      "location": "Atlanta, GA",
+      "links": ["linkedin.com/in/danielle-okafor-mkt"]
+    },
+    "summary": "Digital marketing manager with 6 years of experience growing DTC and B2B brands across organic and paid channels. Owns the full funnel: SEO and content, Google and Meta advertising, lifecycle email automation in HubSpot, and GA4-based measurement and experimentation.",
+    "skills": ["SEO", "Google Ads", "Meta Ads", "GA4", "Google Tag Manager", "HubSpot", "Email automation", "A/B testing", "SEMrush", "Looker Studio", "Conversion rate optimization", "Content strategy", "Keyword research"],
+    "experience": [
+      {
+        "company": "Brewline Coffee Co.",
+        "title": "Digital Marketing Manager",
+        "start_date": "Apr 2022",
+        "end_date": "Present",
+        "bullets": [
+          "Grew organic traffic 140% in 18 months through a keyword-research-driven content program and technical SEO fixes",
+          "Managed a $75K/month Google Ads and Meta Ads budget, improving blended ROAS from 2.1x to 3.4x",
+          "Built lifecycle email automations in HubSpot (welcome, cart abandonment, win-back) that drive 22% of revenue",
+          "Migrated tracking to GA4 with Google Tag Manager and rebuilt executive reporting in Looker Studio"
+        ]
+      },
+      {
+        "company": "Marlowe & Finch Agency",
+        "title": "Digital Marketing Specialist",
+        "start_date": "May 2019",
+        "end_date": "Mar 2022",
+        "bullets": [
+          "Ran SEO and paid-search programs for 12 B2B and ecommerce client accounts",
+          "Increased a legal client's demo bookings 60% through landing-page A/B tests and ad-copy iteration",
+          "Produced monthly SEMrush competitor and keyword-gap analyses that shaped client content roadmaps"
+        ]
+      }
+    ],
+    "projects": [
+      {
+        "name": "Funnel Notes",
+        "description": "Bi-weekly newsletter tearing down ecommerce conversion funnels",
+        "bullets": [
+          "Grew the list to 4,200 subscribers with a 52% average open rate",
+          "Turned three teardowns into consulting engagements for the agency"
+        ],
+        "tech": ["HubSpot", "GA4", "Looker Studio"]
+      }
+    ],
+    "education": [
+      {
+        "school": "University of Georgia",
+        "degree": "B.B.A.",
+        "field": "Marketing",
+        "graduation": "2019"
+      }
+    ],
+    "certifications": ["Google Ads Search Certification"]
+  },
+  "jobs": [
+    {
+      "job_key": "j1",
+      "raw_text": "Senior Growth Marketing Manager — Loam & Leaf (Remote, US)\n\nLoam & Leaf sells premium home-gardening kits to 300K customers and is scaling past $40M in revenue. We are hiring a Senior Growth Marketing Manager to own acquisition and retention end to end.\n\nWhat you will do:\n- Own paid and organic acquisition across Google Ads, our SEO program, and marketplace channels\n- Run the lifecycle email program from segmentation to send\n- Own the A/B testing roadmap across landing pages, ads, and email\n- Report channel performance to leadership through GA4 dashboards\n\nRequirements: SEO, Google Ads, GA4, email automation, Amazon Ads. 5+ years in growth or digital marketing for ecommerce with hands-on ownership of a six-figure monthly paid budget. Bachelor's degree in marketing, business, or a related field.\n\nNice to have: Klaviyo, TikTok Ads, Google BigQuery.",
+      "parsed": {
+        "company": "Loam & Leaf",
+        "title": "Senior Growth Marketing Manager",
+        "location": "Remote (US)",
+        "work_mode": "remote",
+        "responsibilities": [
+          "Own paid and organic acquisition across Google Ads, the SEO program, and marketplace channels",
+          "Run the lifecycle email program from segmentation to send",
+          "Own the A/B testing roadmap across landing pages, ads, and email",
+          "Report channel performance to leadership through GA4 dashboards"
+        ],
+        "required_skills": ["SEO", "Google Ads", "GA4", "Email automation", "Amazon Ads"],
+        "preferred_skills": ["Klaviyo", "TikTok Ads", "Google BigQuery"],
+        "qualifications": ["Bachelor's degree in marketing, business, or a related field"],
+        "experience_requirements": [
+          "5+ years in growth or digital marketing for ecommerce",
+          "Hands-on ownership of a six-figure monthly paid budget"
+        ]
+      }
+    },
+    {
+      "job_key": "j2",
+      "raw_text": "Lifecycle & Retention Marketing Manager — Petalport (Hybrid, Atlanta GA)\n\nPetalport delivers subscription flower boxes, and retention is the whole business. We are hiring a Lifecycle Manager to make every message earn its place.\n\nYou will own lifecycle email and SMS programs from strategy to send, build segmentation and triggered flows for onboarding, upsell, and win-back, measure program impact in GA4, and run A/B tests on subject lines, offers, and send timing.\n\nRequirements: email automation, customer segmentation, GA4, A/B testing. 4+ years in lifecycle, CRM, or email marketing. Bonus: HubSpot or a similar automation platform, SMS marketing.",
+      "parsed": {
+        "company": "Petalport",
+        "title": "Lifecycle & Retention Marketing Manager",
+        "location": "Atlanta, GA",
+        "work_mode": "hybrid",
+        "responsibilities": [
+          "Own lifecycle email and SMS programs from strategy to send",
+          "Build segmentation and triggered flows for onboarding, upsell, and win-back",
+          "Measure program impact in GA4 and report monthly",
+          "Run A/B tests on subject lines, offers, and send timing"
+        ],
+        "required_skills": ["Email automation", "Customer segmentation", "GA4", "A/B testing"],
+        "preferred_skills": ["HubSpot or a similar automation platform", "SMS marketing"],
+        "qualifications": [],
+        "experience_requirements": ["4+ years in lifecycle, CRM, or email marketing"]
+      }
+    },
+    {
+      "job_key": "j3",
+      "raw_text": "Ad Operations Data Entry Associate — ClickHarvest Network (Onsite, Tampa FL)\n\nClickHarvest operates 400+ affiliate comparison microsites, and volume is our whole game. We need a detail-obsessed associate to keep the campaigns fed.\n\nYou will bulk-upload keyword lists into Google Ads accounts, paste UTM parameters onto thousands of affiliate links, copy GA4 traffic numbers into tracking spreadsheets, refresh SEO title tags from a template across microsites, and reorder SEMrush keyword exports for the campaign leads.\n\nRequirements: fast, accurate data entry; spreadsheet basics; ability to follow SEO and Google Ads checklists exactly as written. No strategy work — our playbooks are fixed. 1+ years in data entry or ad operations support.",
+      "parsed": {
+        "company": "ClickHarvest Network",
+        "title": "Ad Operations Data Entry Associate",
+        "location": "Tampa, FL",
+        "work_mode": "onsite",
+        "responsibilities": [
+          "Bulk-upload keyword lists into Google Ads accounts",
+          "Paste UTM parameters onto thousands of affiliate links",
+          "Copy GA4 traffic numbers into tracking spreadsheets",
+          "Refresh SEO title tags from a template across microsites",
+          "Reorder SEMrush keyword exports for campaign leads"
+        ],
+        "required_skills": [
+          "Fast, accurate data entry",
+          "Spreadsheet basics",
+          "Following SEO and Google Ads checklists exactly as written"
+        ],
+        "preferred_skills": ["Prior affiliate network experience"],
+        "qualifications": [],
+        "experience_requirements": ["1+ years in data entry or ad operations support"]
+      }
+    },
+    {
+      "job_key": "j4",
+      "raw_text": "Marketing Data Analyst — Corvid Insights (Remote, US)\n\nCorvid Insights builds attribution reporting for consumer brands, and our analysts are the product. We are hiring a Marketing Data Analyst to own client reporting pipelines.\n\nYou will write SQL against client warehouses to build attribution models, maintain Tableau dashboards for brand-side stakeholders, and reconcile GA4 exports with ad-platform spend data.\n\nRequirements: SQL, Tableau, GA4, marketing data modeling. 3+ years in analytics. Bonus: Python, dbt.",
+      "parsed": {
+        "company": "Corvid Insights",
+        "title": "Marketing Data Analyst",
+        "location": "Remote (US)",
+        "work_mode": "remote",
+        "responsibilities": [
+          "Write SQL against client warehouses to build attribution models",
+          "Maintain Tableau dashboards for brand-side stakeholders",
+          "Reconcile GA4 exports with ad-platform spend data"
+        ],
+        "required_skills": ["SQL", "Tableau", "GA4", "Marketing data modeling"],
+        "preferred_skills": ["Python", "dbt"],
+        "qualifications": [],
+        "experience_requirements": ["3+ years in analytics"]
+      }
+    },
+    {
+      "job_key": "j5",
+      "raw_text": "Backend Engineer — Ferrostack (Remote, US)\n\nFerrostack builds inventory APIs for industrial suppliers. We are hiring a Backend Engineer to extend our order-orchestration services.\n\nYou will design REST endpoints for order and inventory flows, own PostgreSQL schema changes and query performance, and improve reliability of our async job workers.\n\nRequirements: Python or Go, PostgreSQL, REST API design, containerized deployments with Docker. 4+ years building production backend services. Bonus: Kafka, AWS.",
+      "parsed": {
+        "company": "Ferrostack",
+        "title": "Backend Engineer",
+        "location": "Remote (US)",
+        "work_mode": "remote",
+        "responsibilities": [
+          "Design REST endpoints for order and inventory flows",
+          "Own PostgreSQL schema changes and query performance",
+          "Improve reliability of async job workers"
+        ],
+        "required_skills": ["Python or Go", "PostgreSQL", "REST API design", "Docker"],
+        "preferred_skills": ["Kafka", "AWS"],
+        "qualifications": [],
+        "experience_requirements": ["4+ years building production backend services"]
+      }
+    },
+    {
+      "job_key": "j6",
+      "raw_text": "Executive Assistant — Highbeam Capital (Onsite, Atlanta GA)\n\nHighbeam Capital is a 30-person growth-equity firm, and our two managing partners need an EA who runs their world.\n\nYou will manage complex calendars across time zones, coordinate travel and board-meeting logistics, prepare briefing materials ahead of investor meetings, and handle confidential correspondence with discretion.\n\nRequirements: executive calendar management, travel coordination, polished written communication, and airtight discretion. 4+ years supporting C-level executives, ideally in finance or professional services.",
+      "parsed": {
+        "company": "Highbeam Capital",
+        "title": "Executive Assistant",
+        "location": "Atlanta, GA",
+        "work_mode": "onsite",
+        "responsibilities": [
+          "Manage complex calendars across time zones",
+          "Coordinate travel and board-meeting logistics",
+          "Prepare briefing materials ahead of investor meetings",
+          "Handle confidential correspondence with discretion"
+        ],
+        "required_skills": ["Executive calendar management", "Travel coordination", "Polished written communication", "Discretion"],
+        "preferred_skills": ["Finance or professional-services background"],
+        "qualifications": [],
+        "experience_requirements": ["4+ years supporting C-level executives"]
+      }
+    },
+    {
+      "job_key": "j7",
+      "raw_text": "Customer Support Team Lead — Replyable (Remote, US)\n\nReplyable makes shared-inbox software for small teams, and our support quality is the moat. We are hiring a Team Lead for our six-person support crew.\n\nYou will coach and schedule a team of support specialists, own escalations through resolution, maintain the help-center knowledge base, and report CSAT and response-time trends to leadership.\n\nRequirements: SaaS customer support experience, people coaching, escalation management, help-desk tooling (Zendesk or Intercom). 4+ years in support, 1+ year leading a team.",
+      "parsed": {
+        "company": "Replyable",
+        "title": "Customer Support Team Lead",
+        "location": "Remote (US)",
+        "work_mode": "remote",
+        "responsibilities": [
+          "Coach and schedule a team of six support specialists",
+          "Own escalations through resolution",
+          "Maintain the help-center knowledge base",
+          "Report CSAT and response-time trends to leadership"
+        ],
+        "required_skills": ["SaaS customer support", "People coaching", "Escalation management", "Zendesk or Intercom"],
+        "preferred_skills": ["Knowledge-base management"],
+        "qualifications": [],
+        "experience_requirements": ["4+ years in support", "1+ year leading a team"]
+      }
+    },
+    {
+      "job_key": "j8",
+      "raw_text": "Warehouse Operations Supervisor — Loam & Leaf (Onsite, Macon GA)\n\nLoam & Leaf ships 6,000 gardening kits a week from our Macon fulfillment center, and peak season doubles that. We need a Supervisor to run the floor.\n\nYou will supervise a 25-person pick-pack team across two shifts, own inbound receiving and cycle-count accuracy, and drive safety compliance and daily throughput targets.\n\nRequirements: warehouse team supervision, WMS experience, inventory-control processes, OSHA-aware safety practices. 3+ years supervising fulfillment or distribution teams.",
+      "parsed": {
+        "company": "Loam & Leaf",
+        "title": "Warehouse Operations Supervisor",
+        "location": "Macon, GA",
+        "work_mode": "onsite",
+        "responsibilities": [
+          "Supervise a 25-person pick-pack team across two shifts",
+          "Own inbound receiving and cycle-count accuracy",
+          "Drive safety compliance and daily throughput targets"
+        ],
+        "required_skills": ["Warehouse team supervision", "WMS experience", "Inventory-control processes", "Safety compliance"],
+        "preferred_skills": ["Peak-season staffing experience"],
+        "qualifications": [],
+        "experience_requirements": ["3+ years supervising fulfillment or distribution teams"]
+      }
+    }
+  ],
+  "ground_truth_ranking": {
+    "j1": 3,
+    "j2": 2,
+    "j3": 0,
+    "j4": 1,
+    "j5": 0,
+    "j6": 0,
+    "j7": 0,
+    "j8": 0
+  },
+  "skill_gap": {
+    "job_key": "j1",
+    "relevant_chunks": [2, 3, 5],
+    "expected_gaps": [
+      { "skill": "Amazon Ads", "severity": "high" },
+      { "skill": "Klaviyo", "severity": "medium" },
+      { "skill": "TikTok Ads", "severity": "low" },
+      { "skill": "Google BigQuery", "severity": "low" }
+    ],
+    "must_not_claim": ["SEO", "Google Ads", "GA4", "Email automation", "A/B testing"]
+  }
+}

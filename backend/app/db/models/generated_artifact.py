@@ -1,8 +1,8 @@
-"""GeneratedArtifact model — Application Kit 產物（FR-31~44、FR-54~55）。
+"""GeneratedArtifact model — Application Kit 產物（FR-31~44、FR-45~46）。
 
 三類產物（tailored_resume / cover_letter / interview_prep）採 **append-only**：
 每次生成或編輯都插入新 row，永不 UPDATE 內容、永不 DELETE——歷史本身有價值
-（FR-54、SRS §5.3.4）。「最新版」= 同 ``(resume_id, job_id, kind)`` 下
+（FR-45、SRS §5.3.4）。「最新版」= 同 ``(resume_id, job_id, kind)`` 下
 ``version_number`` 最大者，因此不設 unique constraint（與 MatchResult /
 SkillGapReport 的「每對唯一、覆寫升級」刻意不同：那兩者是分析快照，這裡是
 創作產物）。``run_id`` 讓同一次 agent run 產出的三個 artifacts 可被歸組；
@@ -54,7 +54,7 @@ class GeneratedArtifact(UUIDPKMixin, TimestampMixin, Base):
         index=True,
         nullable=False,
     )
-    # "tailored_resume" / "cover_letter" / "interview_prep"（FR-57 三類產物）。
+    # "tailored_resume" / "cover_letter" / "interview_prep"（FR-48 三類產物）。
     kind: Mapped[str] = mapped_column(String(32), nullable=False)
     # "agent"（agent 產出）/ "edit"（使用者編輯版，FR-40）。
     source: Mapped[str] = mapped_column(String(16), nullable=False)

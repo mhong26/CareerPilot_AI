@@ -6,7 +6,7 @@
 單元測試（``tests/test_match_scoring.py``）。
 
 權重與校準常數放模組常數而非 settings：Phase 7 agent 以 0.5 / 0.8 門檻對
-``match_score`` 路由，公式不得隨部署環境漂移；Phase 9 eval（P@K / MRR）是
+``match_score`` 路由，公式不得隨部署環境漂移；Phase 8 eval（P@K / MRR）是
 調整這些常數的回饋迴路。
 """
 

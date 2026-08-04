@@ -68,7 +68,7 @@ WEIGHTS = { embedding 0.35, required 0.35, preferred 0.10, experience 0.20 }
 - **理由**：(a) Phase 7 的 agent 以 0.5 / 0.8 門檻對 `match_score` 路由，公式不得隨部署環境漂移；
   (b) Phase 3 有過「docker-compose 漏傳 env var → 靜默使用預設值」的事故（phase3_notes 問題 9），
   不想再增加這類面向；(c) 這是演算法校準值，不是部署設定。
-- Phase 9 的 P@K / MRR 是正式校準迴路，屆時調整是一行 diff。
+- Phase 8 的 P@K / MRR 是正式校準迴路，屆時調整是一行 diff。
 
 ## 1.3 架構
 
@@ -127,7 +127,7 @@ WEIGHTS = { embedding 0.35, required 0.35, preferred 0.10, experience 0.20 }
 
 ## 二之一、模型與配額（最大的意外）
 
-### 問題 1：`gemini-2.5-pro` 免費層配額是 **0**，FR-67 的 fallback chain 形同虛設
+### 問題 1：`gemini-2.5-pro` 免費層配額是 **0**，FR-58 的 fallback chain 形同虛設
 - **發現經過**：真實驗收跑 5 個職缺時，`LLMCallLog` 顯示 `gemini-2.5-flash` 成功 18 次、
   `gemini-2.5-pro` 失敗 18 次。用一個極小的 `"Say OK"` 請求單獨測試 pro，仍然 429。
 - **原因**：該專案免費層對 2.5-pro 的四個配額指標**全部是 `limit: 0`**——不是用完，是根本沒有：
@@ -139,7 +139,7 @@ WEIGHTS = { embedding 0.35, required 0.35, preferred 0.10, experience 0.20 }
   ```
   一開始曾誤以為定價頁寫「免費方案無須支付費用」就代表可用——**那頁講的是價格，配額是另一套
   獨立機制**，而且 Google 已不在文件公布各模型的免費層數字，只能到 AI Studio 查專案實際額度。
-- **影響**：primary 一旦碰到 429，fallback 到 pro 必定失敗，還白白多等 6 秒。整個 FR-67
+- **影響**：primary 一旦碰到 429，fallback 到 pro 必定失敗，還白白多等 6 秒。整個 FR-58
   的機制從未真正運作過。
 - **解法**：換模型（見問題 3）。
 
@@ -161,17 +161,17 @@ WEIGHTS = { embedding 0.35, required 0.35, preferred 0.10, experience 0.20 }
   | **`gemini-3.5-flash-lite` / `3.1-flash-lite`** | 15 | **500** |
   | `gemini-embedding-001` | 100 | 1000 |
 - **決定的配對**：primary = `gemini-3.5-flash-lite`（500 RPD，日常流量）、
-  fallback = flash 級（20 RPD，只當救援預算）。這**沒有違背 FR-67 的意圖**——fallback 本來
+  fallback = flash 級（20 RPD，只當救援預算）。這**沒有違背 FR-58 的意圖**——fallback 本來
   就該是「更強的模型、只在 primary 失敗時觸發」，而且這一改讓 fallback chain 從裝飾品變成
   真正可運作的機制。
 - **但選 fallback 時又踩一次**：先設 `gemini-3.5-flash`，實測仍持續 429；改測
   `gemini-3.6-flash` 則單次請求成功。故最終 fallback = `gemini-3.6-flash`。
-- **連帶影響**：SRS ER-6 原本明文規定 LLM-as-judge 用 `gemini-2.5-pro`（額度 0，Phase 9 必撞牆），
+- **連帶影響**：SRS ER-6 原本明文規定 LLM-as-judge 用 `gemini-2.5-pro`（額度 0，Phase 8 必撞牆），
   已一併改為 `gemini-3.6-flash`，SRS 與 plan.md 同步更新。
 
 ### 問題 4：換模型會讓成本追蹤靜默歸零
 - **原因**：`pricing.py` 的價目表只有 2.5 系列。`estimate_cost` 對未知 model 回 `Decimal("0")`
-  （刻意的容錯設計，不讓找不到價格導致主流程失敗）——但換成 3.x 後，FR-65 的成本追蹤
+  （刻意的容錯設計，不讓找不到價格導致主流程失敗）——但換成 3.x 後，FR-56 的成本追蹤
   會**無聲無息**全部記 0，而且不會有任何錯誤訊息。
 - **解法**：查官方定價頁補上 `gemini-3.5-flash-lite`（$0.30 / $2.50）與
   `gemini-3.6-flash`（$1.50 / $7.50）；2.5 系列**保留**，因為歷史 `LLMCallLog` 仍參照那些 model 名。
@@ -229,7 +229,7 @@ WEIGHTS = { embedding 0.35, required 0.35, preferred 0.10, experience 0.20 }
 - **現象**：同一組資料重跑，Acme 那筆的 `preferred_coverage` 從 1.0 掉到 0.5，總分 0.859 → 0.809。
 - **原因**：LLM 語意等價呼叫被 rate limit 打到時，該次就少了 `Go ≈ Golang` 這類匹配，
   coverage 因而變動。這是「把 LLM 放進計分迴路」的固有代價。
-- **現況**：排序不受影響，暫不處理。但 Phase 9 做 eval 時必須知道這個變異來源，
+- **現況**：排序不受影響，暫不處理。但 Phase 8 做 eval 時必須知道這個變異來源，
   否則 P@K / MRR 的數字會不可重現。
 
 ## 二之三、實作與測試的坑

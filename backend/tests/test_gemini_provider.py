@@ -149,7 +149,7 @@ def test_structured_no_fallback_only_hits_primary(provider, monkeypatch):
     assert calls == ["test-model", "test-model"]
 
 
-# --- model fallback（FR-67/68）------------------------------------------------
+# --- model fallback（FR-58/59）------------------------------------------------
 
 
 def test_structured_fallback_rescues_bad_primary(provider_fb, monkeypatch):

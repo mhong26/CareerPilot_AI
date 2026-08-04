@@ -14,9 +14,9 @@ SER 594: AI for Software Engineers Course Project
 # 1. Introduction
 
 ## 1.1 Purpose
-本文件定義 **CareerPilot AI** 的軟體需求。此系統面向求職者，提供履歷上傳、職缺匯入、職缺匹配、技能缺口分析、客製化履歷建議、Cover Letter 草稿生成、面試準備題生成，以及偏好與申請歷史記憶等功能。本文件同時作為開發、測試、驗收的正式依據。
+本文件定義 **CareerPilot AI** 的軟體需求。此系統面向求職者，提供履歷上傳、職缺匯入、職缺匹配、技能缺口分析、客製化履歷建議、Cover Letter 草稿生成、面試準備題生成等功能。本文件同時作為開發、測試、驗收的正式依據。
 ## 1.2 Scope
-CareerPilot AI 是一個全端 AI 求職輔助平台。使用者可建立帳號、登入、上傳履歷、輸入目標職缺內容，系統會對履歷與職缺進行結構化解析，將職缺建立向量索引，進行職缺匹配排名，透過 RAG 找出技能缺口，再以 agent workflow 產生履歷修改建議、Cover Letter 草稿與面試準備題目，並跨 session 記住使用者求職偏好與申請歷史。
+CareerPilot AI 是一個全端 AI 求職輔助平台。使用者可建立帳號、登入、上傳履歷、輸入目標職缺內容，系統會對履歷與職缺進行結構化解析，將職缺建立向量索引，進行職缺匹配排名，透過 RAG 找出技能缺口，再以 agent workflow 產生履歷修改建議、Cover Letter 草稿與面試準備題目。
 
 ## 1.3 Definitions, Acronyms, and Abbreviations
 - **SRS**: Software Requirements Specification
@@ -26,7 +26,6 @@ CareerPilot AI 是一個全端 AI 求職輔助平台。使用者可建立帳號�
 - **Vector Store**: 儲存向量並支援相似度檢索的資料庫
 - **Structured Output**: 由 LLM 依 schema 輸出的 JSON 或 typed object
 - **Agent Workflow**: 可做多步驟決策、選工具、執行任務的 AI orchestration 流程
-- **Memory**: 跨 session 保存使用者偏好、歷史與摘要資訊的機制
 - **Match Score**: 系統對履歷與職缺適配程度的量化分數
 
 ## 1.4 References
@@ -34,7 +33,7 @@ CareerPilot AI 是一個全端 AI 求職輔助平台。使用者可建立帳號�
 - full-stack application
 - authentication mandatory
 - persistent data layer
-- RAG / embeddings / agent / structured outputs / memory 等 AI integration
+- RAG / embeddings / agent / structured outputs 等 AI integration
 - 15+ tests
 - CI/CD（含 container image 發佈至 GHCR）
 - deployment
@@ -59,10 +58,8 @@ CareerPilot AI 是一個獨立的 web-based full-stack system，由前端、後�
 6. Tailored resume suggestions
 7. Cover letter draft generation
 8. Interview preparation question generation
-9. 使用者求職偏好與申請歷史記憶
-10. Application tracking
-11. AI 結果儲存、版本控管與回饋收集
-12. 評估、測試、部署與監控支援。
+9. AI 結果儲存與版本控管
+10. 評估、測試、部署與監控支援。
 
 ## 2.3 User Classes and Characteristics
 ### 2.3.1 End User (Job Seeker)
@@ -127,7 +124,7 @@ CareerPilot AI 是一個獨立的 web-based full-stack system，由前端、後�
 系統應允許使用者登出並使當前 session 失效。
 
 ### FR-4 Session Isolation
-系統應確保不同使用者的履歷、職缺、AI 產物、偏好與申請紀錄彼此隔離。
+系統應確保不同使用者的履歷、職缺與 AI 產物彼此隔離。
 
 ### FR-5 Protected Routes
 未登入使用者不得存取受保護功能，包括履歷管理、職缺分析與 AI 生成結果。
@@ -280,7 +277,6 @@ CareerPilot AI 是一個獨立的 web-based full-stack system，由前端、後�
 Cover letter 應依下列資訊客製化：
 - 履歷內容
 - target job requirements
-- 使用者偏好
 - match / skill gap 分析結果
 
 ### FR-39 Structured Cover Letter Output
@@ -317,53 +313,12 @@ Cover letter 應依下列資訊客製化：
 
 ---
 
-## 3.9 User Preference and Memory
+## 3.9 Result Management
 
-### FR-45 Preference Capture
-系統應允許使用者建立與更新求職偏好，至少包括 target roles、locations、work mode、seniority 與 writing tone。
-
-### FR-46 Preference Persistence
-偏好應以 per-user 方式持久化，並於跨 session 登入後自動載入（對齊 FR-6）。
-
-### FR-47 Memory Injection
-Agent workflow 與內容生成（match explanation、cover letter、interview prep）應自動載入使用者偏好作為 context。
-
-### FR-48 Application History Memory
-系統應在後續分析與生成中引用使用者的申請歷史，例如避免重複建議、參考先前生成的 artifacts。
-
-### FR-49 Memory Transparency and Control
-使用者應能檢視並清除自己的記憶資料（偏好與歷史摘要）。
-
----
-
-## 3.10 Application Tracking
-
-### FR-50 Status Tracking
-系統應允許使用者對職缺標記申請狀態，例如：
-- saved
-- ready to apply
-- applied
-- interview
-- rejected
-- offer
-
-### FR-51 Notes
-系統應允許使用者保存私人備註。
-
-### FR-52 Timeline View
-系統應能顯示使用者的 job application history。
-
----
-
-## 3.11 Result Management and Feedback
-
-### FR-53 Feedback Collection
-系統應允許使用者對 AI 生成 artifacts 給予回饋（rating 與 comment）並持久化保存，供 evaluation 與後續改進使用。
-
-### FR-54 Artifact History
+### FR-45 Artifact History
 系統應保存所有生成 artifacts 的歷史紀錄。
 
-### FR-55 Export Capability
+### FR-46 Export Capability
 系統應至少支援將生成內容複製或匯出為可讀格式。
 
 ---
@@ -379,7 +334,6 @@ Agent workflow 與內容生成（match explanation、cover letter、interview pr
 4. Job Management Page
 5. Job Detail / Match Analysis Page
 6. Application Kit Page
-7. Application Tracker Page
 
 UI 應提供明確操作流程。
 
@@ -395,9 +349,6 @@ UI 應提供明確操作流程。
 - `/matches/run`
 - `/jobs/{id}/skill-gap`
 - `/jobs/{id}/generate-application-kit`
-- `/applications`
-- `/preferences`
-- `/feedback`
 
 ## 4.3 Hardware Interfaces
 無特殊硬體需求。一般個人電腦與雲端部署環境即可。
@@ -428,11 +379,8 @@ UI 應提供明確操作流程。
 - MatchResult
 - SkillGapReport
 - GeneratedArtifact
-- ApplicationHistory
 - LLMCallLog
 - ResumeEmbedding
-- UserPreference
-- Feedback
 
 ## 5.2 Persistence Requirements
 所有資料必須持久化保存，不得僅存在記憶體。此要求包括：
@@ -461,16 +409,15 @@ UI 應提供明確操作流程。
 2. **RAG**
 3. **AI Agents / Multi-Step Workflows**
 4. **Prompt Engineering with Structured Outputs**
-5. **Memory / Conversation Management**
-6. **LLM API Integration**
-7. **Function Calling / Tool Use**
+5. **LLM API Integration**
+6. **Function Calling / Tool Use**
 
 
 ## 6.2 Agent Requirements
-### FR-56 Multi-Step Agent
+### FR-47 Multi-Step Agent
 系統應實作至少一個 agent workflow（以 LangGraph 實作），負責從 job 與履歷資料中決定並執行多步驟任務。Application kit agent 的單次執行應產出並保存全部三類 artifacts（tailored resume suggestions、cover letter、interview prep）。
 
-### FR-57 Tool Selection
+### FR-48 Tool Selection
 該 agent 應可使用恰好 7 種工具：
 1. `fetch_resume` — 取得履歷結構化資料
 2. `retrieve_job_evidence` — RAG 檢索 job chunks
@@ -480,39 +427,39 @@ UI 應提供明確操作流程。
 6. `generate_interview_qs` — 生成面試準備題
 7. `save_artifact` — 保存生成 artifacts
 
-### FR-58 Conditional Logic
+### FR-49 Conditional Logic
 agent 應可根據 match score 或 skill gaps 決定後續流程，例如先做 gap analysis 再做 resume tailoring。
 
-### FR-66 LLM-Driven Tool Selection (Function Calling)
-Agent 的工具選擇應由 LLM 透過 native function calling（tool binding）在 FR-57 所列 7 個工具間動態決定；graph 不得以固定順序硬性串接全部工具，僅允許以 match score 為條件的 routing（FR-58）與安全防護（step limit、timeout）約束 LLM 的選擇空間。
+### FR-57 LLM-Driven Tool Selection (Function Calling)
+Agent 的工具選擇應由 LLM 透過 native function calling（tool binding）在 FR-48 所列 7 個工具間動態決定；graph 不得以固定順序硬性串接全部工具，僅允許以 match score 為條件的 routing（FR-49）與安全防護（step limit、timeout）約束 LLM 的選擇空間。
 
 ## 6.3 Structured Output Requirements
-### FR-59 Structured Parsing
+### FR-50 Structured Parsing
 履歷解析、職缺解析、skill gap report、interview prep 與 cover letter 都應使用可驗證 schema 的 structured outputs。
 
-### FR-60 Malformed Output Handling
+### FR-51 Malformed Output Handling
 若 LLM 回傳格式不符，系統應自動 retry 或 fallback。
 
-### FR-61 Auditability
+### FR-52 Auditability
 系統應保存解析失敗或 schema validation failure logs 供除錯與評估。
 
 ## 6.4 LLM API Wrapper Requirements
-### FR-62 Provider Abstraction
+### FR-53 Provider Abstraction
 系統應使用 provider-agnostic wrapper 封裝 LLM 呼叫，使模型可替換。
 
-### FR-63 API Key Security
+### FR-54 API Key Security
 API keys 不得寫入程式碼庫，應使用 environment variables。
 
-### FR-64 Retry Logic
+### FR-55 Retry Logic
 系統應對 transient API failure 執行 retry。
 
-### FR-65 Cost and Token Tracking
+### FR-56 Cost and Token Tracking
 系統應記錄 token usage、latency 與估計成本。
 
-### FR-67 Model Fallback Chain
+### FR-58 Model Fallback Chain
 Wrapper 應實作同 provider 雙模型 fallback：primary `gemini-3.5-flash-lite`；當 transient-error retry 耗盡，或 structured output 的 schema validation retry 與 JSON repair 皆失敗時，應以 `gemini-3.6-flash`（較強模型，free tier 額度僅作救援用）完整重試該操作一次。Fallback 僅適用 `generate` / `generate_structured`（embedding 無 fallback 模型）。實際使用之 model 與 `fallback_used` 應記錄於 LLMCallLog。（實作採廣義觸發：primary 完整流程之任何失敗——含安全機制阻擋、空回應、model 設定錯誤——皆觸發 fallback，為上述兩種情境之超集。）
 
-### FR-68 Malformed-Response Rate Tracking
+### FR-59 Malformed-Response Rate Tracking
 LLMCallLog 應記錄每次呼叫的 `attempts`、`repair_used`、`fallback_used` 與最終 status；token 用量與成本估計跨所有生成嘗試加總（失敗嘗試亦計費），成本按各次嘗試實際使用模型之單價分別計算。系統據此可計算：
 - **raw malformed rate**：首次嘗試即 schema validation 失敗之比率
 - **final malformed rate**：經 retry / repair / fallback 後仍失敗（StructuredOutputError）之比率
@@ -521,7 +468,7 @@ Final malformed rate 以 < 1% 為 measure-and-report 目標，於 eval report �
 
 ## 6.5 Observability and Tracing
 
-### FR-69 LLM Observability and Tracing
+### FR-60 LLM Observability and Tracing
 所有 LLM wrapper 呼叫（generate / generate_structured / embed）與 agent graph 執行應可透過 LangSmith tracing 觀測：wrapper 方法以 `@traceable` 裝飾，LangGraph 以環境變數自動 trace。未設定 `LANGSMITH_API_KEY` / `LANGSMITH_TRACING` 時應靜默停用，不影響功能與測試。
 
 ---
@@ -632,7 +579,7 @@ GitHub Actions 應在 push 至 main 與 `v*` version tag 時，build production 
 應以 LLM-as-a-judge（judge model 使用 `gemini-3.6-flash`，較 primary 強一級之同 provider 模型）逐條檢驗 skill-gap claims 是否被其 cited chunks 支持（supported / partially supported / unsupported），並報告 hallucination rate（= unsupported / total）。此評估應透過 LangSmith evaluator 執行並保留 traces。
 
 ### ER-7 Malformed-Response Rate Reporting
-應自 LLMCallLog 統計 raw 與 final malformed-response rate（定義見 FR-68），於 eval report 報告；final rate 以 < 1% 為 measure-and-report 目標。
+應自 LLMCallLog 統計 raw 與 final malformed-response rate（定義見 FR-59），於 eval report 報告；final rate 以 < 1% 為 measure-and-report 目標。
 
 ### ER-8 LangSmith Evaluation Infrastructure
 Eval dataset 應同步至 LangSmith datasets，judge 類評估經 `langsmith.evaluate()` 執行；本地 JSON 為 source of truth，離線（無 API key）時 quantitative metrics 仍可本地計算，judge 類評估得跳過並於 report 註明。
@@ -670,7 +617,6 @@ Eval dataset 應同步至 LangSmith datasets，judge 類評估經 `langsmith.eva
    - retrieval/rerank
    - agent workflow
    - content generation
-   - memory service
 
 4. **Data Layer**
    - PostgreSQL
@@ -711,12 +657,11 @@ project-root/
 4. 系統可產生職缺匹配排名與 match explanation。
 5. 系統可執行 skill gap analysis，且有 source attribution。
 6. 系統可針對特定 job 產生 resume suggestions、cover letter 與 interview prep。
-7. 系統可跨 session 保存使用者偏好與申請歷史。
-8. 系統至少實作 3 種以上有深度的 AI techniques。
-9. 系統具備至少 15 個自動化測試與 CI；後端 coverage 以 ≥80% 為工作目標並報告實測值。
-10. 系統可以 Docker 一鍵重現，且 CI/CD 於 main / version tag 自動發佈 images 至 GHCR。
-11. 系統提供 quantitative AI metrics 與 baseline comparison，至少含：matching Precision@K / MRR vs keyword baseline（報告改善 %）、RAG retrieval Precision@K / MRR、hallucination rate、rubric score、malformed-response rate。
-12. Application kit agent 以 LLM function calling 在 7 個工具間動態選擇，並依 match score 條件分流；LangSmith 可觀測完整 trace。
+7. 系統至少實作 3 種以上有深度的 AI techniques。
+8. 系統具備至少 15 個自動化測試與 CI；後端 coverage 以 ≥80% 為工作目標並報告實測值。
+9. 系統可以 Docker 一鍵重現，且 CI/CD 於 main / version tag 自動發佈 images 至 GHCR。
+10. 系統提供 quantitative AI metrics 與 baseline comparison，至少含：matching Precision@K / MRR vs keyword baseline（報告改善 %）、RAG retrieval Precision@K / MRR、hallucination rate、rubric score、malformed-response rate。
+11. Application kit agent 以 LLM function calling 在 7 個工具間動態選擇，並依 match score 條件分流；LangSmith 可觀測完整 trace。
 
 
 ---

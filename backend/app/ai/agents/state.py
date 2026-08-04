@@ -17,7 +17,7 @@ from langgraph.graph.message import add_messages
 class KitState(TypedDict):
     # 對話累積（system / human / AI(tool_calls) / tool 訊息交錯）。
     messages: Annotated[list[AnyMessage], add_messages]
-    # compute_match 成功後由 executor 同步進來，供 score routing 用（FR-58）。
+    # compute_match 成功後由 executor 同步進來，供 score routing 用（FR-49）。
     match_score: float | None
     # score directive 只發一次。
     directive_issued: bool

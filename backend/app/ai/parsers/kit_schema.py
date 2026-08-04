@@ -8,7 +8,7 @@
 - ``Field(description=...)`` 會送進 Gemini schema 引導模型；值域（section、
   category）直接寫在 description 裡，不用 Enum——與全 repo「字串 + 註解」慣例一致。
 - 三個 schema 對應 GeneratedArtifact.kind 三值，``model_dump()`` 後存 JSONB，
-  前端依 kind 分區塊渲染與編輯，Phase 9 rubric evaluator 逐欄位評分。
+  前端依 kind 分區塊渲染與編輯，Phase 8 rubric evaluator 逐欄位評分。
 """
 
 from pydantic import BaseModel, Field
