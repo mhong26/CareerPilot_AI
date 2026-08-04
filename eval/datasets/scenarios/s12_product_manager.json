@@ -1,0 +1,248 @@
+{
+  "scenario_id": "s12",
+  "title": "Mid-senior B2B SaaS product manager",
+  "description": "A 6-year B2B SaaS product manager (roadmaps, discovery, working SQL) evaluated against 8 postings: a strong PM match with PLG gaps, a second solid PM role, a keyword-stuffed project-coordinator trap, a marginal product-marketing role, and four distractors.",
+  "tags": ["non-tech", "keyword-trap"],
+  "language": "en",
+  "rationale": "The resume is a non-engineering profile — a 6-year B2B SaaS product manager — testing that the matcher works outside software-engineering vocabulary. j3 is the keyword trap: a PMO project-coordinator posting stuffed with 'product roadmap', 'backlog', 'sprint', and 'stakeholder' tokens, but every duty is administrative (scheduling ceremonies, taking minutes, formatting slide decks), so it is grade 0 despite heavy lexical overlap with the resume. j4 (product marketing) probes the graded boundary: real overlap on customer interviews and B2B SaaS context, but a different job family, hence grade 1. Gap target j1 is a strong PM match whose product-led growth strategy and usage-based pricing demands are genuine gaps, while roadmapping, discovery, SQL, and stakeholder management are must_not_claim skills the resume plainly holds.",
+  "resume": {
+    "basic_info": {
+      "name": "Priya Shah",
+      "email": "priya.shah@example.com",
+      "phone": "",
+      "location": "Chicago, IL",
+      "links": ["linkedin.com/in/priyashah-pm"]
+    },
+    "summary": "Product manager with 6 years in B2B SaaS, from associate-level discovery work to owning a multi-squad product line. Strong in continuous customer discovery, roadmap prioritization, and experiment-driven delivery, with working SQL for self-serve product analytics.",
+    "skills": ["Product roadmapping", "Customer discovery", "User interviews", "A/B testing", "SQL", "Jira", "Amplitude", "Stakeholder management", "PRD writing", "Agile/Scrum", "Pricing and packaging", "Figma wireframing", "OKRs"],
+    "experience": [
+      {
+        "company": "Fielddesk",
+        "title": "Senior Product Manager",
+        "start_date": "Mar 2023",
+        "end_date": "Present",
+        "bullets": [
+          "Own the roadmap for the dispatch and scheduling product line serving 900+ B2B field-service accounts",
+          "Ran 60+ customer discovery interviews that reshaped the technician mobile app, lifting weekly active technicians 34%",
+          "Drove an A/B-tested onboarding redesign with engineering that raised trial-to-paid conversion from 11% to 17%",
+          "Wrote SQL against the product warehouse to build a churn early-warning report reviewed weekly by the exec team"
+        ]
+      },
+      {
+        "company": "Orbitpath",
+        "title": "Product Manager",
+        "start_date": "Jun 2020",
+        "end_date": "Feb 2023",
+        "bullets": [
+          "Shipped a permissions and audit-log module that unblocked 14 enterprise deals worth $2.1M in ARR",
+          "Maintained a groomed backlog for two squads (11 engineers) on a two-week sprint cadence in Jira",
+          "Led quarterly pricing-and-packaging reviews that introduced a mid-tier plan, growing average deal size 22%"
+        ]
+      }
+    ],
+    "projects": [
+      {
+        "name": "churnscope",
+        "description": "Side-project churn-signal dashboard for early-stage SaaS teams",
+        "bullets": [
+          "Built a dashboard joining billing exports with product events to flag at-risk accounts two weeks earlier",
+          "Adopted by three teams from a 400-member product management community"
+        ],
+        "tech": ["SQL", "Amplitude", "Metabase"]
+      }
+    ],
+    "education": [
+      {
+        "school": "Northwestern University",
+        "degree": "B.A.",
+        "field": "Economics",
+        "graduation": "2018"
+      }
+    ],
+    "certifications": []
+  },
+  "jobs": [
+    {
+      "job_key": "j1",
+      "raw_text": "Senior Product Manager, Growth — Ledgerline (Remote, US)\n\nLedgerline sells usage-based billing infrastructure to B2B SaaS companies, and we are moving from sales-led to product-led growth. You will own the roadmap for our self-serve onboarding and activation funnel, run continuous discovery interviews with finance teams, design and analyze experiments across pricing and onboarding, and align engineering, design, and sales stakeholders around quarterly OKRs.\n\nRequirements: product roadmapping, customer discovery, SQL, product-led growth (PLG) strategy, and stakeholder management. 5+ years of product management in B2B SaaS, a track record of experiments that moved activation or revenue metrics, and hands-on experience with usage-based pricing and billing models. Bachelor's degree in business, economics, or a related field.\n\nNice to have: Python for data analysis, SOC 2 / enterprise compliance familiarity, Amplitude or Mixpanel.",
+      "parsed": {
+        "company": "Ledgerline",
+        "title": "Senior Product Manager, Growth",
+        "location": "Remote (US)",
+        "work_mode": "remote",
+        "responsibilities": [
+          "Own the roadmap for the self-serve onboarding and activation funnel",
+          "Run continuous discovery interviews with finance teams",
+          "Design and analyze experiments across pricing and onboarding",
+          "Align engineering, design, and sales stakeholders around quarterly OKRs"
+        ],
+        "required_skills": ["Product roadmapping", "Customer discovery", "SQL", "Product-led growth (PLG) strategy", "Stakeholder management"],
+        "preferred_skills": ["Python for data analysis", "SOC 2 / enterprise compliance familiarity", "Amplitude or Mixpanel"],
+        "qualifications": ["Bachelor's degree in business, economics, or a related field"],
+        "experience_requirements": [
+          "5+ years of product management in B2B SaaS",
+          "Track record of experiments that moved activation or revenue metrics",
+          "Hands-on experience with usage-based pricing and billing models"
+        ]
+      }
+    },
+    {
+      "job_key": "j2",
+      "raw_text": "Product Manager, Core Platform — Wrenly (Hybrid, Minneapolis MN)\n\nWrenly builds workflow automation software for operations teams at mid-market companies. Our workflow builder is used by 1,200 B2B customers and needs a dedicated product owner.\n\nYou will own the workflow builder roadmap, run discovery interviews with operations leaders, write PRDs, and drive delivery with two squads on an agile cadence. You will use SQL and product analytics to decide what to build next and to measure what shipped.\n\nRequirements: product roadmapping, customer discovery and user interviews, PRD writing, agile delivery, and SQL for product analytics. 4+ years of product management in B2B SaaS. Nice to have: Amplitude or Mixpanel, Figma for wireframing.",
+      "parsed": {
+        "company": "Wrenly",
+        "title": "Product Manager, Core Platform",
+        "location": "Minneapolis, MN",
+        "work_mode": "hybrid",
+        "responsibilities": [
+          "Own the roadmap for the workflow builder used by 1,200 B2B customers",
+          "Run discovery interviews with operations leaders at mid-market companies",
+          "Write PRDs and drive delivery with two squads on an agile cadence",
+          "Use SQL and product analytics to prioritize and measure releases"
+        ],
+        "required_skills": ["Product roadmapping", "Customer discovery and user interviews", "PRD writing", "Agile delivery", "SQL for product analytics"],
+        "preferred_skills": ["Amplitude or Mixpanel", "Figma for wireframing"],
+        "qualifications": [],
+        "experience_requirements": ["4+ years of product management in B2B SaaS"]
+      }
+    },
+    {
+      "job_key": "j3",
+      "raw_text": "Project Coordinator, PMO — Consolidated Facilities Group (Onsite, Columbus OH)\n\nConsolidated Facilities Group manages janitorial and maintenance contracts for commercial buildings. Our PMO needs a Project Coordinator who keeps the product roadmap deck, backlog spreadsheets, and stakeholder calendars in perfect order.\n\nYou will schedule sprint ceremonies and stakeholder meetings across five project teams, keep the product roadmap slides and backlog trackers formatted and current, record meeting minutes, chase action-item status updates, and book rooms and travel for quarterly planning sessions.\n\nRequirements: calendar management, meeting minutes, Jira board administration, status report formatting, Microsoft Office. 1+ years in project coordination or administrative support. Bonus: prior PMO or executive-assistant experience.",
+      "parsed": {
+        "company": "Consolidated Facilities Group",
+        "title": "Project Coordinator, PMO",
+        "location": "Columbus, OH",
+        "work_mode": "onsite",
+        "responsibilities": [
+          "Schedule sprint ceremonies and stakeholder meetings across five project teams",
+          "Keep the product roadmap slide deck and backlog spreadsheets formatted and up to date",
+          "Record meeting minutes and chase action-item status updates",
+          "Book rooms and travel for quarterly planning sessions"
+        ],
+        "required_skills": ["Calendar management", "Meeting minutes", "Jira board administration", "Status report formatting", "Microsoft Office"],
+        "preferred_skills": ["Prior PMO or executive-assistant experience"],
+        "qualifications": [],
+        "experience_requirements": ["1+ years in project coordination or administrative support"]
+      }
+    },
+    {
+      "job_key": "j4",
+      "raw_text": "Product Marketing Manager — Signalhouse (Remote, US)\n\nSignalhouse sells data-integration software to B2B SaaS companies. We are hiring a PMM to own go-to-market for our connector catalog.\n\nYou will own positioning and messaging, run customer interviews to sharpen our narrative, plan launches with sales and customer success, and produce enablement content the sales team actually uses.\n\nRequirements: B2B SaaS positioning, customer interviews, launch planning, sales enablement content. 4+ years in product marketing. Bonus: pricing research experience.",
+      "parsed": {
+        "company": "Signalhouse",
+        "title": "Product Marketing Manager",
+        "location": "Remote (US)",
+        "work_mode": "remote",
+        "responsibilities": [
+          "Own positioning and messaging for the connector catalog",
+          "Run customer interviews to sharpen the product narrative",
+          "Plan launches with sales and customer success",
+          "Produce sales enablement content"
+        ],
+        "required_skills": ["B2B SaaS positioning", "Customer interviews", "Launch planning", "Sales enablement content"],
+        "preferred_skills": ["Pricing research"],
+        "qualifications": [],
+        "experience_requirements": ["4+ years in product marketing"]
+      }
+    },
+    {
+      "job_key": "j5",
+      "raw_text": "Backend Engineer — Quarrylane (Hybrid, Denver CO)\n\nQuarrylane builds inventory software for construction suppliers. We need a Backend Engineer to scale our order services.\n\nYou will design Java services with Spring Boot, model data in PostgreSQL, and build event pipelines on Kafka.\n\nRequirements: Java, Spring Boot, PostgreSQL, Kafka, REST API design. 3+ years building production backend services. Bonus: AWS, Terraform.",
+      "parsed": {
+        "company": "Quarrylane",
+        "title": "Backend Engineer",
+        "location": "Denver, CO",
+        "work_mode": "hybrid",
+        "responsibilities": [
+          "Design and scale Java order services with Spring Boot",
+          "Model inventory data in PostgreSQL",
+          "Build event pipelines on Kafka"
+        ],
+        "required_skills": ["Java", "Spring Boot", "PostgreSQL", "Kafka", "REST API design"],
+        "preferred_skills": ["AWS", "Terraform"],
+        "qualifications": [],
+        "experience_requirements": ["3+ years building production backend services"]
+      }
+    },
+    {
+      "job_key": "j6",
+      "raw_text": "Enterprise Account Executive — Densefield Software (Remote, US)\n\nDensefield sells compliance management software to hospital networks. We are hiring an Enterprise AE to own a named-account territory.\n\nYou will run full-cycle sales from outbound prospecting to close, manage a $1.4M annual quota, and lead MEDDIC-qualified deal cycles of 6-9 months.\n\nRequirements: enterprise SaaS sales, outbound prospecting, MEDDIC or similar qualification framework, Salesforce CRM hygiene. 5+ years closing enterprise software deals. Bonus: healthcare vertical experience.",
+      "parsed": {
+        "company": "Densefield Software",
+        "title": "Enterprise Account Executive",
+        "location": "Remote (US)",
+        "work_mode": "remote",
+        "responsibilities": [
+          "Run full-cycle sales from outbound prospecting to close",
+          "Manage a $1.4M annual quota across named hospital accounts",
+          "Lead MEDDIC-qualified deal cycles of 6-9 months"
+        ],
+        "required_skills": ["Enterprise SaaS sales", "Outbound prospecting", "MEDDIC qualification", "Salesforce CRM"],
+        "preferred_skills": ["Healthcare vertical experience"],
+        "qualifications": [],
+        "experience_requirements": ["5+ years closing enterprise software deals"]
+      }
+    },
+    {
+      "job_key": "j7",
+      "raw_text": "Brand Designer — Loomora Studio (Onsite, Portland OR)\n\nLoomora is a boutique studio crafting identities for food and beverage brands. We need a Brand Designer with a strong typographic eye.\n\nYou will develop logo systems and packaging concepts, build brand guidelines, and present work directly to clients.\n\nRequirements: Adobe Illustrator, typography, packaging design, brand guideline systems. 3+ years in brand or identity design with a portfolio. Bonus: motion design basics.",
+      "parsed": {
+        "company": "Loomora Studio",
+        "title": "Brand Designer",
+        "location": "Portland, OR",
+        "work_mode": "onsite",
+        "responsibilities": [
+          "Develop logo systems and packaging concepts for food and beverage clients",
+          "Build and maintain brand guideline documents",
+          "Present design work directly to clients"
+        ],
+        "required_skills": ["Adobe Illustrator", "Typography", "Packaging design", "Brand guideline systems"],
+        "preferred_skills": ["Motion design basics"],
+        "qualifications": ["Portfolio required"],
+        "experience_requirements": ["3+ years in brand or identity design"]
+      }
+    },
+    {
+      "job_key": "j8",
+      "raw_text": "Payroll Specialist — Harvest & Vine Restaurants (Onsite, Sacramento CA)\n\nHarvest & Vine operates 23 restaurants across Northern California. We need a Payroll Specialist to run biweekly payroll for 1,100 hourly employees.\n\nYou will process payroll in ADP, reconcile tip reporting, handle multi-state tax filings, and answer employee pay questions.\n\nRequirements: ADP Workforce Now, multi-state payroll tax, tip credit and overtime rules, Excel. 2+ years of payroll processing. Bonus: FPC or CPP certification.",
+      "parsed": {
+        "company": "Harvest & Vine Restaurants",
+        "title": "Payroll Specialist",
+        "location": "Sacramento, CA",
+        "work_mode": "onsite",
+        "responsibilities": [
+          "Process biweekly payroll in ADP for 1,100 hourly employees",
+          "Reconcile tip reporting and overtime calculations",
+          "Handle multi-state payroll tax filings",
+          "Answer employee pay and deduction questions"
+        ],
+        "required_skills": ["ADP Workforce Now", "Multi-state payroll tax", "Tip credit and overtime rules", "Excel"],
+        "preferred_skills": ["FPC or CPP certification"],
+        "qualifications": [],
+        "experience_requirements": ["2+ years of payroll processing"]
+      }
+    }
+  ],
+  "ground_truth_ranking": {
+    "j1": 3,
+    "j2": 2,
+    "j3": 0,
+    "j4": 1,
+    "j5": 0,
+    "j6": 0,
+    "j7": 0,
+    "j8": 0
+  },
+  "skill_gap": {
+    "job_key": "j1",
+    "relevant_chunks": [2, 3, 5],
+    "expected_gaps": [
+      { "skill": "Product-led growth (PLG) strategy", "severity": "high" },
+      { "skill": "Usage-based pricing and billing", "severity": "medium" },
+      { "skill": "Python for data analysis", "severity": "low" },
+      { "skill": "SOC 2 / enterprise compliance", "severity": "low" }
+    ],
+    "must_not_claim": ["Product roadmapping", "Customer discovery", "SQL", "Stakeholder management", "Amplitude", "A/B testing"]
+  }
+}

@@ -1,0 +1,251 @@
+{
+  "scenario_id": "s17",
+  "title": "Senior MLOps / ML platform engineer",
+  "description": "A 6-year MLOps/platform engineer (Kubernetes, MLflow, CI/CD, Python, AWS) evaluated against 8 postings: one strong ML-platform match with Kubeflow/feature-store gaps, one adjacent DevOps platform match, one AI-content-evangelist keyword trap name-dropping the whole stack, one marginal data-science role, and four distractors.",
+  "tags": ["cross-domain", "keyword-trap"],
+  "language": "en",
+  "rationale": "The resume is deliberately cross-domain — infrastructure operations (Kubernetes, Terraform, AWS, CI/CD) fused with ML tooling (MLflow, model serving) — so relevance judgments must weigh both halves. j3 is the constructed keyword trap: an AI content evangelist / growth marketing role that name-drops MLflow, Kubernetes, Kubeflow, and LLMOps buzzwords for audience-building content, but is a marketing job family with no engineering overlap, hence grade 0; TF-IDF will over-rank it on token overlap alone. j1 is the gap target: strong overlap on Python, Kubernetes, MLflow, AWS, Terraform, and CI/CD justifies grade 3, while required Kubeflow Pipelines and the Feast feature store are clear high-severity gaps, GPU workload scheduling is medium (his Kubernetes operations experience partially transfers but no GPU-specific work appears), and preferred Ray is low. j2 (pure DevOps platform engineer) matches the infrastructure half of the resume at grade 2. j4 (data scientist) shares real Python/ML-ecosystem overlap but sits in the modeling/statistics family, hence marginal grade 1; the remaining four jobs are graded 0.",
+  "resume": {
+    "basic_info": {
+      "name": "Marcus Oyelaran",
+      "email": "marcus.oyelaran@example.com",
+      "phone": "",
+      "location": "Denver, CO",
+      "links": ["github.com/moyelaran"]
+    },
+    "summary": "Platform engineer with 6 years across infrastructure and ML systems, currently building the model training and serving platform for a computer-vision company. Owns the path from Terraform-provisioned AWS clusters to MLflow-tracked deployments, with CI/CD and observability treated as first-class features.",
+    "skills": ["Python", "Kubernetes", "MLflow", "Docker", "Terraform", "AWS", "Helm", "GitHub Actions", "CI/CD pipeline design", "Prometheus", "Grafana", "Bash", "PostgreSQL"],
+    "experience": [
+      {
+        "company": "Veridia Labs",
+        "title": "Senior MLOps Engineer",
+        "start_date": "Feb 2023",
+        "end_date": "Present",
+        "bullets": [
+          "Built the MLflow-based model registry and deployment workflow now serving 40+ models across 6 teams",
+          "Migrated training workloads to EKS with Helm and Terraform, cutting environment provisioning from 2 days to 30 minutes",
+          "Designed CI/CD for model rollout with canary deployments, bringing failed-release rollback time under 5 minutes",
+          "Built Prometheus/Grafana dashboards for inference services, driving a 38% cut in p99 latency"
+        ]
+      },
+      {
+        "company": "Cloudmere",
+        "title": "DevOps Engineer",
+        "start_date": "Aug 2019",
+        "end_date": "Jan 2023",
+        "bullets": [
+          "Operated a 30-service Kubernetes platform on AWS across three environments",
+          "Authored Terraform modules adopted by 5 product teams, cutting configuration-drift incidents 90%",
+          "Built GitHub Actions pipelines that moved releases from weekly to daily",
+          "Ran on-call for platform services and led postmortems for Sev-2 incidents"
+        ]
+      }
+    ],
+    "projects": [
+      {
+        "name": "trainstack",
+        "description": "Open-source Terraform modules for MLflow on EKS",
+        "bullets": [
+          "Published reusable Terraform modules that stand up MLflow tracking and artifact storage on EKS",
+          "Reached 450+ GitHub stars with contributions from 9 external users"
+        ],
+        "tech": ["Terraform", "AWS", "MLflow", "Helm"]
+      }
+    ],
+    "education": [
+      {
+        "school": "Colorado State University",
+        "degree": "B.S.",
+        "field": "Computer Engineering",
+        "graduation": "2019"
+      }
+    ],
+    "certifications": ["AWS Certified Solutions Architect – Associate"]
+  },
+  "jobs": [
+    {
+      "job_key": "j1",
+      "raw_text": "Senior ML Platform Engineer — Ardenware AI (Remote, US)\n\nArdenware AI builds document-intelligence models for insurers. Our ML platform team is hiring a Senior ML Platform Engineer to own training and serving infrastructure.\n\nWhat you will do:\n- Own the model training and serving platform on EKS, provisioned with Terraform\n- Build and operate Kubeflow Pipelines for automated retraining and evaluation\n- Stand up and run a Feast feature store shared across ML teams\n- Manage GPU node pools and workload scheduling for distributed training\n- Extend CI/CD pipelines for model packaging, canary rollout, and rollback\n\nRequirements: Python, Kubernetes, MLflow, Kubeflow Pipelines, Feast. 5+ years in platform, DevOps, or ML infrastructure roles, with 2+ years operating ML workloads on Kubernetes. Bachelor's degree in Computer Science or related field, or equivalent experience.\n\nNice to have: Ray, GCP Vertex AI, Istio.",
+      "parsed": {
+        "company": "Ardenware AI",
+        "title": "Senior ML Platform Engineer",
+        "location": "Remote (US)",
+        "work_mode": "remote",
+        "responsibilities": [
+          "Own the model training and serving platform on EKS, provisioned with Terraform",
+          "Build and operate Kubeflow Pipelines for automated retraining and evaluation",
+          "Stand up and run a Feast feature store shared across ML teams",
+          "Manage GPU node pools and workload scheduling for distributed training",
+          "Extend CI/CD pipelines for model packaging, canary rollout, and rollback"
+        ],
+        "required_skills": ["Python", "Kubernetes", "MLflow", "Kubeflow Pipelines", "Feast"],
+        "preferred_skills": ["Ray", "GCP Vertex AI", "Istio"],
+        "qualifications": ["Bachelor's degree in Computer Science or related field, or equivalent experience"],
+        "experience_requirements": [
+          "5+ years in platform, DevOps, or ML infrastructure roles",
+          "2+ years operating ML workloads on Kubernetes"
+        ]
+      }
+    },
+    {
+      "job_key": "j2",
+      "raw_text": "Platform Engineer — Northbeam Systems (Hybrid, Denver CO)\n\nNorthbeam Systems runs logistics APIs for freight brokers. Our platform team owns the paved road every service ships on, and we are hiring a Platform Engineer.\n\nYou will operate our Kubernetes clusters on AWS, evolve Terraform modules and the internal developer platform, and own CI/CD standards across 20 service teams.\n\nRequirements: Kubernetes, Terraform, AWS, CI/CD pipeline design, Prometheus/Grafana. 4+ years in platform or DevOps roles. Bonus: Helm, Go.",
+      "parsed": {
+        "company": "Northbeam Systems",
+        "title": "Platform Engineer",
+        "location": "Denver, CO",
+        "work_mode": "hybrid",
+        "responsibilities": [
+          "Operate Kubernetes clusters on AWS for 20 service teams",
+          "Evolve Terraform modules and the internal developer platform",
+          "Own CI/CD standards, golden pipelines, and platform observability"
+        ],
+        "required_skills": ["Kubernetes", "Terraform", "AWS", "CI/CD pipeline design", "Prometheus"],
+        "preferred_skills": ["Helm", "Go"],
+        "qualifications": [],
+        "experience_requirements": ["4+ years in platform or DevOps roles"]
+      }
+    },
+    {
+      "job_key": "j3",
+      "raw_text": "AI Content Evangelist (Growth Marketing) — Brayline Media (Remote, US)\n\nBrayline Media runs newsletters and social channels for AI infrastructure vendors. We need an AI Content Evangelist who can talk MLOps all day: MLflow, Kubernetes, Kubeflow, LLMOps, GPU clusters — you will name-drop them all.\n\nYou will ghostwrite viral LinkedIn posts and newsletter issues about MLflow, Kubernetes and LLMOps trends, grow sponsor engagement across channels, and host webinars with vendor marketing teams.\n\nRequirements: content marketing, audience growth, SEO, social copywriting; enough familiarity with MLOps buzzwords (MLflow, Kubeflow, Kubernetes, LLMOps) to sound credible. 3+ years in content or growth marketing. Bonus: newsletter monetization experience.",
+      "parsed": {
+        "company": "Brayline Media",
+        "title": "AI Content Evangelist (Growth Marketing)",
+        "location": "Remote (US)",
+        "work_mode": "remote",
+        "responsibilities": [
+          "Ghostwrite viral LinkedIn posts and newsletter issues about MLflow, Kubernetes and LLMOps trends",
+          "Grow sponsor engagement and subscriber counts across channels",
+          "Host webinars with vendor marketing teams"
+        ],
+        "required_skills": [
+          "Content marketing",
+          "Audience growth",
+          "SEO",
+          "Social copywriting",
+          "Familiarity with MLOps buzzwords (MLflow, Kubeflow, Kubernetes, LLMOps)"
+        ],
+        "preferred_skills": ["Newsletter monetization experience"],
+        "qualifications": [],
+        "experience_requirements": ["3+ years in content or growth marketing"]
+      }
+    },
+    {
+      "job_key": "j4",
+      "raw_text": "Data Scientist — Quantivo Health (Hybrid, Boston MA)\n\nQuantivo Health models patient-readmission risk for hospital networks. We are hiring a Data Scientist to own model development.\n\nYou will build and validate risk models in Python, design experiments with clinical teams, and present findings to hospital stakeholders.\n\nRequirements: Python, scikit-learn, statistics, SQL, experiment design. 3+ years in applied data science. Bonus: causal inference, healthcare data.",
+      "parsed": {
+        "company": "Quantivo Health",
+        "title": "Data Scientist",
+        "location": "Boston, MA",
+        "work_mode": "hybrid",
+        "responsibilities": [
+          "Build and validate readmission-risk models in Python",
+          "Design experiments and evaluation protocols with clinical teams",
+          "Present findings and model behavior to hospital stakeholders"
+        ],
+        "required_skills": ["Python", "scikit-learn", "Statistics", "SQL", "Experiment design"],
+        "preferred_skills": ["Causal inference", "Healthcare data experience"],
+        "qualifications": [],
+        "experience_requirements": ["3+ years in applied data science"]
+      }
+    },
+    {
+      "job_key": "j5",
+      "raw_text": "Frontend Engineer — Mapleshade (Remote, US)\n\nMapleshade builds budgeting software for families. We need a Frontend Engineer to own our web app experience.\n\nYou will ship features in React and TypeScript, own design-system components, and improve Core Web Vitals.\n\nRequirements: React, TypeScript, modern CSS, testing with Playwright or Cypress. 3+ years of frontend experience. Bonus: Next.js, D3.",
+      "parsed": {
+        "company": "Mapleshade",
+        "title": "Frontend Engineer",
+        "location": "Remote (US)",
+        "work_mode": "remote",
+        "responsibilities": [
+          "Ship features in React and TypeScript",
+          "Own design-system components and accessibility",
+          "Improve Core Web Vitals across key flows"
+        ],
+        "required_skills": ["React", "TypeScript", "Modern CSS", "Playwright or Cypress"],
+        "preferred_skills": ["Next.js", "D3"],
+        "qualifications": [],
+        "experience_requirements": ["3+ years of frontend experience"]
+      }
+    },
+    {
+      "job_key": "j6",
+      "raw_text": "Embedded Firmware Engineer — Torqline Robotics (Onsite, Detroit MI)\n\nTorqline Robotics builds robotic arms for automotive assembly. We are hiring an Embedded Firmware Engineer for our motion-control team.\n\nYou will write C/C++ firmware for motor controllers, tune real-time control loops on an RTOS, and bring up new sensor boards with the hardware team.\n\nRequirements: C, C++, RTOS experience, CAN bus, oscilloscope-level debugging. 4+ years in embedded development.",
+      "parsed": {
+        "company": "Torqline Robotics",
+        "title": "Embedded Firmware Engineer",
+        "location": "Detroit, MI",
+        "work_mode": "onsite",
+        "responsibilities": [
+          "Write C/C++ firmware for motor controllers",
+          "Tune real-time control loops on an RTOS",
+          "Bring up new sensor boards with the hardware team"
+        ],
+        "required_skills": ["C", "C++", "RTOS", "CAN bus", "Hardware debugging"],
+        "preferred_skills": ["MISRA C", "Functional safety (ISO 26262)"],
+        "qualifications": [],
+        "experience_requirements": ["4+ years in embedded development"]
+      }
+    },
+    {
+      "job_key": "j7",
+      "raw_text": "Product Designer — Fondu (Hybrid, New York NY)\n\nFondu is a social dining app for discovering supper clubs. We are hiring a Product Designer to own end-to-end feature design.\n\nYou will design flows from concept to handoff in Figma, run usability tests, and evolve our design system.\n\nRequirements: product design, Figma, prototyping, usability research. 4+ years designing consumer mobile products.",
+      "parsed": {
+        "company": "Fondu",
+        "title": "Product Designer",
+        "location": "New York, NY",
+        "work_mode": "hybrid",
+        "responsibilities": [
+          "Design feature flows from concept to developer handoff in Figma",
+          "Run usability tests and synthesize findings",
+          "Evolve and document the design system"
+        ],
+        "required_skills": ["Product design", "Figma", "Prototyping", "Usability research"],
+        "preferred_skills": ["Motion design", "iOS design patterns"],
+        "qualifications": [],
+        "experience_requirements": ["4+ years designing consumer mobile products"]
+      }
+    },
+    {
+      "job_key": "j8",
+      "raw_text": "Enterprise Account Executive — Skylark CRM (Remote, US)\n\nSkylark CRM sells customer-data software to enterprise retail accounts. We are hiring an Enterprise AE to own a named-account territory.\n\nYou will run full-cycle sales from prospecting to close, build multi-threaded relationships with VP-level buyers, and forecast pipeline in Salesforce.\n\nRequirements: enterprise SaaS sales, complex deal negotiation, Salesforce forecasting, executive presence. 5+ years closing enterprise software deals.",
+      "parsed": {
+        "company": "Skylark CRM",
+        "title": "Enterprise Account Executive",
+        "location": "Remote (US)",
+        "work_mode": "remote",
+        "responsibilities": [
+          "Run full-cycle sales from prospecting to close for named accounts",
+          "Build multi-threaded relationships with VP-level buyers",
+          "Forecast pipeline and maintain deal hygiene in Salesforce"
+        ],
+        "required_skills": ["Enterprise SaaS sales", "Complex deal negotiation", "Salesforce forecasting", "Executive presence"],
+        "preferred_skills": ["Retail industry network"],
+        "qualifications": [],
+        "experience_requirements": ["5+ years closing enterprise software deals"]
+      }
+    }
+  ],
+  "ground_truth_ranking": {
+    "j1": 3,
+    "j2": 2,
+    "j3": 0,
+    "j4": 1,
+    "j5": 0,
+    "j6": 0,
+    "j7": 0,
+    "j8": 0
+  },
+  "skill_gap": {
+    "job_key": "j1",
+    "relevant_chunks": [2, 3, 5],
+    "expected_gaps": [
+      { "skill": "Kubeflow Pipelines", "severity": "high" },
+      { "skill": "Feast feature store", "severity": "high" },
+      { "skill": "GPU workload scheduling", "severity": "medium" },
+      { "skill": "Ray", "severity": "low" }
+    ],
+    "must_not_claim": ["Python", "Kubernetes", "MLflow", "AWS", "Terraform", "CI/CD pipeline design"]
+  }
+}

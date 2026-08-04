@@ -1,0 +1,267 @@
+{
+  "scenario_id": "s24",
+  "title": "Senior cloud solutions architect",
+  "description": "A 10-year AWS solutions architect with heavy pre-sales and IaC experience evaluated against 8 postings: one strong principal-architect match with multi-cloud/Kubernetes gaps, one semantic match written with zero vendor keywords, one marginal hands-on platform role, and five distractors.",
+  "tags": ["senior", "semantic-no-keyword-overlap"],
+  "language": "en",
+  "rationale": "j2 is the semantic-no-keyword-overlap case: it describes exactly this resume's job — designing large-scale distributed systems on a major public cloud, guiding enterprise customers through technical evaluations, defining environments as declarative version-controlled configuration — while deliberately naming no vendor or tool the resume lists (no AWS, Terraform, CloudFormation, EC2, Lambda). TF-IDF gets almost no signal; embeddings should rank it high. Gap target j1 overlaps heavily on AWS, Terraform, distributed systems design, and pre-sales (justifying grade 3) while requiring Kubernetes and Microsoft Azure the resume clearly lacks (high) and preferring GCP and Ansible (low). j4 probes the graded boundary: real Terraform/AWS overlap, but the core of the role is hands-on Kubernetes/Go/GitOps platform operations rather than architecture or client-facing work. The remaining jobs are engineering and go-to-market distractors, including a quota-carrying sales role that superficially echoes the resume's pre-sales vocabulary.",
+  "resume": {
+    "basic_info": {
+      "name": "Daniel Whitfield",
+      "email": "daniel.whitfield@example.com",
+      "phone": "",
+      "location": "Chicago, IL",
+      "links": ["linkedin.com/in/dwhitfield-cloud", "github.com/dwhitfield-arch"]
+    },
+    "summary": "Cloud solutions architect with 10 years spanning infrastructure engineering and customer-facing architecture. Leads technical pre-sales for enterprise deals, designs multi-region distributed systems on AWS, and codifies environments with Terraform and CloudFormation. Known for turning ambiguous client requirements into reference architectures that delivery teams can actually build.",
+    "skills": ["AWS", "Amazon EC2", "AWS Lambda", "Amazon RDS", "Terraform", "CloudFormation", "Distributed systems design", "Technical pre-sales", "Solution architecture", "VPC networking", "IAM and security architecture", "Cloud cost optimization", "Python", "Docker"],
+    "experience": [
+      {
+        "company": "Stratavine Consulting",
+        "title": "Principal Solutions Architect",
+        "start_date": "Mar 2019",
+        "end_date": "Present",
+        "bullets": [
+          "Led technical pre-sales for 40+ enterprise engagements, contributing to $18M in closed services revenue",
+          "Designed a multi-region active-active architecture on AWS for a retail client processing 120M transactions per year",
+          "Standardized delivery on a reusable Terraform module library, cutting client environment build time from 3 weeks to 4 days",
+          "Ran executive architecture workshops and authored statements of work for C-level stakeholders"
+        ]
+      },
+      {
+        "company": "Corevault Systems",
+        "title": "Senior Cloud Engineer",
+        "start_date": "Jun 2016",
+        "end_date": "Feb 2019",
+        "bullets": [
+          "Migrated 60+ on-prem services to AWS (EC2, RDS, Lambda) with zero-downtime cutovers",
+          "Reduced monthly cloud spend 27% ($64K) through rightsizing, reserved instances, and S3 lifecycle policies",
+          "Built CloudFormation templates and CI pipelines for repeatable environment provisioning",
+          "Designed VPC network segmentation and IAM permission boundaries adopted company-wide"
+        ]
+      },
+      {
+        "company": "Halberd Financial",
+        "title": "Systems Engineer",
+        "start_date": "Aug 2015",
+        "end_date": "May 2016",
+        "bullets": [
+          "Administered Linux and VMware infrastructure supporting 900 users across two data centers",
+          "Automated server patching with Python, cutting monthly maintenance windows from 8 hours to 2",
+          "Completed a storage array refresh and data migration two weeks ahead of schedule"
+        ]
+      }
+    ],
+    "projects": [
+      {
+        "name": "cloudblocks",
+        "description": "Open-source library of reusable Terraform modules for common AWS patterns",
+        "bullets": [
+          "Published 14 production-grade modules covering VPC, ECS services, and RDS with opinionated security defaults",
+          "Adopted by 5 internal consulting teams; grew to 450+ GitHub stars with 20 external contributors"
+        ],
+        "tech": ["Terraform", "AWS", "Python"]
+      }
+    ],
+    "education": [
+      {
+        "school": "Purdue University",
+        "degree": "B.S.",
+        "field": "Computer and Information Technology",
+        "graduation": "2015"
+      }
+    ],
+    "certifications": ["AWS Certified Solutions Architect - Professional", "HashiCorp Certified: Terraform Associate"]
+  },
+  "jobs": [
+    {
+      "job_key": "j1",
+      "raw_text": "Principal Cloud Solutions Architect — Helios Digital (Remote, US)\n\nHelios Digital is a 400-person consultancy delivering cloud transformation programs for Fortune 1000 clients. We are hiring a Principal Cloud Solutions Architect to anchor our multi-cloud practice.\n\nWhat you will do:\n- Lead technical discovery and solution design for enterprise transformation deals\n- Architect multi-region distributed systems on AWS and Azure for regulated clients\n- Own reference architectures and reusable Terraform blueprints across the practice\n- Support account executives in pre-sales calls, proposals, and executive briefings\n\nRequirements: AWS, Microsoft Azure, Terraform, Kubernetes, distributed systems design. 8+ years in cloud infrastructure or solution architecture roles, 3+ years in a customer-facing pre-sales or consulting capacity, hands-on experience operating Kubernetes in production. Bachelor's degree in computer science or a related field; AWS or Azure professional-level certification.\n\nNice to have: Google Cloud Platform, Ansible, service mesh experience (Istio).",
+      "parsed": {
+        "company": "Helios Digital",
+        "title": "Principal Cloud Solutions Architect",
+        "location": "Remote (US)",
+        "work_mode": "remote",
+        "responsibilities": [
+          "Lead technical discovery and solution design for enterprise transformation deals",
+          "Architect multi-region distributed systems on AWS and Azure for regulated clients",
+          "Own reference architectures and reusable Terraform blueprints across the practice",
+          "Support account executives in pre-sales calls, proposals, and executive briefings"
+        ],
+        "required_skills": ["AWS", "Microsoft Azure", "Terraform", "Kubernetes", "Distributed systems design"],
+        "preferred_skills": ["Google Cloud Platform", "Ansible", "Service mesh experience (Istio)"],
+        "qualifications": [
+          "Bachelor's degree in computer science or a related field",
+          "AWS or Azure professional-level certification"
+        ],
+        "experience_requirements": [
+          "8+ years in cloud infrastructure or solution architecture roles",
+          "3+ years in a customer-facing pre-sales or consulting capacity",
+          "Hands-on experience operating Kubernetes in production"
+        ]
+      }
+    },
+    {
+      "job_key": "j2",
+      "raw_text": "Enterprise Technology Advisor — Bluewater Advisory (Hybrid, New York NY)\n\nBluewater Advisory helps large companies modernize how their software runs. We deliberately avoid listing product names in our postings — we care whether you can reason about systems, not recite vendor glossaries.\n\nYou will design large-scale, fault-tolerant distributed systems on a major public cloud platform for enterprise clients, guide prospective customers through technical evaluations, workshops, and proof-of-value engagements, define environment provisioning as declarative, version-controlled configuration, and advise client leadership on reliability, security posture, and spend governance.\n\nWe look for deep experience with at least one major public cloud provider, a track record designing fault-tolerant multi-region systems, fluency defining environments as declarative version-controlled configuration, and consultative communication with executive stakeholders. 8+ years across infrastructure and client-facing advisory work. Bonus: regulated-industry experience, public speaking at industry events.",
+      "parsed": {
+        "company": "Bluewater Advisory",
+        "title": "Enterprise Technology Advisor",
+        "location": "New York, NY",
+        "work_mode": "hybrid",
+        "responsibilities": [
+          "Design large-scale, fault-tolerant distributed systems on a major public cloud platform for enterprise clients",
+          "Guide prospective customers through technical evaluations, workshops, and proof-of-value engagements",
+          "Define environment provisioning as declarative, version-controlled configuration",
+          "Advise client leadership on reliability, security posture, and spend governance"
+        ],
+        "required_skills": [
+          "Deep experience with at least one major public cloud provider",
+          "Track record designing fault-tolerant multi-region systems",
+          "Fluency defining environments as declarative version-controlled configuration",
+          "Consultative communication with executive stakeholders"
+        ],
+        "preferred_skills": ["Regulated-industry experience", "Public speaking at industry events"],
+        "qualifications": [],
+        "experience_requirements": ["8+ years across infrastructure and client-facing advisory work"]
+      }
+    },
+    {
+      "job_key": "j3",
+      "raw_text": "Frontend Engineer — Glowframe Studio (Hybrid, Portland OR)\n\nGlowframe Studio builds collaborative whiteboarding software used by 40,000 design teams. We are hiring a Frontend Engineer to work on our real-time canvas.\n\nYou will build canvas interactions and collaborative cursors in React and TypeScript, own rendering performance for boards with thousands of objects, and partner with designers on micro-interactions and accessibility.\n\nRequirements: React, TypeScript, modern CSS, state management (Redux or Zustand), browser performance profiling. 3+ years of production frontend experience. Bonus: WebGL or canvas rendering experience, CRDT familiarity.",
+      "parsed": {
+        "company": "Glowframe Studio",
+        "title": "Frontend Engineer",
+        "location": "Portland, OR",
+        "work_mode": "hybrid",
+        "responsibilities": [
+          "Build canvas interactions and collaborative cursors in React and TypeScript",
+          "Own rendering performance for boards with thousands of objects",
+          "Partner with designers on micro-interactions and accessibility"
+        ],
+        "required_skills": ["React", "TypeScript", "Modern CSS", "Redux or Zustand", "Browser performance profiling"],
+        "preferred_skills": ["WebGL or canvas rendering", "CRDT familiarity"],
+        "qualifications": [],
+        "experience_requirements": ["3+ years of production frontend experience"]
+      }
+    },
+    {
+      "job_key": "j4",
+      "raw_text": "Platform Engineer — Quovant Labs (Remote, US)\n\nQuovant Labs runs a multi-tenant SaaS platform on Kubernetes. We are hiring a Platform Engineer to build the paved road our product teams deploy on.\n\nYou will operate EKS clusters and GitOps deployment pipelines, extend our internal developer platform with Go services and Kubernetes operators, manage shared infrastructure with Terraform, and drive incident reviews and capacity planning for shared clusters.\n\nRequirements: Kubernetes, Terraform, Go, ArgoCD or Flux, AWS. 4+ years in platform, SRE, or infrastructure engineering. On-call participation expected. Bonus: Crossplane, Backstage.",
+      "parsed": {
+        "company": "Quovant Labs",
+        "title": "Platform Engineer",
+        "location": "Remote (US)",
+        "work_mode": "remote",
+        "responsibilities": [
+          "Operate EKS clusters and GitOps deployment pipelines for product teams",
+          "Extend the internal developer platform with Go services and Kubernetes operators",
+          "Manage shared infrastructure with Terraform",
+          "Drive incident reviews and capacity planning for shared clusters"
+        ],
+        "required_skills": ["Kubernetes", "Terraform", "Go", "ArgoCD or Flux", "AWS"],
+        "preferred_skills": ["Crossplane", "Backstage"],
+        "qualifications": [],
+        "experience_requirements": ["4+ years in platform, SRE, or infrastructure engineering"]
+      }
+    },
+    {
+      "job_key": "j5",
+      "raw_text": "Enterprise Account Executive — Vontelle Software (Onsite, Chicago IL)\n\nVontelle sells workforce-management SaaS to Fortune 500 HR organizations, and our Midwest territory is wide open. We need a closer.\n\nYou will own a named-account territory of 30 enterprise logos, run full-cycle sales from outbound prospecting to signature, coordinate demos with sales engineering, and forecast pipeline in Salesforce with weekly accuracy reviews.\n\nRequirements: 5+ years of enterprise SaaS sales, consistent quota attainment (120%+ of number), C-suite negotiation experience, disciplined Salesforce hygiene. Bonus: MEDDICC or Challenger training, HR-tech domain experience.",
+      "parsed": {
+        "company": "Vontelle Software",
+        "title": "Enterprise Account Executive",
+        "location": "Chicago, IL",
+        "work_mode": "onsite",
+        "responsibilities": [
+          "Own a named-account territory of 30 enterprise logos",
+          "Run full-cycle sales from outbound prospecting to signature",
+          "Coordinate demos with sales engineering",
+          "Forecast pipeline in Salesforce with weekly accuracy reviews"
+        ],
+        "required_skills": ["Enterprise SaaS sales", "Quota attainment", "C-suite negotiation", "Salesforce"],
+        "preferred_skills": ["MEDDICC or Challenger training", "HR-tech domain experience"],
+        "qualifications": [],
+        "experience_requirements": ["5+ years of enterprise SaaS sales"]
+      }
+    },
+    {
+      "job_key": "j6",
+      "raw_text": "Machine Learning Engineer — Perceptix AI (Hybrid, Boston MA)\n\nPerceptix AI builds defect-detection systems for manufacturing lines. We are hiring an ML Engineer to own our vision models end to end.\n\nYou will train and fine-tune computer-vision models on customer imagery, build evaluation harnesses and data pipelines, and deploy quantized models to edge devices on factory floors.\n\nRequirements: Python, PyTorch, computer vision fundamentals, model deployment and monitoring, experiment tracking. 3+ years building production ML systems. Bonus: TensorRT, edge inference optimization.",
+      "parsed": {
+        "company": "Perceptix AI",
+        "title": "Machine Learning Engineer",
+        "location": "Boston, MA",
+        "work_mode": "hybrid",
+        "responsibilities": [
+          "Train and fine-tune computer-vision models on customer imagery",
+          "Build evaluation harnesses and data pipelines",
+          "Deploy quantized models to edge devices on factory floors"
+        ],
+        "required_skills": ["Python", "PyTorch", "Computer vision", "Model deployment and monitoring", "Experiment tracking"],
+        "preferred_skills": ["TensorRT", "Edge inference optimization"],
+        "qualifications": [],
+        "experience_requirements": ["3+ years building production ML systems"]
+      }
+    },
+    {
+      "job_key": "j7",
+      "raw_text": "Embedded Firmware Engineer — Kestrel Robotics (Onsite, Denver CO)\n\nKestrel Robotics builds autonomous inspection drones for utility companies. We need a firmware engineer for our flight-control team.\n\nYou will write and debug real-time firmware for ARM Cortex-M flight controllers, implement sensor-fusion drivers for IMU and barometer inputs, and harden failsafe behavior for link-loss scenarios.\n\nRequirements: C and C++, an RTOS (FreeRTOS or Zephyr), ARM Cortex-M targets, hardware debugging with JTAG and logic analyzers. 3+ years of embedded development. Bonus: PX4 or ArduPilot experience.",
+      "parsed": {
+        "company": "Kestrel Robotics",
+        "title": "Embedded Firmware Engineer",
+        "location": "Denver, CO",
+        "work_mode": "onsite",
+        "responsibilities": [
+          "Write and debug real-time firmware for ARM Cortex-M flight controllers",
+          "Implement sensor-fusion drivers for IMU and barometer inputs",
+          "Harden failsafe behavior for link-loss scenarios"
+        ],
+        "required_skills": ["C", "C++", "FreeRTOS or Zephyr", "ARM Cortex-M", "JTAG debugging"],
+        "preferred_skills": ["PX4 or ArduPilot experience"],
+        "qualifications": [],
+        "experience_requirements": ["3+ years of embedded development"]
+      }
+    },
+    {
+      "job_key": "j8",
+      "raw_text": "Content Marketing Manager — Loamly (Remote, US)\n\nLoamly makes bookkeeping software for landscaping and trades businesses. We are hiring our first Content Marketing Manager to build the engine that drives organic growth.\n\nYou will own the editorial calendar and publish 8+ SEO articles a month, develop customer case studies with our success team, and manage two freelance writers.\n\nRequirements: B2B content strategy, SEO fundamentals (keyword research, on-page optimization), editorial project management, strong writing and editing. 4+ years in content marketing. Bonus: experience marketing to small-business owners.",
+      "parsed": {
+        "company": "Loamly",
+        "title": "Content Marketing Manager",
+        "location": "Remote (US)",
+        "work_mode": "remote",
+        "responsibilities": [
+          "Own the editorial calendar and publish 8+ SEO articles a month",
+          "Develop customer case studies with the success team",
+          "Manage two freelance writers"
+        ],
+        "required_skills": ["B2B content strategy", "SEO fundamentals", "Editorial project management", "Writing and editing"],
+        "preferred_skills": ["Experience marketing to small-business owners"],
+        "qualifications": [],
+        "experience_requirements": ["4+ years in content marketing"]
+      }
+    }
+  ],
+  "ground_truth_ranking": {
+    "j1": 3,
+    "j2": 2,
+    "j3": 0,
+    "j4": 1,
+    "j5": 0,
+    "j6": 0,
+    "j7": 0,
+    "j8": 0
+  },
+  "skill_gap": {
+    "job_key": "j1",
+    "relevant_chunks": [2, 3, 5],
+    "expected_gaps": [
+      { "skill": "Kubernetes", "severity": "high" },
+      { "skill": "Microsoft Azure", "severity": "high" },
+      { "skill": "Google Cloud Platform", "severity": "low" },
+      { "skill": "Ansible", "severity": "low" }
+    ],
+    "must_not_claim": ["AWS", "Terraform", "Distributed systems design", "Technical pre-sales", "Solution architecture"]
+  }
+}

@@ -1,0 +1,266 @@
+{
+  "scenario_id": "s21",
+  "title": "CS new grad software engineer",
+  "description": "A CS new grad with two Python/Java internships evaluated against 8 postings: a new-grad program as the gap target, a junior backend role, a keyword-stuffed bootcamp sales trap, a marginal data-analyst role, and four distractors.",
+  "tags": ["junior", "keyword-trap"],
+  "language": "en",
+  "rationale": "A 0-1 year CS new grad with Python/Java internships stresses the junior end of the seniority spectrum: most postings that share her stack are senior roles she should not be shown. j3 is the keyword trap — a commission-based bootcamp admissions sales job stuffed with the resume's exact keywords (Python, Java, Git, SQL, data structures) that TF-IDF will over-rank, but it belongs to the sales family, hence grade 0. j4 (data analyst) probes the graded boundary: genuine Python/SQL overlap at the right seniority but a different job family, hence grade 1. j5 and j8 share an engineering surface but demand 6-8+ years in different specialties, keeping them grade 0. Gap target j1 is a new-grad program whose core requirements (Python/Java, Git, SQL, testing with pytest/JUnit) the resume clearly covers, with annotated gaps limited to TypeScript/AWS (required) and Docker/React (preferred).",
+  "resume": {
+    "basic_info": {
+      "name": "Priya Shah",
+      "email": "priya.shah@example.com",
+      "phone": "",
+      "location": "Atlanta, GA",
+      "links": ["github.com/priyashah-cs"]
+    },
+    "summary": "Computer science new grad with two software engineering internships building web services in Python and Java. Strong foundation in data structures, algorithms, and automated testing; looking for a backend or generalist new-grad role.",
+    "skills": ["Python", "Java", "Git", "SQL", "Flask", "JUnit", "pytest", "Data structures and algorithms", "REST APIs", "Linux", "HTML", "CSS", "GitHub Actions"],
+    "experience": [
+      {
+        "company": "Cartwheel Labs",
+        "title": "Software Engineering Intern",
+        "start_date": "May 2025",
+        "end_date": "Aug 2025",
+        "bullets": [
+          "Built three REST endpoints in a Flask microservice serving 50k requests/day for internal inventory dashboards",
+          "Wrote pytest unit and integration tests, raising service coverage from 55% to 88%",
+          "Fixed an N+1 query in the SQL reporting layer, cutting a nightly job from 40 minutes to 6",
+          "Set up a GitHub Actions workflow that runs lint and tests on every pull request"
+        ]
+      },
+      {
+        "company": "Bluefin Analytics",
+        "title": "Software Engineering Intern",
+        "start_date": "May 2024",
+        "end_date": "Aug 2024",
+        "bullets": [
+          "Implemented CSV export for a Java reporting module used by 200+ analyst customers",
+          "Added JUnit tests around date-handling edge cases that had caused two production bugs",
+          "Profiled and removed a memory leak in a long-running batch process, cutting heap usage 25%"
+        ]
+      },
+      {
+        "company": "Georgia State University",
+        "title": "Undergraduate Teaching Assistant, Data Structures",
+        "start_date": "Aug 2024",
+        "end_date": "May 2026",
+        "bullets": [
+          "Led weekly lab sections of 30 students covering linked lists, trees, hashing, and graph algorithms",
+          "Graded and gave feedback on 400+ programming assignments in Java",
+          "Rebuilt the course autograder harness scripts in Python, halving grading turnaround time"
+        ]
+      }
+    ],
+    "projects": [
+      {
+        "name": "CampusEats",
+        "description": "Meal-swipe sharing web app for students",
+        "bullets": [
+          "Built a Flask web app with SQL-backed listings and user auth, used by 300 students in a campus pilot",
+          "Deployed on a Linux VPS with an automated GitHub Actions deploy job"
+        ],
+        "tech": ["Python", "Flask", "SQLite", "Bootstrap"]
+      }
+    ],
+    "education": [
+      {
+        "school": "Georgia State University",
+        "degree": "B.S.",
+        "field": "Computer Science",
+        "graduation": "2026"
+      }
+    ],
+    "certifications": []
+  },
+  "jobs": [
+    {
+      "job_key": "j1",
+      "raw_text": "Software Engineer, New Grad — Ledgerly (Hybrid, Charlotte NC)\n\nLedgerly builds accounting automation for small businesses. Our new-grad program places you on a product team with a dedicated mentor from day one.\n\nWhat you will do:\n- Build and ship features across our Python and Java API services\n- Write unit and integration tests with pytest or JUnit\n- Touch the React/TypeScript frontend for full-stack tickets\n- Participate in code review and the on-call shadow rotation\n\nRequirements: Python or Java, Git, SQL, TypeScript, AWS fundamentals. 0-2 years of experience including internships; a prior software engineering internship is required. Bachelor's degree in Computer Science or a related field.\n\nNice to have: Docker, React, GraphQL.",
+      "parsed": {
+        "company": "Ledgerly",
+        "title": "Software Engineer, New Grad",
+        "location": "Charlotte, NC",
+        "work_mode": "hybrid",
+        "responsibilities": [
+          "Build and ship features across our Python and Java API services",
+          "Write unit and integration tests with pytest or JUnit",
+          "Touch the React/TypeScript frontend for full-stack tickets",
+          "Participate in code review and the on-call shadow rotation"
+        ],
+        "required_skills": ["Python or Java", "Git", "SQL", "TypeScript", "AWS fundamentals"],
+        "preferred_skills": ["Docker", "React", "GraphQL"],
+        "qualifications": ["Bachelor's degree in Computer Science or a related field"],
+        "experience_requirements": [
+          "0-2 years of experience including internships",
+          "Prior software engineering internship"
+        ]
+      }
+    },
+    {
+      "job_key": "j2",
+      "raw_text": "Junior Backend Developer — Harborview Software (Remote, US)\n\nHarborview builds scheduling and billing tools for veterinary clinics. We hire early-career engineers and invest heavily in mentorship.\n\nYou will implement API endpoints in our Python services, write database queries and migrations, fix bugs pulled from our support queue, and grow your code-review skills with a senior buddy.\n\nRequirements: Python, SQL, Git, and solid computer science fundamentals (data structures and algorithms). 0-2 years of experience; internships count. Bonus: Flask or Django, automated testing experience.",
+      "parsed": {
+        "company": "Harborview Software",
+        "title": "Junior Backend Developer",
+        "location": "Remote (US)",
+        "work_mode": "remote",
+        "responsibilities": [
+          "Implement API endpoints in our Python services",
+          "Write database queries and migrations",
+          "Fix bugs pulled from the support queue",
+          "Grow code-review skills with a senior buddy"
+        ],
+        "required_skills": ["Python", "SQL", "Git", "Data structures and algorithms"],
+        "preferred_skills": ["Flask or Django", "Automated testing"],
+        "qualifications": [],
+        "experience_requirements": ["0-2 years of experience; internships count"]
+      }
+    },
+    {
+      "job_key": "j3",
+      "raw_text": "Admissions Advisor (Sales) — CodeSprint Academy (Onsite, Tampa FL)\n\nCodeSprint Academy runs accelerated Python and Java bootcamps. We need a quota-driven Admissions Advisor who can talk tech: our curriculum covers Python, Java, Git, SQL, data structures and algorithms, and REST APIs — you must speak this vocabulary fluently with prospective students.\n\nYou will run 40+ enrollment calls a week, pitch our Python and Java course tracks, follow up leads in Salesforce, and hit monthly enrollment quotas. Compensation is commission-heavy.\n\nRequirements: consultative sales experience, CRM discipline (Salesforce), objection handling, and comfort discussing Python, Java, Git and data structures coursework at a buzzword level. 1+ years in sales, admissions, or call-center roles.",
+      "parsed": {
+        "company": "CodeSprint Academy",
+        "title": "Admissions Advisor (Sales)",
+        "location": "Tampa, FL",
+        "work_mode": "onsite",
+        "responsibilities": [
+          "Run 40+ enrollment calls a week pitching Python and Java course tracks",
+          "Follow up leads and log activity in Salesforce",
+          "Hit monthly enrollment quotas",
+          "Explain curriculum modules covering Git, SQL, data structures and REST APIs to prospects"
+        ],
+        "required_skills": [
+          "Consultative sales",
+          "Salesforce CRM",
+          "Objection handling",
+          "Buzzword-level familiarity with Python, Java, Git and data structures coursework"
+        ],
+        "preferred_skills": ["Prior bootcamp or edtech admissions experience"],
+        "qualifications": [],
+        "experience_requirements": ["1+ years in sales, admissions, or call-center roles"]
+      }
+    },
+    {
+      "job_key": "j4",
+      "raw_text": "Data Analyst — Meridian Retail Group (Hybrid, Atlanta GA)\n\nMeridian operates 240 retail locations across the Southeast. Our analytics team turns sales and inventory data into weekly merchandising decisions.\n\nYou will build SQL reports and dashboards, automate recurring data pulls with Python scripts, maintain Tableau workbooks for regional managers, and validate data quality across source systems.\n\nRequirements: SQL, Excel, Tableau, basic Python scripting. 0-2 years of experience; strong analytical coursework welcome. Bonus: retail or supply-chain domain exposure.",
+      "parsed": {
+        "company": "Meridian Retail Group",
+        "title": "Data Analyst",
+        "location": "Atlanta, GA",
+        "work_mode": "hybrid",
+        "responsibilities": [
+          "Build SQL reports and dashboards for merchandising decisions",
+          "Automate recurring data pulls with Python scripts",
+          "Maintain Tableau workbooks for regional managers",
+          "Validate data quality across source systems"
+        ],
+        "required_skills": ["SQL", "Excel", "Tableau", "Basic Python scripting"],
+        "preferred_skills": ["Retail or supply-chain domain exposure"],
+        "qualifications": [],
+        "experience_requirements": ["0-2 years of experience"]
+      }
+    },
+    {
+      "job_key": "j5",
+      "raw_text": "Senior Site Reliability Engineer — Vaultic (Remote, US)\n\nVaultic runs custody infrastructure for digital assets with strict uptime and audit requirements.\n\nYou will own availability and capacity planning, automate infrastructure with Terraform, operate Kubernetes clusters across three regions, and lead incident response with blameless postmortems.\n\nRequirements: Kubernetes, Terraform, Go, Prometheus/Grafana, deep Linux internals. 7+ years in SRE, infrastructure, or platform roles, including production on-call leadership. Bonus: HSM or compliance-heavy environment experience.",
+      "parsed": {
+        "company": "Vaultic",
+        "title": "Senior Site Reliability Engineer",
+        "location": "Remote (US)",
+        "work_mode": "remote",
+        "responsibilities": [
+          "Own availability and capacity planning for custody services",
+          "Automate infrastructure with Terraform",
+          "Operate Kubernetes clusters across three regions",
+          "Lead incident response and blameless postmortems"
+        ],
+        "required_skills": ["Kubernetes", "Terraform", "Go", "Prometheus", "Grafana"],
+        "preferred_skills": ["HSM experience", "Compliance-heavy environment experience"],
+        "qualifications": [],
+        "experience_requirements": ["7+ years in SRE, infrastructure, or platform roles"]
+      }
+    },
+    {
+      "job_key": "j6",
+      "raw_text": "Digital Marketing Coordinator — Brightwave Agency (Onsite, Nashville TN)\n\nBrightwave manages paid and organic campaigns for 30 consumer brands.\n\nYou will schedule and publish social content calendars, assemble monthly performance reports, coordinate influencer deliverables, and support paid campaign setup in Meta and Google Ads.\n\nRequirements: social media platform fluency, Google Ads and Meta Ads basics, copywriting, spreadsheet reporting. 1-2 years in marketing roles or agency internships. Bonus: Canva and short-form video editing.",
+      "parsed": {
+        "company": "Brightwave Agency",
+        "title": "Digital Marketing Coordinator",
+        "location": "Nashville, TN",
+        "work_mode": "onsite",
+        "responsibilities": [
+          "Schedule and publish social content calendars",
+          "Assemble monthly performance reports",
+          "Coordinate influencer deliverables",
+          "Support paid campaign setup in Meta and Google Ads"
+        ],
+        "required_skills": ["Social media platforms", "Google Ads and Meta Ads basics", "Copywriting", "Spreadsheet reporting"],
+        "preferred_skills": ["Canva", "Short-form video editing"],
+        "qualifications": [],
+        "experience_requirements": ["1-2 years in marketing roles or agency internships"]
+      }
+    },
+    {
+      "job_key": "j7",
+      "raw_text": "Mechanical Design Engineer — Kestrel Robotics (Onsite, Huntsville AL)\n\nKestrel builds autonomous inspection robots for energy infrastructure.\n\nYou will design structural and enclosure components in SolidWorks, run tolerance analyses, own DFM reviews with our contract manufacturers, and support prototype builds in the lab.\n\nRequirements: SolidWorks, GD&T, DFM/DFA principles, hands-on prototyping. 3+ years in mechanical design for hardware products. Bonus: sealed enclosures (IP67) and vibration testing experience.",
+      "parsed": {
+        "company": "Kestrel Robotics",
+        "title": "Mechanical Design Engineer",
+        "location": "Huntsville, AL",
+        "work_mode": "onsite",
+        "responsibilities": [
+          "Design structural and enclosure components in SolidWorks",
+          "Run tolerance analyses",
+          "Own DFM reviews with contract manufacturers",
+          "Support prototype builds in the lab"
+        ],
+        "required_skills": ["SolidWorks", "GD&T", "DFM/DFA principles", "Hands-on prototyping"],
+        "preferred_skills": ["Sealed enclosure (IP67) design", "Vibration testing"],
+        "qualifications": [],
+        "experience_requirements": ["3+ years in mechanical design for hardware products"]
+      }
+    },
+    {
+      "job_key": "j8",
+      "raw_text": "Senior iOS Engineer — Lumo Apps (Remote, US)\n\nLumo ships a photo-journaling app with 4M monthly users.\n\nYou will architect new features in SwiftUI, maintain the legacy UIKit surface during migration, drive performance work on startup and scrolling, and mentor two mid-level engineers.\n\nRequirements: Swift, SwiftUI, UIKit, Core Data, App Store release management. 6+ years of professional iOS development. Bonus: Metal or Core Image experience.",
+      "parsed": {
+        "company": "Lumo Apps",
+        "title": "Senior iOS Engineer",
+        "location": "Remote (US)",
+        "work_mode": "remote",
+        "responsibilities": [
+          "Architect new features in SwiftUI",
+          "Maintain the legacy UIKit surface during migration",
+          "Drive performance work on startup and scrolling",
+          "Mentor two mid-level engineers"
+        ],
+        "required_skills": ["Swift", "SwiftUI", "UIKit", "Core Data", "App Store release management"],
+        "preferred_skills": ["Metal", "Core Image"],
+        "qualifications": [],
+        "experience_requirements": ["6+ years of professional iOS development"]
+      }
+    }
+  ],
+  "ground_truth_ranking": {
+    "j1": 3,
+    "j2": 2,
+    "j3": 0,
+    "j4": 1,
+    "j5": 0,
+    "j6": 0,
+    "j7": 0,
+    "j8": 0
+  },
+  "skill_gap": {
+    "job_key": "j1",
+    "relevant_chunks": [2, 3, 5],
+    "expected_gaps": [
+      { "skill": "TypeScript", "severity": "high" },
+      { "skill": "AWS", "severity": "high" },
+      { "skill": "Docker", "severity": "low" },
+      { "skill": "React", "severity": "low" }
+    ],
+    "must_not_claim": ["Python", "Java", "Git", "SQL", "pytest", "JUnit"]
+  }
+}

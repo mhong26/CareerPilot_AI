@@ -113,7 +113,9 @@ def embed_resume_texts(
     record_call(
         db,
         provider="gemini",
-        model=model,
+        # model 取自回傳值（同 generate_structured 的記帳原則）：實際供向量的
+        # 來源只有 provider 知道——eval 的快取層以此標記 cache hit。
+        model=result.model,
         operation="embed",
         prompt=prompt,
         usage=result.usage,  # Gemini embedding API 不回 token 數，usage 記 0（已知限制）。

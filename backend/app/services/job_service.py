@@ -108,7 +108,9 @@ def embed_job_chunks(
     record_call(
         db,
         provider="gemini",
-        model=model,
+        # model 取自回傳值（同 generate_structured 的記帳原則）：實際供向量的
+        # 來源只有 provider 知道——eval 的快取層以此標記 cache hit。
+        model=result.model,
         operation="embed",
         prompt=prompt,
         usage=result.usage,  # Gemini embedding API 不回 token 數，usage 記 0（已知限制）。
@@ -131,6 +133,26 @@ def create_job_from_text(db: Session, *, user: User, raw_text: str, provider: LL
     此時 session 尚無 job 資料，安全（同 resume_service 的不變式）。
     """
     parsed, parse_error = parse_job_text(db, raw_text=raw_text, provider=provider, user_id=user.id)
+    return create_job_from_parsed(
+        db, user=user, raw_text=raw_text, parsed=parsed, parse_error=parse_error, provider=provider
+    )
+
+
+def create_job_from_parsed(
+    db: Session,
+    *,
+    user: User,
+    raw_text: str,
+    parsed: JobParsed | None,
+    parse_error: str | None = None,
+    provider: LLMProvider,
+) -> Job:
+    """以已結構化的 ``JobParsed`` 建立 Job：切塊 → 向量化 → 寫三張表。
+
+    ``create_job_from_text`` 的後半段；獨立成函式讓「已有結構化資料」的呼叫端
+    （Phase 8 eval seeding、Phase 10 demo seeds）跳過 LLM 解析、直接走與
+    production 完全相同的 chunk / embed / 寫入路徑。
+    """
     drafts = chunk_job(parsed) if parsed is not None else []
     if drafts:
         vectors, index_error = embed_job_chunks(

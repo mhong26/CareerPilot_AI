@@ -1,0 +1,264 @@
+{
+  "scenario_id": "s25",
+  "title": "Registered nurse transitioning to healthcare data analyst",
+  "description": "A 6-year med-surg RN pivoting into healthcare data analytics (Excel, basic SQL, Epic EHR, quality metrics) evaluated against 8 postings: a clinical quality analyst gap target, two other clinical-data roles that value domain knowledge, a marginal bedside ED nursing job, and software, sales, and finance distractors.",
+  "tags": ["career-changer", "cross-domain"],
+  "language": "en",
+  "rationale": "This scenario stresses cross-domain career-changer matching: the signal for j1-j3 is healthcare domain knowledge (Epic EHR, CMS/HEDIS quality metrics, chart abstraction) rather than a software stack, and a matcher that only counts tooling keywords will miss why this resume fits analyst roles. Gap target j1 overlaps strongly on Excel, Epic, quality metrics, chart abstraction, and clinical background (justifying grade 3) while requiring Tableau the resume lacks entirely (high) and SQL fluency the resume only partially covers via 'Basic SQL' (medium), with R or SAS and Epic Clarity certification preferred (low). j4 probes the direction of the transition: a bedside ED nursing job shares the resume's license and Epic charting history but demands emergency-specialty experience the med-surg resume lacks and sits outside the analyst family the resume is moving toward — marginal grade 1. j6 is a deliberately trap-ish distractor: healthcare vocabulary (Epic, EHR, HL7 FHIR) wrapped around a pure data-engineering stack (Spark, Airflow, dbt) — grade 0, though not tagged keyword-trap because overlap with the resume's actual skill tokens stays modest. j5, j7, and j8 are pure software, device-sales, and finance distractors, with j8's Excel/SQL mentions providing mild lexical pull.",
+  "resume": {
+    "basic_info": {
+      "name": "Marisol Vega",
+      "email": "marisol.vega@example.com",
+      "phone": "",
+      "location": "Columbus, OH",
+      "links": ["linkedin.com/in/marisolvega-rn"]
+    },
+    "summary": "Registered nurse with 6 years of acute-care experience transitioning into healthcare data analytics. Led unit-level quality reporting — chart audits, CMS core measure abstraction, and Excel dashboards for falls and infection rates — and recently completed a data analytics certificate covering SQL fundamentals. Brings deep clinical workflow knowledge and Epic documentation experience from the bedside side of the data.",
+    "skills": ["Registered Nurse (RN)", "Epic EHR", "Microsoft Excel", "Basic SQL", "Healthcare quality metrics", "CMS core measures", "Chart abstraction", "Patient safety event reporting", "Root cause analysis", "HIPAA compliance", "Clinical workflow analysis", "Data cleaning and validation"],
+    "experience": [
+      {
+        "company": "St. Alban's Medical Center",
+        "title": "Charge Nurse, Medical-Surgical Unit",
+        "start_date": "Apr 2024",
+        "end_date": "Present",
+        "bullets": [
+          "Led quality reporting for a 32-bed unit: abstracted 40+ charts monthly for CMS core measures and validated data before submission",
+          "Built an Excel dashboard with pivot tables tracking falls, CAUTI, and pressure-injury rates, adopted by three sister units",
+          "Co-led a falls-reduction initiative that cut the unit fall rate from 4.1 to 2.3 per 1,000 patient-days in 9 months",
+          "Served as Epic superuser during two upgrade rollouts, training 45 nurses on documentation changes"
+        ]
+      },
+      {
+        "company": "St. Alban's Medical Center",
+        "title": "Registered Nurse, Medical-Surgical Unit",
+        "start_date": "Jul 2022",
+        "end_date": "Mar 2024",
+        "bullets": [
+          "Provided direct care for 5-6 acute patients per shift on a high-turnover 32-bed unit",
+          "Documented assessments and interventions in Epic with 98% chart-audit compliance",
+          "Reported and followed up on patient-safety events, contributing to two root cause analyses",
+          "Joined the hospital quality committee as the unit's data liaison for monthly metric reviews"
+        ]
+      },
+      {
+        "company": "Riverbend Community Hospital",
+        "title": "Registered Nurse",
+        "start_date": "Jun 2020",
+        "end_date": "Jun 2022",
+        "bullets": [
+          "Delivered bedside care on a 28-bed medical unit with a 5:1 patient ratio",
+          "Collected hand-hygiene and fall-risk audit data for the unit quality committee",
+          "Precepted 4 new-graduate nurses through their first year on the floor"
+        ]
+      }
+    ],
+    "projects": [
+      {
+        "name": "readmission-insights",
+        "description": "Capstone project for a data analytics certificate analyzing a public hospital readmissions dataset",
+        "bullets": [
+          "Wrote SQL queries (joins, GROUP BY aggregations) against a public CMS readmissions dataset to compare rates by condition and hospital ownership",
+          "Summarized findings in an Excel workbook with pivot-table drilldowns and presented them to a 20-person certificate cohort"
+        ],
+        "tech": ["SQL", "SQLite", "Microsoft Excel"]
+      }
+    ],
+    "education": [
+      {
+        "school": "Ohio State University",
+        "degree": "B.S.N.",
+        "field": "Nursing",
+        "graduation": "2020"
+      }
+    ],
+    "certifications": ["Registered Nurse (RN), Ohio Board of Nursing", "Google Data Analytics Professional Certificate"]
+  },
+  "jobs": [
+    {
+      "job_key": "j1",
+      "raw_text": "Clinical Quality Data Analyst — Meridian Health System (Hybrid, Columbus OH)\n\nMeridian Health System operates six hospitals and forty clinics across central Ohio. Our Quality & Patient Safety team is hiring a Clinical Quality Data Analyst to turn EHR data into action.\n\nWhat you will do:\n- Query Epic Clarity data to build monthly quality and patient-safety reports\n- Build and maintain Tableau dashboards tracking readmissions, falls, and infection rates\n- Abstract and validate clinical records for CMS core measure submissions\n- Partner with unit leaders and quality committees to interpret trends and target improvement work\n\nRequirements: SQL (complex joins and subqueries), Tableau, Microsoft Excel, Epic EHR, CMS core measures and NHSN quality metrics. 3+ years in a clinical or healthcare quality role, 1+ years working with reporting or analytics tools in a healthcare setting. Bachelor's degree in nursing, health information management, or a related field; working knowledge of HIPAA and PHI handling; active RN license strongly preferred.\n\nNice to have: R or SAS, Epic Clarity data model certification, CPHQ.",
+      "parsed": {
+        "company": "Meridian Health System",
+        "title": "Clinical Quality Data Analyst",
+        "location": "Columbus, OH",
+        "work_mode": "hybrid",
+        "responsibilities": [
+          "Query Epic Clarity data to build monthly quality and patient-safety reports",
+          "Build and maintain Tableau dashboards tracking readmissions, falls, and infection rates",
+          "Abstract and validate clinical records for CMS core measure submissions",
+          "Partner with unit leaders and quality committees to interpret trends and target improvement work"
+        ],
+        "required_skills": ["SQL (complex joins and subqueries)", "Tableau", "Microsoft Excel", "Epic EHR", "CMS core measures and NHSN quality metrics"],
+        "preferred_skills": ["R or SAS", "Epic Clarity data model certification", "CPHQ"],
+        "qualifications": [
+          "Bachelor's degree in nursing, health information management, or a related field",
+          "Working knowledge of HIPAA and PHI handling",
+          "Active RN license strongly preferred"
+        ],
+        "experience_requirements": [
+          "3+ years in a clinical or healthcare quality role",
+          "1+ years working with reporting or analytics tools in a healthcare setting"
+        ]
+      }
+    },
+    {
+      "job_key": "j2",
+      "raw_text": "Clinical Quality Data Abstractor — Lakemont Regional Medical Center (Hybrid, Columbus OH)\n\nLakemont Regional is a 380-bed teaching hospital. Our quality department needs a Clinical Quality Data Abstractor to keep our registry submissions accurate and on time.\n\nYou will abstract medical records for cardiac and stroke registries, validate abstracted data against registry specifications, reconcile discrepancies with clinical teams, and submit monthly NHSN infection-surveillance data.\n\nRequirements: chart abstraction, Epic EHR, Microsoft Excel, clinical terminology, registry specifications (Get With The Guidelines, NHSN). 2+ years of clinical or health-information experience. Associate or bachelor's degree in nursing or health information management. Bonus: RN or LPN license, prior registry abstraction experience.",
+      "parsed": {
+        "company": "Lakemont Regional Medical Center",
+        "title": "Clinical Quality Data Abstractor",
+        "location": "Columbus, OH",
+        "work_mode": "hybrid",
+        "responsibilities": [
+          "Abstract medical records for cardiac and stroke registries",
+          "Validate abstracted data against registry specifications",
+          "Reconcile data discrepancies with clinical teams",
+          "Submit monthly NHSN infection-surveillance data"
+        ],
+        "required_skills": ["Chart abstraction", "Epic EHR", "Microsoft Excel", "Clinical terminology", "Registry specifications (Get With The Guidelines, NHSN)"],
+        "preferred_skills": ["RN or LPN license", "Prior registry abstraction experience"],
+        "qualifications": ["Associate or bachelor's degree in nursing or health information management"],
+        "experience_requirements": ["2+ years of clinical or health-information experience"]
+      }
+    },
+    {
+      "job_key": "j3",
+      "raw_text": "Population Health Data Coordinator — Carepath Partners (Remote, US)\n\nCarepath Partners runs value-based care programs with 60 primary-care clinics. We are hiring a Population Health Data Coordinator to keep our quality-measure engine running.\n\nYou will track HEDIS quality-measure performance across clinic panels, pull and distribute gap-in-care lists for care managers, maintain Excel reports feeding monthly clinic scorecards, and coordinate chart-chase reviews with clinic staff.\n\nRequirements: Microsoft Excel, healthcare quality measures (HEDIS), EHR chart review, data quality checks. 2+ years in healthcare operations, quality, or care management. Bonus: basic SQL, clinical licensure (RN or LPN).",
+      "parsed": {
+        "company": "Carepath Partners",
+        "title": "Population Health Data Coordinator",
+        "location": "Remote (US)",
+        "work_mode": "remote",
+        "responsibilities": [
+          "Track HEDIS quality-measure performance across clinic panels",
+          "Pull and distribute gap-in-care lists for care managers",
+          "Maintain Excel reports feeding monthly clinic scorecards",
+          "Coordinate chart-chase reviews with clinic staff"
+        ],
+        "required_skills": ["Microsoft Excel", "Healthcare quality measures (HEDIS)", "EHR chart review", "Data quality checks"],
+        "preferred_skills": ["Basic SQL", "Clinical licensure (RN or LPN)"],
+        "qualifications": [],
+        "experience_requirements": ["2+ years in healthcare operations, quality, or care management"]
+      }
+    },
+    {
+      "job_key": "j4",
+      "raw_text": "Emergency Department Staff Nurse — Mercy General Hospital (Onsite, Columbus OH)\n\nMercy General's Level II trauma center sees 68,000 visits a year. We are hiring experienced ED nurses for night shift.\n\nYou will provide triage and direct nursing care in a 45-bed emergency department, respond to codes, traumas, and stroke alerts, document in the Epic ED module, and mentor paramedics and new graduate nurses.\n\nRequirements: emergency department nursing, triage assessment, ACLS and PALS certification, Epic EHR documentation. 2+ years of emergency department nursing experience. Active RN license; BSN preferred. Bonus: CEN certification, TNCC.",
+      "parsed": {
+        "company": "Mercy General Hospital",
+        "title": "Emergency Department Staff Nurse",
+        "location": "Columbus, OH",
+        "work_mode": "onsite",
+        "responsibilities": [
+          "Provide triage and direct nursing care in a 45-bed emergency department",
+          "Respond to codes, traumas, and stroke alerts",
+          "Document assessments and interventions in the Epic ED module",
+          "Mentor paramedics and new graduate nurses during onboarding"
+        ],
+        "required_skills": ["Emergency department nursing", "Triage assessment", "ACLS and PALS certification", "Epic EHR documentation"],
+        "preferred_skills": ["CEN certification", "TNCC"],
+        "qualifications": ["Active RN license", "BSN preferred"],
+        "experience_requirements": ["2+ years of emergency department nursing experience"]
+      }
+    },
+    {
+      "job_key": "j5",
+      "raw_text": "Backend Software Engineer — Orbitrail (Remote, US)\n\nOrbitrail builds routing and tracking software for regional freight carriers. We are hiring a Backend Software Engineer to own core services.\n\nYou will design and build REST APIs for shipment tracking and routing, model logistics data in PostgreSQL and keep query performance healthy, and own services from design through deployment on AWS.\n\nRequirements: Python, PostgreSQL, REST API design, AWS, Docker. 4+ years building production backend services. Bonus: Kafka, Terraform.",
+      "parsed": {
+        "company": "Orbitrail",
+        "title": "Backend Software Engineer",
+        "location": "Remote (US)",
+        "work_mode": "remote",
+        "responsibilities": [
+          "Design and build REST APIs for shipment tracking and routing",
+          "Model logistics data in PostgreSQL and keep query performance healthy",
+          "Own services from design through deployment on AWS"
+        ],
+        "required_skills": ["Python", "PostgreSQL", "REST API design", "AWS", "Docker"],
+        "preferred_skills": ["Kafka", "Terraform"],
+        "qualifications": [],
+        "experience_requirements": ["4+ years building production backend services"]
+      }
+    },
+    {
+      "job_key": "j6",
+      "raw_text": "Senior Healthcare Data Engineer — Vitalstream Analytics (Remote, US)\n\nVitalstream Analytics builds a clinical data platform ingesting EHR feeds from Epic and other systems for 30 hospital customers. We are hiring a Senior Healthcare Data Engineer.\n\nYou will build and operate Airflow pipelines ingesting EHR and claims data, model clinical datasets in a Snowflake warehouse with dbt, implement HL7 FHIR interfaces for hospital data feeds, and tune Spark jobs processing millions of patient records.\n\nRequirements: Python, SQL, Apache Spark, Airflow, dbt. 5+ years in data engineering. Bonus: Snowflake, HL7 FHIR standards, Epic data model familiarity.",
+      "parsed": {
+        "company": "Vitalstream Analytics",
+        "title": "Senior Healthcare Data Engineer",
+        "location": "Remote (US)",
+        "work_mode": "remote",
+        "responsibilities": [
+          "Build and operate Airflow pipelines ingesting EHR and claims data",
+          "Model clinical datasets in a Snowflake warehouse with dbt",
+          "Implement HL7 FHIR interfaces for hospital data feeds",
+          "Tune Spark jobs processing millions of patient records"
+        ],
+        "required_skills": ["Python", "SQL", "Apache Spark", "Airflow", "dbt"],
+        "preferred_skills": ["Snowflake", "HL7 FHIR standards", "Epic data model familiarity"],
+        "qualifications": [],
+        "experience_requirements": ["5+ years in data engineering"]
+      }
+    },
+    {
+      "job_key": "j7",
+      "raw_text": "Medical Device Sales Representative — OrthoPeak Medical (Onsite, Cincinnati OH)\n\nOrthoPeak Medical sells orthopedic implant systems to hospital surgical programs across the Midwest. We need a rep to grow the southwest Ohio territory.\n\nYou will own a surgical-device territory covering 20 hospital accounts, run product demonstrations and support cases in the operating room, manage pipeline and forecasts in Salesforce, and hit quarterly quota and expansion targets.\n\nRequirements: B2B sales, territory management, Salesforce, contract negotiation. 3+ years of quota-carrying B2B sales experience. Bonus: operating room familiarity, existing orthopedic surgeon relationships.",
+      "parsed": {
+        "company": "OrthoPeak Medical",
+        "title": "Medical Device Sales Representative",
+        "location": "Cincinnati, OH",
+        "work_mode": "onsite",
+        "responsibilities": [
+          "Own a surgical-device territory covering 20 hospital accounts",
+          "Run product demonstrations and support cases in the operating room",
+          "Manage pipeline and forecasts in Salesforce",
+          "Hit quarterly quota and expansion targets"
+        ],
+        "required_skills": ["B2B sales", "Territory management", "Salesforce", "Contract negotiation"],
+        "preferred_skills": ["Operating room familiarity", "Existing orthopedic surgeon relationships"],
+        "qualifications": [],
+        "experience_requirements": ["3+ years of quota-carrying B2B sales experience"]
+      }
+    },
+    {
+      "job_key": "j8",
+      "raw_text": "Financial Analyst, FP&A — Fairmont Industrial Group (Hybrid, Columbus OH)\n\nFairmont Industrial Group manufactures HVAC components across four plants. Our finance team is hiring an FP&A analyst.\n\nYou will build annual budget and quarterly forecast models in Excel, prepare monthly variance analysis for plant leadership, and maintain KPI dashboards for revenue and margin tracking.\n\nRequirements: advanced Excel modeling, budgeting and forecasting, variance analysis, GAAP fundamentals. 2+ years in FP&A or corporate finance. Bachelor's degree in finance or accounting. Bonus: SQL, Power BI, NetSuite.",
+      "parsed": {
+        "company": "Fairmont Industrial Group",
+        "title": "Financial Analyst, FP&A",
+        "location": "Columbus, OH",
+        "work_mode": "hybrid",
+        "responsibilities": [
+          "Build annual budget and quarterly forecast models in Excel",
+          "Prepare monthly variance analysis for plant leadership",
+          "Maintain KPI dashboards for revenue and margin tracking"
+        ],
+        "required_skills": ["Advanced Excel modeling", "Budgeting and forecasting", "Variance analysis", "GAAP fundamentals"],
+        "preferred_skills": ["SQL", "Power BI", "NetSuite"],
+        "qualifications": ["Bachelor's degree in finance or accounting"],
+        "experience_requirements": ["2+ years in FP&A or corporate finance"]
+      }
+    }
+  ],
+  "ground_truth_ranking": {
+    "j1": 3,
+    "j2": 2,
+    "j3": 2,
+    "j4": 1,
+    "j5": 0,
+    "j6": 0,
+    "j7": 0,
+    "j8": 0
+  },
+  "skill_gap": {
+    "job_key": "j1",
+    "relevant_chunks": [2, 3, 5],
+    "expected_gaps": [
+      { "skill": "Tableau", "severity": "high" },
+      { "skill": "Advanced SQL (complex joins and subqueries)", "severity": "medium" },
+      { "skill": "R or SAS", "severity": "low" },
+      { "skill": "Epic Clarity data model certification", "severity": "low" }
+    ],
+    "must_not_claim": ["Microsoft Excel", "Epic EHR", "Healthcare quality metrics", "CMS core measures", "Chart abstraction", "HIPAA compliance"]
+  }
+}

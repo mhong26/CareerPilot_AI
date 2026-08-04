@@ -1,0 +1,270 @@
+{
+  "scenario_id": "s04",
+  "title": "Senior DevOps / SRE engineer (Kubernetes / Terraform / AWS)",
+  "description": "An 8-year DevOps/SRE with a Kubernetes/Terraform/AWS/Prometheus stack evaluated against 8 postings: one strong staff-SRE match with multi-cloud gaps, one semantically equivalent infrastructure role phrased entirely in generic vocabulary, one marginal cloud-security role, and five cross-domain distractors.",
+  "tags": ["semantic-no-keyword-overlap", "senior"],
+  "language": "en",
+  "rationale": "j2 describes exactly the resume's core competency — running containerized workloads with infrastructure-as-code and an observability stack — using deliberately generic vocabulary ('container orchestration platform', 'declarative infrastructure-as-code tooling', 'a major public cloud provider', 'observability stacks') that shares zero tokens with the resume's brand-name skills (Kubernetes, Terraform, AWS, Prometheus, Grafana), so TF-IDF has no signal while embeddings should recognize the match. Gap target j1 overlaps heavily (Kubernetes, Terraform, AWS, Prometheus, Grafana, Helm all demanded or mentioned) while requiring GCP and Istio, which the resume clearly lacks (high), Go, which the resume touches only through one side project (medium), and HashiCorp Vault as a preferred item (low) — justifying grade 3 with unambiguous annotated gaps. j3 (cloud security) probes the graded boundary: genuine AWS/Terraform overlap but a different job family, hence grade 1. The remaining five jobs are cross-domain distractors with no meaningful overlap. Senior tag: 8+ years of experience and staff-level scope in the target job.",
+  "resume": {
+    "basic_info": {
+      "name": "Priya Natarajan",
+      "email": "priya.natarajan@example.com",
+      "phone": "",
+      "location": "Portland, OR",
+      "links": ["github.com/pnat-ops"]
+    },
+    "summary": "Site reliability engineer with 8 years running production infrastructure, the last five focused on Kubernetes fleets on AWS. Owns the full reliability loop: Terraform-managed environments, Prometheus/Grafana SLO monitoring, GitOps delivery, and on-call program leadership.",
+    "skills": ["Kubernetes", "Terraform", "AWS", "Prometheus", "Grafana", "Docker", "Helm", "ArgoCD", "Ansible", "Python", "Bash", "GitHub Actions", "Linux"],
+    "experience": [
+      {
+        "company": "Stratocore",
+        "title": "Senior Site Reliability Engineer",
+        "start_date": "Mar 2022",
+        "end_date": "Present",
+        "bullets": [
+          "Operate a 40-cluster EKS fleet serving 6,000 requests/sec across three AWS regions",
+          "Cut mean time to recovery from 45 to 12 minutes by rebuilding SLO alerting on Prometheus and Grafana",
+          "Authored the Terraform module library now covering 90% of company infrastructure, cutting environment spin-up from 2 days to 3 hours",
+          "Grew the on-call rotation from 6 to 12 engineers while reducing paging volume 60% through alert tuning"
+        ]
+      },
+      {
+        "company": "Vantagrid",
+        "title": "DevOps Engineer",
+        "start_date": "Jun 2019",
+        "end_date": "Feb 2022",
+        "bullets": [
+          "Migrated 30 services from hand-managed EC2 hosts onto Kubernetes with Helm charts",
+          "Built the GitHub Actions + ArgoCD GitOps pipeline that took deploys from 2 per week to 15 per day",
+          "Reduced monthly cloud spend by $18k through rightsizing, spot instances, and storage lifecycle policies"
+        ]
+      },
+      {
+        "company": "Hexabyte Solutions",
+        "title": "Systems Administrator",
+        "start_date": "Jun 2017",
+        "end_date": "May 2019",
+        "bullets": [
+          "Administered 200 Linux servers for hosted ERP customers at 99.9% measured uptime",
+          "Automated server provisioning with Ansible and Bash, cutting build time from 4 hours to 20 minutes",
+          "Introduced centralized log collection that halved average ticket resolution time"
+        ]
+      }
+    ],
+    "projects": [
+      {
+        "name": "kube-drift",
+        "description": "Open-source CLI that flags drift between declared Terraform state and live Kubernetes objects",
+        "bullets": [
+          "Built the diff engine and cluster reconciliation report in Go",
+          "Adopted by 3 platform teams and grew to 400+ GitHub stars"
+        ],
+        "tech": ["Go", "Kubernetes", "Terraform"]
+      }
+    ],
+    "education": [
+      {
+        "school": "Oregon State University",
+        "degree": "B.S.",
+        "field": "Computer Science",
+        "graduation": "2017"
+      }
+    ],
+    "certifications": ["Certified Kubernetes Administrator (CKA)", "AWS Certified Solutions Architect - Associate"]
+  },
+  "jobs": [
+    {
+      "job_key": "j1",
+      "raw_text": "Staff Site Reliability Engineer — Meridian Pay (Remote, US)\n\nMeridian Pay processes card payments for 4,000 mid-market merchants. We are hiring a Staff SRE to own reliability of the payment platform as we expand from AWS into GCP.\n\nWhat you will do:\n- Own reliability of payment services running on Kubernetes across AWS and GCP\n- Extend our Terraform modules and Helm charts for multi-region infrastructure\n- Evolve SLO monitoring and alerting built on Prometheus and Grafana\n- Build internal Kubernetes operators in Go to automate failover and capacity management\n\nRequirements: Kubernetes, Terraform, AWS, GCP, and Istio in production. 7+ years in SRE, DevOps, or infrastructure roles; 3+ years operating production Kubernetes at scale. Bachelor's degree in Computer Science or equivalent practical experience; CKA certification is a plus.\n\nNice to have: HashiCorp Vault, Kafka operations, PCI-DSS experience.",
+      "parsed": {
+        "company": "Meridian Pay",
+        "title": "Staff Site Reliability Engineer",
+        "location": "Remote (US)",
+        "work_mode": "remote",
+        "responsibilities": [
+          "Own reliability of payment services running on Kubernetes across AWS and GCP",
+          "Extend Terraform modules and Helm charts for multi-region infrastructure",
+          "Evolve SLO monitoring and alerting built on Prometheus and Grafana",
+          "Build internal Kubernetes operators in Go to automate failover and capacity management"
+        ],
+        "required_skills": ["Kubernetes", "Terraform", "AWS", "GCP", "Istio"],
+        "preferred_skills": ["HashiCorp Vault", "Kafka operations", "PCI-DSS experience"],
+        "qualifications": [
+          "Bachelor's degree in Computer Science or equivalent practical experience",
+          "CKA certification is a plus"
+        ],
+        "experience_requirements": [
+          "7+ years in SRE, DevOps, or infrastructure roles",
+          "3+ years operating production Kubernetes at scale"
+        ]
+      }
+    },
+    {
+      "job_key": "j2",
+      "raw_text": "Infrastructure Engineer — Corvana (Hybrid, Chicago IL)\n\nCorvana builds logistics software for regional freight carriers. Our platform team keeps a deliberately boring stack humming, and we describe what we need in terms of fundamentals rather than brand names.\n\nYou will operate and scale a fleet of containerized services across multiple regions, define every environment with declarative infrastructure-as-code reviewed through pull requests, and tune metrics collection, alerting rules, and dashboards so on-call engineers see problems before customers do.\n\nWe look for: production experience with a container orchestration platform, declarative infrastructure-as-code tooling, a major public cloud provider, and observability stacks covering metrics, alerting, and dashboards. 6+ years running production infrastructure. Bonus: a general-purpose scripting language for automation and progressive delivery pipelines.",
+      "parsed": {
+        "company": "Corvana",
+        "title": "Infrastructure Engineer",
+        "location": "Chicago, IL",
+        "work_mode": "hybrid",
+        "responsibilities": [
+          "Operate and scale a fleet of containerized services across multiple regions",
+          "Define every environment with declarative infrastructure-as-code reviewed through pull requests",
+          "Tune metrics collection, alerting rules, and dashboards so on-call engineers see problems before customers do"
+        ],
+        "required_skills": [
+          "Production experience with a container orchestration platform",
+          "Declarative infrastructure-as-code tooling",
+          "A major public cloud provider",
+          "Observability stacks covering metrics, alerting, and dashboards"
+        ],
+        "preferred_skills": [
+          "A general-purpose scripting language for automation",
+          "Progressive delivery pipelines"
+        ],
+        "qualifications": [],
+        "experience_requirements": ["6+ years running production infrastructure"]
+      }
+    },
+    {
+      "job_key": "j3",
+      "raw_text": "Cloud Security Engineer — Bastionware (Remote, US)\n\nBastionware helps fintech companies pass audits without slowing engineering down. We are hiring a Cloud Security Engineer to harden customer cloud environments.\n\nYou will review AWS accounts against CIS benchmarks, codify security guardrails as service control policies with Terraform, triage findings surfaced by our SIEM, and run tabletop incident exercises with customer teams.\n\nRequirements: AWS security services (IAM, GuardDuty, Security Hub), SIEM tooling (Splunk or Sumo Logic), threat modeling, and working knowledge of SOC 2 and PCI-DSS frameworks. 4+ years in cloud security or security engineering. Bonus: Terraform, penetration testing experience.",
+      "parsed": {
+        "company": "Bastionware",
+        "title": "Cloud Security Engineer",
+        "location": "Remote (US)",
+        "work_mode": "remote",
+        "responsibilities": [
+          "Review customer AWS accounts against CIS benchmarks",
+          "Codify security guardrails as service control policies with Terraform",
+          "Triage findings surfaced by the SIEM and run tabletop incident exercises"
+        ],
+        "required_skills": [
+          "AWS security services (IAM, GuardDuty, Security Hub)",
+          "SIEM tooling (Splunk or Sumo Logic)",
+          "Threat modeling",
+          "SOC 2 and PCI-DSS frameworks"
+        ],
+        "preferred_skills": ["Terraform", "Penetration testing experience"],
+        "qualifications": [],
+        "experience_requirements": ["4+ years in cloud security or security engineering"]
+      }
+    },
+    {
+      "job_key": "j4",
+      "raw_text": "Frontend Engineer — Glimmerbay (Hybrid, Austin TX)\n\nGlimmerbay makes booking software for boutique hotels. We are hiring a Frontend Engineer to own our guest-facing reservation flow.\n\nYou will build booking UI in React and TypeScript, raise accessibility to WCAG AA across the funnel, and partner with design on our component library.\n\nRequirements: React, TypeScript, modern CSS, state management with Redux or Zustand, and testing with Playwright or Cypress. 3+ years of frontend experience. Bonus: Next.js, design-system experience.",
+      "parsed": {
+        "company": "Glimmerbay",
+        "title": "Frontend Engineer",
+        "location": "Austin, TX",
+        "work_mode": "hybrid",
+        "responsibilities": [
+          "Build guest-facing booking UI in React and TypeScript",
+          "Raise accessibility to WCAG AA across the reservation funnel",
+          "Partner with design on the shared component library"
+        ],
+        "required_skills": ["React", "TypeScript", "Modern CSS", "Redux or Zustand", "Playwright or Cypress"],
+        "preferred_skills": ["Next.js", "Design-system experience"],
+        "qualifications": [],
+        "experience_requirements": ["3+ years of frontend experience"]
+      }
+    },
+    {
+      "job_key": "j5",
+      "raw_text": "Android Engineer — Trailcast (Onsite, Denver CO)\n\nTrailcast ships an offline-first trail navigation app used by 800k hikers. We need an Android Engineer to lead our Jetpack Compose migration.\n\nYou will build mapping and route-planning features in Kotlin, migrate legacy screens to Compose, and keep offline sync reliable in the backcountry.\n\nRequirements: Kotlin, Jetpack Compose, Room, Coroutines, Retrofit. 3+ years shipping Android apps to Google Play. Bonus: MapLibre or Mapbox experience.",
+      "parsed": {
+        "company": "Trailcast",
+        "title": "Android Engineer",
+        "location": "Denver, CO",
+        "work_mode": "onsite",
+        "responsibilities": [
+          "Build mapping and route-planning features in Kotlin",
+          "Migrate legacy screens to Jetpack Compose",
+          "Keep offline sync reliable under poor connectivity"
+        ],
+        "required_skills": ["Kotlin", "Jetpack Compose", "Room", "Coroutines", "Retrofit"],
+        "preferred_skills": ["MapLibre or Mapbox experience"],
+        "qualifications": [],
+        "experience_requirements": ["3+ years shipping Android apps to Google Play"]
+      }
+    },
+    {
+      "job_key": "j6",
+      "raw_text": "Product Marketing Manager — Brightquay (Remote, US)\n\nBrightquay sells compliance software to community banks. We are hiring a PMM to own go-to-market for our audit product line.\n\nYou will craft positioning and messaging, plan launches with sales and customer success, run win/loss interviews, and build the enablement content our sellers use every day.\n\nRequirements: B2B SaaS positioning, launch planning, sales enablement content, and customer research. 4+ years in product marketing. Bonus: regulated-industry experience.",
+      "parsed": {
+        "company": "Brightquay",
+        "title": "Product Marketing Manager",
+        "location": "Remote (US)",
+        "work_mode": "remote",
+        "responsibilities": [
+          "Own positioning and messaging for the audit product line",
+          "Plan and execute launches with sales and customer success",
+          "Run win/loss interviews and build sales enablement content"
+        ],
+        "required_skills": ["B2B SaaS positioning", "Launch planning", "Sales enablement content", "Customer research"],
+        "preferred_skills": ["Regulated-industry experience"],
+        "qualifications": [],
+        "experience_requirements": ["4+ years in product marketing"]
+      }
+    },
+    {
+      "job_key": "j7",
+      "raw_text": "Product Designer — Fernwheel (Hybrid, Portland OR)\n\nFernwheel builds scheduling tools for independent salons. We are looking for a Product Designer to own the booking experience end to end.\n\nYou will run discovery interviews with salon owners, design flows and high-fidelity prototypes in Figma, and maintain our design system alongside two frontend engineers.\n\nRequirements: Figma, interaction design, user research, and design systems. 3+ years designing shipped SaaS products. Bonus: usability testing at scale, motion design.",
+      "parsed": {
+        "company": "Fernwheel",
+        "title": "Product Designer",
+        "location": "Portland, OR",
+        "work_mode": "hybrid",
+        "responsibilities": [
+          "Run discovery interviews with salon owners",
+          "Design flows and high-fidelity prototypes in Figma",
+          "Maintain the design system alongside frontend engineers"
+        ],
+        "required_skills": ["Figma", "Interaction design", "User research", "Design systems"],
+        "preferred_skills": ["Usability testing at scale", "Motion design"],
+        "qualifications": [],
+        "experience_requirements": ["3+ years designing shipped SaaS products"]
+      }
+    },
+    {
+      "job_key": "j8",
+      "raw_text": "Financial Analyst — Copperline Foods (Onsite, Columbus OH)\n\nCopperline Foods distributes specialty ingredients to 1,200 restaurants across the Midwest. Our FP&A team is hiring a Financial Analyst.\n\nYou will build monthly variance analyses against budget, maintain the revenue forecast model, and prepare board-level reporting packages with the finance director.\n\nRequirements: advanced Excel modeling, budgeting and forecasting, variance analysis, and GAAP fundamentals. 2+ years in FP&A or corporate finance. Bonus: NetSuite, Power BI.",
+      "parsed": {
+        "company": "Copperline Foods",
+        "title": "Financial Analyst",
+        "location": "Columbus, OH",
+        "work_mode": "onsite",
+        "responsibilities": [
+          "Build monthly variance analyses against budget",
+          "Maintain the revenue forecast model",
+          "Prepare board-level reporting packages with the finance director"
+        ],
+        "required_skills": ["Advanced Excel modeling", "Budgeting and forecasting", "Variance analysis", "GAAP fundamentals"],
+        "preferred_skills": ["NetSuite", "Power BI"],
+        "qualifications": [],
+        "experience_requirements": ["2+ years in FP&A or corporate finance"]
+      }
+    }
+  ],
+  "ground_truth_ranking": {
+    "j1": 3,
+    "j2": 2,
+    "j3": 1,
+    "j4": 0,
+    "j5": 0,
+    "j6": 0,
+    "j7": 0,
+    "j8": 0
+  },
+  "skill_gap": {
+    "job_key": "j1",
+    "relevant_chunks": [2, 3, 5],
+    "expected_gaps": [
+      { "skill": "GCP", "severity": "high" },
+      { "skill": "Istio", "severity": "high" },
+      { "skill": "Go", "severity": "medium" },
+      { "skill": "HashiCorp Vault", "severity": "low" }
+    ],
+    "must_not_claim": ["Kubernetes", "Terraform", "AWS", "Prometheus", "Grafana", "Helm"]
+  }
+}

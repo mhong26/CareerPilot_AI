@@ -1,0 +1,262 @@
+{
+  "scenario_id": "s11",
+  "title": "Senior Java backend engineer with semantic-overlap probe",
+  "description": "A 9-year Java/Spring Boot/Kafka backend engineer evaluated against 8 postings: a staff-level gap target, a semantically equivalent job worded with zero stack keywords, a marginal streaming data-engineering role, and five distractors across frontend, design, ML, admin, and marketing.",
+  "tags": ["semantic-no-keyword-overlap", "senior"],
+  "language": "en",
+  "rationale": "j2 is the semantic-no-keyword-overlap member: it describes exactly the resume's core competency — 'a JVM-based language' (Java), 'an enterprise dependency-injection framework' (Spring Boot), and 'event-streaming / distributed log pipelines' (Kafka) — while sharing essentially zero tokens with the resume's skill names, so TF-IDF has no signal but embeddings should rank it grade 2. j1 is the gap target: strong overlap on Java, Spring Boot, Apache Kafka, PostgreSQL and gRPC justifies grade 3, while Kubernetes and AWS (required) plus Kotlin and Terraform (preferred) are genuine annotated gaps; Kotlin is marked medium because deep JVM experience partially covers it. j3 probes the graded boundary: real Kafka/SQL overlap but the core data-engineering stack (Flink, Airflow, Python) is absent, keeping it at grade 1. The senior tag stresses seniority fit: the strongest matches demand 7-8+ years, matching the resume's 9.",
+  "resume": {
+    "basic_info": {
+      "name": "Marcus Feldman",
+      "email": "marcus.feldman@example.com",
+      "phone": "",
+      "location": "Chicago, IL",
+      "links": ["github.com/mfeldman-dev", "linkedin.com/in/marcusfeldman"]
+    },
+    "summary": "Senior backend engineer with 9 years of experience designing high-throughput Java services and event-driven systems. Deep expertise in Spring Boot microservices, Apache Kafka streaming pipelines, and relational data modeling at scale. Leads multi-team architecture work and mentors senior engineers.",
+    "skills": ["Java", "Spring Boot", "Apache Kafka", "SQL", "PostgreSQL", "Hibernate", "JUnit", "Maven", "gRPC", "Redis", "Docker", "REST API design", "Microservices architecture"],
+    "experience": [
+      {
+        "company": "Meridian Trade Systems",
+        "title": "Staff Software Engineer",
+        "start_date": "Apr 2022",
+        "end_date": "Present",
+        "bullets": [
+          "Led design of a Kafka-based order-event pipeline processing 40M events/day with exactly-once semantics",
+          "Decomposed the trading monolith into 9 Spring Boot microservices communicating over gRPC",
+          "Cut p99 order-placement latency from 120ms to 35ms through Redis caching and PostgreSQL partitioning",
+          "Mentored 5 senior engineers and chaired the backend architecture review board"
+        ]
+      },
+      {
+        "company": "Cobalt Payments",
+        "title": "Senior Java Engineer",
+        "start_date": "Aug 2019",
+        "end_date": "Mar 2022",
+        "bullets": [
+          "Built the settlement-batch service reconciling $2B/month in transactions on Spring Boot and PostgreSQL",
+          "Introduced Kafka consumer-group rebalancing safeguards that eliminated duplicate settlement runs",
+          "Raised JUnit coverage on the payments core from 55% to 90% and made it a merge gate"
+        ]
+      },
+      {
+        "company": "Junction Analytics",
+        "title": "Software Engineer",
+        "start_date": "Jul 2017",
+        "end_date": "Jul 2019",
+        "bullets": [
+          "Developed REST APIs for the reporting platform in Java and Spring with Hibernate over MySQL",
+          "Optimized slow reporting queries, cutting median dashboard load time from 9s to 2s",
+          "Containerized services with Docker and standardized Maven multi-module builds"
+        ]
+      }
+    ],
+    "projects": [
+      {
+        "name": "kafkalint",
+        "description": "Open-source static analyzer for Kafka consumer configurations",
+        "bullets": [
+          "Flags unsafe offset-commit and rebalance settings before they reach production",
+          "Used in CI by 4 teams at Meridian and starred 450+ times on GitHub"
+        ],
+        "tech": ["Java", "Apache Kafka", "Gradle"]
+      }
+    ],
+    "education": [
+      {
+        "school": "University of Illinois Urbana-Champaign",
+        "degree": "B.S.",
+        "field": "Computer Science",
+        "graduation": "2017"
+      }
+    ],
+    "certifications": []
+  },
+  "jobs": [
+    {
+      "job_key": "j1",
+      "raw_text": "Staff Backend Engineer — Vantiqa (Remote, US)\n\nVantiqa runs real-time payments clearing for 300 regional banks. We are hiring a Staff Backend Engineer to set direction for the clearing platform.\n\nWhat you will do:\n- Architect Java microservices for the payments clearing platform\n- Design Kafka topics and stream-processing jobs for transaction events\n- Evolve the PostgreSQL schemas backing the clearing ledger\n- Operate services on Kubernetes clusters in AWS and set technical direction while mentoring senior engineers\n\nRequirements: Java, Spring Boot, Apache Kafka, Kubernetes, AWS. 8+ years building production backend services, 2+ years deploying and operating services on Kubernetes. Bachelor's degree in Computer Science or equivalent experience.\n\nNice to have: Kotlin, Terraform, gRPC.",
+      "parsed": {
+        "company": "Vantiqa",
+        "title": "Staff Backend Engineer",
+        "location": "Remote (US)",
+        "work_mode": "remote",
+        "responsibilities": [
+          "Architect Java microservices for the payments clearing platform",
+          "Design Kafka topics and stream-processing jobs for transaction events",
+          "Evolve the PostgreSQL schemas backing the clearing ledger",
+          "Operate services on Kubernetes clusters in AWS and mentor senior engineers"
+        ],
+        "required_skills": ["Java", "Spring Boot", "Apache Kafka", "Kubernetes", "AWS"],
+        "preferred_skills": ["Kotlin", "Terraform", "gRPC"],
+        "qualifications": ["Bachelor's degree in Computer Science or equivalent experience"],
+        "experience_requirements": [
+          "8+ years building production backend services",
+          "2+ years deploying and operating services on Kubernetes"
+        ]
+      }
+    },
+    {
+      "job_key": "j2",
+      "raw_text": "Backend Platform Engineer — Northbay Logistics (Hybrid, Minneapolis MN)\n\nNorthbay moves freight for 2,000 shippers, and the services tracking every shipment run hot around the clock. We deliberately avoid brand-name shopping lists in our postings — we hire for fundamentals.\n\nYou will own high-throughput services built on a JVM-based technology stack, design publish-subscribe pipelines on a distributed commit log that move shipment telemetry between systems, and structure application wiring through an enterprise dependency-injection framework. You will also model relational schemas and keep query performance healthy as volume grows.\n\nWe look for: mastery of a statically typed JVM-based language, an enterprise dependency-injection framework, event-streaming / distributed log pipelines, and relational schema design with query tuning. 7+ years building server-side systems. Bonus: distributed caching and binary RPC protocols.",
+      "parsed": {
+        "company": "Northbay Logistics",
+        "title": "Backend Platform Engineer",
+        "location": "Minneapolis, MN",
+        "work_mode": "hybrid",
+        "responsibilities": [
+          "Own high-throughput services built on a JVM-based technology stack",
+          "Design publish-subscribe pipelines on a distributed commit log for shipment telemetry",
+          "Structure application wiring through an enterprise dependency-injection framework",
+          "Model relational schemas and keep query performance healthy as volume grows"
+        ],
+        "required_skills": [
+          "A statically typed JVM-based language",
+          "An enterprise dependency-injection framework",
+          "Event-streaming / distributed log pipelines",
+          "Relational schema design and query tuning"
+        ],
+        "preferred_skills": ["Distributed caching", "Binary RPC protocols"],
+        "qualifications": [],
+        "experience_requirements": ["7+ years building server-side systems"]
+      }
+    },
+    {
+      "job_key": "j3",
+      "raw_text": "Streaming Data Engineer — Helix Data Co (Remote, US)\n\nHelix ingests clickstream and sensor data for retail analytics customers — about 6B events a day. We are hiring a Streaming Data Engineer to own our real-time layer.\n\nYou will build and operate Apache Flink jobs for sessionization and enrichment, manage Kafka topic capacity and retention, orchestrate batch backfills with Airflow, and model curated tables for the analytics team in SQL.\n\nRequirements: Apache Flink, Apache Kafka, Python, SQL, Airflow. 4+ years in data engineering with streaming systems. Bonus: Iceberg and Snowflake experience.",
+      "parsed": {
+        "company": "Helix Data Co",
+        "title": "Streaming Data Engineer",
+        "location": "Remote (US)",
+        "work_mode": "remote",
+        "responsibilities": [
+          "Build and operate Apache Flink jobs for sessionization and enrichment",
+          "Manage Kafka topic capacity and retention",
+          "Orchestrate batch backfills with Airflow",
+          "Model curated tables for the analytics team in SQL"
+        ],
+        "required_skills": ["Apache Flink", "Apache Kafka", "Python", "SQL", "Airflow"],
+        "preferred_skills": ["Apache Iceberg", "Snowflake"],
+        "qualifications": [],
+        "experience_requirements": ["4+ years in data engineering with streaming systems"]
+      }
+    },
+    {
+      "job_key": "j4",
+      "raw_text": "Frontend Engineer — Pinemark (Hybrid, Portland OR)\n\nPinemark builds budgeting software for city governments, and our council-facing dashboards need a dedicated owner. We are hiring a Frontend Engineer.\n\nYou will build data-dense dashboard views in React and TypeScript, own accessibility to WCAG AA across the product, and work with our design team to evolve the component library.\n\nRequirements: React, TypeScript, modern CSS, and state management with Redux or Zustand. 3+ years of frontend experience. Bonus: D3 or other charting-library experience and design-system contributions.",
+      "parsed": {
+        "company": "Pinemark",
+        "title": "Frontend Engineer",
+        "location": "Portland, OR",
+        "work_mode": "hybrid",
+        "responsibilities": [
+          "Build data-dense dashboard views in React and TypeScript",
+          "Own accessibility to WCAG AA across the product",
+          "Evolve the component library with the design team"
+        ],
+        "required_skills": ["React", "TypeScript", "Modern CSS", "Redux or Zustand"],
+        "preferred_skills": ["D3", "Design-system contributions"],
+        "qualifications": [],
+        "experience_requirements": ["3+ years of frontend experience"]
+      }
+    },
+    {
+      "job_key": "j5",
+      "raw_text": "Product Designer — Aurelia Studio (Onsite, Brooklyn NY)\n\nAurelia is a 12-person agency crafting brand and product experiences for hospitality clients. We are hiring a Product Designer to lead client engagements from discovery through handoff.\n\nYou will facilitate discovery workshops, design flows and high-fidelity prototypes in Figma, build and document client design systems, and present work directly to client stakeholders.\n\nRequirements: Figma, interaction design, prototyping, and client-facing presentation skills. 4+ years in product or UX design. Bonus: Webflow and motion design.",
+      "parsed": {
+        "company": "Aurelia Studio",
+        "title": "Product Designer",
+        "location": "Brooklyn, NY",
+        "work_mode": "onsite",
+        "responsibilities": [
+          "Facilitate discovery workshops with hospitality clients",
+          "Design flows and high-fidelity prototypes in Figma",
+          "Build and document client design systems",
+          "Present work directly to client stakeholders"
+        ],
+        "required_skills": ["Figma", "Interaction design", "Prototyping", "Client-facing presentation"],
+        "preferred_skills": ["Webflow", "Motion design"],
+        "qualifications": [],
+        "experience_requirements": ["4+ years in product or UX design"]
+      }
+    },
+    {
+      "job_key": "j6",
+      "raw_text": "Machine Learning Engineer — Quillon AI (Remote, US)\n\nQuillon builds demand-forecasting models for grocery supply chains. We are hiring an ML Engineer to take models from notebook to production.\n\nYou will train and evaluate forecasting models in PyTorch, build feature pipelines in Python with pandas, deploy models behind low-latency inference endpoints, and monitor drift in production.\n\nRequirements: Python, PyTorch, pandas, scikit-learn, and ML experiment tracking. 3+ years building production ML systems. Bonus: MLflow and time-series forecasting experience.",
+      "parsed": {
+        "company": "Quillon AI",
+        "title": "Machine Learning Engineer",
+        "location": "Remote (US)",
+        "work_mode": "remote",
+        "responsibilities": [
+          "Train and evaluate demand-forecasting models in PyTorch",
+          "Build feature pipelines in Python with pandas",
+          "Deploy models behind low-latency inference endpoints and monitor drift"
+        ],
+        "required_skills": ["Python", "PyTorch", "pandas", "scikit-learn", "ML experiment tracking"],
+        "preferred_skills": ["MLflow", "Time-series forecasting"],
+        "qualifications": [],
+        "experience_requirements": ["3+ years building production ML systems"]
+      }
+    },
+    {
+      "job_key": "j7",
+      "raw_text": "Salesforce Administrator — Meadowbrook Insurance (Onsite, Columbus OH)\n\nMeadowbrook's 90-person sales org runs entirely on Salesforce, and we need a dedicated administrator to keep it humming.\n\nYou will manage users, roles, and permission sets, build flows and validation rules to automate sales processes, maintain dashboards for sales leadership, and own our quarterly release testing.\n\nRequirements: Salesforce administration, Flow automation, reports and dashboards, and data hygiene practices. 3+ years administering Salesforce orgs. Salesforce Administrator certification required. Bonus: CPQ experience.",
+      "parsed": {
+        "company": "Meadowbrook Insurance",
+        "title": "Salesforce Administrator",
+        "location": "Columbus, OH",
+        "work_mode": "onsite",
+        "responsibilities": [
+          "Manage users, roles, and permission sets",
+          "Build flows and validation rules to automate sales processes",
+          "Maintain dashboards for sales leadership and own quarterly release testing"
+        ],
+        "required_skills": ["Salesforce administration", "Flow automation", "Reports and dashboards", "Data hygiene practices"],
+        "preferred_skills": ["CPQ"],
+        "qualifications": ["Salesforce Administrator certification"],
+        "experience_requirements": ["3+ years administering Salesforce orgs"]
+      }
+    },
+    {
+      "job_key": "j8",
+      "raw_text": "Content Marketing Manager — Fernwood Outdoors (Remote, US)\n\nFernwood sells camping gear direct to consumers, and our blog and email list drive a third of revenue. We are hiring a Content Marketing Manager to own the editorial engine.\n\nYou will plan the editorial calendar, write and edit long-form gear guides, grow organic traffic through SEO, and run the weekly newsletter to 400k subscribers.\n\nRequirements: long-form content writing, SEO strategy, editorial calendar management, and email marketing. 4+ years in content marketing. Bonus: outdoor-industry knowledge and basic Photoshop.",
+      "parsed": {
+        "company": "Fernwood Outdoors",
+        "title": "Content Marketing Manager",
+        "location": "Remote (US)",
+        "work_mode": "remote",
+        "responsibilities": [
+          "Plan the editorial calendar and write long-form gear guides",
+          "Grow organic traffic through SEO",
+          "Run the weekly newsletter to 400k subscribers"
+        ],
+        "required_skills": ["Long-form content writing", "SEO strategy", "Editorial calendar management", "Email marketing"],
+        "preferred_skills": ["Outdoor-industry knowledge", "Basic Photoshop"],
+        "qualifications": [],
+        "experience_requirements": ["4+ years in content marketing"]
+      }
+    }
+  ],
+  "ground_truth_ranking": {
+    "j1": 3,
+    "j2": 2,
+    "j3": 1,
+    "j4": 0,
+    "j5": 0,
+    "j6": 0,
+    "j7": 0,
+    "j8": 0
+  },
+  "skill_gap": {
+    "job_key": "j1",
+    "relevant_chunks": [2, 3, 5],
+    "expected_gaps": [
+      { "skill": "Kubernetes", "severity": "high" },
+      { "skill": "AWS", "severity": "high" },
+      { "skill": "Kotlin", "severity": "medium" },
+      { "skill": "Terraform", "severity": "low" }
+    ],
+    "must_not_claim": ["Java", "Spring Boot", "Apache Kafka", "PostgreSQL", "gRPC"]
+  }
+}

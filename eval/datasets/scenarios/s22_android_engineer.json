@@ -1,0 +1,259 @@
+{
+  "scenario_id": "s22",
+  "title": "Android engineer (Kotlin / Jetpack Compose)",
+  "description": "A 4-year Kotlin/Jetpack Compose Android engineer evaluated against 8 postings: a strong Android match with clear gaps, a semantic mobile role written with zero Android/Kotlin keywords, a slightly senior banking Android role, a marginal Flutter role, and four distractors.",
+  "tags": ["semantic-no-keyword-overlap"],
+  "language": "en",
+  "rationale": "j2 is the semantic-no-keyword-overlap case: it describes exactly the resume's core competency — native Android development with a declarative UI framework, structured concurrency, DI, and offline persistence — using deliberately generic vocabulary ('the world's most widely used mobile operating system', 'modern declarative UI toolkit', 'structured concurrency') that shares near-zero tokens with the resume's skill names (Kotlin, Jetpack Compose, Coroutines, Room, Hilt), so TF-IDF has no signal while embeddings should recognize it, hence grade 2. j3 is the same job family with strong stack overlap but a 5+ year bar against the resume's 4 years plus a security-heavy banking domain, hence grade 2 rather than 3. j4 (Flutter) probes the graded boundary: same mobile job family and app-store release overlap, but the core stack (Dart/Flutter) is absent, hence grade 1. Gap target j1 overlaps heavily on Kotlin/Compose/Coroutines/Hilt/Room/Espresso while demanding GraphQL and ExoPlayer (Media3) the resume clearly lacks (high) and preferring Kotlin Multiplatform and Fastlane (low). Distractors span Go backend, embedded firmware, data engineering, and product design — different families with no core-stack overlap.",
+  "resume": {
+    "basic_info": {
+      "name": "Jordan Kim",
+      "email": "jordan.kim.dev@example.com",
+      "phone": "",
+      "location": "Seattle, WA",
+      "links": ["github.com/jordankim-android"]
+    },
+    "summary": "Android engineer with 4 years of experience shipping consumer apps in Kotlin. Led two production migrations from XML views to Jetpack Compose, and focuses on Coroutines-based concurrency, offline-first architecture with Room, and reliable release pipelines.",
+    "skills": ["Kotlin", "Jetpack Compose", "Coroutines", "Android SDK", "Room", "Retrofit", "Hilt", "MVVM architecture", "Gradle", "Espresso", "JUnit", "Firebase Crashlytics", "Git"],
+    "experience": [
+      {
+        "company": "Trailhop",
+        "title": "Android Engineer",
+        "start_date": "Mar 2023",
+        "end_date": "Present",
+        "bullets": [
+          "Led the migration of a trip-planning app with 1.2M MAU from XML views to Jetpack Compose, cutting UI crash rate by 35%",
+          "Rebuilt the offline sync layer with Room and Coroutines Flow, reducing sync failures from 4% to 0.6%",
+          "Introduced Hilt dependency injection across 14 feature modules, halving boilerplate for new screens",
+          "Cut cold-start time from 3.1s to 1.4s using baseline profiles and startup tracing"
+        ]
+      },
+      {
+        "company": "Appcastle Studio",
+        "title": "Android Developer",
+        "start_date": "Jun 2021",
+        "end_date": "Feb 2023",
+        "bullets": [
+          "Shipped six client apps to Google Play across fitness, loyalty, and event-ticketing domains",
+          "Built Retrofit/OkHttp networking layers with a unified error-handling pattern reused across projects",
+          "Wrote Espresso and JUnit suites that caught 30+ regressions before release"
+        ]
+      }
+    ],
+    "projects": [
+      {
+        "name": "compose-charting",
+        "description": "Open-source charting library for Jetpack Compose",
+        "bullets": [
+          "Published a lightweight line/bar charting library for Compose that grew to 900+ GitHub stars",
+          "Maintains 95% test coverage with screenshot tests run in CI"
+        ],
+        "tech": ["Kotlin", "Jetpack Compose", "Gradle"]
+      }
+    ],
+    "education": [
+      {
+        "school": "University of Washington",
+        "degree": "B.S.",
+        "field": "Computer Science",
+        "graduation": "2021"
+      }
+    ],
+    "certifications": []
+  },
+  "jobs": [
+    {
+      "job_key": "j1",
+      "raw_text": "Android Engineer — Wavecrest Media (Remote, US)\n\nWavecrest builds a podcast and audiobook app with 5M monthly listeners. We are hiring an Android Engineer to own the playback and library experience.\n\nWhat you will do:\n- Build new listening features in Kotlin and Jetpack Compose\n- Own the playback service built on ExoPlayer (Media3), including offline downloads\n- Maintain the Hilt dependency graph and the Room-backed library cache\n- Extend our Espresso and JUnit test suites and fix flaky UI tests\n\nRequirements: Kotlin, Jetpack Compose, Coroutines, GraphQL, ExoPlayer (Media3). 4+ years of professional Android development, 1+ years shipping Jetpack Compose UI in production. Bachelor's degree in Computer Science or equivalent practical experience.\n\nNice to have: Kotlin Multiplatform, Fastlane release automation, Wear OS.",
+      "parsed": {
+        "company": "Wavecrest Media",
+        "title": "Android Engineer",
+        "location": "Remote (US)",
+        "work_mode": "remote",
+        "responsibilities": [
+          "Build new listening features in Kotlin and Jetpack Compose",
+          "Own the playback service built on ExoPlayer (Media3), including offline downloads",
+          "Maintain the Hilt dependency graph and the Room-backed library cache",
+          "Extend the Espresso and JUnit test suites and fix flaky UI tests"
+        ],
+        "required_skills": ["Kotlin", "Jetpack Compose", "Coroutines", "GraphQL", "ExoPlayer (Media3)"],
+        "preferred_skills": ["Kotlin Multiplatform", "Fastlane", "Wear OS"],
+        "qualifications": ["Bachelor's degree in Computer Science or equivalent practical experience"],
+        "experience_requirements": [
+          "4+ years of professional Android development",
+          "1+ years shipping Jetpack Compose UI in production"
+        ]
+      }
+    },
+    {
+      "job_key": "j2",
+      "raw_text": "Mobile Software Engineer — Fernbrook (Hybrid, Portland OR)\n\nFernbrook builds a home-energy monitoring product, and our companion app is the primary way customers interact with their hardware. We need an engineer to own it end to end.\n\nYou will build and ship the native app for the world's most widely used mobile operating system, move our remaining screens onto a modern declarative UI toolkit, keep asynchronous work safe with structured concurrency, and maintain an offline-first local persistence layer that syncs with our cloud API.\n\nWe look for: native development on the market-leading mobile platform, fluency with a modern declarative UI framework, structured concurrency, dependency injection, and disciplined automated testing. 3+ years shipping native consumer apps. Bonus: pairing an app with connected hardware over Bluetooth.",
+      "parsed": {
+        "company": "Fernbrook",
+        "title": "Mobile Software Engineer",
+        "location": "Portland, OR",
+        "work_mode": "hybrid",
+        "responsibilities": [
+          "Build and ship the native app for the world's most widely used mobile operating system",
+          "Move remaining screens onto a modern declarative UI toolkit",
+          "Keep asynchronous work safe with structured concurrency",
+          "Maintain an offline-first local persistence layer that syncs with the cloud API"
+        ],
+        "required_skills": [
+          "Native development on the market-leading mobile platform",
+          "A modern declarative UI framework",
+          "Structured concurrency",
+          "Dependency injection",
+          "Disciplined automated testing"
+        ],
+        "preferred_skills": ["Bluetooth-connected hardware experience"],
+        "qualifications": [],
+        "experience_requirements": ["3+ years shipping native consumer apps"]
+      }
+    },
+    {
+      "job_key": "j3",
+      "raw_text": "Senior Android Engineer — Crestline Financial (Hybrid, Chicago IL)\n\nCrestline's mobile banking app serves 800k customers, and we are modernizing a mature codebase without breaking trust.\n\nYou will migrate legacy Java/XML screens to Kotlin and Jetpack Compose, harden biometric login and secure storage flows, improve accessibility across the app, and coordinate our two-week release train.\n\nRequirements: Kotlin, Android SDK, Jetpack Compose, Coroutines, MVVM architecture. 5+ years of professional Android development, including at least one large-scale legacy migration. Bonus: security-sensitive app experience, Compose Multiplatform.",
+      "parsed": {
+        "company": "Crestline Financial",
+        "title": "Senior Android Engineer",
+        "location": "Chicago, IL",
+        "work_mode": "hybrid",
+        "responsibilities": [
+          "Migrate legacy Java/XML screens to Kotlin and Jetpack Compose",
+          "Harden biometric login and secure storage flows",
+          "Improve accessibility across the app",
+          "Coordinate the two-week release train"
+        ],
+        "required_skills": ["Kotlin", "Android SDK", "Jetpack Compose", "Coroutines", "MVVM architecture"],
+        "preferred_skills": ["Security-sensitive app experience", "Compose Multiplatform"],
+        "qualifications": [],
+        "experience_requirements": [
+          "5+ years of professional Android development",
+          "At least one large-scale legacy migration"
+        ]
+      }
+    },
+    {
+      "job_key": "j4",
+      "raw_text": "Flutter Developer — Nimbleroute (Remote, US)\n\nNimbleroute builds delivery-routing tools for regional courier fleets. Our driver app ships to both major app stores from a single Flutter codebase.\n\nYou will build new driver-facing features in Flutter and Dart, integrate turn-by-turn navigation and background location tracking, keep the app responsive on low-end devices, and own store releases for both platforms.\n\nRequirements: Flutter, Dart, state management (Riverpod or Bloc), REST API integration, app store release experience. 2+ years building cross-platform mobile apps. Bonus: native platform-channel work, offline data sync.",
+      "parsed": {
+        "company": "Nimbleroute",
+        "title": "Flutter Developer",
+        "location": "Remote (US)",
+        "work_mode": "remote",
+        "responsibilities": [
+          "Build new driver-facing features in Flutter and Dart",
+          "Integrate turn-by-turn navigation and background location tracking",
+          "Keep the app responsive on low-end devices",
+          "Own store releases for both platforms"
+        ],
+        "required_skills": ["Flutter", "Dart", "Riverpod or Bloc", "REST API integration", "App store release experience"],
+        "preferred_skills": ["Native platform-channel work", "Offline data sync"],
+        "qualifications": [],
+        "experience_requirements": ["2+ years building cross-platform mobile apps"]
+      }
+    },
+    {
+      "job_key": "j5",
+      "raw_text": "Backend Engineer (Go) — Parcelio (Remote, US)\n\nParcelio runs shipment-tracking APIs used by 900 e-commerce brands. We are hiring a backend engineer for our core services team.\n\nYou will design and ship Go microservices behind our public API, model tracking events in PostgreSQL, operate Kafka consumers for carrier feeds, and own service-level dashboards and alerts.\n\nRequirements: Go, PostgreSQL, Kafka, REST/gRPC API design, observability tooling. 4+ years building production backend services. Bonus: Kubernetes, event-sourcing experience.",
+      "parsed": {
+        "company": "Parcelio",
+        "title": "Backend Engineer (Go)",
+        "location": "Remote (US)",
+        "work_mode": "remote",
+        "responsibilities": [
+          "Design and ship Go microservices behind the public API",
+          "Model tracking events in PostgreSQL",
+          "Operate Kafka consumers for carrier feeds",
+          "Own service-level dashboards and alerts"
+        ],
+        "required_skills": ["Go", "PostgreSQL", "Kafka", "REST/gRPC API design", "Observability tooling"],
+        "preferred_skills": ["Kubernetes", "Event-sourcing experience"],
+        "qualifications": [],
+        "experience_requirements": ["4+ years building production backend services"]
+      }
+    },
+    {
+      "job_key": "j6",
+      "raw_text": "Embedded Firmware Engineer — Heliotrope Energy (Onsite, Boulder CO)\n\nHeliotrope builds residential solar inverters and battery controllers.\n\nYou will develop firmware in C and C++ on an RTOS, implement power-control loops and safety interlocks, bring up new boards with the hardware team, and maintain our hardware-in-the-loop test rigs.\n\nRequirements: C, C++, RTOS experience (FreeRTOS or Zephyr), low-level debugging with JTAG, CAN or Modbus protocols. 3+ years of embedded firmware development. Bonus: functional-safety standards (IEC 61508), power electronics background.",
+      "parsed": {
+        "company": "Heliotrope Energy",
+        "title": "Embedded Firmware Engineer",
+        "location": "Boulder, CO",
+        "work_mode": "onsite",
+        "responsibilities": [
+          "Develop firmware in C and C++ on an RTOS",
+          "Implement power-control loops and safety interlocks",
+          "Bring up new boards with the hardware team",
+          "Maintain hardware-in-the-loop test rigs"
+        ],
+        "required_skills": ["C", "C++", "FreeRTOS or Zephyr", "JTAG debugging", "CAN or Modbus"],
+        "preferred_skills": ["IEC 61508 functional safety", "Power electronics background"],
+        "qualifications": [],
+        "experience_requirements": ["3+ years of embedded firmware development"]
+      }
+    },
+    {
+      "job_key": "j7",
+      "raw_text": "Data Engineer — Quantica (Remote, US)\n\nQuantica's marketing-attribution platform processes 3B events a month. We need a data engineer to own our batch and streaming pipelines.\n\nYou will build and operate Airflow DAGs, model warehouse tables with dbt on Snowflake, tune Spark jobs for cost and runtime, and enforce data-quality checks at ingestion.\n\nRequirements: Python, SQL, Apache Spark, Airflow, dbt. 3+ years in data engineering. Bonus: Kafka, Snowflake cost optimization.",
+      "parsed": {
+        "company": "Quantica",
+        "title": "Data Engineer",
+        "location": "Remote (US)",
+        "work_mode": "remote",
+        "responsibilities": [
+          "Build and operate Airflow DAGs",
+          "Model warehouse tables with dbt on Snowflake",
+          "Tune Spark jobs for cost and runtime",
+          "Enforce data-quality checks at ingestion"
+        ],
+        "required_skills": ["Python", "SQL", "Apache Spark", "Airflow", "dbt"],
+        "preferred_skills": ["Kafka", "Snowflake cost optimization"],
+        "qualifications": [],
+        "experience_requirements": ["3+ years in data engineering"]
+      }
+    },
+    {
+      "job_key": "j8",
+      "raw_text": "Product Designer — Loamly (Hybrid, Denver CO)\n\nLoamly makes garden-planning software for landscape architects. We are hiring our third product designer.\n\nYou will own end-to-end design for the planting-plan editor, run discovery interviews with landscape architects, build high-fidelity prototypes in Figma, and maintain our design system alongside engineering.\n\nRequirements: Figma, interaction design, prototyping, user research, design systems. 3+ years of product design for SaaS tools. Bonus: mapping or CAD-adjacent product experience.",
+      "parsed": {
+        "company": "Loamly",
+        "title": "Product Designer",
+        "location": "Denver, CO",
+        "work_mode": "hybrid",
+        "responsibilities": [
+          "Own end-to-end design for the planting-plan editor",
+          "Run discovery interviews with landscape architects",
+          "Build high-fidelity prototypes in Figma",
+          "Maintain the design system alongside engineering"
+        ],
+        "required_skills": ["Figma", "Interaction design", "Prototyping", "User research", "Design systems"],
+        "preferred_skills": ["Mapping or CAD-adjacent product experience"],
+        "qualifications": [],
+        "experience_requirements": ["3+ years of product design for SaaS tools"]
+      }
+    }
+  ],
+  "ground_truth_ranking": {
+    "j1": 3,
+    "j2": 2,
+    "j3": 2,
+    "j4": 1,
+    "j5": 0,
+    "j6": 0,
+    "j7": 0,
+    "j8": 0
+  },
+  "skill_gap": {
+    "job_key": "j1",
+    "relevant_chunks": [2, 3, 5],
+    "expected_gaps": [
+      { "skill": "GraphQL", "severity": "high" },
+      { "skill": "ExoPlayer (Media3)", "severity": "high" },
+      { "skill": "Kotlin Multiplatform", "severity": "low" },
+      { "skill": "Fastlane", "severity": "low" }
+    ],
+    "must_not_claim": ["Kotlin", "Jetpack Compose", "Coroutines", "Hilt", "Room", "Espresso"]
+  }
+}

@@ -5,7 +5,10 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
-    model_config = SettingsConfigDict(env_file=".env", case_sensitive=False)
+    # extra="ignore"：root .env 由 docker-compose 與 backend 共用，含 POSTGRES_* /
+    # VITE_* 等本 Settings 沒有的鍵；從 repo root 啟動（如 eval runner）時
+    # env_file 會讀到它們，不 ignore 會直接 ValidationError。
+    model_config = SettingsConfigDict(env_file=".env", case_sensitive=False, extra="ignore")
 
     # Database
     database_url: str = "postgresql://careerpilot:careerpilot@localhost:5432/careerpilot"

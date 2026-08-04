@@ -1,0 +1,253 @@
+{
+  "scenario_id": "s16",
+  "title": "Senior technical writer (API docs, docs-as-code)",
+  "description": "A 5-year API-documentation technical writer evaluated against 8 postings: one strong docs match with structured-authoring gaps, one semantic match phrased entirely in generic vocabulary, one marginal UX-writing role, and five distractors across engineering, marketing, and sales.",
+  "tags": ["non-tech", "semantic-no-keyword-overlap"],
+  "language": "en",
+  "rationale": "This scenario stresses a non-engineering resume (technical writer) plus the semantic case family. j2 is the constructed semantic match: it describes the resume's exact core competency — developer-facing documentation kept in version-controlled authoring workflows with lightweight plain-text markup and peer-reviewed content changes — while sharing almost no tokens with the resume's skill names (no 'Markdown', 'docs-as-code', 'Git', 'OpenAPI', 'Docusaurus'), so TF-IDF has little signal but embeddings should rank it, hence grade 2. j1 is the gap target: strong overlap on API reference docs, OpenAPI, Markdown, Git, and docs-as-code justifies grade 3, while required DITA XML and JavaScript docs-tooling work are clear high-severity gaps, with preferred GraphQL documentation and video production as low-severity gaps. j3 (UX writer) shares real writing craft but a different job family and deliverable, hence grade 1. The remaining five jobs (backend, social media, data analysis, QA automation, sales) are graded 0 with no core overlap.",
+  "resume": {
+    "basic_info": {
+      "name": "Dana Whitfield",
+      "email": "dana.whitfield@example.com",
+      "phone": "",
+      "location": "Portland, OR",
+      "links": ["danawhitfield.dev"]
+    },
+    "summary": "Technical writer with 5 years of experience documenting developer products, specializing in API reference material and quickstart guides. Runs docs like software: Markdown sources in Git, pull-request reviews, automated style linting, and CI-driven publishing.",
+    "skills": ["API documentation", "Docs-as-code", "Markdown", "Git", "OpenAPI/Swagger", "Docusaurus", "Hugo", "Vale", "Style guide development", "Information architecture", "HTML", "CSS", "GitHub Actions"],
+    "experience": [
+      {
+        "company": "Kitewire",
+        "title": "Senior Technical Writer",
+        "start_date": "Apr 2023",
+        "end_date": "Present",
+        "bullets": [
+          "Own the Docusaurus developer docs site covering 140+ REST endpoints generated from OpenAPI specs",
+          "Cut average time-to-first-successful-API-call from 45 to 12 minutes by rewriting the quickstart series",
+          "Built docs CI with Vale style linting and link checks in GitHub Actions, driving broken-link reports to zero",
+          "Ran the pull-request docs review workflow with 30+ engineer contributors across 4 teams"
+        ]
+      },
+      {
+        "company": "Novabyte Software",
+        "title": "Technical Writer",
+        "start_date": "Jun 2020",
+        "end_date": "Mar 2023",
+        "bullets": [
+          "Migrated a 600-page internal wiki to a Git-backed Markdown docs-as-code workflow built on Hugo",
+          "Wrote API reference and integration guides for three developer-facing products",
+          "Created the company style guide and terminology list, adopted by 4 product teams",
+          "Reduced docs-related support tickets 18% by restructuring the troubleshooting section around task flows"
+        ]
+      }
+    ],
+    "projects": [
+      {
+        "name": "docstarter",
+        "description": "Open-source documentation site starter template",
+        "bullets": [
+          "Built a Docusaurus starter with pre-wired Vale linting, link checking, and CI publishing",
+          "Used by 200+ repositories according to GitHub network insights"
+        ],
+        "tech": ["Markdown", "Docusaurus", "GitHub Actions"]
+      }
+    ],
+    "education": [
+      {
+        "school": "University of Oregon",
+        "degree": "B.A.",
+        "field": "English",
+        "graduation": "2019"
+      }
+    ],
+    "certifications": []
+  },
+  "jobs": [
+    {
+      "job_key": "j1",
+      "raw_text": "Senior Technical Writer, Developer Docs — Fernwave (Remote, US)\n\nFernwave builds payments infrastructure APIs used by 3,000 platforms. We are hiring a Senior Technical Writer to own our public developer documentation.\n\nWhat you will do:\n- Own reference documentation and integration guides for our public REST APIs\n- Maintain the Markdown docs-as-code pipeline and the developer style guide\n- Migrate enterprise PDF deliverables into a DITA-based component content management system\n- Customize documentation-site components and build scripts in JavaScript\n\nRequirements: API reference documentation, OpenAPI, Git-based docs-as-code workflow, DITA XML, JavaScript for docs tooling. 5+ years writing developer documentation and 2+ years maintaining a docs-as-code toolchain. Bachelor's degree in English, Communications, Computer Science, or equivalent, plus a portfolio of developer-facing documentation.\n\nNice to have: GraphQL API documentation, video tutorial production, localization workflow management.",
+      "parsed": {
+        "company": "Fernwave",
+        "title": "Senior Technical Writer, Developer Docs",
+        "location": "Remote (US)",
+        "work_mode": "remote",
+        "responsibilities": [
+          "Own reference documentation and integration guides for our public REST APIs",
+          "Maintain the Markdown docs-as-code pipeline and the developer style guide",
+          "Migrate enterprise PDF deliverables into a DITA-based component content management system",
+          "Customize documentation-site components and build scripts in JavaScript"
+        ],
+        "required_skills": ["API reference documentation", "OpenAPI", "Git-based docs-as-code workflow", "DITA XML", "JavaScript for docs tooling"],
+        "preferred_skills": ["GraphQL API documentation", "Video tutorial production", "Localization workflow management"],
+        "qualifications": [
+          "Bachelor's degree in English, Communications, Computer Science, or equivalent experience",
+          "Portfolio of developer-facing documentation"
+        ],
+        "experience_requirements": [
+          "5+ years writing developer documentation",
+          "2+ years maintaining a docs-as-code toolchain"
+        ]
+      }
+    },
+    {
+      "job_key": "j2",
+      "raw_text": "Developer Content Specialist — Traceform (Hybrid, Portland OR)\n\nTraceform makes observability tooling for engineering teams, and our developer-facing documentation has fallen behind the product. We care about craft and workflow fit, not which specific tools you have used — ours are easy to pick up.\n\nYou will create reference material, tutorials, and troubleshooting guides for a developer audience, keep all content in the same version control system our engineers use with changes reviewed like code, turn machine-readable interface specifications into readable reference pages, and publish through an automated static publishing pipeline.\n\nWe look for: strong developer-facing writing, comfort with version-controlled authoring workflows, fluency in lightweight plain-text markup, and the habit of peer-reviewing content changes. 3+ years creating content for software developers. Bonus: automated prose linting, experience running a static publishing pipeline.",
+      "parsed": {
+        "company": "Traceform",
+        "title": "Developer Content Specialist",
+        "location": "Portland, OR",
+        "work_mode": "hybrid",
+        "responsibilities": [
+          "Create reference material, tutorials, and troubleshooting guides for a developer audience",
+          "Keep all content in the same version control system engineers use, with changes reviewed like code",
+          "Turn machine-readable interface specifications into readable reference pages",
+          "Publish through an automated static publishing pipeline"
+        ],
+        "required_skills": [
+          "Developer-facing writing",
+          "Version-controlled authoring workflows",
+          "Lightweight plain-text markup",
+          "Peer review of content changes"
+        ],
+        "preferred_skills": ["Automated prose linting", "Static publishing pipelines"],
+        "qualifications": [],
+        "experience_requirements": ["3+ years creating content for software developers"]
+      }
+    },
+    {
+      "job_key": "j3",
+      "raw_text": "UX Writer / Content Designer — Lumapad (Hybrid, Seattle WA)\n\nLumapad builds collaborative whiteboarding software. We are hiring a UX Writer to own the words inside the product.\n\nYou will write microcopy for flows and empty states, maintain the product voice and terminology system, and run copy experiments with the growth team.\n\nRequirements: UX writing, product copywriting, content design systems, Figma. 3+ years in UX writing or content design. Bonus: usability testing, localization-ready copy.",
+      "parsed": {
+        "company": "Lumapad",
+        "title": "UX Writer / Content Designer",
+        "location": "Seattle, WA",
+        "work_mode": "hybrid",
+        "responsibilities": [
+          "Write microcopy for onboarding flows, empty states, and error messages",
+          "Maintain the product voice guidelines and terminology system",
+          "Run copy experiments with the growth team"
+        ],
+        "required_skills": ["UX writing", "Product copywriting", "Content design systems", "Figma"],
+        "preferred_skills": ["Usability testing", "Localization-ready copy"],
+        "qualifications": [],
+        "experience_requirements": ["3+ years in UX writing or content design"]
+      }
+    },
+    {
+      "job_key": "j4",
+      "raw_text": "Backend Engineer — Quayside Labs (Remote, US)\n\nQuayside Labs builds marketplace infrastructure for boat charters. We need a Backend Engineer to own booking services.\n\nYou will design and ship Go services, own PostgreSQL schema design, and operate workloads on Kubernetes.\n\nRequirements: Go, PostgreSQL, Kubernetes, gRPC. 4+ years building production backend services. Bonus: AWS, Kafka.",
+      "parsed": {
+        "company": "Quayside Labs",
+        "title": "Backend Engineer",
+        "location": "Remote (US)",
+        "work_mode": "remote",
+        "responsibilities": [
+          "Design and ship Go services for booking and payments",
+          "Own PostgreSQL schema design and query performance",
+          "Operate workloads deployed on Kubernetes"
+        ],
+        "required_skills": ["Go", "PostgreSQL", "Kubernetes", "gRPC"],
+        "preferred_skills": ["AWS", "Kafka"],
+        "qualifications": [],
+        "experience_requirements": ["4+ years building production backend services"]
+      }
+    },
+    {
+      "job_key": "j5",
+      "raw_text": "Social Media Marketing Manager — Peakform Athletics (Onsite, Denver CO)\n\nPeakform Athletics sells performance apparel direct to consumer. We need a Social Media Manager to grow our channels.\n\nYou will own the content calendar across Instagram and TikTok, brief creators and manage influencer partnerships, and report on engagement and follower growth.\n\nRequirements: social media strategy, short-form video content, influencer management, paid social. 3+ years in social media marketing.",
+      "parsed": {
+        "company": "Peakform Athletics",
+        "title": "Social Media Marketing Manager",
+        "location": "Denver, CO",
+        "work_mode": "onsite",
+        "responsibilities": [
+          "Own the content calendar across Instagram and TikTok",
+          "Brief creators and manage influencer partnerships",
+          "Report on engagement and follower growth"
+        ],
+        "required_skills": ["Social media strategy", "Short-form video content", "Influencer management", "Paid social"],
+        "preferred_skills": ["Retail e-commerce experience"],
+        "qualifications": [],
+        "experience_requirements": ["3+ years in social media marketing"]
+      }
+    },
+    {
+      "job_key": "j6",
+      "raw_text": "Data Analyst — Harvestrow (Hybrid, Minneapolis MN)\n\nHarvestrow supplies inventory software to independent grocers. Our analytics team needs a Data Analyst.\n\nYou will build Tableau dashboards for merchandising teams, write SQL against our warehouse, and run ad-hoc analyses for category managers.\n\nRequirements: SQL, Tableau, Excel, statistics fundamentals. 2+ years in data analysis. Bonus: dbt, Python.",
+      "parsed": {
+        "company": "Harvestrow",
+        "title": "Data Analyst",
+        "location": "Minneapolis, MN",
+        "work_mode": "hybrid",
+        "responsibilities": [
+          "Build Tableau dashboards for merchandising teams",
+          "Write SQL against the analytics warehouse",
+          "Run ad-hoc analyses for category managers"
+        ],
+        "required_skills": ["SQL", "Tableau", "Excel", "Statistics fundamentals"],
+        "preferred_skills": ["dbt", "Python"],
+        "qualifications": [],
+        "experience_requirements": ["2+ years in data analysis"]
+      }
+    },
+    {
+      "job_key": "j7",
+      "raw_text": "QA Automation Engineer — Steelbriar Software (Onsite, Columbus OH)\n\nSteelbriar builds warehouse-management systems. We are hiring a QA Automation Engineer to expand our regression suites.\n\nYou will build Selenium test suites in Java, maintain the CI test grid, and triage flaky tests with feature teams.\n\nRequirements: Java, Selenium, TestNG, CI pipelines. 3+ years in test automation. Bonus: Playwright, performance testing.",
+      "parsed": {
+        "company": "Steelbriar Software",
+        "title": "QA Automation Engineer",
+        "location": "Columbus, OH",
+        "work_mode": "onsite",
+        "responsibilities": [
+          "Build Selenium regression suites in Java",
+          "Maintain the CI test grid and reporting",
+          "Triage flaky tests with feature teams"
+        ],
+        "required_skills": ["Java", "Selenium", "TestNG", "CI pipelines"],
+        "preferred_skills": ["Playwright", "Performance testing"],
+        "qualifications": [],
+        "experience_requirements": ["3+ years in test automation"]
+      }
+    },
+    {
+      "job_key": "j8",
+      "raw_text": "Sales Development Representative — Cloudhatch (Onsite, Chicago IL)\n\nCloudhatch sells expense-management software to mid-market finance teams. We are growing our SDR team.\n\nYou will run outbound prospecting sequences, qualify inbound leads against our ICP, and book discovery meetings for account executives.\n\nRequirements: outbound prospecting, cold calling, CRM hygiene (Salesforce), objection handling. 1+ years in sales development.",
+      "parsed": {
+        "company": "Cloudhatch",
+        "title": "Sales Development Representative",
+        "location": "Chicago, IL",
+        "work_mode": "onsite",
+        "responsibilities": [
+          "Run outbound prospecting sequences via email and phone",
+          "Qualify inbound leads against the ideal customer profile",
+          "Book discovery meetings for account executives"
+        ],
+        "required_skills": ["Outbound prospecting", "Cold calling", "Salesforce CRM", "Objection handling"],
+        "preferred_skills": ["SaaS sales experience"],
+        "qualifications": [],
+        "experience_requirements": ["1+ years in sales development"]
+      }
+    }
+  ],
+  "ground_truth_ranking": {
+    "j1": 3,
+    "j2": 2,
+    "j3": 1,
+    "j4": 0,
+    "j5": 0,
+    "j6": 0,
+    "j7": 0,
+    "j8": 0
+  },
+  "skill_gap": {
+    "job_key": "j1",
+    "relevant_chunks": [2, 3, 5],
+    "expected_gaps": [
+      { "skill": "DITA XML", "severity": "high" },
+      { "skill": "JavaScript for docs tooling", "severity": "high" },
+      { "skill": "GraphQL API documentation", "severity": "low" },
+      { "skill": "Video tutorial production", "severity": "low" }
+    ],
+    "must_not_claim": ["API documentation", "OpenAPI", "Markdown", "Git", "Docs-as-code", "Style guide development"]
+  }
+}

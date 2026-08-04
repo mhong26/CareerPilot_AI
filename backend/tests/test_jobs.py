@@ -21,8 +21,9 @@ from app.ai.llm.base import (
 from app.ai.parsers.job_schema import JobParsed
 from app.ai.rag.chunking import chunk_job
 from app.api.jobs import get_llm_provider
-from app.db.models import JobChunk, JobEmbedding
+from app.db.models import JobChunk, JobEmbedding, User
 from app.main import app
+from app.services.job_service import create_job_from_parsed
 
 _EMBEDDING_DIM = 768
 
@@ -279,3 +280,32 @@ def test_create_job_rejects_short_text(client, auth, use_provider):
 
     resp = client.post("/jobs", json={"raw_text": "hi"}, headers=headers)
     assert resp.status_code == 422
+
+
+def test_create_job_from_parsed_bypasses_llm_parsing(client, auth, db_session):
+    """給定結構化資料 → 不呼叫解析、直接走切塊 + 向量化（Phase 8 seeding 路徑）。
+
+    provider 的 ``generate_structured`` 設為必炸：若 create_job_from_parsed
+    仍呼叫解析，這裡會以 parse_status="failed" 現形。
+    """
+    auth()
+    user = db_session.scalars(select(User)).one()
+    provider = _FakeProvider(parse_error=StructuredOutputError("parse must not be called"))
+    parsed = _sample_job_parsed()
+
+    job = create_job_from_parsed(
+        db_session, user=user, raw_text="raw posting text", parsed=parsed, provider=provider
+    )
+
+    assert job.parse_status == "parsed"
+    assert job.index_status == "indexed"
+    assert job.company == "Acme Corp"
+    assert job.parsed_data["required_skills"] == ["Python", "FastAPI", "PostgreSQL"]
+
+    expected_chunks = len(chunk_job(parsed))
+    chunks = db_session.scalars(
+        select(JobChunk).where(JobChunk.job_id == job.id).order_by(JobChunk.chunk_index)
+    ).all()
+    assert [c.chunk_index for c in chunks] == list(range(expected_chunks))
+    embeddings = db_session.scalars(select(JobEmbedding).where(JobEmbedding.job_id == job.id)).all()
+    assert len(embeddings) == expected_chunks

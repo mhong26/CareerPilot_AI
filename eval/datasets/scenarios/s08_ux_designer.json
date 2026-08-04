@@ -1,0 +1,251 @@
+{
+  "scenario_id": "s08",
+  "title": "Mid-level UX/UI product designer",
+  "description": "A 4-year UX/UI designer (Figma, design systems, user research) evaluated against 8 postings: one strong senior product-design match with clear gaps, one semantic match written in tool-agnostic vocabulary, one marginal brand-design role, and five distractors including two 'designer'-titled jobs from unrelated families.",
+  "tags": ["non-tech", "semantic-no-keyword-overlap"],
+  "language": "en",
+  "rationale": "j2 is a genuinely good product-design fit expressed in deliberately generic, tool-agnostic vocabulary — 'a modern interface prototyping tool', 'evidence-based usability practice', 'reusable interface component libraries' — that never names Figma, Sketch, design systems, user research, or wireframing, so it shares near-zero tokens with the resume's skill list; TF-IDF has almost no signal while embeddings should recognize the same competency. j3 probes the graded boundary: real overlap on Adobe Illustrator, Figma, and visual craft, but the job family is brand/print design rather than product UX, so it is marginal (grade 1). j5 (interior designer) and j6 (mechanical design engineer) are lexical distractors that share only the word 'design' with the resume and belong to entirely different professions. Gap target j1 overlaps strongly on Figma, design systems, research, and usability testing, while demanding motion design and quantitative product analytics the resume clearly lacks, plus preferred Framer and HTML/CSS prototyping (the latter only partially covered by a volunteer project).",
+  "resume": {
+    "basic_info": {
+      "name": "Maya Sullivan",
+      "email": "maya.sullivan@example.com",
+      "phone": "",
+      "location": "Portland, OR",
+      "links": ["mayasullivan.design", "dribbble.com/msullivan-ux"]
+    },
+    "summary": "UX/UI designer with 4 years of experience shipping B2B SaaS and healthcare products. I build and govern design systems in Figma, run moderated usability studies, and turn research findings into measurable product improvements.",
+    "skills": ["Figma", "FigJam", "Sketch", "Adobe Illustrator", "Design Systems", "User Research", "Usability Testing", "Wireframing", "Information Architecture", "User Journey Mapping", "Accessibility (WCAG 2.1)", "Miro", "Zeplin"],
+    "experience": [
+      {
+        "company": "Tidewater Analytics",
+        "title": "Product Designer",
+        "start_date": "Mar 2023",
+        "end_date": "Present",
+        "bullets": [
+          "Redesigned the onboarding flow in Figma, lifting trial activation rate from 34% to 52% over two quarters",
+          "Built and governed a 120-component Figma design system, cutting design-to-dev handoff time by 40%",
+          "Ran 25+ moderated usability sessions per year and synthesized findings into quarterly research readouts",
+          "Led accessibility remediation of the reporting module to WCAG 2.1 AA, clearing 60+ audit issues"
+        ]
+      },
+      {
+        "company": "Brightpath Health",
+        "title": "UX Designer",
+        "start_date": "Jun 2021",
+        "end_date": "Feb 2023",
+        "bullets": [
+          "Designed the appointment-booking flow used by 200k patients, reducing booking abandonment by 18%",
+          "Produced wireframes and clickable Figma prototypes for 15+ features across web and mobile portals",
+          "Facilitated card-sorting studies with 40 participants to restructure the patient portal information architecture"
+        ]
+      }
+    ],
+    "projects": [
+      {
+        "name": "OpenPantry",
+        "description": "Volunteer redesign of a nonprofit food-bank locator app",
+        "bullets": [
+          "Ran remote usability tests with 12 participants in Maze and reworked the search flow based on findings",
+          "Hand-built the marketing landing page in HTML and CSS, raising volunteer sign-ups by 30%"
+        ],
+        "tech": ["Figma", "Maze", "HTML", "CSS"]
+      }
+    ],
+    "education": [
+      {
+        "school": "University of Washington",
+        "degree": "B.A.",
+        "field": "Human-Computer Interaction",
+        "graduation": "2021"
+      }
+    ],
+    "certifications": []
+  },
+  "jobs": [
+    {
+      "job_key": "j1",
+      "raw_text": "Senior Product Designer — Harborlight Software (Remote, US)\n\nHarborlight builds billing and invoicing software for small accounting firms. We are hiring a Senior Product Designer to own the billing product area.\n\nWhat you will do:\n- Own end-to-end design for the billing and invoicing product area, from discovery and wireframes to polished UI\n- Evolve and govern the Figma design system used by three product squads\n- Plan and run usability studies and turn findings into design decisions\n- Deliver motion specs for micro-interactions and empty-state animations\n\nRequirements: Figma, design systems, user research and usability testing, motion design (After Effects or Lottie), quantitative product analytics (Amplitude or Mixpanel). 4+ years designing digital products, 2+ years maintaining a production design system. Bachelor's degree in design, HCI, or equivalent practical experience; portfolio demonstrating shipped B2B product work.\n\nNice to have: Framer, HTML and CSS prototyping, fintech domain experience.",
+      "parsed": {
+        "company": "Harborlight Software",
+        "title": "Senior Product Designer",
+        "location": "Remote (US)",
+        "work_mode": "remote",
+        "responsibilities": [
+          "Own end-to-end design for the billing and invoicing product area, from discovery and wireframes to polished UI",
+          "Evolve and govern the Figma design system used by three product squads",
+          "Plan and run usability studies and turn findings into design decisions",
+          "Deliver motion specs for micro-interactions and empty-state animations"
+        ],
+        "required_skills": ["Figma", "Design systems", "User research", "Usability testing", "Motion design (After Effects or Lottie)", "Quantitative product analytics (Amplitude or Mixpanel)"],
+        "preferred_skills": ["Framer", "HTML and CSS prototyping", "Fintech domain experience"],
+        "qualifications": [
+          "Bachelor's degree in design, HCI, or equivalent practical experience",
+          "Portfolio demonstrating shipped B2B product work"
+        ],
+        "experience_requirements": [
+          "4+ years designing digital products",
+          "2+ years maintaining a production design system"
+        ]
+      }
+    },
+    {
+      "job_key": "j2",
+      "raw_text": "Product Designer — Fernwick Labs (Hybrid, Chicago IL)\n\nFernwick Labs makes scheduling software for independent clinics. We are a small team that cares about craft, and we are deliberately tool-agnostic — great designers outlast any particular app.\n\nYou will own product design end to end for our scheduling product, from first concept to shipped interface. You will build clickable concept models in whatever modern interface prototyping tool you prefer, watch real people use them, and let the evidence steer the design. Together with engineering you will grow a shared library of reusable interface components so the product stays consistent as it expands.\n\nWe look for: end-to-end product design ownership, fluency in a modern interface prototyping tool, evidence-based usability practice, and experience building reusable interface component libraries. 3+ years designing software products. Bonus: designing for assistive-technology users, facilitating collaborative workshops.",
+      "parsed": {
+        "company": "Fernwick Labs",
+        "title": "Product Designer",
+        "location": "Chicago, IL",
+        "work_mode": "hybrid",
+        "responsibilities": [
+          "Own product design end to end for the scheduling product, from first concept to shipped interface",
+          "Build clickable concept models in a modern interface prototyping tool to test ideas before engineering builds them",
+          "Grow a shared library of reusable interface components together with engineering"
+        ],
+        "required_skills": [
+          "End-to-end product design ownership",
+          "Fluency in a modern interface prototyping tool",
+          "Evidence-based usability practice",
+          "Building reusable interface component libraries"
+        ],
+        "preferred_skills": ["Designing for assistive-technology users", "Facilitating collaborative workshops"],
+        "qualifications": [],
+        "experience_requirements": ["3+ years designing software products"]
+      }
+    },
+    {
+      "job_key": "j3",
+      "raw_text": "Brand Designer — Copperleaf Creative (Onsite, Portland OR)\n\nCopperleaf Creative is a 20-person agency serving consumer food and beverage brands. We need a Brand Designer to carry client identities from concept to launch.\n\nYou will design brand identity systems for consumer clients, produce print and digital campaign collateral, and prepare pixel-perfect assets for social and paid channels.\n\nRequirements: Adobe Illustrator, Adobe Photoshop, typography, brand identity design. 3+ years in brand or graphic design and a portfolio of consumer brand work. Bonus: Figma for social asset templates, motion graphics.",
+      "parsed": {
+        "company": "Copperleaf Creative",
+        "title": "Brand Designer",
+        "location": "Portland, OR",
+        "work_mode": "onsite",
+        "responsibilities": [
+          "Design brand identity systems for consumer clients",
+          "Produce print and digital campaign collateral",
+          "Prepare pixel-perfect assets for social and paid channels"
+        ],
+        "required_skills": ["Adobe Illustrator", "Adobe Photoshop", "Typography", "Brand identity design"],
+        "preferred_skills": ["Figma for social asset templates", "Motion graphics"],
+        "qualifications": ["Portfolio of consumer brand work"],
+        "experience_requirements": ["3+ years in brand or graphic design"]
+      }
+    },
+    {
+      "job_key": "j4",
+      "raw_text": "Frontend Engineer — Quirkbyte (Remote, US)\n\nQuirkbyte builds collaboration software for distributed teams. We are hiring a Frontend Engineer to ship product features in our web client.\n\nYou will build features in React and TypeScript, own component performance, and collaborate with designers on implementation details.\n\nRequirements: React, TypeScript, modern CSS, state management (Redux or Zustand), automated testing with Jest. 3+ years of frontend engineering experience. Bonus: Next.js, GraphQL.",
+      "parsed": {
+        "company": "Quirkbyte",
+        "title": "Frontend Engineer",
+        "location": "Remote (US)",
+        "work_mode": "remote",
+        "responsibilities": [
+          "Build product features in React and TypeScript",
+          "Own component performance and bundle size",
+          "Collaborate with designers on implementation details"
+        ],
+        "required_skills": ["React", "TypeScript", "Modern CSS", "Redux or Zustand", "Jest"],
+        "preferred_skills": ["Next.js", "GraphQL"],
+        "qualifications": [],
+        "experience_requirements": ["3+ years of frontend engineering experience"]
+      }
+    },
+    {
+      "job_key": "j5",
+      "raw_text": "Interior Designer — Hearthstone Studio (Onsite, Denver CO)\n\nHearthstone Studio designs residential interiors for custom homes across the Front Range. We are hiring an Interior Designer to run client projects.\n\nYou will develop space plans and material palettes, produce construction documentation, and manage vendor and contractor relationships through installation.\n\nRequirements: AutoCAD, SketchUp, material and finish selection, FF&E specification. 3+ years in residential interior design. NCIDQ certification preferred.",
+      "parsed": {
+        "company": "Hearthstone Studio",
+        "title": "Interior Designer",
+        "location": "Denver, CO",
+        "work_mode": "onsite",
+        "responsibilities": [
+          "Develop space plans and material palettes for residential clients",
+          "Produce construction documentation for build teams",
+          "Manage vendor and contractor relationships through installation"
+        ],
+        "required_skills": ["AutoCAD", "SketchUp", "Material and finish selection", "FF&E specification"],
+        "preferred_skills": ["NCIDQ certification"],
+        "qualifications": [],
+        "experience_requirements": ["3+ years in residential interior design"]
+      }
+    },
+    {
+      "job_key": "j6",
+      "raw_text": "Mechanical Design Engineer — Torqline Robotics (Onsite, Detroit MI)\n\nTorqline builds robotic arms for automotive assembly lines. We need a Mechanical Design Engineer to own actuator housings and structural components.\n\nYou will design parts and assemblies in SolidWorks, run tolerance analyses, and drive designs through prototype and DFM reviews with our machine shop.\n\nRequirements: SolidWorks, GD&T, DFM for machined and cast parts, FEA basics. 4+ years of mechanical design experience. Bachelor's degree in Mechanical Engineering.",
+      "parsed": {
+        "company": "Torqline Robotics",
+        "title": "Mechanical Design Engineer",
+        "location": "Detroit, MI",
+        "work_mode": "onsite",
+        "responsibilities": [
+          "Design parts and assemblies in SolidWorks for robotic actuators",
+          "Run tolerance stack-up analyses on critical assemblies",
+          "Drive designs through prototype and DFM reviews with the machine shop"
+        ],
+        "required_skills": ["SolidWorks", "GD&T", "DFM for machined and cast parts", "FEA basics"],
+        "preferred_skills": ["Experience with robotic systems"],
+        "qualifications": ["Bachelor's degree in Mechanical Engineering"],
+        "experience_requirements": ["4+ years of mechanical design experience"]
+      }
+    },
+    {
+      "job_key": "j7",
+      "raw_text": "Content Marketing Manager — Bloomsage (Remote, US)\n\nBloomsage sells subscription gardening kits to 80k customers. We are hiring a Content Marketing Manager to grow organic traffic.\n\nYou will own the editorial calendar, write and edit SEO-driven blog content, and manage two freelance writers.\n\nRequirements: SEO content strategy, editorial planning, copywriting and editing, content analytics. 4+ years in content marketing. Bonus: email newsletter experience.",
+      "parsed": {
+        "company": "Bloomsage",
+        "title": "Content Marketing Manager",
+        "location": "Remote (US)",
+        "work_mode": "remote",
+        "responsibilities": [
+          "Own the editorial calendar and content roadmap",
+          "Write and edit SEO-driven blog content",
+          "Manage two freelance writers and their briefs"
+        ],
+        "required_skills": ["SEO content strategy", "Editorial planning", "Copywriting and editing", "Content analytics"],
+        "preferred_skills": ["Email newsletter experience"],
+        "qualifications": [],
+        "experience_requirements": ["4+ years in content marketing"]
+      }
+    },
+    {
+      "job_key": "j8",
+      "raw_text": "Data Analyst — Kestrel Insurance (Hybrid, Hartford CT)\n\nKestrel Insurance underwrites small-business policies across 30 states. We are hiring a Data Analyst for our claims team.\n\nYou will build claims dashboards in Tableau, write SQL against our warehouse, and deliver monthly loss-ratio reporting to underwriting leadership.\n\nRequirements: SQL, Tableau, Excel, statistics fundamentals. 2+ years in data analysis. Bonus: Python, insurance domain knowledge.",
+      "parsed": {
+        "company": "Kestrel Insurance",
+        "title": "Data Analyst",
+        "location": "Hartford, CT",
+        "work_mode": "hybrid",
+        "responsibilities": [
+          "Build claims dashboards in Tableau",
+          "Write SQL queries against the claims warehouse",
+          "Deliver monthly loss-ratio reporting to underwriting leadership"
+        ],
+        "required_skills": ["SQL", "Tableau", "Excel", "Statistics fundamentals"],
+        "preferred_skills": ["Python", "Insurance domain knowledge"],
+        "qualifications": [],
+        "experience_requirements": ["2+ years in data analysis"]
+      }
+    }
+  ],
+  "ground_truth_ranking": {
+    "j1": 3,
+    "j2": 2,
+    "j3": 1,
+    "j4": 0,
+    "j5": 0,
+    "j6": 0,
+    "j7": 0,
+    "j8": 0
+  },
+  "skill_gap": {
+    "job_key": "j1",
+    "relevant_chunks": [2, 3, 5],
+    "expected_gaps": [
+      { "skill": "Motion design (After Effects or Lottie)", "severity": "high" },
+      { "skill": "Quantitative product analytics (Amplitude or Mixpanel)", "severity": "high" },
+      { "skill": "HTML and CSS prototyping", "severity": "medium" },
+      { "skill": "Framer", "severity": "low" }
+    ],
+    "must_not_claim": ["Figma", "Design Systems", "User Research", "Usability Testing", "Wireframing"]
+  }
+}

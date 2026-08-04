@@ -57,13 +57,16 @@ jobs:
         # 的舊版 requests/urllib3/certifi 汙染解析——見 phase6_notes 問題 3）。
         run: |
           uv pip install --system torch --index-url https://download.pytorch.org/whl/cpu
-          uv pip install --system -e ".[dev]"
+          uv pip install --system -e ".[dev,eval]"
       - name: Run Alembic migrations
         working-directory: backend
         run: alembic upgrade head
       - name: Run tests
         working-directory: backend
         run: pytest tests/ -v --cov=app --cov-report=term-missing
+      # Phase 8 eval 單元測試（純函式 + dataset schema 驗證；不打 API、不碰 DB）
+      - name: Run eval unit tests
+        run: python -m pytest eval/tests -q
 
   frontend-lint:
     name: Frontend Lint

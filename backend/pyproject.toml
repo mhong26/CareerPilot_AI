@@ -36,6 +36,10 @@ dev = [
     "ruff>=0.4.0",
     "mypy>=1.10.0",
 ]
+# Phase 8 evaluation layer（repo root 的 eval/ 使用；TF-IDF baseline）
+eval = [
+    "scikit-learn>=1.5",
+]
 
 # torch CPU-only：不用 extra-index-url——PyTorch index 同時掛著 2022 年的
 # requests/urllib3/certifi，uv 的 first-index 策略會把它們靜默釘舊（帶 CVE）。

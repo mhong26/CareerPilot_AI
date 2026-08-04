@@ -1,0 +1,249 @@
+{
+  "scenario_id": "s06",
+  "title": "Mid-senior data scientist vs ML content-marketing keyword trap",
+  "description": "A 5-year Python/pandas/scikit-learn/PyTorch data scientist evaluated against 8 postings: one strong same-family match with Spark/SageMaker gaps, one adjacent ML-engineer match, one content-marketing trap stuffed with ML keywords, one marginal analytics-engineering role, and four cross-family distractors.",
+  "tags": ["keyword-trap"],
+  "language": "en",
+  "rationale": "The resume is a five-year retail/insurance data scientist with a classic Python, pandas, scikit-learn, PyTorch modeling stack. j3 is the keyword trap: a content-marketing writer role whose posting name-drops Python, pandas, scikit-learn, and PyTorch throughout, but the actual job family is editorial marketing — TF-IDF over-ranks it while the grading guideline scores keyword-only overlap 0. Gap target j1 overlaps strongly on the core modeling and experimentation stack (justifying grade 3) while cleanly demanding Apache Spark and AWS SageMaker (required, high) and preferring Kubeflow (low), none of which appear on the resume. j2 is a neighboring ML-engineer role where most requirements are covered, hence grade 2, and j4 (analytics engineer) probes the graded boundary with real Python/SQL overlap but a different core stack (dbt/Looker), hence grade 1. The remaining four jobs are cross-family distractors with no meaningful overlap.",
+  "resume": {
+    "basic_info": {
+      "name": "Priya Raman",
+      "email": "priya.raman@example.com",
+      "phone": "",
+      "location": "Chicago, IL",
+      "links": ["github.com/praman-ds"]
+    },
+    "summary": "Data scientist with 5 years of experience building and shipping predictive models for retail and insurance businesses. Strong in the Python scientific stack end to end: feature engineering with pandas, modeling with scikit-learn and PyTorch, and rigorous A/B test design and analysis.",
+    "skills": ["Python", "pandas", "scikit-learn", "PyTorch", "NumPy", "SQL", "XGBoost", "MLflow", "Jupyter", "Matplotlib", "A/B testing", "Feature engineering"],
+    "experience": [
+      {
+        "company": "Cartwheel Commerce",
+        "title": "Senior Data Scientist",
+        "start_date": "Mar 2023",
+        "end_date": "Present",
+        "bullets": [
+          "Built an XGBoost churn model that lifted retention-campaign conversion by 18% over the rules-based baseline",
+          "Developed a PyTorch two-tower recommendation model serving 4M weekly users, raising add-to-cart rate 9%",
+          "Designed and analyzed 20+ A/B tests per year and standardized power analysis in a shared Python library",
+          "Tracked experiments and model versions in MLflow, cutting model-promotion review time from days to hours"
+        ]
+      },
+      {
+        "company": "Halvern Insurance",
+        "title": "Data Scientist",
+        "start_date": "Jun 2020",
+        "end_date": "Feb 2023",
+        "bullets": [
+          "Built claims-fraud detection models in scikit-learn that flagged $2.3M of fraudulent claims in the first year",
+          "Automated monthly loss-ratio reporting with pandas pipelines, saving the analyst team 30 hours per month",
+          "Partnered with actuaries to turn pricing heuristics into interpretable logistic-regression features"
+        ]
+      }
+    ],
+    "projects": [
+      {
+        "name": "tabular-toolkit",
+        "description": "Open-source feature-engineering helpers for tabular machine learning",
+        "bullets": [
+          "Published reusable target-encoding and cross-validation utilities used in two top-5% Kaggle finishes",
+          "Maintained CI, docs, and releases for 1,100+ monthly downloads"
+        ],
+        "tech": ["Python", "pandas", "scikit-learn"]
+      }
+    ],
+    "education": [
+      {
+        "school": "University of Illinois Urbana-Champaign",
+        "degree": "M.S.",
+        "field": "Statistics",
+        "graduation": "2020"
+      }
+    ],
+    "certifications": []
+  },
+  "jobs": [
+    {
+      "job_key": "j1",
+      "raw_text": "Senior Data Scientist — Orvia (Remote, US)\n\nOrvia powers pricing and recommendations for 200+ mid-market retailers. We are hiring a Senior Data Scientist to own models end to end, from notebook to production.\n\nWhat you will do:\n- Build and iterate on pricing and recommendation models in Python with pandas, scikit-learn, and PyTorch\n- Design and evaluate A/B tests for pricing and recommendation changes\n- Analyze experiment results with SQL across our retail data warehouse\n- Productionize training and batch scoring pipelines on Apache Spark and AWS SageMaker\n\nRequirements: Python, pandas, scikit-learn, PyTorch, Apache Spark, AWS SageMaker. 5+ years building production ML models and experience running a large-scale experimentation program. Master's degree in a quantitative field or equivalent experience.\n\nNice to have: Kubeflow, dbt, Streamlit.",
+      "parsed": {
+        "company": "Orvia",
+        "title": "Senior Data Scientist",
+        "location": "Remote (US)",
+        "work_mode": "remote",
+        "responsibilities": [
+          "Build and iterate on pricing and recommendation models in Python with pandas, scikit-learn, and PyTorch",
+          "Design and evaluate A/B tests for pricing and recommendation changes",
+          "Analyze experiment results with SQL across our retail data warehouse",
+          "Productionize training and batch scoring pipelines on Apache Spark and AWS SageMaker"
+        ],
+        "required_skills": ["Python", "pandas and scikit-learn", "PyTorch", "Apache Spark", "AWS SageMaker"],
+        "preferred_skills": ["Kubeflow", "dbt", "Streamlit"],
+        "qualifications": ["Master's degree in a quantitative field or equivalent experience"],
+        "experience_requirements": [
+          "5+ years building production ML models",
+          "Experience running a large-scale experimentation program"
+        ]
+      }
+    },
+    {
+      "job_key": "j2",
+      "raw_text": "Machine Learning Engineer — Fieldstone Logistics (Hybrid, Chicago IL)\n\nFieldstone moves freight for 800 regional shippers, and our demand-forecasting models decide where trucks go every morning. We need an ML Engineer to make those models boringly reliable.\n\nYou will train and ship demand-forecasting models, build feature pipelines against our warehouse, monitor prediction drift in production, and partner with dispatch to translate model output into routing decisions.\n\nRequirements: Python, scikit-learn or PyTorch, SQL, and experience monitoring models in production. 4+ years building ML systems. Bonus: Apache Spark, Docker.",
+      "parsed": {
+        "company": "Fieldstone Logistics",
+        "title": "Machine Learning Engineer",
+        "location": "Chicago, IL",
+        "work_mode": "hybrid",
+        "responsibilities": [
+          "Train and ship demand-forecasting models",
+          "Build feature pipelines against the data warehouse",
+          "Monitor prediction drift in production",
+          "Partner with dispatch to translate model output into routing decisions"
+        ],
+        "required_skills": ["Python", "scikit-learn or PyTorch", "SQL", "Production model monitoring"],
+        "preferred_skills": ["Apache Spark", "Docker"],
+        "qualifications": [],
+        "experience_requirements": ["4+ years building ML systems"]
+      }
+    },
+    {
+      "job_key": "j3",
+      "raw_text": "Technical Content Marketing Writer — Gradient Media (Remote, US)\n\nGradient Media runs the most-read blog and newsletter network covering the machine-learning tooling ecosystem. Our readers devour PyTorch deep dives, pandas tutorials, and scikit-learn cookbook posts.\n\nYou will write and edit SEO-optimized articles about Python libraries such as pandas, scikit-learn, and PyTorch, manage the editorial calendar across three publications, and grow organic traffic with our audience team.\n\nRequirements: exceptional long-form writing and editing, SEO best practices, editorial planning, and enough comfort skimming Python, pandas, scikit-learn, and PyTorch documentation to fact-check drafts. 2+ years in content marketing. Bonus: newsletter growth experience.",
+      "parsed": {
+        "company": "Gradient Media",
+        "title": "Technical Content Marketing Writer",
+        "location": "Remote (US)",
+        "work_mode": "remote",
+        "responsibilities": [
+          "Write and edit SEO-optimized articles about Python libraries such as pandas, scikit-learn, and PyTorch",
+          "Manage the editorial calendar across three publications",
+          "Grow organic traffic with the audience team"
+        ],
+        "required_skills": [
+          "Long-form writing and editing",
+          "SEO best practices",
+          "Editorial planning",
+          "Comfort skimming Python, pandas, scikit-learn, and PyTorch documentation to fact-check drafts"
+        ],
+        "preferred_skills": ["Newsletter growth experience"],
+        "qualifications": [],
+        "experience_requirements": ["2+ years in content marketing"]
+      }
+    },
+    {
+      "job_key": "j4",
+      "raw_text": "Analytics Engineer — Lumapost (Remote, US)\n\nLumapost's mailing platform generates a firehose of delivery and engagement data, and every team wants trustworthy numbers. We are hiring an Analytics Engineer to own the modeled layer.\n\nYou will model warehouse tables in dbt for product and finance stakeholders, keep our Looker dashboards reliable, and migrate ad-hoc reporting SQL into version-controlled models.\n\nRequirements: SQL, dbt, Looker, Python for light automation. 3+ years in analytics engineering or BI. Bonus: Snowflake, Airflow.",
+      "parsed": {
+        "company": "Lumapost",
+        "title": "Analytics Engineer",
+        "location": "Remote (US)",
+        "work_mode": "remote",
+        "responsibilities": [
+          "Model warehouse tables in dbt for product and finance stakeholders",
+          "Keep Looker dashboards reliable",
+          "Migrate ad-hoc reporting SQL into version-controlled models"
+        ],
+        "required_skills": ["SQL", "dbt", "Looker", "Python for light automation"],
+        "preferred_skills": ["Snowflake", "Airflow"],
+        "qualifications": [],
+        "experience_requirements": ["3+ years in analytics engineering or BI"]
+      }
+    },
+    {
+      "job_key": "j5",
+      "raw_text": "Frontend Engineer — Snapfern (Hybrid, Chicago IL)\n\nSnapfern builds scheduling and gallery software for photography studios. Our web app is where customers live all day, and we want an engineer who sweats interaction details.\n\nYou will build booking and gallery features in React and TypeScript, own component performance and bundle size, and raise our accessibility bar together with the design team.\n\nRequirements: React, TypeScript, modern CSS, testing with Jest or Vitest. 3+ years of production frontend experience. Bonus: Next.js, Storybook.",
+      "parsed": {
+        "company": "Snapfern",
+        "title": "Frontend Engineer",
+        "location": "Chicago, IL",
+        "work_mode": "hybrid",
+        "responsibilities": [
+          "Build booking and gallery features in React and TypeScript",
+          "Own component performance and bundle size",
+          "Raise the accessibility bar with the design team"
+        ],
+        "required_skills": ["React", "TypeScript", "Modern CSS", "Jest or Vitest"],
+        "preferred_skills": ["Next.js", "Storybook"],
+        "qualifications": [],
+        "experience_requirements": ["3+ years of production frontend experience"]
+      }
+    },
+    {
+      "job_key": "j6",
+      "raw_text": "DevOps Engineer — Rackline (Remote, US)\n\nRackline hosts compliance-sensitive workloads for fintech customers with strict uptime commitments. We are hiring a DevOps Engineer to keep the platform boring.\n\nYou will manage our Kubernetes clusters and Terraform modules, harden CI/CD pipelines, and own alerting and on-call rotations with the platform team.\n\nRequirements: Kubernetes, Terraform, AWS, CI/CD tooling (GitHub Actions or GitLab), Linux administration. 4+ years in DevOps, SRE, or platform roles.",
+      "parsed": {
+        "company": "Rackline",
+        "title": "DevOps Engineer",
+        "location": "Remote (US)",
+        "work_mode": "remote",
+        "responsibilities": [
+          "Manage Kubernetes clusters and Terraform modules",
+          "Harden CI/CD pipelines",
+          "Own alerting and on-call rotations with the platform team"
+        ],
+        "required_skills": ["Kubernetes", "Terraform", "AWS", "CI/CD tooling", "Linux administration"],
+        "preferred_skills": ["Helm", "Datadog"],
+        "qualifications": [],
+        "experience_requirements": ["4+ years in DevOps, SRE, or platform roles"]
+      }
+    },
+    {
+      "job_key": "j7",
+      "raw_text": "Enterprise Account Executive — Vantell (Onsite, Chicago IL)\n\nVantell sells procurement software to hospital networks, and our pipeline is growing faster than our sales team. We need a closer.\n\nYou will own a territory of 40 enterprise accounts, run discovery and demo cycles with procurement leaders, and carry a $1.2M annual quota alongside our SDR pod.\n\nRequirements: enterprise B2B sales, multi-stakeholder deal management, CRM discipline (Salesforce), and confident executive-level presentations. 5+ years closing enterprise SaaS deals.",
+      "parsed": {
+        "company": "Vantell",
+        "title": "Enterprise Account Executive",
+        "location": "Chicago, IL",
+        "work_mode": "onsite",
+        "responsibilities": [
+          "Own a territory of 40 enterprise accounts",
+          "Run discovery and demo cycles with procurement leaders",
+          "Carry a $1.2M annual quota alongside the SDR pod"
+        ],
+        "required_skills": ["Enterprise B2B sales", "Multi-stakeholder deal management", "Salesforce", "Executive-level presentations"],
+        "preferred_skills": ["Healthcare industry experience"],
+        "qualifications": [],
+        "experience_requirements": ["5+ years closing enterprise SaaS deals"]
+      }
+    },
+    {
+      "job_key": "j8",
+      "raw_text": "People Operations Generalist — Mosswood Labs (Hybrid, Chicago IL)\n\nMosswood Labs has grown from 40 to 120 employees in a year, and our People team needs a generalist who keeps the machine humming.\n\nYou will run onboarding for new hires, administer benefits and leave programs, keep our HRIS records audit-ready, and support managers through review cycles.\n\nRequirements: HRIS administration (Rippling or BambooHR), benefits administration, onboarding program design, strong written communication. 3+ years in people operations or HR.",
+      "parsed": {
+        "company": "Mosswood Labs",
+        "title": "People Operations Generalist",
+        "location": "Chicago, IL",
+        "work_mode": "hybrid",
+        "responsibilities": [
+          "Run onboarding for new hires",
+          "Administer benefits and leave programs",
+          "Keep HRIS records audit-ready",
+          "Support managers through review cycles"
+        ],
+        "required_skills": ["HRIS administration", "Benefits administration", "Onboarding program design", "Written communication"],
+        "preferred_skills": ["Rippling or BambooHR"],
+        "qualifications": [],
+        "experience_requirements": ["3+ years in people operations or HR"]
+      }
+    }
+  ],
+  "ground_truth_ranking": {
+    "j1": 3,
+    "j2": 2,
+    "j3": 0,
+    "j4": 1,
+    "j5": 0,
+    "j6": 0,
+    "j7": 0,
+    "j8": 0
+  },
+  "skill_gap": {
+    "job_key": "j1",
+    "relevant_chunks": [2, 3, 5],
+    "expected_gaps": [
+      { "skill": "Apache Spark", "severity": "high" },
+      { "skill": "AWS SageMaker", "severity": "high" },
+      { "skill": "Kubeflow", "severity": "low" }
+    ],
+    "must_not_claim": ["Python", "pandas", "scikit-learn", "PyTorch", "SQL", "A/B testing"]
+  }
+}

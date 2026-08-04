@@ -1,0 +1,251 @@
+{
+  "scenario_id": "s20",
+  "title": "Senior security engineer (SIEM / IR / cloud)",
+  "description": "An 8-year senior security engineer (Splunk SIEM, incident response, Python SOAR automation, AWS security) evaluated against 8 postings: one strong fintech staff role with Kubernetes-security and Go/GCP gaps, one semantically equivalent defensive-security role written with zero brand names, one marginal platform-engineering role, and five unrelated distractors.",
+  "tags": ["semantic-no-keyword-overlap", "senior"],
+  "language": "en",
+  "rationale": "A senior-level security scenario stressing semantic matching. j2 is the semantic-no-keyword-overlap job: it describes exactly the resume's core competency — SIEM pipelines, incident response, Python automation, cloud hardening — using only generic vocabulary ('defensive monitoring pipelines', 'breach triage', 'scripting in a high-level language for security tooling', 'a major public cloud') that shares almost no tokens with the resume's branded skill names (Splunk, CrowdStrike, SOAR, AWS, MITRE ATT&CK); TF-IDF gets no signal while embeddings should rank it grade 2. Gap target j1 is a grade-3 fintech staff role overlapping heavily on Splunk detection engineering, incident response leadership, Python, AWS security, and Terraform, but it requires Kubernetes security the resume never touches (high) plus Go, GCP, and CISSP at the preferred tier; GCP is graded medium because deep AWS security experience partially transfers. j3 probes the graded boundary: a platform-engineering role with genuine Terraform/AWS/Python overlap but a different job family. j5 (physical security site supervisor) shares only the surface words 'security' and 'incident report' and must stay at grade 0.",
+  "resume": {
+    "basic_info": {
+      "name": "Marcus Delgado",
+      "email": "marcus.delgado@example.com",
+      "phone": "",
+      "location": "Seattle, WA",
+      "links": ["github.com/mdelgado-sec"]
+    },
+    "summary": "Senior security engineer with 8 years across SOC engineering, incident response, and cloud security in insurance and managed-security environments. Owns the detection stack end to end: Splunk content, SOAR automation in Python, and AWS guardrails as code. Led response for 30+ production security events, including a ransomware attempt contained with no data loss.",
+    "skills": ["Splunk", "SIEM engineering", "Incident response", "Python", "AWS security", "Threat detection", "CrowdStrike EDR", "SOAR automation", "Terraform", "MITRE ATT&CK", "Vulnerability management", "Network security"],
+    "experience": [
+      {
+        "company": "Northgale Insurance",
+        "title": "Senior Security Engineer",
+        "start_date": "Feb 2022",
+        "end_date": "Present",
+        "bullets": [
+          "Rebuilt the Splunk detection library into 240 MITRE ATT&CK-mapped rules, cutting false-positive volume 60%",
+          "Led incident response for 30+ production security events, including a ransomware attempt contained within 4 hours with no data loss",
+          "Automated tier-1 alert triage with Python SOAR playbooks, closing 70% of alerts without analyst touch",
+          "Hardened the AWS organization with Terraform-managed SCPs, GuardDuty, and IAM permission boundaries, reducing critical cloud findings 80% in one year"
+        ]
+      },
+      {
+        "company": "Sentrix Managed Security",
+        "title": "Security Engineer",
+        "start_date": "Jul 2018",
+        "end_date": "Jan 2022",
+        "bullets": [
+          "Monitored 40 client environments in a 24/7 SOC, tuning Splunk detections and CrowdStrike EDR policies",
+          "Wrote 90+ Splunk correlation searches that were adopted across the client base",
+          "Cut median phishing-response time from 45 to 8 minutes with a Python triage pipeline",
+          "Ran monthly vulnerability scans and remediation tracking for 12 enterprise clients"
+        ]
+      }
+    ],
+    "projects": [
+      {
+        "name": "sigma-forge",
+        "description": "Open-source CLI that compiles Sigma detection rules into Splunk saved searches",
+        "bullets": [
+          "Built a Python CLI that compiles 500+ community Sigma rules into deployable Splunk saved searches",
+          "Adopted in production by three external security teams; 400+ GitHub stars"
+        ],
+        "tech": ["Python", "Splunk", "Sigma"]
+      }
+    ],
+    "education": [
+      {
+        "school": "Rochester Institute of Technology",
+        "degree": "B.S.",
+        "field": "Computing Security",
+        "graduation": "2018"
+      }
+    ],
+    "certifications": ["GIAC Certified Incident Handler (GCIH)", "AWS Certified Security – Specialty"]
+  },
+  "jobs": [
+    {
+      "job_key": "j1",
+      "raw_text": "Staff Security Engineer — Ledgerline (Remote, US)\n\nLedgerline processes card payments for 9,000 online merchants; security is a product feature here, not a cost center. We are hiring a Staff Security Engineer to lead detection and response across our cloud platform.\n\nWhat you will do:\n- Own detection engineering across AWS workloads and the Splunk pipeline\n- Lead incident response for production security events and run post-incident reviews\n- Secure our Kubernetes clusters and CI/CD supply chain\n- Codify cloud security guardrails with Terraform\n\nRequirements: SIEM detection engineering (Splunk or Elastic), incident response leadership, Python, AWS security, and Kubernetes security (admission control, runtime detection, network policy). 7+ years in security engineering or security operations, with a prior lead role on major security incidents. Bachelor's in Computer Science, Cybersecurity, or equivalent practical experience. Nice to have: Go, GCP, CISSP.",
+      "parsed": {
+        "company": "Ledgerline",
+        "title": "Staff Security Engineer",
+        "location": "Remote (US)",
+        "work_mode": "remote",
+        "responsibilities": [
+          "Own detection engineering across AWS workloads and the Splunk pipeline",
+          "Lead incident response for production security events and run post-incident reviews",
+          "Secure our Kubernetes clusters and CI/CD supply chain",
+          "Codify cloud security guardrails with Terraform"
+        ],
+        "required_skills": ["SIEM detection engineering (Splunk or Elastic)", "Incident response leadership", "Python", "AWS security", "Kubernetes security"],
+        "preferred_skills": ["Go", "GCP", "CISSP"],
+        "qualifications": ["Bachelor's degree in Computer Science, Cybersecurity, or equivalent practical experience"],
+        "experience_requirements": [
+          "7+ years in security engineering or security operations",
+          "Prior lead role on major security incidents"
+        ]
+      }
+    },
+    {
+      "job_key": "j2",
+      "raw_text": "Defensive Security Engineer — Quarrystone Systems (Hybrid, Portland OR)\n\nQuarrystone runs logistics software for freight forwarders, and our small security team defends it. We deliberately avoid tool-brand shopping lists — we care about what you can do, not which vendor you did it with.\n\nYou will build and tune the pipelines that collect logs from our server fleet and surface suspicious activity, coordinate breach triage from first alert through post-mortem, write scripts in a high-level language to glue our security tooling together, and harden accounts and workloads in a major public cloud.\n\nWe look for: experience running an organization's defensive monitoring stack, calm hands-on breach triage, scripting fluency for security tooling, and cloud hardening fundamentals. 6+ years defending production environments. Bonus: familiarity with adversary-behavior catalogues, mentoring junior analysts.",
+      "parsed": {
+        "company": "Quarrystone Systems",
+        "title": "Defensive Security Engineer",
+        "location": "Portland, OR",
+        "work_mode": "hybrid",
+        "responsibilities": [
+          "Build and tune the pipelines that collect logs from our server fleet and surface suspicious activity",
+          "Coordinate breach triage from first alert through post-mortem",
+          "Write scripts in a high-level language to glue security tooling together",
+          "Harden accounts and workloads in a major public cloud"
+        ],
+        "required_skills": [
+          "Running an organization's defensive monitoring stack",
+          "Hands-on breach triage",
+          "Scripting fluency for security tooling",
+          "Cloud hardening fundamentals"
+        ],
+        "preferred_skills": ["Familiarity with adversary-behavior catalogues", "Mentoring junior analysts"],
+        "qualifications": [],
+        "experience_requirements": ["6+ years defending production environments"]
+      }
+    },
+    {
+      "job_key": "j3",
+      "raw_text": "Platform Engineer — Orbital Freight (Remote, US)\n\nOrbital Freight's booking APIs move 80,000 shipments a month. Our platform team builds the paved road every product squad ships on.\n\nYou will build internal developer tooling and golden-path templates, manage our EKS clusters and Terraform modules, and own the GitHub Actions CI/CD pipelines that deploy 40 services.\n\nRequirements: Terraform, AWS, Kubernetes, CI/CD with GitHub Actions, and Python or Go for tooling. 4+ years in platform, DevOps, or infrastructure roles. Bonus: Datadog, service mesh experience.",
+      "parsed": {
+        "company": "Orbital Freight",
+        "title": "Platform Engineer",
+        "location": "Remote (US)",
+        "work_mode": "remote",
+        "responsibilities": [
+          "Build internal developer tooling and golden-path templates",
+          "Manage EKS clusters and Terraform modules",
+          "Own the GitHub Actions CI/CD pipelines that deploy 40 services"
+        ],
+        "required_skills": ["Terraform", "AWS", "Kubernetes", "CI/CD with GitHub Actions", "Python or Go"],
+        "preferred_skills": ["Datadog", "Service mesh"],
+        "qualifications": [],
+        "experience_requirements": ["4+ years in platform, DevOps, or infrastructure roles"]
+      }
+    },
+    {
+      "job_key": "j4",
+      "raw_text": "Frontend Engineer — Glasswing Studio (Hybrid, Portland OR)\n\nGlasswing builds white-label event-ticketing storefronts for venues. We need a frontend engineer who sweats interaction details.\n\nYou will build checkout and seat-map UI in React and TypeScript, own Core Web Vitals for storefront pages, and pair with designers on our component library.\n\nRequirements: React, TypeScript, modern CSS, and state management (Redux or Zustand). 3+ years of production frontend experience. Bonus: SvelteKit, WebGL.",
+      "parsed": {
+        "company": "Glasswing Studio",
+        "title": "Frontend Engineer",
+        "location": "Portland, OR",
+        "work_mode": "hybrid",
+        "responsibilities": [
+          "Build checkout and seat-map UI in React and TypeScript",
+          "Own Core Web Vitals for storefront pages",
+          "Pair with designers on the component library"
+        ],
+        "required_skills": ["React", "TypeScript", "Modern CSS", "Redux or Zustand"],
+        "preferred_skills": ["SvelteKit", "WebGL"],
+        "qualifications": [],
+        "experience_requirements": ["3+ years of production frontend experience"]
+      }
+    },
+    {
+      "job_key": "j5",
+      "raw_text": "Physical Security Site Supervisor — Aegis Facilities Group (Onsite, Tacoma WA)\n\nAegis Facilities Group provides guarding services for corporate campuses. We are hiring a site supervisor for a 24/7 distribution-campus account.\n\nYou will schedule and supervise a team of 14 guards across three shifts, conduct patrols and post inspections, maintain CCTV and badge-access logs, and file incident reports with the client's facilities office.\n\nRequirements: guard team supervision, shift scheduling, CCTV and access-control system operation, and incident report writing. 3+ years in physical security with 1+ year supervising. Valid state guard card required.",
+      "parsed": {
+        "company": "Aegis Facilities Group",
+        "title": "Physical Security Site Supervisor",
+        "location": "Tacoma, WA",
+        "work_mode": "onsite",
+        "responsibilities": [
+          "Schedule and supervise a team of 14 guards across three shifts",
+          "Conduct patrols and post inspections",
+          "Maintain CCTV and badge-access logs",
+          "File incident reports with the client's facilities office"
+        ],
+        "required_skills": ["Guard team supervision", "Shift scheduling", "CCTV and access-control system operation", "Incident report writing"],
+        "preferred_skills": [],
+        "qualifications": ["Valid state guard card required"],
+        "experience_requirements": ["3+ years in physical security with 1+ year supervising"]
+      }
+    },
+    {
+      "job_key": "j6",
+      "raw_text": "Product Marketing Manager — Brightquill (Remote, US)\n\nBrightquill makes proposal-automation software for agencies. We are hiring our second PMM to own the mid-market segment.\n\nYou will craft positioning and messaging for two product lines, run launches with sales and lifecycle marketing, and interview churned and won customers monthly.\n\nRequirements: B2B SaaS positioning, launch management, sales enablement content, and customer interviewing. 4+ years in product marketing. Bonus: category creation experience.",
+      "parsed": {
+        "company": "Brightquill",
+        "title": "Product Marketing Manager",
+        "location": "Remote (US)",
+        "work_mode": "remote",
+        "responsibilities": [
+          "Craft positioning and messaging for two product lines",
+          "Run launches with sales and lifecycle marketing",
+          "Interview churned and won customers monthly"
+        ],
+        "required_skills": ["B2B SaaS positioning", "Launch management", "Sales enablement content", "Customer interviewing"],
+        "preferred_skills": ["Category creation experience"],
+        "qualifications": [],
+        "experience_requirements": ["4+ years in product marketing"]
+      }
+    },
+    {
+      "job_key": "j7",
+      "raw_text": "Payroll Specialist — Summit Peak Resorts (Onsite, Bellevue WA)\n\nSummit Peak Resorts operates four mountain properties with 2,500 seasonal and year-round staff. We need a payroll specialist for the corporate office.\n\nYou will process biweekly payroll in Workday for 2,500 employees, reconcile timekeeping exceptions with property managers, and administer garnishments and final-pay requests within state deadlines.\n\nRequirements: Workday payroll, multi-state wage and hour compliance, timekeeping reconciliation, and garnishment administration. 3+ years of in-house payroll experience.",
+      "parsed": {
+        "company": "Summit Peak Resorts",
+        "title": "Payroll Specialist",
+        "location": "Bellevue, WA",
+        "work_mode": "onsite",
+        "responsibilities": [
+          "Process biweekly payroll in Workday for 2,500 employees",
+          "Reconcile timekeeping exceptions with property managers",
+          "Administer garnishments and final-pay requests within state deadlines"
+        ],
+        "required_skills": ["Workday payroll", "Multi-state wage and hour compliance", "Timekeeping reconciliation", "Garnishment administration"],
+        "preferred_skills": [],
+        "qualifications": [],
+        "experience_requirements": ["3+ years of in-house payroll experience"]
+      }
+    },
+    {
+      "job_key": "j8",
+      "raw_text": "Enterprise Account Executive — Cadenceworks (Remote, US)\n\nCadenceworks sells production-scheduling software to discrete manufacturers, with a $120K average deal size. We are adding an enterprise AE for the western territory.\n\nYou will run full-cycle sales from outbound through close on a $1.2M annual quota, lead multi-stakeholder evaluations with plant and IT leadership, and forecast weekly in Salesforce.\n\nRequirements: enterprise B2B software sales, complex deal management, MEDDICC or similar qualification, and Salesforce forecasting discipline. 5+ years closing enterprise software deals. Bonus: manufacturing industry experience.",
+      "parsed": {
+        "company": "Cadenceworks",
+        "title": "Enterprise Account Executive",
+        "location": "Remote (US)",
+        "work_mode": "remote",
+        "responsibilities": [
+          "Run full-cycle sales from outbound through close on a $1.2M annual quota",
+          "Lead multi-stakeholder evaluations with plant and IT leadership",
+          "Forecast weekly in Salesforce"
+        ],
+        "required_skills": ["Enterprise B2B software sales", "Complex deal management", "MEDDICC or similar qualification", "Salesforce forecasting"],
+        "preferred_skills": ["Manufacturing industry experience"],
+        "qualifications": [],
+        "experience_requirements": ["5+ years closing enterprise software deals"]
+      }
+    }
+  ],
+  "ground_truth_ranking": {
+    "j1": 3,
+    "j2": 2,
+    "j3": 1,
+    "j4": 0,
+    "j5": 0,
+    "j6": 0,
+    "j7": 0,
+    "j8": 0
+  },
+  "skill_gap": {
+    "job_key": "j1",
+    "relevant_chunks": [2, 3, 5],
+    "expected_gaps": [
+      { "skill": "Kubernetes security", "severity": "high" },
+      { "skill": "GCP", "severity": "medium" },
+      { "skill": "Go", "severity": "low" },
+      { "skill": "CISSP", "severity": "low" }
+    ],
+    "must_not_claim": ["Splunk", "Python", "Incident response", "AWS security", "Terraform"]
+  }
+}

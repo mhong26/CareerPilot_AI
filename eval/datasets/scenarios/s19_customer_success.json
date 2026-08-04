@@ -1,0 +1,252 @@
+{
+  "scenario_id": "s19",
+  "title": "B2B SaaS customer success manager",
+  "description": "A 5-year B2B SaaS customer success manager (onboarding, renewals, Gainsight, Salesforce) evaluated against 8 postings: one strong enterprise CSM match with SQL/BI/enterprise-segment gaps, one neighboring mid-market CSM role, one keyword-stuffed outbound SDR trap, one marginal support team lead, and four unrelated distractors.",
+  "tags": ["non-tech", "keyword-trap"],
+  "language": "en",
+  "rationale": "A non-tech customer success scenario whose relevance signal is CS-domain vocabulary, not an engineering stack. j3 is the keyword trap: an outbound cold-calling SDR role at a company that SELLS customer-success software, so the posting is stuffed with the resume's exact vocabulary (customer success, retention, churn, health scores, QBRs, Gainsight, Salesforce) while the actual job family is high-volume outbound sales — TF-IDF over-ranks it, and it must stay at grade 0. Gap target j1 is a grade-3 enterprise CSM role overlapping heavily on onboarding, renewals, Gainsight, Salesforce, and QBRs, but it requires SQL for customer data analysis the resume lacks, an enterprise book the resume has only partially touched (mid-market, largest account $180K ARR), and prefers Tableau/Looker dashboards the resume has never built. j2 is a neighboring mid-market CSM role graded 2. j4 probes the graded boundary: a support team lead with real Zendesk/SaaS overlap but a different job family (support operations, not customer success).",
+  "resume": {
+    "basic_info": {
+      "name": "Melissa Tran",
+      "email": "melissa.tran@example.com",
+      "phone": "",
+      "location": "Denver, CO",
+      "links": ["linkedin.com/in/melissa-tran-cs"]
+    },
+    "summary": "Customer success manager with 5 years in B2B SaaS, owning the full post-sale journey from onboarding through renewal for a mid-market book. Finished FY2025 at 96% gross revenue retention using Gainsight health scoring and playbook-driven onboarding. Comfortable presenting adoption and ROI stories to VP-level stakeholders.",
+    "skills": ["Customer onboarding", "Renewal management", "Gainsight", "Salesforce", "Quarterly business reviews", "Churn risk analysis", "Customer health scoring", "Upsell and expansion", "Zendesk", "Customer journey mapping", "Stakeholder management", "Onboarding playbook design"],
+    "experience": [
+      {
+        "company": "Vantage Metrics",
+        "title": "Customer Success Manager",
+        "start_date": "Apr 2022",
+        "end_date": "Present",
+        "bullets": [
+          "Own a book of 45 mid-market SaaS accounts ($2.1M ARR, largest account $180K), finishing FY2025 at 96% gross revenue retention",
+          "Led onboarding for 60+ new accounts, cutting median time-to-first-value from 45 to 28 days with a milestone-based Gainsight playbook",
+          "Sourced and handed off $340K in expansion pipeline by mining product usage data for upsell signals",
+          "Run 120+ quarterly business reviews per year, presenting adoption metrics and ROI summaries to VP-level stakeholders"
+        ]
+      },
+      {
+        "company": "Brightflow",
+        "title": "Customer Success Associate",
+        "start_date": "Jun 2020",
+        "end_date": "Mar 2022",
+        "bullets": [
+          "Supported onboarding and renewals for 200+ SMB accounts on a pooled customer success team",
+          "Resolved 30+ Zendesk escalations per month while maintaining a 4.8/5 CSAT",
+          "Built Salesforce dashboards tracking renewal dates and health scores for the whole CS org"
+        ]
+      }
+    ],
+    "projects": [
+      {
+        "name": "Churn early-warning scorecard",
+        "description": "Gainsight health scorecard combining usage, support, and sponsor signals",
+        "bullets": [
+          "Designed a Gainsight scorecard weighting product usage depth, support ticket volume, and executive sponsor changes",
+          "Scorecard flagged 70% of eventual churners at least 90 days early in an FY2025 backtest"
+        ],
+        "tech": ["Gainsight", "Salesforce", "Excel"]
+      }
+    ],
+    "education": [
+      {
+        "school": "University of Colorado Boulder",
+        "degree": "B.A.",
+        "field": "Communication",
+        "graduation": "2020"
+      }
+    ],
+    "certifications": []
+  },
+  "jobs": [
+    {
+      "job_key": "j1",
+      "raw_text": "Enterprise Customer Success Manager — Clearharbor (Hybrid, Denver CO)\n\nClearharbor's workforce-management platform serves 400 companies, and our enterprise segment is growing 40% a year. We are hiring an Enterprise CSM to own our largest relationships.\n\nWhat you will do:\n- Own onboarding, adoption, and renewal for a book of 20 enterprise accounts ($4M ARR)\n- Run executive business reviews with C-level sponsors twice a year per account\n- Monitor Gainsight health scores and intervene early on churn risk\n- Build your own account-usage analyses by querying product data directly\n\nRequirements: onboarding program design, renewal forecasting and negotiation, Gainsight, Salesforce, and working SQL for customer data analysis. 5+ years in B2B SaaS customer success and 2+ years owning enterprise accounts ($250K+ ARR). Bachelor's degree or equivalent practical experience. Nice to have: Tableau or Looker, customer advocacy program experience, HR tech industry background.",
+      "parsed": {
+        "company": "Clearharbor",
+        "title": "Enterprise Customer Success Manager",
+        "location": "Denver, CO",
+        "work_mode": "hybrid",
+        "responsibilities": [
+          "Own onboarding, adoption, and renewal for a book of 20 enterprise accounts ($4M ARR)",
+          "Run executive business reviews with C-level sponsors twice a year per account",
+          "Monitor Gainsight health scores and intervene early on churn risk",
+          "Build account-usage analyses by querying product data directly"
+        ],
+        "required_skills": ["Onboarding program design", "Renewal forecasting and negotiation", "Gainsight", "Salesforce", "SQL for customer data analysis"],
+        "preferred_skills": ["Tableau or Looker", "Customer advocacy program experience", "HR tech industry background"],
+        "qualifications": ["Bachelor's degree or equivalent practical experience"],
+        "experience_requirements": [
+          "5+ years in B2B SaaS customer success",
+          "2+ years owning enterprise accounts ($250K+ ARR)"
+        ]
+      }
+    },
+    {
+      "job_key": "j2",
+      "raw_text": "Customer Success Manager, Mid-Market — Medlane Health (Remote, US)\n\nMedlane Health's scheduling platform serves 900 outpatient clinics. Our CS team keeps providers live, adopted, and renewed.\n\nYou will own a book of 60 mid-market provider accounts, drive adoption and renewals end to end, run business reviews with practice administrators, and coordinate hand-offs with the implementation team.\n\nWhat we look for: B2B SaaS customer success experience, renewal management, customer health monitoring, and CRM fluency (Salesforce or HubSpot). 4+ years in customer success or account management. Bonus: Totango or Gainsight, and experience with healthcare or other HIPAA-regulated customers.",
+      "parsed": {
+        "company": "Medlane Health",
+        "title": "Customer Success Manager, Mid-Market",
+        "location": "Remote (US)",
+        "work_mode": "remote",
+        "responsibilities": [
+          "Own a book of 60 mid-market provider accounts",
+          "Drive adoption and renewals end to end",
+          "Run business reviews with practice administrators",
+          "Coordinate hand-offs with the implementation team"
+        ],
+        "required_skills": ["B2B SaaS customer success", "Renewal management", "Customer health monitoring", "CRM fluency (Salesforce or HubSpot)"],
+        "preferred_skills": ["Totango or Gainsight", "Healthcare or HIPAA-regulated industry experience"],
+        "qualifications": [],
+        "experience_requirements": ["4+ years in customer success or account management"]
+      }
+    },
+    {
+      "job_key": "j3",
+      "raw_text": "Sales Development Representative — RetentionIQ (Onsite, Austin TX)\n\nRetentionIQ sells a customer success platform that helps SaaS companies fight churn and grow net revenue retention. Our SDR team opens doors for account executives.\n\nYou will make 60-80 outbound cold calls per day to VPs of Customer Success, pitch how RetentionIQ improves onboarding, renewals, and churn prevention, book discovery meetings, and log every touch in Outreach.\n\nRequirements: high-volume cold calling, outbound prospecting, objection handling, and CRM hygiene in Salesforce. Familiarity with customer success vocabulary — retention, churn, health scores, QBRs, Gainsight — helps you speak the buyer's language. 1+ years in an SDR or BDR role, or a strong drive to start a sales career. Bonus: Outreach or Salesloft experience.",
+      "parsed": {
+        "company": "RetentionIQ",
+        "title": "Sales Development Representative",
+        "location": "Austin, TX",
+        "work_mode": "onsite",
+        "responsibilities": [
+          "Make 60-80 outbound cold calls per day to VPs of Customer Success",
+          "Pitch how RetentionIQ improves onboarding, renewals, and churn prevention",
+          "Book discovery meetings for account executives",
+          "Log every touch in Outreach"
+        ],
+        "required_skills": [
+          "High-volume cold calling",
+          "Outbound prospecting",
+          "Objection handling",
+          "CRM hygiene in Salesforce",
+          "Customer success vocabulary (retention, churn, health scores, QBRs, Gainsight)"
+        ],
+        "preferred_skills": ["Outreach or Salesloft"],
+        "qualifications": [],
+        "experience_requirements": ["1+ years in an SDR or BDR role"]
+      }
+    },
+    {
+      "job_key": "j4",
+      "raw_text": "Customer Support Team Lead — Parcelmind (Hybrid, Denver CO)\n\nParcelmind builds shipping software for e-commerce brands, and our support team answers 4,000 tickets a month. We need a team lead for the day shift.\n\nYou will lead six support agents working a shared Zendesk queue, own escalated tickets through resolution, report weekly on SLA and CSAT performance, and coach agents through QA reviews and macro updates.\n\nRequirements: Zendesk administration, support quality assurance, SLA and queue management, and hands-on coaching of frontline agents. 4+ years in SaaS customer support with 1+ year leading a team. Bonus: workforce management tooling experience.",
+      "parsed": {
+        "company": "Parcelmind",
+        "title": "Customer Support Team Lead",
+        "location": "Denver, CO",
+        "work_mode": "hybrid",
+        "responsibilities": [
+          "Lead six support agents working a shared Zendesk queue",
+          "Own escalated tickets through resolution",
+          "Report weekly on SLA and CSAT performance",
+          "Coach agents through QA reviews and macro updates"
+        ],
+        "required_skills": ["Zendesk administration", "Support quality assurance", "SLA and queue management", "Coaching frontline agents"],
+        "preferred_skills": ["Workforce management tooling"],
+        "qualifications": [],
+        "experience_requirements": ["4+ years in SaaS customer support with 1+ year leading a team"]
+      }
+    },
+    {
+      "job_key": "j5",
+      "raw_text": "Payroll Accountant — Stonebriar Manufacturing (Onsite, Aurora CO)\n\nStonebriar Manufacturing runs three plants and 900 hourly employees across two states. We are hiring a Payroll Accountant to own the biweekly cycle.\n\nYou will process biweekly payroll in ADP for 900+ employees, reconcile payroll liability accounts to the general ledger, and file multi-state payroll tax returns on schedule.\n\nRequirements: ADP payroll processing, multi-state payroll tax, general ledger reconciliation, and strong Excel. 3+ years in payroll or general accounting.",
+      "parsed": {
+        "company": "Stonebriar Manufacturing",
+        "title": "Payroll Accountant",
+        "location": "Aurora, CO",
+        "work_mode": "onsite",
+        "responsibilities": [
+          "Process biweekly payroll in ADP for 900+ employees",
+          "Reconcile payroll liability accounts to the general ledger",
+          "File multi-state payroll tax returns on schedule"
+        ],
+        "required_skills": ["ADP payroll processing", "Multi-state payroll tax", "General ledger reconciliation", "Excel"],
+        "preferred_skills": [],
+        "qualifications": [],
+        "experience_requirements": ["3+ years in payroll or general accounting"]
+      }
+    },
+    {
+      "job_key": "j6",
+      "raw_text": "Embedded Firmware Engineer — Heliodrone Robotics (Onsite, Boulder CO)\n\nHeliodrone builds inspection drones for utility companies. We are hiring a firmware engineer for the flight-controller team.\n\nYou will write and debug C/C++ firmware on an RTOS, bring up sensor drivers over I2C and SPI, and profile control-loop timing on the bench with logic analyzers.\n\nRequirements: C/C++, RTOS experience, I2C/SPI driver development, and hardware debugging. 4+ years in embedded development. Bonus: Rust, PX4 or ArduPilot exposure.",
+      "parsed": {
+        "company": "Heliodrone Robotics",
+        "title": "Embedded Firmware Engineer",
+        "location": "Boulder, CO",
+        "work_mode": "onsite",
+        "responsibilities": [
+          "Write and debug C/C++ firmware on an RTOS",
+          "Bring up sensor drivers over I2C and SPI",
+          "Profile control-loop timing with logic analyzers"
+        ],
+        "required_skills": ["C/C++", "RTOS", "I2C/SPI driver development", "Hardware debugging"],
+        "preferred_skills": ["Rust", "PX4 or ArduPilot"],
+        "qualifications": [],
+        "experience_requirements": ["4+ years in embedded development"]
+      }
+    },
+    {
+      "job_key": "j7",
+      "raw_text": "Graphic Designer — Maple & Main Creative (Hybrid, Kansas City MO)\n\nMaple & Main is a 12-person studio serving regional food and beverage brands. We need a mid-level designer.\n\nYou will design brand identity systems from concept through delivery, produce print-ready packaging and menu files, and present concepts directly to clients.\n\nRequirements: Adobe Illustrator, InDesign, brand identity systems, and print production workflow. 3+ years in a studio or agency. Portfolio required. Bonus: motion basics in After Effects.",
+      "parsed": {
+        "company": "Maple & Main Creative",
+        "title": "Graphic Designer",
+        "location": "Kansas City, MO",
+        "work_mode": "hybrid",
+        "responsibilities": [
+          "Design brand identity systems from concept through delivery",
+          "Produce print-ready packaging and menu files",
+          "Present concepts directly to clients"
+        ],
+        "required_skills": ["Adobe Illustrator", "InDesign", "Brand identity systems", "Print production workflow"],
+        "preferred_skills": ["After Effects motion basics"],
+        "qualifications": ["Portfolio required"],
+        "experience_requirements": ["3+ years in a studio or agency"]
+      }
+    },
+    {
+      "job_key": "j8",
+      "raw_text": "Civil Engineer, Land Development — Ridgeline Infrastructure Group (Onsite, Fort Collins CO)\n\nRidgeline designs residential and commercial site developments across northern Colorado. We are hiring a civil engineer for our land development group.\n\nYou will produce grading and drainage plans in AutoCAD Civil 3D, run stormwater detention calculations, and coordinate submittals with municipal reviewers.\n\nRequirements: AutoCAD Civil 3D, stormwater and drainage design, grading plan production, and municipal permitting coordination. 3+ years in land development; EIT required, PE track preferred.",
+      "parsed": {
+        "company": "Ridgeline Infrastructure Group",
+        "title": "Civil Engineer, Land Development",
+        "location": "Fort Collins, CO",
+        "work_mode": "onsite",
+        "responsibilities": [
+          "Produce grading and drainage plans in AutoCAD Civil 3D",
+          "Run stormwater detention calculations",
+          "Coordinate submittals with municipal reviewers"
+        ],
+        "required_skills": ["AutoCAD Civil 3D", "Stormwater and drainage design", "Grading plan production", "Municipal permitting coordination"],
+        "preferred_skills": ["PE track"],
+        "qualifications": ["EIT required"],
+        "experience_requirements": ["3+ years in land development"]
+      }
+    }
+  ],
+  "ground_truth_ranking": {
+    "j1": 3,
+    "j2": 2,
+    "j3": 0,
+    "j4": 1,
+    "j5": 0,
+    "j6": 0,
+    "j7": 0,
+    "j8": 0
+  },
+  "skill_gap": {
+    "job_key": "j1",
+    "relevant_chunks": [2, 3, 5],
+    "expected_gaps": [
+      { "skill": "SQL for customer data analysis", "severity": "high" },
+      { "skill": "Enterprise account management ($250K+ ARR)", "severity": "medium" },
+      { "skill": "Tableau or Looker", "severity": "low" },
+      { "skill": "Customer advocacy program experience", "severity": "low" }
+    ],
+    "must_not_claim": ["Gainsight", "Salesforce", "Customer onboarding", "Renewal management", "Quarterly business reviews", "Churn risk analysis"]
+  }
+}
