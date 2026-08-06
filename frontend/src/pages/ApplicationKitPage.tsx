@@ -1,10 +1,14 @@
 import { useEffect, useState } from 'react'
-import axios from 'axios'
 import { Link, useParams } from 'react-router-dom'
 
 import { fetchApplicationKit, generateApplicationKit, updateArtifact } from '../api/applicationKit'
 import { fetchJob } from '../api/job'
 import { fetchCurrentResume } from '../api/resume'
+import ElapsedTimer from '../components/ui/ElapsedTimer'
+import ErrorBanner from '../components/ui/ErrorBanner'
+import Spinner from '../components/ui/Spinner'
+import WarningBanner from '../components/ui/WarningBanner'
+import { getErrorMessage } from '../lib/errors'
 import {
   copyText,
   coverLetterToMarkdown,
@@ -128,8 +132,8 @@ function TailoredResumeCard({
     try {
       onSaved(await updateArtifact(artifact.id, draft))
       setEditing(false)
-    } catch {
-      onError('Failed to save resume suggestions. Please try again.')
+    } catch (e) {
+      onError(getErrorMessage(e, 'Failed to save resume suggestions. Please try again.'))
     } finally {
       setSaving(false)
     }
@@ -268,8 +272,8 @@ function CoverLetterCard({
       }
       onSaved(await updateArtifact(artifact.id, content))
       setEditing(false)
-    } catch {
-      onError('Failed to save the cover letter. Please try again.')
+    } catch (e) {
+      onError(getErrorMessage(e, 'Failed to save the cover letter. Please try again.'))
     } finally {
       setSaving(false)
     }
@@ -387,8 +391,8 @@ function InterviewPrepCard({
       }
       onSaved(await updateArtifact(artifact.id, content))
       setEditing(false)
-    } catch {
-      onError('Failed to save interview prep. Please try again.')
+    } catch (e) {
+      onError(getErrorMessage(e, 'Failed to save interview prep. Please try again.'))
     } finally {
       setSaving(false)
     }
@@ -524,8 +528,8 @@ export default function ApplicationKitPage() {
           }
         }
       })
-      .catch(() => {
-        if (!ignore) setError('Failed to load the page. Reload to retry.')
+      .catch((e) => {
+        if (!ignore) setError(getErrorMessage(e, 'Failed to load the page. Reload to retry.'))
       })
       .finally(() => {
         if (!ignore) setLoading(false)
@@ -543,11 +547,8 @@ export default function ApplicationKitPage() {
       // 不帶 resume_id → 後端用 current resume（規劃定案）。
       setKit(await generateApplicationKit(job.id))
     } catch (e) {
-      const detail =
-        axios.isAxiosError(e) && e.response?.status === 409
-          ? (e.response.data as { detail?: string } | undefined)?.detail
-          : undefined
-      setError(detail ?? 'Failed to generate the application kit. Please try again.')
+      // 409（履歷未解析 / 職缺未索引）等後端可讀 detail 由 getErrorMessage 帶出。
+      setError(getErrorMessage(e, 'Failed to generate the application kit. Please try again.'))
     } finally {
       setGenerating(false)
     }
@@ -573,12 +574,10 @@ export default function ApplicationKitPage() {
       </header>
 
       <main className="mx-auto max-w-3xl space-y-6 px-4 py-8">
-        {error && (
-          <div className="rounded-md bg-red-50 px-4 py-3 text-sm text-red-600">{error}</div>
-        )}
+        {error && <ErrorBanner message={error} />}
 
         {loading ? (
-          <p className="text-center text-gray-400">Loading…</p>
+          <Spinner label="Loading application kit…" />
         ) : !job ? (
           <p className="text-center text-gray-400">Job not found.</p>
         ) : !resume ? (
@@ -589,9 +588,7 @@ export default function ApplicationKitPage() {
             </Link>
           </p>
         ) : kitLoadFailed ? (
-          <div className="rounded-md bg-red-50 px-4 py-3 text-sm text-red-600">
-            Failed to load the existing application kit. Reload the page to retry.
-          </div>
+          <ErrorBanner message="Failed to load the existing application kit. Reload the page to retry." />
         ) : (
           <>
             {/* 標頭卡：目標職缺 + match 分數 + 生成按鈕 */}
@@ -611,10 +608,7 @@ export default function ApplicationKitPage() {
               </div>
 
               {job.index_status !== 'indexed' && (
-                <div className="rounded-md bg-yellow-50 px-4 py-3 text-sm text-yellow-800">
-                  This job is not indexed for retrieval, so the kit cannot be generated. Re-add
-                  the job to rebuild its index.
-                </div>
+                <WarningBanner message="This job is not indexed for retrieval, so the kit cannot be generated. Re-add the job to rebuild its index." />
               )}
 
               <div className="space-y-1">
@@ -634,13 +628,15 @@ export default function ApplicationKitPage() {
                   The AI agent computes your match, gathers job evidence, and writes all three
                   artifacts — this takes a while.
                 </p>
+                {generating && (
+                  <ElapsedTimer hint="kit generation usually takes 30–90 seconds" />
+                )}
               </div>
 
               {kit && kit.missing.length > 0 && (
-                <div className="rounded-md bg-yellow-50 px-4 py-3 text-sm text-yellow-800">
-                  Some artifacts could not be generated: {kit.missing.join(', ')}. Regenerate to
-                  try again.
-                </div>
+                <WarningBanner
+                  message={`Some artifacts could not be generated: ${kit.missing.join(', ')}. Regenerate to try again.`}
+                />
               )}
               {kit && kit.errors.length > 0 && (
                 <p className="text-xs text-gray-400">{kit.errors.join(' · ')}</p>

@@ -2,19 +2,19 @@
 
 import uuid
 
-from fastapi import APIRouter, Depends, File, Form, HTTPException, UploadFile, status
+from fastapi import APIRouter, Depends, File, Form, HTTPException, Request, UploadFile, status
 from sqlalchemy.orm import Session
 
 from app.ai.llm.base import LLMProvider
-from app.ai.llm.gemini import build_gemini_provider
 from app.ai.parsers.resume_schema import ResumeParsed
 from app.ai.parsers.text_extract import (
     TextExtractionError,
     UnsupportedFileTypeError,
     extract_plain_text,
 )
-from app.api.deps import get_current_user
+from app.api.deps import get_current_user, get_llm_provider
 from app.core.config import settings
+from app.core.ratelimit import limiter
 from app.db.models import Resume, ResumeVersion, User
 from app.db.session import get_db
 from app.schemas.resume import ResumeResponse, ResumeUpdate, ResumeVersionResponse
@@ -22,11 +22,6 @@ from app.services import resume_service
 from app.services.resume_service import ResumeNotFoundError
 
 router = APIRouter(prefix="/resumes", tags=["resumes"])
-
-
-def get_llm_provider() -> LLMProvider:
-    """Provider 注入點——測試可用 ``app.dependency_overrides`` 換成假 provider。"""
-    return build_gemini_provider()
 
 
 def _to_response(resume: Resume, current_version: ResumeVersion | None) -> ResumeResponse:
@@ -55,7 +50,9 @@ def _build_response(db: Session, resume: Resume) -> ResumeResponse:
 
 
 @router.post("/upload", response_model=ResumeResponse, status_code=status.HTTP_201_CREATED)
+@limiter.limit(settings.rate_limit_upload)
 def upload_resume(
+    request: Request,
     file: UploadFile | None = File(default=None),
     text_content: str | None = Form(default=None),
     current_user: User = Depends(get_current_user),
@@ -73,8 +70,9 @@ def upload_resume(
     try:
         if has_file:
             assert file is not None  # narrow for type-checkers
-            content = file.file.read()
             limit = settings.max_upload_size_mb * 1024 * 1024
+            # 只讀 limit+1 bytes：超大上傳不會先整包進記憶體才被拒
+            content = file.file.read(limit + 1)
             if len(content) > limit:
                 raise HTTPException(
                     status_code=status.HTTP_413_REQUEST_ENTITY_TOO_LARGE,
@@ -90,6 +88,11 @@ def upload_resume(
             )
         else:
             assert text_content is not None
+            if len(text_content) > settings.max_text_input_chars:
+                raise HTTPException(
+                    status_code=status.HTTP_413_REQUEST_ENTITY_TOO_LARGE,
+                    detail=(f"Text exceeds {settings.max_text_input_chars} character limit."),
+                )
             raw_text, source_type = extract_plain_text(text_content)
             resume = resume_service.create_resume_from_text(
                 db,
@@ -143,7 +146,9 @@ def get_one(
 
 
 @router.patch("/{resume_id}", response_model=ResumeResponse)
+@limiter.limit(settings.rate_limit_upload)
 def edit_resume(
+    request: Request,
     resume_id: uuid.UUID,
     data: ResumeUpdate,
     current_user: User = Depends(get_current_user),

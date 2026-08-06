@@ -3,15 +3,16 @@
 import uuid
 from datetime import datetime
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 
 from app.ai.parsers.job_schema import JobParsed
 
 
 class JobCreate(BaseModel):
-    """新增職缺：貼上一段原文（長度由 router 的 extract_plain_text 驗證）。"""
+    """新增職缺：貼上一段原文（最短長度由 router 的 extract_plain_text 驗證；
+    max_length 擋無上限 DB 寫入，與 settings.max_text_input_chars 對齊）。"""
 
-    raw_text: str
+    raw_text: str = Field(max_length=50_000)
 
 
 class JobListItem(BaseModel):

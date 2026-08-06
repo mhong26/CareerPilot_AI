@@ -2,13 +2,14 @@
 
 import uuid
 
-from fastapi import APIRouter, Depends, HTTPException, Query, status
+from fastapi import APIRouter, Depends, HTTPException, Query, Request, status
 from sqlalchemy.orm import Session
 
 from app.ai.llm.base import LLMProvider
-from app.ai.llm.gemini import build_gemini_provider
 from app.ai.parsers.match_schema import MatchExplanation
-from app.api.deps import get_current_user
+from app.api.deps import get_current_user, get_llm_provider
+from app.core.config import settings
+from app.core.ratelimit import limiter
 from app.db.models import Job, MatchResult, User
 from app.db.session import get_db
 from app.schemas.match import (
@@ -23,11 +24,6 @@ from app.services.match_service import MatchResumeNotReadyError
 from app.services.resume_service import ResumeNotFoundError
 
 router = APIRouter(prefix="/matches", tags=["matches"])
-
-
-def get_llm_provider() -> LLMProvider:
-    """Provider 注入點——測試可用 ``app.dependency_overrides`` 換成假 provider。"""
-    return build_gemini_provider()
 
 
 def _to_item(match: MatchResult, job: Job) -> MatchResultItem:
@@ -51,7 +47,9 @@ def _to_item(match: MatchResult, job: Job) -> MatchResultItem:
 
 
 @router.post("/run", response_model=MatchRunResponse)
+@limiter.limit(settings.rate_limit_match)
 def run_matches_endpoint(
+    request: Request,
     data: MatchRunRequest,
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db),

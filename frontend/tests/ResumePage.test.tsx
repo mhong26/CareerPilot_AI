@@ -69,3 +69,24 @@ test('editing a skill and saving calls updateResume with the new data', async ()
   expect(parsed.skills).toContain('Django')
   expect(parsed.skills).not.toContain('FastAPI')
 })
+
+test('an oversize file is rejected client-side without calling the API', async () => {
+  render(
+    <MemoryRouter>
+      <ResumePage />
+    </MemoryRouter>,
+  )
+  await screen.findByDisplayValue('Python')
+
+  fireEvent.click(screen.getByLabelText('Upload file'))
+  const bigFile = new File(['x'], 'huge.pdf', { type: 'application/pdf' })
+  Object.defineProperty(bigFile, 'size', { value: 11 * 1024 * 1024 })
+  const fileInput = document.querySelector('input[type="file"]') as HTMLInputElement
+  fireEvent.change(fileInput, { target: { files: [bigFile] } })
+  fireEvent.click(screen.getByRole('button', { name: /upload & parse/i }))
+
+  await waitFor(() => {
+    expect(screen.getByText(/larger than 10 MB/i)).toBeInTheDocument()
+  })
+  expect(resumeApi.uploadResumeFile).not.toHaveBeenCalled()
+})

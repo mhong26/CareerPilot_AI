@@ -1,14 +1,16 @@
 import axios from 'axios'
 
-import { apiClient } from './client'
+import { LONG_TASK_TIMEOUT_MS, apiClient } from './client'
 import type { SkillGapReport } from '../types/skillGap'
 
 // POST /jobs/{id}/skill-gap：同步跑檢索 + rerank + AI 生成（一次 AI 呼叫），
 // 需時較久，呼叫端要顯示 generating 狀態。
 export async function generateSkillGap(resumeId: string, jobId: string): Promise<SkillGapReport> {
-  const { data } = await apiClient.post<SkillGapReport>(`/jobs/${jobId}/skill-gap`, {
-    resume_id: resumeId,
-  })
+  const { data } = await apiClient.post<SkillGapReport>(
+    `/jobs/${jobId}/skill-gap`,
+    { resume_id: resumeId },
+    { timeout: LONG_TASK_TIMEOUT_MS },
+  )
   return data
 }
 

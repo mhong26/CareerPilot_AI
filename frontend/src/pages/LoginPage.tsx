@@ -1,7 +1,9 @@
 import { type FormEvent, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import axios from 'axios'
 
 import { useAuth } from '../hooks/useAuth'
+import { getErrorMessage } from '../lib/errors'
 
 export default function LoginPage() {
   const { login } = useAuth()
@@ -18,8 +20,13 @@ export default function LoginPage() {
     try {
       await login(email, password)
       navigate('/dashboard')
-    } catch {
-      setError('Invalid email or password')
+    } catch (e) {
+      // 只有 401 才是「帳密錯誤」；網路斷線 / 429 / 5xx 要照實呈現原因。
+      if (axios.isAxiosError(e) && e.response?.status === 401) {
+        setError('Invalid email or password')
+      } else {
+        setError(getErrorMessage(e))
+      }
     } finally {
       setSubmitting(false)
     }

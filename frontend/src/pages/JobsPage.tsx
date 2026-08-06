@@ -2,7 +2,14 @@ import { type FormEvent, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
 import { createJob, deleteJob, fetchJobs } from '../api/job'
+import ErrorBanner from '../components/ui/ErrorBanner'
+import Spinner from '../components/ui/Spinner'
+import WarningBanner from '../components/ui/WarningBanner'
+import { getErrorMessage } from '../lib/errors'
 import { type JobListItem } from '../types/job'
+
+// 對齊後端 extract_plain_text 的最短長度。
+const MIN_TEXT_CHARS = 10
 
 // index_status → 徽章顏色（indexed 綠 / failed 紅 / skipped 灰）。
 function statusBadgeClass(status: string): string {
@@ -18,23 +25,33 @@ export default function JobsPage() {
   const [error, setError] = useState<string | null>(null)
   const [warning, setWarning] = useState<string | null>(null)
   const [text, setText] = useState('')
+  const [deletingId, setDeletingId] = useState<string | null>(null)
 
   // 載入職缺列表（mount 時一次）。
   useEffect(() => {
     fetchJobs()
       .then(setJobs)
-      .catch(() => setError('Failed to load your jobs.'))
+      .catch((e) => setError(getErrorMessage(e, 'Failed to load your jobs.')))
       .finally(() => setLoading(false))
   }, [])
 
   async function refresh() {
-    setJobs(await fetchJobs())
+    // 列表刷新失敗不覆蓋剛完成動作的結果，僅提示（動作本身已成功）。
+    try {
+      setJobs(await fetchJobs())
+    } catch {
+      setWarning('The action succeeded, but the list could not be refreshed. Reload the page.')
+    }
   }
 
   async function handleAdd(event: FormEvent) {
     event.preventDefault()
     setError(null)
     setWarning(null)
+    if (text.trim().length < MIN_TEXT_CHARS) {
+      setError(`Please paste at least ${MIN_TEXT_CHARS} characters of job description.`)
+      return
+    }
     setAdding(true)
     try {
       const job = await createJob(text)
@@ -47,8 +64,8 @@ export default function JobsPage() {
         )
       }
       await refresh()
-    } catch {
-      setError('Failed to add the job. Make sure the text is long enough, then try again.')
+    } catch (e) {
+      setError(getErrorMessage(e, 'Failed to add the job. Please try again.'))
     } finally {
       setAdding(false)
     }
@@ -56,11 +73,14 @@ export default function JobsPage() {
 
   async function handleDelete(id: string) {
     setError(null)
+    setDeletingId(id)
     try {
       await deleteJob(id)
       await refresh()
-    } catch {
-      setError('Failed to delete the job. Please try again.')
+    } catch (e) {
+      setError(getErrorMessage(e, 'Failed to delete the job. Please try again.'))
+    } finally {
+      setDeletingId(null)
     }
   }
 
@@ -76,12 +96,8 @@ export default function JobsPage() {
       </header>
 
       <main className="mx-auto max-w-3xl space-y-6 px-4 py-8">
-        {error && (
-          <div className="rounded-md bg-red-50 px-4 py-3 text-sm text-red-600">{error}</div>
-        )}
-        {warning && (
-          <div className="rounded-md bg-yellow-50 px-4 py-3 text-sm text-yellow-800">{warning}</div>
-        )}
+        {error && <ErrorBanner message={error} />}
+        {warning && <WarningBanner message={warning} />}
 
         {/* 新增職缺 */}
         <section className="space-y-4 rounded-lg bg-white p-6 shadow">
@@ -108,7 +124,7 @@ export default function JobsPage() {
         <section className="space-y-3 rounded-lg bg-white p-6 shadow">
           <h2 className="text-lg font-semibold text-gray-900">Your jobs</h2>
           {loading ? (
-            <p className="text-sm text-gray-400">Loading…</p>
+            <Spinner label="Loading jobs…" />
           ) : jobs.length === 0 ? (
             <p className="text-sm text-gray-400">No jobs yet. Paste one above to get started.</p>
           ) : (
@@ -128,9 +144,10 @@ export default function JobsPage() {
                   <button
                     type="button"
                     onClick={() => void handleDelete(job.id)}
-                    className="text-sm text-red-500 hover:underline"
+                    disabled={deletingId === job.id}
+                    className="text-sm text-red-500 hover:underline disabled:opacity-50"
                   >
-                    Delete
+                    {deletingId === job.id ? 'Deleting…' : 'Delete'}
                   </button>
                 </li>
               ))}

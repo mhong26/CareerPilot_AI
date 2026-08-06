@@ -6,13 +6,14 @@ pair 查詢）與 ``/skill-gaps/...``（以報告為入口的讀取），寫完�
 
 import uuid
 
-from fastapi import APIRouter, Depends, HTTPException, Query, status
+from fastapi import APIRouter, Depends, HTTPException, Query, Request, status
 from sqlalchemy.orm import Session
 
 from app.ai.llm.base import LLMProvider
-from app.ai.llm.gemini import build_gemini_provider
-from app.ai.rag.rerank import CrossEncoderReranker, Reranker
-from app.api.deps import get_current_user
+from app.ai.rag.rerank import Reranker
+from app.api.deps import get_current_user, get_llm_provider, get_reranker
+from app.core.config import settings
+from app.core.ratelimit import limiter
 from app.db.models import ResumeVersion, SkillGapReport, User
 from app.db.session import get_db
 from app.schemas.skill_gap import (
@@ -33,16 +34,6 @@ from app.services.skill_gap_service import (
 )
 
 router = APIRouter(tags=["skill-gaps"])
-
-
-def get_llm_provider() -> LLMProvider:
-    """Provider 注入點——測試可用 ``app.dependency_overrides`` 換成假 provider。"""
-    return build_gemini_provider()
-
-
-def get_reranker() -> Reranker:
-    """Reranker 注入點——測試換假 reranker，CI 因此永不下載 cross-encoder 模型。"""
-    return CrossEncoderReranker()
 
 
 def _to_response(db: Session, report: SkillGapReport) -> SkillGapReportResponse:
@@ -67,7 +58,9 @@ def _to_response(db: Session, report: SkillGapReport) -> SkillGapReportResponse:
 
 
 @router.post("/jobs/{job_id}/skill-gap", response_model=SkillGapReportResponse)
+@limiter.limit(settings.rate_limit_skill_gap)
 def run_skill_gap_endpoint(
+    request: Request,
     job_id: uuid.UUID,
     data: SkillGapRunRequest,
     current_user: User = Depends(get_current_user),

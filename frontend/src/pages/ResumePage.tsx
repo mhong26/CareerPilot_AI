@@ -9,7 +9,16 @@ import {
   uploadResumeText,
 } from '../api/resume'
 import ResumeEditor from '../components/resume/ResumeEditor'
+import ElapsedTimer from '../components/ui/ElapsedTimer'
+import ErrorBanner from '../components/ui/ErrorBanner'
+import Spinner from '../components/ui/Spinner'
+import WarningBanner from '../components/ui/WarningBanner'
+import { getErrorMessage } from '../lib/errors'
 import { type Resume, type ResumeParsed, type ResumeVersion, emptyResumeParsed } from '../types/resume'
+
+// 對齊後端限制：max_upload_size_mb=10、貼文最短 10 字（_MIN_CHARS）。
+const MAX_FILE_MB = 10
+const MIN_TEXT_CHARS = 10
 
 export default function ResumePage() {
   const [resume, setResume] = useState<Resume | null>(null)
@@ -19,6 +28,7 @@ export default function ResumePage() {
   const [uploading, setUploading] = useState(false)
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [versionsError, setVersionsError] = useState(false)
 
   const [uploadMode, setUploadMode] = useState<'file' | 'text'>('text')
   const [file, setFile] = useState<File | null>(null)
@@ -28,15 +38,22 @@ export default function ResumePage() {
   useEffect(() => {
     fetchCurrentResume()
       .then((r) => applyResume(r))
-      .catch(() => setError('Failed to load your resume.'))
+      .catch((e) => setError(getErrorMessage(e, 'Failed to load your resume.')))
       .finally(() => setLoading(false))
   }, [])
 
   function applyResume(r: Resume | null) {
     setResume(r)
     setDraft(r ? (r.parsed_data ?? emptyResumeParsed()) : null)
+    setVersionsError(false)
     if (r) {
-      fetchVersions(r.id).then(setVersions).catch(() => setVersions([]))
+      fetchVersions(r.id)
+        .then(setVersions)
+        .catch(() => {
+          // 版本清單載入失敗要現形，不能與「尚無版本」混為一談。
+          setVersions([])
+          setVersionsError(true)
+        })
     } else {
       setVersions([])
     }
@@ -45,6 +62,14 @@ export default function ResumePage() {
   async function handleUpload(event: FormEvent) {
     event.preventDefault()
     setError(null)
+    if (uploadMode === 'file' && file && file.size > MAX_FILE_MB * 1024 * 1024) {
+      setError(`File is larger than ${MAX_FILE_MB} MB. Please upload a smaller file.`)
+      return
+    }
+    if (uploadMode === 'text' && text.trim().length < MIN_TEXT_CHARS) {
+      setError(`Please paste at least ${MIN_TEXT_CHARS} characters of resume text.`)
+      return
+    }
     setUploading(true)
     try {
       const r =
@@ -54,8 +79,10 @@ export default function ResumePage() {
       applyResume(r)
       setText('')
       setFile(null)
-    } catch {
-      setError('Upload failed. Check the file type (PDF/DOCX) or text, then try again.')
+    } catch (e) {
+      setError(
+        getErrorMessage(e, 'Upload failed. Check the file type (PDF/DOCX) or text, then try again.'),
+      )
     } finally {
       setUploading(false)
     }
@@ -68,8 +95,8 @@ export default function ResumePage() {
     try {
       const r = await updateResume(resume.id, draft)
       applyResume(r)
-    } catch {
-      setError('Failed to save. Please try again.')
+    } catch (e) {
+      setError(getErrorMessage(e, 'Failed to save. Please try again.'))
     } finally {
       setSaving(false)
     }
@@ -89,9 +116,7 @@ export default function ResumePage() {
       </header>
 
       <main className="mx-auto max-w-3xl space-y-6 px-4 py-8">
-        {error && (
-          <div className="rounded-md bg-red-50 px-4 py-3 text-sm text-red-600">{error}</div>
-        )}
+        {error && <ErrorBanner message={error} />}
 
         {/* 上傳區 */}
         <section className="space-y-4 rounded-lg bg-white p-6 shadow">
@@ -130,18 +155,18 @@ export default function ResumePage() {
             >
               {uploading ? 'Uploading & parsing…' : 'Upload & parse'}
             </button>
+            {uploading && <ElapsedTimer hint="parsing with AI usually takes a few seconds" />}
           </form>
         </section>
 
         {loading ? (
-          <p className="text-center text-gray-400">Loading…</p>
+          <Spinner label="Loading your resume…" />
         ) : resume && draft ? (
           <>
             {resume.parse_status === 'failed' && (
-              <div className="rounded-md bg-yellow-50 px-4 py-3 text-sm text-yellow-800">
-                Automatic parsing failed{resume.parse_error ? `: ${resume.parse_error}` : ''}. Please
-                fill in the fields manually and save.
-              </div>
+              <WarningBanner
+                message={`Automatic parsing failed${resume.parse_error ? `: ${resume.parse_error}` : ''}. Please fill in the fields manually and save.`}
+              />
             )}
 
             {/* 編輯器 */}
@@ -163,8 +188,11 @@ export default function ResumePage() {
             {/* 版本歷史（唯讀） */}
             <section className="space-y-3 rounded-lg bg-white p-6 shadow">
               <h2 className="text-lg font-semibold text-gray-900">Version history</h2>
+              {versionsError && (
+                <WarningBanner message="Could not load version history. Reload the page to retry." />
+              )}
               {versions.length === 0 ? (
-                <p className="text-sm text-gray-400">No versions yet.</p>
+                !versionsError && <p className="text-sm text-gray-400">No versions yet.</p>
               ) : (
                 <ul className="divide-y divide-gray-100 text-sm">
                   {[...versions].reverse().map((v) => (

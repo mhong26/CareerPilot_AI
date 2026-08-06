@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-import { apiClient } from './client'
+import { LONG_TASK_TIMEOUT_MS, apiClient } from './client'
 import type { ApplicationKitResponse, KitArtifact } from '../types/applicationKit'
 
 // POST /jobs/{id}/generate-application-kit：同步跑 agent（多次 AI 呼叫），
@@ -12,6 +12,7 @@ export async function generateApplicationKit(
   const { data } = await apiClient.post<ApplicationKitResponse>(
     `/jobs/${jobId}/generate-application-kit`,
     resumeId ? { resume_id: resumeId } : {},
+    { timeout: LONG_TASK_TIMEOUT_MS },
   )
   return data
 }

@@ -4,7 +4,12 @@ import { Link } from 'react-router-dom'
 import { fetchMatches, runMatches } from '../api/match'
 import { fetchJobs } from '../api/job'
 import { fetchCurrentResume } from '../api/resume'
+import ElapsedTimer from '../components/ui/ElapsedTimer'
+import ErrorBanner from '../components/ui/ErrorBanner'
+import Spinner from '../components/ui/Spinner'
+import WarningBanner from '../components/ui/WarningBanner'
 import { useAuth } from '../hooks/useAuth'
+import { getErrorMessage } from '../lib/errors'
 import { type JobListItem } from '../types/job'
 import { type MatchResultItem } from '../types/match'
 import { type Resume } from '../types/resume'
@@ -76,9 +81,7 @@ function MatchDetails({ match }: { match: MatchResultItem }) {
         </div>
       ) : (
         // explanation 生成失敗：分數仍有效（後端照存），僅解釋缺席。
-        <div className="rounded-md bg-yellow-50 px-4 py-3 text-sm text-yellow-800">
-          Explanation generation failed — the score is still valid.
-        </div>
+        <WarningBanner message="Explanation generation failed — the score is still valid." />
       )}
       <p className="text-xs text-gray-400">
         Results reflect the resume at the time of the run (last run{' '}
@@ -101,23 +104,31 @@ export default function DashboardPage() {
   const [expandedId, setExpandedId] = useState<string | null>(null)
 
   // 載入 current resume + jobs（並行），有履歷再載入既有 match 結果。
+  const [reloadKey, setReloadKey] = useState(0)
   useEffect(() => {
+    let cancelled = false
     async function load() {
+      setLoading(true)
+      setError(null)
       try {
         const [resumeData, jobsData] = await Promise.all([fetchCurrentResume(), fetchJobs()])
+        if (cancelled) return
         setResume(resumeData)
         setJobs(jobsData)
         if (resumeData) {
           setMatches(await fetchMatches(resumeData.id))
         }
-      } catch {
-        setError('Failed to load your dashboard data.')
+      } catch (e) {
+        if (!cancelled) setError(getErrorMessage(e, 'Failed to load your dashboard data.'))
       } finally {
-        setLoading(false)
+        if (!cancelled) setLoading(false)
       }
     }
     void load()
-  }, [])
+    return () => {
+      cancelled = true
+    }
+  }, [reloadKey])
 
   // 一鍵對全部 job 執行（API 本身支援子集；資料量小，不做勾選 UI）。
   async function handleRun() {
@@ -134,8 +145,10 @@ export default function DashboardPage() {
       if (response.skipped.length > 0) {
         setWarning(`${response.skipped.length} job(s) were skipped (not found or not parsed).`)
       }
-    } catch {
-      setError('Matching failed. Make sure your resume parsed successfully, then try again.')
+    } catch (e) {
+      setError(
+        getErrorMessage(e, 'Matching failed. Make sure your resume parsed successfully, then try again.'),
+      )
     } finally {
       setRunning(false)
     }
@@ -159,12 +172,8 @@ export default function DashboardPage() {
       </header>
 
       <main className="max-w-5xl mx-auto space-y-6 px-4 py-8">
-        {error && (
-          <div className="rounded-md bg-red-50 px-4 py-3 text-sm text-red-600">{error}</div>
-        )}
-        {warning && (
-          <div className="rounded-md bg-yellow-50 px-4 py-3 text-sm text-yellow-800">{warning}</div>
-        )}
+        {error && <ErrorBanner message={error} onRetry={() => setReloadKey((k) => k + 1)} />}
+        {warning && <WarningBanner message={warning} />}
 
         {/* 歡迎 + 快速入口 */}
         <div className="bg-white rounded-lg shadow p-6 flex items-center justify-between gap-4">
@@ -188,7 +197,7 @@ export default function DashboardPage() {
 
         {/* 匹配區塊：載入中 / 無履歷 / 無職缺 / ranked list */}
         {loading ? (
-          <p className="text-center text-gray-400">Loading…</p>
+          <Spinner label="Loading your dashboard…" />
         ) : !resume ? (
           <section className="space-y-3 rounded-lg bg-white p-6 shadow">
             <h2 className="text-lg font-semibold text-gray-900">Job matches</h2>
@@ -227,6 +236,9 @@ export default function DashboardPage() {
             <p className="text-xs text-gray-400">
               Matching calls the AI once per job and can take a while for many jobs.
             </p>
+            {running && (
+              <ElapsedTimer hint={`matching ${jobs.length} job(s), roughly a few seconds each`} />
+            )}
             {matches.length === 0 ? (
               <p className="text-sm text-gray-400">
                 No matches yet. Run matching to rank your jobs.

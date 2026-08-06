@@ -6,17 +6,21 @@ Router 無 prefix（同 skill_gaps 慣例）：``/jobs/...`` 是以職缺為入�
 
 import uuid
 
-from fastapi import APIRouter, Depends, HTTPException, Query, status
+from fastapi import APIRouter, Depends, HTTPException, Query, Request, status
 from langchain_core.language_models import BaseChatModel
-from langchain_google_genai import ChatGoogleGenerativeAI
 from pydantic import ValidationError
 from sqlalchemy.orm import Session
 
 from app.ai.llm.base import LLMProvider
-from app.ai.llm.gemini import build_gemini_provider
-from app.ai.rag.rerank import CrossEncoderReranker, Reranker
-from app.api.deps import get_current_user
+from app.ai.rag.rerank import Reranker
+from app.api.deps import (
+    get_current_user,
+    get_llm_provider,
+    get_planner_model,
+    get_reranker,
+)
 from app.core.config import settings
+from app.core.ratelimit import limiter
 from app.db.models import GeneratedArtifact, ResumeVersion, User
 from app.db.session import get_db
 from app.schemas.application_kit import (
@@ -37,29 +41,6 @@ from app.services.job_service import JobNotFoundError
 from app.services.resume_service import ResumeNotFoundError
 
 router = APIRouter(tags=["application-kit"])
-
-
-def get_llm_provider() -> LLMProvider:
-    """Provider 注入點（工具內生成用）——測試以 ``app.dependency_overrides`` 換假。"""
-    return build_gemini_provider()
-
-
-def get_reranker() -> Reranker:
-    """Reranker 注入點——測試換假 reranker，CI 因此永不下載 cross-encoder 模型。"""
-    return CrossEncoderReranker()
-
-
-def get_planner_model() -> BaseChatModel:
-    """Planner 注入點——真跑用 Gemini function calling，測試換 ScriptedPlanner。
-
-    temperature=0：planner 做的是工具選擇決策，要穩定不要創意（創意留給
-    generate 工具內的 wrapper 呼叫）。
-    """
-    return ChatGoogleGenerativeAI(
-        model=settings.gemini_model,
-        google_api_key=settings.gemini_api_key,
-        temperature=0,
-    )
 
 
 def _to_artifact_response(db: Session, artifact: GeneratedArtifact) -> ArtifactResponse:
@@ -102,7 +83,9 @@ def _to_kit_response(
 
 
 @router.post("/jobs/{job_id}/generate-application-kit", response_model=ApplicationKitResponse)
+@limiter.limit(settings.rate_limit_kit)
 def generate_application_kit_endpoint(
+    request: Request,
     job_id: uuid.UUID,
     data: GenerateKitRequest,
     current_user: User = Depends(get_current_user),
