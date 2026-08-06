@@ -1,10 +1,14 @@
 import { useEffect, useMemo, useState } from 'react'
-import axios from 'axios'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 
 import { deleteJob, fetchJob } from '../api/job'
 import { fetchCurrentResume } from '../api/resume'
 import { fetchSkillGapForJob, generateSkillGap } from '../api/skillGap'
+import ElapsedTimer from '../components/ui/ElapsedTimer'
+import ErrorBanner from '../components/ui/ErrorBanner'
+import Spinner from '../components/ui/Spinner'
+import WarningBanner from '../components/ui/WarningBanner'
+import { getErrorMessage } from '../lib/errors'
 import { type Job } from '../types/job'
 import { type Resume } from '../types/resume'
 import { type SkillGapChunk, type SkillGapItem, type SkillGapReport } from '../types/skillGap'
@@ -133,7 +137,7 @@ export default function JobDetailPage() {
     if (!jobId) return
     fetchJob(jobId)
       .then(setJob)
-      .catch(() => setError('Failed to load the job.'))
+      .catch((e) => setError(getErrorMessage(e, 'Failed to load the job.')))
       .finally(() => setLoading(false))
   }, [jobId])
 
@@ -179,8 +183,8 @@ export default function JobDetailPage() {
     try {
       await deleteJob(job.id)
       navigate('/jobs')
-    } catch {
-      setError('Failed to delete the job. Please try again.')
+    } catch (e) {
+      setError(getErrorMessage(e, 'Failed to delete the job. Please try again.'))
       setDeleting(false)
     }
   }
@@ -193,12 +197,8 @@ export default function JobDetailPage() {
       setReport(await generateSkillGap(resume.id, job.id))
       setExpandedCitation(null)
     } catch (e) {
-      // 409（履歷未解析 / 職缺未索引）帶可讀 detail，直接顯示；其餘給通用訊息。
-      const detail =
-        axios.isAxiosError(e) && e.response?.status === 409
-          ? (e.response.data as { detail?: string } | undefined)?.detail
-          : undefined
-      setGapError(detail ?? 'Failed to analyze skill gaps. Please try again.')
+      // 409（履歷未解析 / 職缺未索引）等後端可讀 detail 由 getErrorMessage 帶出。
+      setGapError(getErrorMessage(e, 'Failed to analyze skill gaps. Please try again.'))
     } finally {
       setGenerating(false)
     }
@@ -228,27 +228,23 @@ export default function JobDetailPage() {
       </header>
 
       <main className="mx-auto max-w-3xl space-y-6 px-4 py-8">
-        {error && (
-          <div className="rounded-md bg-red-50 px-4 py-3 text-sm text-red-600">{error}</div>
-        )}
+        {error && <ErrorBanner message={error} />}
 
         {loading ? (
-          <p className="text-center text-gray-400">Loading…</p>
+          <Spinner label="Loading job…" />
         ) : !job ? (
           <p className="text-center text-gray-400">Job not found.</p>
         ) : (
           <>
             {job.parse_status === 'failed' && (
-              <div className="rounded-md bg-yellow-50 px-4 py-3 text-sm text-yellow-800">
-                Automatic parsing failed{job.parse_error ? `: ${job.parse_error}` : ''}. Only the
-                original text is available below.
-              </div>
+              <WarningBanner
+                message={`Automatic parsing failed${job.parse_error ? `: ${job.parse_error}` : ''}. Only the original text is available below.`}
+              />
             )}
             {job.index_status === 'failed' && (
-              <div className="rounded-md bg-yellow-50 px-4 py-3 text-sm text-yellow-800">
-                Embedding indexing failed{job.index_error ? `: ${job.index_error}` : ''}. This job
-                will be excluded from similarity search.
-              </div>
+              <WarningBanner
+                message={`Embedding indexing failed${job.index_error ? `: ${job.index_error}` : ''}. This job will be excluded from similarity search.`}
+              />
             )}
 
             {/* 標頭：職稱 / 公司 / 地點 / 型態 / 狀態 */}
@@ -343,18 +339,12 @@ export default function JobDetailPage() {
               <section className="space-y-4 rounded-lg bg-white p-6 shadow">
                 <h2 className="text-lg font-semibold text-gray-900">Skill gap analysis</h2>
 
-                {gapError && (
-                  <div className="rounded-md bg-red-50 px-4 py-3 text-sm text-red-600">
-                    {gapError}
-                  </div>
-                )}
+                {gapError && <ErrorBanner message={gapError} />}
 
                 {resumeLoading ? (
-                  <p className="text-center text-gray-400">Loading…</p>
+                  <Spinner />
                 ) : resumeError ? (
-                  <div className="rounded-md bg-red-50 px-4 py-3 text-sm text-red-600">
-                    {resumeError}
-                  </div>
+                  <ErrorBanner message={resumeError} />
                 ) : !resume ? (
                   <p className="text-sm text-gray-600">
                     Upload a resume first to analyze skill gaps.{' '}
@@ -363,10 +353,7 @@ export default function JobDetailPage() {
                     </Link>
                   </p>
                 ) : job.index_status !== 'indexed' ? (
-                  <div className="rounded-md bg-yellow-50 px-4 py-3 text-sm text-yellow-800">
-                    This job is not indexed for retrieval, so evidence-based analysis is
-                    unavailable. Re-add the job to rebuild its index.
-                  </div>
+                  <WarningBanner message="This job is not indexed for retrieval, so evidence-based analysis is unavailable. Re-add the job to rebuild its index." />
                 ) : (
                   <>
                     <div className="space-y-1">
@@ -386,10 +373,13 @@ export default function JobDetailPage() {
                         Analysis retrieves job evidence and calls the AI — it can take a little
                         while.
                       </p>
+                      {generating && (
+                        <ElapsedTimer hint="retrieval + AI generation usually takes under a minute" />
+                      )}
                     </div>
 
                     {loadingReport ? (
-                      <p className="text-center text-gray-400">Loading…</p>
+                      <Spinner />
                     ) : !report ? (
                       <p className="text-sm text-gray-400">
                         No analysis yet. Run one to see the gaps between this job and your resume.
@@ -399,9 +389,7 @@ export default function JobDetailPage() {
                         {report.generation_error !== null ? (
                           <>
                             {/* 生成失敗但檢索有效：黃色提示 + 純證據清單（NFR-4 降級）。 */}
-                            <div className="rounded-md bg-yellow-50 px-4 py-3 text-sm text-yellow-800">
-                              Gap generation failed — the retrieved evidence below is still valid.
-                            </div>
+                            <WarningBanner message="Gap generation failed — the retrieved evidence below is still valid." />
                             {report.chunks.map((chunk) => (
                               <div key={chunk.id} className="space-y-2 rounded-md bg-gray-50 p-4">
                                 <h4 className="text-sm font-semibold uppercase tracking-wide text-gray-500">

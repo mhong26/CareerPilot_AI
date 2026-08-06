@@ -15,7 +15,13 @@ export const apiClient = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
+  // 一般請求 30s 上限；長任務（match / skill gap / kit / upload+parse）
+  // 於各 api module 以 per-request LONG_TASK_TIMEOUT_MS 覆寫。
+  timeout: 30_000,
 })
+
+/** LLM-heavy 長任務的 per-request timeout（kit 生成最長 30–90s）。 */
+export const LONG_TASK_TIMEOUT_MS = 180_000
 
 interface RetryableRequest extends InternalAxiosRequestConfig {
   _retry?: boolean

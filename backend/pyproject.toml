@@ -25,6 +25,8 @@ dependencies = [
     "langgraph>=0.2",
     "langsmith>=0.3.45",
     "sentence-transformers>=3.0",
+    "structlog>=24.1",
+    "slowapi>=0.1.9",
 ]
 
 [project.optional-dependencies]

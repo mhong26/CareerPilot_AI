@@ -2,6 +2,12 @@ import { type FormEvent, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
 import { useAuth } from '../hooks/useAuth'
+import { getErrorMessage } from '../lib/errors'
+
+// 對齊後端 schemas/auth.py 的限制（bcrypt 只取前 72 bytes）。
+const PASSWORD_MIN = 8
+const PASSWORD_MAX = 72
+const FULL_NAME_MAX = 255
 
 export default function RegisterPage() {
   const { register } = useAuth()
@@ -15,12 +21,16 @@ export default function RegisterPage() {
   async function handleSubmit(event: FormEvent) {
     event.preventDefault()
     setError(null)
+    if (password.length < PASSWORD_MIN || password.length > PASSWORD_MAX) {
+      setError(`Password must be ${PASSWORD_MIN}–${PASSWORD_MAX} characters.`)
+      return
+    }
     setSubmitting(true)
     try {
       await register(email, password, fullName || undefined)
       navigate('/dashboard')
-    } catch {
-      setError('Could not register. The email may already be in use.')
+    } catch (e) {
+      setError(getErrorMessage(e, 'Could not register. Please try again.'))
     } finally {
       setSubmitting(false)
     }
@@ -41,6 +51,7 @@ export default function RegisterPage() {
             <input
               id="fullName"
               type="text"
+              maxLength={FULL_NAME_MAX}
               value={fullName}
               onChange={(event) => setFullName(event.target.value)}
               className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 focus:border-blue-500 focus:outline-none"
@@ -67,12 +78,13 @@ export default function RegisterPage() {
               id="password"
               type="password"
               required
-              minLength={8}
+              minLength={PASSWORD_MIN}
+              maxLength={PASSWORD_MAX}
               value={password}
               onChange={(event) => setPassword(event.target.value)}
               className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 focus:border-blue-500 focus:outline-none"
             />
-            <p className="mt-1 text-xs text-gray-400">At least 8 characters.</p>
+            <p className="mt-1 text-xs text-gray-400">8–72 characters.</p>
           </div>
           {error && <p className="text-sm text-red-500">{error}</p>}
           <button

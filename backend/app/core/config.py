@@ -42,6 +42,20 @@ class Settings(BaseSettings):
     app_env: str = "development"
     log_level: str = "INFO"
     max_upload_size_mb: int = 10
+    # 貼上文字（resume text_content / job raw_text）的長度上限；
+    # prompt 側另有 50k 截斷，此處擋的是無上限 DB 寫入。
+    max_text_input_chars: int = 50_000
+
+    # Rate limiting（slowapi，in-memory storage——per-process，多 worker 時
+    # 各自計數（實際限額 ×N）；要跨 process 共享需改 storage_uri 接 Redis）。
+    # 只掛在昂貴（burn LLM 額度）與敏感（brute force）endpoints。
+    rate_limit_enabled: bool = True
+    rate_limit_auth: str = "10/minute"
+    rate_limit_upload: str = "10/minute"
+    rate_limit_job_create: str = "20/minute"
+    rate_limit_match: str = "5/minute"
+    rate_limit_skill_gap: str = "5/minute"
+    rate_limit_kit: str = "3/minute"
 
     @property
     def cors_origins(self) -> list[str]:

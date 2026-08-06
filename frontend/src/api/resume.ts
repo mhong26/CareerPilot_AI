@@ -1,12 +1,15 @@
 import axios from 'axios'
 
-import { apiClient } from './client'
+import { LONG_TASK_TIMEOUT_MS, apiClient } from './client'
 import type { Resume, ResumeParsed, ResumeVersion } from '../types/resume'
 
 // multipart 上傳：apiClient 預設 Content-Type 是 application/json，上傳要用 FormData，
 // 必須把該請求的 Content-Type 設成 undefined，讓瀏覽器自動補上帶 boundary 的 multipart
-// 標頭（axios 慣用解法）。
-const MULTIPART = { headers: { 'Content-Type': undefined } }
+// 標頭（axios 慣用解法）。上傳會同步觸發 LLM 解析，套長任務 timeout。
+const MULTIPART = {
+  headers: { 'Content-Type': undefined },
+  timeout: LONG_TASK_TIMEOUT_MS,
+}
 
 export async function uploadResumeFile(file: File): Promise<Resume> {
   const form = new FormData()

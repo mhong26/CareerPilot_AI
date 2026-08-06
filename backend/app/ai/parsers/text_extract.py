@@ -50,6 +50,12 @@ def extract_text(
     else:
         raise UnsupportedFileTypeError(filename or content_type or "unknown")
 
+    # Magic-byte 白名單：副檔名 / MIME 可以造假，檔頭不行——改名混入的
+    # 其他格式在進 pypdf / python-docx 前就擋下（DOCX 是 ZIP 容器，PK 開頭）。
+    magic = b"%PDF-" if source_type == "pdf" else b"PK\x03\x04"
+    if not content.startswith(magic):
+        raise UnsupportedFileTypeError(f"檔案內容與 {source_type} 格式不符（magic bytes 驗證失敗）")
+
     try:
         raw = _extract_pdf(content) if source_type == "pdf" else _extract_docx(content)
     except Exception as exc:  # pypdf / docx 對損毀檔丟的各式例外
