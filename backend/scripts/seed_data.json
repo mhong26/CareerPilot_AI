@@ -1,0 +1,234 @@
+{
+  "users": [
+    {
+      "email": "demo@careerpilot.ai",
+      "password": "Demo1234!",
+      "full_name": "Alex Rivera",
+      "resume": {
+        "raw_text": "Alex Rivera\nAustin, TX | alex.rivera@example.com | github.com/arivera-dev\n\nSUMMARY\nBackend engineer with 4 years of experience building REST APIs and data-heavy services in Python. Comfortable owning features end to end: schema design, API implementation, testing, and containerized deployment with Docker and GitHub Actions.\n\nSKILLS\nPython, FastAPI, Django, PostgreSQL, Redis, SQLAlchemy, Celery, Docker, GitHub Actions, pytest, REST API design, Git\n\nEXPERIENCE\nBackend Engineer - Freshlane (Jun 2023 - Present)\n- Designed and shipped a FastAPI order-management service handling 2M requests/day, backed by PostgreSQL and Redis caching\n- Cut p95 API latency from 800ms to 210ms by adding query-level indexes and connection pooling\n- Built async task pipelines with Celery for invoice generation and nightly reconciliation\n- Introduced a pytest-based integration test suite, raising backend coverage from 40% to 85%\n\nJunior Software Engineer - Brightcart (Jul 2021 - May 2023)\n- Maintained the Django monolith powering the storefront checkout flow\n- Implemented webhook integrations with three payment providers\n- Wrote database migrations and tuned slow PostgreSQL queries flagged in production\n\nPROJECTS\nshiplog - Open-source deployment audit-log CLI (Python, SQLite, Typer)\n- Built a CLI tool that records and diffs deployment metadata across environments\n- Grew the project to 300+ GitHub stars with 12 external contributors\n\nEDUCATION\nB.S. Computer Science, University of Texas at Austin, 2021",
+        "parsed": {
+          "basic_info": {
+            "name": "Alex Rivera",
+            "email": "alex.rivera@example.com",
+            "phone": "",
+            "location": "Austin, TX",
+            "links": ["github.com/arivera-dev"]
+          },
+          "summary": "Backend engineer with 4 years of experience building REST APIs and data-heavy services in Python. Comfortable owning features end to end: schema design, API implementation, testing, and containerized deployment with Docker and GitHub Actions.",
+          "skills": ["Python", "FastAPI", "Django", "PostgreSQL", "Redis", "SQLAlchemy", "Celery", "Docker", "GitHub Actions", "pytest", "REST API design", "Git"],
+          "experience": [
+            {
+              "company": "Freshlane",
+              "title": "Backend Engineer",
+              "start_date": "Jun 2023",
+              "end_date": "Present",
+              "bullets": [
+                "Designed and shipped a FastAPI order-management service handling 2M requests/day, backed by PostgreSQL and Redis caching",
+                "Cut p95 API latency from 800ms to 210ms by adding query-level indexes and connection pooling",
+                "Built async task pipelines with Celery for invoice generation and nightly reconciliation",
+                "Introduced a pytest-based integration test suite, raising backend coverage from 40% to 85%"
+              ]
+            },
+            {
+              "company": "Brightcart",
+              "title": "Junior Software Engineer",
+              "start_date": "Jul 2021",
+              "end_date": "May 2023",
+              "bullets": [
+                "Maintained the Django monolith powering the storefront checkout flow",
+                "Implemented webhook integrations with three payment providers",
+                "Wrote database migrations and tuned slow PostgreSQL queries flagged in production"
+              ]
+            }
+          ],
+          "projects": [
+            {
+              "name": "shiplog",
+              "description": "Open-source deployment audit-log CLI",
+              "bullets": [
+                "Built a CLI tool that records and diffs deployment metadata across environments",
+                "Grew the project to 300+ GitHub stars with 12 external contributors"
+              ],
+              "tech": ["Python", "SQLite", "Typer"]
+            }
+          ],
+          "education": [
+            {
+              "school": "University of Texas at Austin",
+              "degree": "B.S.",
+              "field": "Computer Science",
+              "graduation": "2021"
+            }
+          ],
+          "certifications": []
+        }
+      },
+      "jobs": [
+        {
+          "raw_text": "Senior Backend Engineer — Nimbus Health (Remote, US)\n\nNimbus Health builds scheduling infrastructure for outpatient clinics. We are hiring a Senior Backend Engineer to own core API services.\n\nWhat you will do:\n- Design and evolve REST APIs for our patient scheduling platform\n- Own PostgreSQL schema design, migrations, and query performance\n- Operate services deployed on Kubernetes in AWS\n- Mentor two junior engineers through code review and pairing\n\nRequirements: Python, FastAPI or Flask, PostgreSQL, Kubernetes, AWS. 5+ years building production backend services, 2+ years operating workloads on Kubernetes. Bachelor's degree in Computer Science or equivalent practical experience.\n\nNice to have: Terraform, GraphQL, HIPAA compliance experience.",
+          "parsed": {
+            "company": "Nimbus Health",
+            "title": "Senior Backend Engineer",
+            "location": "Remote (US)",
+            "work_mode": "remote",
+            "responsibilities": [
+              "Design and evolve REST APIs for our patient scheduling platform",
+              "Own PostgreSQL schema design, migrations, and query performance",
+              "Operate services deployed on Kubernetes in AWS",
+              "Mentor two junior engineers through code review and pairing"
+            ],
+            "required_skills": ["Python", "FastAPI or Flask", "PostgreSQL", "Kubernetes", "AWS"],
+            "preferred_skills": ["Terraform", "GraphQL", "HIPAA compliance experience"],
+            "qualifications": ["Bachelor's degree in Computer Science or equivalent practical experience"],
+            "experience_requirements": [
+              "5+ years building production backend services",
+              "2+ years operating workloads on Kubernetes"
+            ]
+          }
+        },
+        {
+          "raw_text": "Server-Side Engineer — Loopwire (Hybrid, Denver CO)\n\nLoopwire's customer portal is growing fast and the service layer behind it needs an owner. We care about fundamentals, not brand names — our stack is boring on purpose and we are language-agnostic for the right person.\n\nYou will build and maintain the service layer behind our customer-facing web product, model business data in a relational database, keep query performance healthy, and collaborate with frontend engineers on API contracts.\n\nWe look for: fluency in a modern dynamic server-side language, solid relational data modeling, thoughtful HTTP API design, and strong automated testing habits. 3+ years shipping server-side software. Bonus: familiarity with message queues and containerized deployments.",
+          "parsed": {
+            "company": "Loopwire",
+            "title": "Server-Side Engineer",
+            "location": "Denver, CO",
+            "work_mode": "hybrid",
+            "responsibilities": [
+              "Build and maintain the service layer behind our customer-facing web product",
+              "Model business data in a relational database and keep query performance healthy",
+              "Collaborate with frontend engineers on API contracts"
+            ],
+            "required_skills": [
+              "A modern dynamic server-side language",
+              "Relational data modeling",
+              "HTTP API design",
+              "Automated testing habits"
+            ],
+            "preferred_skills": ["Message queues", "Containerized deployments"],
+            "qualifications": [],
+            "experience_requirements": ["3+ years shipping server-side software"]
+          }
+        },
+        {
+          "raw_text": "Data Engineer — Metriflow (Remote, US)\n\nMetriflow's analytics platform ingests billions of events a month. We are hiring a Data Engineer to own our batch pipelines.\n\nYou will build and operate Airflow DAGs, model warehouse tables with dbt, and optimize Spark jobs.\n\nRequirements: Python, SQL, Apache Spark, Airflow, dbt. 3+ years in data engineering. Bonus: Kafka, Snowflake.",
+          "parsed": {
+            "company": "Metriflow",
+            "title": "Data Engineer",
+            "location": "Remote (US)",
+            "work_mode": "remote",
+            "responsibilities": [
+              "Build and operate Airflow DAGs for batch ingestion",
+              "Model warehouse tables with dbt",
+              "Optimize Spark jobs for cost and runtime"
+            ],
+            "required_skills": ["Python", "SQL", "Apache Spark", "Airflow", "dbt"],
+            "preferred_skills": ["Kafka", "Snowflake"],
+            "qualifications": [],
+            "experience_requirements": ["3+ years in data engineering"]
+          }
+        },
+        {
+          "raw_text": "DevOps Engineer — Straturn (Remote, US)\n\nStraturn hosts CI infrastructure for hardware companies. We need a DevOps Engineer to scale our build fleet.\n\nYou will scale and monitor the CI build fleet, automate infrastructure with Terraform modules, and harden container images and cluster policies.\n\nRequirements: Linux administration, Docker, Kubernetes, Terraform, Bash/Python scripting. 3+ years in DevOps or platform roles. Bonus: Nomad, Packer.",
+          "parsed": {
+            "company": "Straturn",
+            "title": "DevOps Engineer",
+            "location": "Remote (US)",
+            "work_mode": "remote",
+            "responsibilities": [
+              "Scale and monitor the CI build fleet",
+              "Automate infrastructure with Terraform modules",
+              "Harden container images and cluster policies"
+            ],
+            "required_skills": ["Linux administration", "Docker", "Kubernetes", "Terraform", "Bash or Python scripting"],
+            "preferred_skills": ["Nomad", "Packer"],
+            "qualifications": [],
+            "experience_requirements": ["3+ years in DevOps or platform roles"]
+          }
+        },
+        {
+          "raw_text": "Product Marketing Manager — Atlas CRM (Remote, US)\n\nAtlas CRM is hiring a PMM to own go-to-market for our sales-automation suite.\n\nYou will own positioning and messaging for the product line, plan and execute launches with sales and customer success, and run customer interviews to turn insights into enablement content.\n\nRequirements: B2B SaaS positioning, launch planning, sales enablement content, customer interviews. 4+ years in product marketing. Bonus: CRM industry experience.",
+          "parsed": {
+            "company": "Atlas CRM",
+            "title": "Product Marketing Manager",
+            "location": "Remote (US)",
+            "work_mode": "remote",
+            "responsibilities": [
+              "Own positioning and messaging for the sales-automation product line",
+              "Plan and execute product launches with sales and customer success",
+              "Run customer interviews and turn insights into enablement content"
+            ],
+            "required_skills": ["B2B SaaS positioning", "Launch planning", "Sales enablement", "Customer research"],
+            "preferred_skills": ["CRM industry experience"],
+            "qualifications": [],
+            "experience_requirements": ["4+ years in product marketing"]
+          }
+        }
+      ]
+    },
+    {
+      "email": "demo2@careerpilot.ai",
+      "password": "Demo1234!",
+      "full_name": "Maya Chen",
+      "resume": {
+        "raw_text": "Maya Chen\nBrooklyn, NY | maya.chen@example.com | mayachen.dev\n\nSUMMARY\nFrontend engineer with 3 years of experience building responsive single-page applications in React and TypeScript. Strong on component architecture, data fetching patterns, and test-driven UI development.\n\nSKILLS\nReact, TypeScript, JavaScript, Next.js, Redux Toolkit, TanStack Query, Tailwind CSS, HTML, CSS, Vitest, Playwright, Git\n\nEXPERIENCE\nFrontend Engineer - Orbit Commerce (Mar 2024 - Present)\n- Rebuilt the checkout flow as a Next.js app with TypeScript, lifting conversion by 8%\n- Introduced TanStack Query for server-state management, deleting 3k lines of hand-rolled fetching code\n- Set up Playwright end-to-end suites that gate every deploy\n- Led migration from styled-components to Tailwind CSS across 120 components\n\nJunior Frontend Developer - Lumen Analytics (Jun 2022 - Feb 2024)\n- Built dashboard charts and filter panels in React with Redux Toolkit\n- Fixed cross-browser layout bugs and improved Lighthouse performance score from 61 to 92\n- Wrote Vitest unit tests for shared UI components\n\nPROJECTS\nhueframe - Open-source color-palette playground (React, TypeScript, Vite)\n- Built an interactive palette editor with live WCAG-contrast preview badges\n- 5k monthly visitors; featured in a frontend newsletter\n\nEDUCATION\nB.A. Interactive Media, NYU, 2022",
+        "parsed": {
+          "basic_info": {
+            "name": "Maya Chen",
+            "email": "maya.chen@example.com",
+            "phone": "",
+            "location": "Brooklyn, NY",
+            "links": ["mayachen.dev"]
+          },
+          "summary": "Frontend engineer with 3 years of experience building responsive single-page applications in React and TypeScript. Strong on component architecture, data fetching patterns, and test-driven UI development.",
+          "skills": ["React", "TypeScript", "JavaScript", "Next.js", "Redux Toolkit", "TanStack Query", "Tailwind CSS", "HTML", "CSS", "Vitest", "Playwright", "Git"],
+          "experience": [
+            {
+              "company": "Orbit Commerce",
+              "title": "Frontend Engineer",
+              "start_date": "Mar 2024",
+              "end_date": "Present",
+              "bullets": [
+                "Rebuilt the checkout flow as a Next.js app with TypeScript, lifting conversion by 8%",
+                "Introduced TanStack Query for server-state management, deleting 3k lines of hand-rolled fetching code",
+                "Set up Playwright end-to-end suites that gate every deploy",
+                "Led migration from styled-components to Tailwind CSS across 120 components"
+              ]
+            },
+            {
+              "company": "Lumen Analytics",
+              "title": "Junior Frontend Developer",
+              "start_date": "Jun 2022",
+              "end_date": "Feb 2024",
+              "bullets": [
+                "Built dashboard charts and filter panels in React with Redux Toolkit",
+                "Fixed cross-browser layout bugs and improved Lighthouse performance score from 61 to 92",
+                "Wrote Vitest unit tests for shared UI components"
+              ]
+            }
+          ],
+          "projects": [
+            {
+              "name": "hueframe",
+              "description": "Open-source color-palette playground",
+              "bullets": [
+                "Built an interactive palette editor with live WCAG-contrast preview badges",
+                "5k monthly visitors; featured in a frontend newsletter"
+              ],
+              "tech": ["React", "TypeScript", "Vite"]
+            }
+          ],
+          "education": [
+            {
+              "school": "NYU",
+              "degree": "B.A.",
+              "field": "Interactive Media",
+              "graduation": "2022"
+            }
+          ],
+          "certifications": []
+        }
+      },
+      "jobs": []
+    }
+  ]
+}

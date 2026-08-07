@@ -1,0 +1,93 @@
+# Production compose（Phase 10）。兩種用法：
+#   交付：docker compose -f docker-compose.prod.yml pull && docker compose -f docker-compose.prod.yml up -d
+#   本地驗證（CD 尚未發佈時）：docker compose -f docker-compose.prod.yml up --build -d
+# 與 dev compose 的差異：不掛原始碼、db/backend 不對外開 port（僅 nginx 對外）、
+# image 來自 GHCR、restart 自癒、backend 啟動時自動 alembic upgrade head。
+
+# 獨立 project name：不設的話與 dev compose 共用目錄名 project，
+# 兩邊 up 會互相 recreate 對方的容器。
+name: careerpilot-prod
+
+services:
+  db:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-careerpilot}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-careerpilot}
+      POSTGRES_DB: ${POSTGRES_DB:-careerpilot}
+    volumes:
+      # 獨立 volume，不與 dev 的 postgres_data 混用
+      - postgres_data_prod:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-careerpilot}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  backend:
+    image: ghcr.io/mhong26/careerpilot-backend:${IMAGE_TAG:-latest}
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.prod
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-careerpilot}:${POSTGRES_PASSWORD:-careerpilot}@db:5432/${POSTGRES_DB:-careerpilot}
+      # :?…——必填變數沒設就讓 compose 直接報錯拒起。空的 JWT_SECRET 會覆蓋
+      # Settings 預設值、變成用空字串簽 JWT（任何人可偽造 token），必須擋在啟動前。
+      GEMINI_API_KEY: ${GEMINI_API_KEY:?GEMINI_API_KEY must be set in .env}
+      JWT_SECRET: ${JWT_SECRET:?JWT_SECRET must be set in .env}
+      GEMINI_MODEL: ${GEMINI_MODEL:-gemini-3.5-flash-lite}
+      GEMINI_FALLBACK_MODEL: ${GEMINI_FALLBACK_MODEL:-gemini-3.6-flash}
+      EMBEDDING_MODEL: ${EMBEDDING_MODEL:-gemini-embedding-001}
+      EMBEDDING_DIM: ${EMBEDDING_DIM:-768}
+      LANGSMITH_TRACING: ${LANGSMITH_TRACING:-false}
+      LANGSMITH_API_KEY: ${LANGSMITH_API_KEY:-}
+      LANGSMITH_PROJECT: ${LANGSMITH_PROJECT:-careerpilot-ai}
+      JWT_ALGORITHM: ${JWT_ALGORITHM:-HS256}
+      JWT_ACCESS_TOKEN_EXPIRE_MINUTES: ${JWT_ACCESS_TOKEN_EXPIRE_MINUTES:-30}
+      JWT_REFRESH_TOKEN_EXPIRE_DAYS: ${JWT_REFRESH_TOKEN_EXPIRE_DAYS:-7}
+      # production 為 nginx 同源代理，CORS 實際不會被觸發；保留設定作為保險
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost}
+      APP_ENV: ${APP_ENV:-production}
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+      WEB_CONCURRENCY: ${WEB_CONCURRENCY:-2}
+      MAX_UPLOAD_SIZE_MB: ${MAX_UPLOAD_SIZE_MB:-10}
+      MAX_TEXT_INPUT_CHARS: ${MAX_TEXT_INPUT_CHARS:-50000}
+      RATE_LIMIT_ENABLED: ${RATE_LIMIT_ENABLED:-true}
+      RATE_LIMIT_AUTH: ${RATE_LIMIT_AUTH:-10/minute}
+      RATE_LIMIT_UPLOAD: ${RATE_LIMIT_UPLOAD:-10/minute}
+      RATE_LIMIT_JOB_CREATE: ${RATE_LIMIT_JOB_CREATE:-20/minute}
+      RATE_LIMIT_MATCH: ${RATE_LIMIT_MATCH:-5/minute}
+      RATE_LIMIT_SKILL_GAP: ${RATE_LIMIT_SKILL_GAP:-5/minute}
+      RATE_LIMIT_KIT: ${RATE_LIMIT_KIT:-3/minute}
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      # /health 在 DB 不可用時回 503 → urlopen 丟例外 → unhealthy；
+      # 讓 crash loop / 設定錯誤在 docker ps 就看得到，而不是靜默 200 起著。
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health', timeout=5)"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    # application kit 長請求可達 90s+：給進行中的請求足夠的 graceful shutdown
+    # 時間，避免 redeploy 時被預設 10s 後的 SIGKILL 硬殺。
+    stop_grace_period: 90s
+    restart: unless-stopped
+    # 刻意沒有 ports / volumes / command：
+    #   port 只在 compose 內部網路開給 nginx；code 是 image 內建；啟動走 entrypoint.sh
+
+  frontend:
+    image: ghcr.io/mhong26/careerpilot-frontend:${IMAGE_TAG:-latest}
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.prod
+    ports:
+      - "${FRONTEND_PORT:-80}:8080"
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+volumes:
+  postgres_data_prod:

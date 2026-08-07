@@ -8,7 +8,9 @@ import {
 } from '../lib/auth-storage'
 import type { AuthTokens } from '../types/auth'
 
-const API_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:8000'
+// dev 由 VITE_API_URL 直連 backend；production build 不設此變數，
+// 落到相對路徑 /api，由 nginx 反向代理到 backend（同源，無 CORS）。
+const API_URL = import.meta.env.VITE_API_URL ?? '/api'
 
 export const apiClient = axios.create({
   baseURL: API_URL,
@@ -39,6 +41,26 @@ apiClient.interceptors.request.use((config) => {
   return config
 })
 
+// Single-flight refresh：refresh token 是單次使用（rotate），多個請求同時 401
+// 時若並行重刷，後到者會拿已被輪替的舊 token 直接失敗並把使用者登出；
+// 以共享 promise 保證同時間只有一次 /auth/refresh，其餘請求等同一結果。
+let refreshPromise: Promise<AuthTokens> | null = null
+
+const refreshTokens = (): Promise<AuthTokens> => {
+  refreshPromise ??= axios
+    .post<AuthTokens>(`${API_URL}/auth/refresh`, {
+      refresh_token: getRefreshToken(),
+    })
+    .then(({ data }) => {
+      setTokens(data.access_token, data.refresh_token)
+      return data
+    })
+    .finally(() => {
+      refreshPromise = null
+    })
+  return refreshPromise
+}
+
 // On a 401, try the refresh token once, then replay the original request.
 apiClient.interceptors.response.use(
   (response) => response,
@@ -56,11 +78,8 @@ apiClient.interceptors.response.use(
     ) {
       original._retry = true
       try {
-        const { data } = await axios.post<AuthTokens>(`${API_URL}/auth/refresh`, {
-          refresh_token: getRefreshToken(),
-        })
-        setTokens(data.access_token, data.refresh_token)
-        original.headers.set('Authorization', `Bearer ${data.access_token}`)
+        const { access_token } = await refreshTokens()
+        original.headers.set('Authorization', `Bearer ${access_token}`)
         return apiClient(original)
       } catch (refreshError) {
         clearTokens()

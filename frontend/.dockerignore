@@ -1,0 +1,9 @@
+# build context 排除：node_modules 必須排除——host 是 macOS，原生 binary 與
+# alpine 容器不相容；COPY . . 若把它帶進去會蓋掉容器內 npm ci 的安裝結果。
+node_modules
+dist
+coverage
+.env
+.env.*
+Dockerfile
+Dockerfile.prod

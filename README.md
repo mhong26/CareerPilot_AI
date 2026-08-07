@@ -1,72 +1,105 @@
 # CareerPilot AI
 
-CareerPilot AI is an AI-powered resume and job match platform for students, new graduates, and early-career professionals. The system allows a user to upload a resume and one or more target job descriptions, then analyzes job-fit relevance, highlights skill gaps with evidence, and generates tailored application materials such as resume improvement suggestions, cover letter drafts, and interview preparation questions. The platform is designed as a full-stack application with authentication, persistent storage, semantic retrieval, and structured AI outputs.
+[![CI](https://github.com/mhong26/CareerPilot_AI/actions/workflows/ci.yml/badge.svg?event=pull_request)](https://github.com/mhong26/CareerPilot_AI/actions/workflows/ci.yml)
+[![CD](https://github.com/mhong26/CareerPilot_AI/actions/workflows/cd.yml/badge.svg)](https://github.com/mhong26/CareerPilot_AI/actions/workflows/cd.yml)
+
+CareerPilot AI is an AI-powered resume and job match platform for students, new graduates, and early-career professionals. Upload a resume and one or more target job descriptions — the system analyzes job-fit relevance, highlights skill gaps with cited evidence, and generates tailored application materials: resume improvement suggestions, cover letter drafts, and interview preparation questions.
+
+![Dashboard — ranked job matches](docs/images/dashboard.png)
 
 ---
 
-## Required Tools and Dependencies
+## Features
 
-### Docker setup (recommended)
+- **Authentication & data isolation** — JWT (access + refresh rotation), bcrypt, per-user data scoping
+- **Resume ingestion** — PDF / DOCX / pasted text → LLM structured parsing → editable fields → versioning
+- **Job ingestion & indexing** — structured parsing → section-aware chunking → 768-dim embeddings → pgvector (HNSW, cosine)
+- **Job match ranking** — hybrid score (embedding similarity + skill coverage + experience alignment) with LLM-generated explanations
+- **Skill gap analysis (RAG)** — top-k retrieval + cross-encoder rerank → gap report with severity levels and clickable source citations
+- **Application kit (agent)** — one click produces tailored resume suggestions, a cover letter draft, and interview prep questions
+- **Evaluation layer** — six metric suites with baselines, one command, reproducible report
+- **One-command deployment** — Docker images published to GHCR on every merge to `main` and every `v*` tag
 
-| Tool | Version | Notes |
-|---|---|---|
-| Docker | >= 24 | [Install Docker](https://docs.docker.com/get-docker/) |
-| Docker Compose | >= 2.x | Bundled with Docker Desktop |
-| Git | any | |
+## AI Techniques
 
-### Local development (without Docker)
-
-| Tool | Version | Notes |
-|---|---|---|
-| Python | 3.11+ | [python.org](https://www.python.org/downloads/) |
-| uv | latest | `pip install uv` or [install guide](https://github.com/astral-sh/uv) |
-| Node.js | 20+ | [nodejs.org](https://nodejs.org/) |
-| npm | 10+ | Bundled with Node.js |
-| PostgreSQL | 16 + pgvector | Required for local backend |
-
-### External accounts
-
-| Service | Purpose |
+| Technique | Where |
 |---|---|
-| Google AI Studio | Gemini API key — [aistudio.google.com](https://aistudio.google.com/) |
+| **Structured outputs** | All parsing & generation uses schema-validated JSON with retry → repair → model fallback (`gemini-3.5-flash-lite` → `gemini-3.6-flash`) |
+| **Embeddings + vector search** | `gemini-embedding-001` (768-dim, L2-normalized) + pgvector HNSW cosine index |
+| **RAG** | chunk → retrieve → cross-encoder rerank → generate with source attribution |
+| **Agent (LangGraph)** | 7-tool ReAct agent; the LLM picks tools via native function calling, with match-score conditional routing |
+| **Function calling** | `ChatGoogleGenerativeAI.bind_tools` — tool selection is LLM-driven, not hard-coded |
+| **LLM-as-judge evaluation** | Hallucination detection & rubric scoring via LangSmith `evaluate()` |
+| **Observability** | LangSmith tracing on every wrapper call and agent run (silently disabled without an API key) |
+
+## Screenshots
+
+| Skill gap analysis (RAG + citations) | Application kit (agent output) |
+|---|---|
+| ![Skill gap](docs/images/skill-gap.png) | ![Application kit](docs/images/application-kit.png) |
+
+More: [resume editing](docs/images/resume.png) · [job list](docs/images/jobs.png) · [job detail](docs/images/job-detail.png)
 
 ---
 
-## Development Environment Setup
+## Quick Start (Production, via GHCR)
 
-### Quick Start with Docker (Recommended)
+Requires only Docker (>= 24) and two files from this repo — no source build needed.
 
-**1. Clone and configure:**
 ```bash
-git clone <repo-url>
+git clone https://github.com/mhong26/CareerPilot_AI.git
 cd CareerPilot_AI
 cp .env.example .env
+# Fill in .env:  GEMINI_API_KEY (aistudio.google.com)  +  JWT_SECRET (any random string ≥32 chars)
+
+docker compose -f docker-compose.prod.yml pull
+docker compose -f docker-compose.prod.yml up -d
 ```
 
-**2. Fill in the required secrets in `.env`:**
-```
-GEMINI_API_KEY=your-gemini-api-key
-JWT_SECRET=any-random-string-at-least-32-chars
-```
+Open **http://localhost** — database migrations run automatically on startup.
 
-**3. Start all services:**
+**Optional demo data** (2 demo accounts, 1 parsed resume each, 5 indexed jobs):
+
 ```bash
-docker compose up --build
+docker compose -f docker-compose.prod.yml exec backend python scripts/seed.py
+# Log in as demo@careerpilot.ai / Demo1234!   (isolation demo: demo2@careerpilot.ai)
 ```
 
-**4. Run database migrations (first time only):**
-```bash
-docker compose exec backend alembic upgrade head
-```
+Published images (multi-arch: `linux/amd64` + `linux/arm64`):
 
-**5. Open in browser:**
-- Frontend: http://localhost:3000
-- Backend API: http://localhost:8000
-- API docs (Swagger): http://localhost:8000/docs
+| Image | Tags |
+|---|---|
+| `ghcr.io/mhong26/careerpilot-backend` | `latest`, `sha-<short-commit>`（7 碼，如 `sha-90dd603`）, `1.0.0` / `1.0` / `1` |
+| `ghcr.io/mhong26/careerpilot-frontend` | `latest`, `sha-<short-commit>`（7 碼，如 `sha-90dd603`）, `1.0.0` / `1.0` / `1` |
+
+Pin a version with `IMAGE_TAG=1.0.0` in `.env`. To update: `pull` again and `up -d`.
 
 ---
 
-### Local Development (without Docker)
+## Development Setup
+
+### Required tools
+
+| Tool | Version | Notes |
+|---|---|---|
+| Docker + Compose | >= 24 / 2.x | [Install Docker](https://docs.docker.com/get-docker/) |
+| Python (no-Docker dev) | 3.11+ | plus `uv`: `pip install uv` |
+| Node.js (no-Docker dev) | 20+ | npm bundled |
+| Google AI Studio key | — | [aistudio.google.com](https://aistudio.google.com/) |
+
+### Dev with Docker (hot reload)
+
+```bash
+cp .env.example .env        # fill GEMINI_API_KEY + JWT_SECRET
+docker compose up --build
+docker compose exec backend alembic upgrade head    # first time only
+docker compose exec backend python scripts/seed.py  # optional demo data
+```
+
+- Frontend: http://localhost:3000
+- Backend API: http://localhost:8000 — Swagger at `/docs`
+
+### Local development (without Docker)
 
 Requires a running PostgreSQL 16 instance with the pgvector extension available.
 
@@ -75,15 +108,11 @@ Requires a running PostgreSQL 16 instance with the pgvector extension available.
 cd backend
 uv pip install -e ".[dev]"
 
-# Set environment variables (or create a .env file in backend/)
 export DATABASE_URL=postgresql://user:password@localhost:5432/careerpilot
 export JWT_SECRET=your-secret
 export GEMINI_API_KEY=your-key
 
-# Run migrations
 alembic upgrade head
-
-# Start dev server
 uvicorn app.main:app --reload
 ```
 
@@ -98,32 +127,21 @@ npm run dev
 
 ## Running Tests
 
-**Backend:**
 ```bash
+# Backend (coverage gate: 80%)
 cd backend
-pytest -v
-```
-
-**Frontend:**
-```bash
-cd frontend
-npm test
-```
-
-**Run all checks (mirrors CI):**
-```bash
-# Backend lint + tests
-cd backend
-ruff check .
-mypy app --ignore-missing-imports
 pytest -v --cov=app
 
-# Frontend lint + tests
+# Frontend
 cd frontend
-npm run lint
-npm run typecheck
 npm test
+
+# Full CI mirror
+cd backend && ruff check . && mypy app --ignore-missing-imports && pytest -v --cov=app
+cd frontend && npm run lint && npm run typecheck && npm test
 ```
+
+CI runs on every push; CD (`cd.yml`) re-runs the full CI suite as a gate before building and publishing images on `main` / `v*` tags.
 
 ---
 
@@ -156,6 +174,16 @@ Dataset 標註指南與設計理由見 [`eval/datasets/README.md`](eval/datasets
 
 ---
 
+## Documentation
+
+| Doc | Contents |
+|---|---|
+| [docs/architecture.md](docs/architecture.md) | System layers, data flows, agent graph, dev-vs-prod deployment topology |
+| [docs/api_reference.md](docs/api_reference.md) | All REST endpoints (also live at `/docs` Swagger) |
+| [docs/eval_report.md](docs/eval_report.md) | Metrics, baselines, hallucination rate, coverage |
+| [docs/SRS.md](docs/SRS.md) | Software requirements specification |
+| [docs/plan.md](docs/plan.md) | Phase-by-phase development plan |
+
 ## Project Structure
 
 ```
@@ -168,33 +196,26 @@ CareerPilot_AI/
 │   │   ├── schemas/        # Pydantic schemas
 │   │   ├── services/       # business logic
 │   │   └── ai/
-│   │       ├── llm/        # Gemini wrapper
-│   │       ├── embeddings/
+│   │       ├── llm/        # Gemini wrapper (retry / repair / fallback)
 │   │       ├── parsers/    # structured resume/job parsing
 │   │       ├── rag/        # chunk, retrieve, rerank
-│   │       ├── agents/     # LangGraph workflows
+│   │       ├── agents/     # LangGraph 7-tool agent
 │   │       └── prompts/
+│   ├── scripts/            # demo seed (frozen parsed data + real embeddings)
 │   ├── tests/
 │   ├── alembic/            # database migrations
-│   └── pyproject.toml
+│   ├── Dockerfile          # dev (bind mount + --reload)
+│   └── Dockerfile.prod     # multi-stage, non-root, auto-migration + gunicorn
 ├── frontend/
-│   ├── src/
-│   │   ├── pages/
-│   │   ├── components/
-│   │   ├── api/            # axios client + hooks
-│   │   ├── lib/
-│   │   └── types/
-│   └── tests/
-├── eval/
-│   ├── datasets/           # 25 curated scenarios + annotation guideline
-│   ├── metrics/            # precision@k, mrr, percentile（純函式）
-│   ├── baselines/          # TF-IDF matcher、no-RAG gap baseline
-│   ├── suites/             # matching / rag / hallucination / rubric / reliability / system
-│   ├── langsmith/          # dataset sync + LLM-as-judge evaluators
-│   ├── tests/              # eval 單元測試（CI 執行）
-│   └── run_eval.py         # 一鍵評估 → docs/eval_report.md
+│   ├── src/                # pages, components, api hooks
+│   ├── tests/
+│   ├── Dockerfile          # dev (Vite dev server)
+│   ├── Dockerfile.prod     # static build served by non-root nginx
+│   └── nginx.conf          # SPA fallback + /api reverse proxy
+├── eval/                   # datasets, metrics, baselines, suites, run_eval.py
 ├── docs/
-├── .github/workflows/ci.yml
-├── docker-compose.yml
+├── .github/workflows/      # ci.yml (lint/test) + cd.yml (GHCR publish)
+├── docker-compose.yml      # dev stack
+├── docker-compose.prod.yml # production stack (GHCR images)
 └── .env.example
 ```

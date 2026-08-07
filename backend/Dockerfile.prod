@@ -1,0 +1,59 @@
+# Production image（Phase 10）：multi-stage、non-root、啟動時自動 migration。
+# dev 用同目錄的 Dockerfile（bind mount + --reload）；本檔為 CD / prod compose 專用。
+
+# ---------- Stage 1: builder（安裝依賴與模型，成品在下一階段被複製） ----------
+FROM python:3.11-slim AS builder
+
+WORKDIR /app
+
+RUN pip install uv
+
+COPY pyproject.toml .
+
+# torch 先從官方 CPU index 單獨裝（Linux 裸裝會拉 CUDA 版 ~2GB）。該 index 只
+# 作用於這一步——它同時掛著 2022 年的 requests/urllib3/certifi，若以
+# extra-index 讓整包解析經過它，uv 的 first-index 策略會把 HTTP stack 靜默
+# 釘在帶 CVE 的舊版（phase6_notes 問題 3）。
+RUN uv pip install --system torch --index-url https://download.pytorch.org/whl/cpu
+
+# production 依賴（含 prod extra 的 gunicorn；不含 dev 的 pytest/ruff/mypy）
+RUN uv pip install --system -r pyproject.toml --extra prod
+
+# Build 期預下載 cross-encoder（~90MB），runtime 離線可用（FR-26 rerank）。
+# 用 snapshot_download 而非 import CrossEncoder：CD 的 arm64 腿在 QEMU 使用者態
+# 模擬下跑，import torch + 載模型是已知 hang 熱點；純 HTTP 下載無此風險。
+ENV HF_HOME=/opt/hf-cache
+RUN python -c "from huggingface_hub import snapshot_download; snapshot_download('cross-encoder/ms-marco-MiniLM-L-6-v2')"
+
+COPY app/ app/
+# editable install 與 dev/CI 一致；.pth 指向 /app，runtime 階段程式碼放同路徑。
+RUN uv pip install --system --no-deps -e .
+
+# ---------- Stage 2: runtime（乾淨基底，只帶成品） ----------
+FROM python:3.11-slim
+
+RUN useradd --create-home --uid 1000 appuser
+
+# 只搬成品：site-packages、console scripts（alembic/gunicorn/uvicorn）、模型 cache
+COPY --from=builder /usr/local/lib/python3.11/site-packages /usr/local/lib/python3.11/site-packages
+COPY --from=builder /usr/local/bin /usr/local/bin
+COPY --from=builder --chown=appuser /opt/hf-cache /opt/hf-cache
+
+WORKDIR /app
+COPY alembic.ini .
+COPY alembic/ alembic/
+COPY app/ app/
+COPY scripts/ scripts/
+COPY entrypoint.sh .
+
+# HF_HUB_OFFLINE=1：模型已 bake 進 image，禁止 runtime 對 huggingface.co 發
+# etag 檢查請求——離線環境不因網路 timeout 拖慢第一次 rerank。
+ENV HF_HOME=/opt/hf-cache \
+    HF_HUB_OFFLINE=1 \
+    PYTHONUNBUFFERED=1
+
+USER appuser
+
+EXPOSE 8000
+
+ENTRYPOINT ["./entrypoint.sh"]

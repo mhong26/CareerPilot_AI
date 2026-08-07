@@ -82,6 +82,32 @@ def _render_suite(name: str, title: str, result: SuiteResult | None) -> list[str
     return lines
 
 
+def _render_langsmith_appendix(cfg: EvalConfig) -> list[str]:
+    """固定附錄：LangSmith trace 截圖（Phase 10）。
+
+    截圖需登入 LangSmith 手動擷取，放在 ``docs/images/langsmith_trace.png``；
+    檔案還不存在時如實標注（報告是生成的，不手改）。
+    """
+    image = cfg.report_path.parent / "images" / "langsmith_trace.png"
+    lines = ["## Appendix B. LangSmith traces", ""]
+    if image.exists():
+        lines += [
+            "Agent run trace (LLM function-call tool selection + match-score routing), "
+            "captured from the LangSmith project:",
+            "",
+            "![LangSmith agent trace](images/langsmith_trace.png)",
+            "",
+        ]
+    else:
+        lines += [
+            "_Screenshot not yet captured — export an application-kit agent trace from "
+            "the LangSmith project to `docs/images/langsmith_trace.png` and re-run "
+            "`python eval/run_eval.py`._",
+            "",
+        ]
+    return lines
+
+
 def render_report(
     run_results: dict[str, SuiteResult],
     cfg: EvalConfig,
@@ -125,6 +151,8 @@ def render_report(
                     )
                 result = saved
         lines += _render_suite(name, title, result)
+
+    lines += _render_langsmith_appendix(cfg)
 
     cfg.report_path.parent.mkdir(parents=True, exist_ok=True)
     cfg.report_path.write_text("\n".join(lines), encoding="utf-8")

@@ -1,0 +1,24 @@
+# Production image（Phase 10）：build 出靜態檔，由非 root 的 nginx 服務並
+# 反向代理 /api → backend。dev 用同目錄的 Dockerfile（Vite dev server）。
+
+# ---------- Stage 1: build ----------
+FROM node:20-alpine AS builder
+
+WORKDIR /app
+
+COPY package.json package-lock.json ./
+# npm ci：嚴格依 lockfile 安裝，build 可重現（npm install 可能改寫 lockfile）
+RUN npm ci
+
+COPY . .
+# 不設 VITE_API_URL → client.ts fallback 到相對路徑 /api（見 nginx.conf 代理）
+RUN npm run build
+
+# ---------- Stage 2: serve ----------
+# 官方非 root 變體：master process 以 uid 101 執行、監聽 8080（<1024 需 root）
+FROM nginxinc/nginx-unprivileged:1.27-alpine
+
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY --from=builder /app/dist /usr/share/nginx/html
+
+EXPOSE 8080
