@@ -69,8 +69,8 @@ Published images (multi-arch: `linux/amd64` + `linux/arm64`):
 
 | Image | Tags |
 |---|---|
-| `ghcr.io/mhong26/careerpilot-backend` | `latest`, `sha-<short-commit>`（7 碼，如 `sha-90dd603`）, `1.0.0` / `1.0` / `1` |
-| `ghcr.io/mhong26/careerpilot-frontend` | `latest`, `sha-<short-commit>`（7 碼，如 `sha-90dd603`）, `1.0.0` / `1.0` / `1` |
+| `ghcr.io/mhong26/careerpilot-backend` | `latest`, `sha-<short-commit>` (7 chars, e.g. `sha-90dd603`), `1.0.0` / `1.0` / `1` |
+| `ghcr.io/mhong26/careerpilot-frontend` | `latest`, `sha-<short-commit>` (7 chars, e.g. `sha-90dd603`), `1.0.0` / `1.0` / `1` |
 
 Pin a version with `IMAGE_TAG=1.0.0` in `.env`. To update: `pull` again and `up -d`.
 
@@ -145,32 +145,33 @@ CI runs on every push; CD (`cd.yml`) re-runs the full CI suite as a gate before 
 
 ---
 
-## Evaluation (Phase 8)
+## Evaluation
 
-一鍵評估：`python eval/run_eval.py` 會（冪等地）建立獨立資料庫
-`careerpilot_eval`、seed 25 組標註情境、跑六類指標並輸出
-[`docs/eval_report.md`](docs/eval_report.md)。
+One-command evaluation: `python eval/run_eval.py` idempotently creates a dedicated
+`careerpilot_eval` database, seeds 25 annotated scenarios, runs six metric suites, and
+writes [`docs/eval_report.md`](docs/eval_report.md).
 
 ```bash
-# 前置：docker compose up -d db；.env 需含 GEMINI_API_KEY
+# Prerequisites: docker compose up -d db; .env must contain GEMINI_API_KEY
 pip install -e "backend[dev,eval]"          # eval extra = scikit-learn
 
-python eval/run_eval.py                     # 全套（judge 類需 LANGSMITH_API_KEY）
-python eval/run_eval.py --skip-judge        # 只跑本地指標（不需 LangSmith）
-python eval/run_eval.py --limit 5           # 額度控管：每個 suite 只跑前 5 組情境
-python eval/run_eval.py --only matching rag # 只跑指定 suite
-python eval/run_eval.py --with-coverage     # 附帶量測 backend test coverage
-python -m eval.langsmith.sync_datasets      # 本地 dataset 同步至 LangSmith
+python eval/run_eval.py                     # full run (judge suites need LANGSMITH_API_KEY)
+python eval/run_eval.py --skip-judge        # local metrics only (no LangSmith required)
+python eval/run_eval.py --limit 5           # quota control: only the first 5 scenarios per suite
+python eval/run_eval.py --only matching rag # run selected suites only
+python eval/run_eval.py --with-coverage     # also measure backend test coverage
+python -m eval.langsmith.sync_datasets      # sync local datasets to LangSmith
 ```
 
-額度說明（free tier 友善）：所有 LLM / embedding 呼叫都有磁碟快取
-（`eval/.cache/`，已 gitignore），重跑不重新計費；judge 模型
-（`gemini-3.6-flash`，可用 `EVAL_JUDGE_MODEL` 覆寫）額度耗盡時 suite 標記
-partial、隔日重跑自動續進度。無 `GEMINI_API_KEY` 時 warm 快取仍可離線重算
-本地指標；無 `LANGSMITH_API_KEY` 時 judge 類跳過並於報告註明。
+Quota notes (free-tier friendly): every LLM / embedding call is cached on disk
+(`eval/.cache/`, gitignored), so re-runs cost nothing extra. When the judge model
+(`gemini-3.6-flash`, overridable via `EVAL_JUDGE_MODEL`) exhausts its quota, the suite is
+marked partial and the next day's run resumes where it left off. Without `GEMINI_API_KEY`,
+local metrics can still be recomputed offline from a warm cache; without
+`LANGSMITH_API_KEY`, judge suites are skipped and noted in the report.
 
-Eval 單元測試（不打 API、不碰 DB）：`python -m pytest eval/tests -q`。
-Dataset 標註指南與設計理由見 [`eval/datasets/README.md`](eval/datasets/README.md)。
+Eval unit tests (no API calls, no database): `python -m pytest eval/tests -q`.
+See [`eval/datasets/README.md`](eval/datasets/README.md) for the annotation guide and design rationale.
 
 ---
 
