@@ -29,7 +29,7 @@ CareerPilot AI is an AI-powered resume and job match platform for students, new 
 | **RAG** | chunk → retrieve → cross-encoder rerank → generate with source attribution |
 | **Agent (LangGraph)** | 7-tool ReAct agent; the LLM picks tools via native function calling, with match-score conditional routing |
 | **Function calling** | `ChatGoogleGenerativeAI.bind_tools` — tool selection is LLM-driven, not hard-coded |
-| **LLM-as-judge evaluation** | Hallucination detection & rubric scoring via LangSmith `evaluate()` |
+| **LLM-as-a-judge evaluation** | Hallucination detection & rubric scoring via LangSmith `evaluate()` |
 | **Observability** | LangSmith tracing on every wrapper call and agent run (silently disabled without an API key) |
 
 ## Screenshots
@@ -180,7 +180,7 @@ See [`eval/datasets/README.md`](eval/datasets/README.md) for the annotation guid
 | Doc | Contents |
 |---|---|
 | [docs/architecture.md](docs/architecture.md) | System layers, data flows, agent graph, dev-vs-prod deployment topology |
-| [docs/api_reference.md](docs/api_reference.md) | All REST endpoints (also live at `/docs` Swagger) |
+| [docs/api.md](docs/api.md) | All REST endpoints (also live at `/docs` Swagger) |
 | [docs/eval_report.md](docs/eval_report.md) | Metrics, baselines, hallucination rate, coverage |
 | [docs/SRS.md](docs/SRS.md) | Software requirements specification |
 | [docs/plan.md](docs/plan.md) | Phase-by-phase development plan |

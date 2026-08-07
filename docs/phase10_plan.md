@@ -21,7 +21,7 @@ Phase 0~9 做出了「在開發者電腦上跑得動的系統」;Phase 10 要把
 | `.github/workflows/ci.yml` | 小改:加 `workflow_call` 觸發 | 3 |
 | `backend/scripts/seed.py`、`backend/scripts/seed_data.json` | 新增 | 8 |
 | `docs/architecture.md` | 新增 | 5 |
-| `docs/api_reference.md` | 更新(沿用既有檔案,不另開 `api.md`)| 6 |
+| `docs/api.md` | 更新(由既有的 `api_reference.md` 改名而來)| 6 |
 | `docs/images/*.png` | 新增(自動截圖)| 7、9 |
 | `README.md` | 最終版改寫 | 4、9 |
 | `.env.example` | 補充 prod 相關變數 | 4 |
@@ -34,7 +34,7 @@ Phase 0~9 做出了「在開發者電腦上跑得動的系統」;Phase 10 要把
 3. **前端 production 基底用 `nginxinc/nginx-unprivileged`。** 官方 nginx 映像檔的主進程是 root;unprivileged 版是 nginx 官方維護的非 root 變體(監聽 8080),直接滿足 non-root 要求,不用自己折騰權限。
 4. **CD 的「測試先過才發佈」用 reusable workflow 實現。** `ci.yml` 加上 `workflow_call:` 觸發器,`cd.yml` 直接呼叫整套 CI 當第一個 job——不用複製貼上測試步驟,CI 改了 CD 自動跟上;而且 tag push 本來不會觸發 CI(它只監聽 branch),經由 CD 呼叫就補上了。
 5. **seed 放 `backend/scripts/`,不放 repo 根目錄 `scripts/`。** seed 要在 backend 容器內執行(才有 DB 連線與 app 程式碼),而 Docker build context 是 `./backend`,根目錄的檔案進不了 image。`seed_data.json` 自帶所有資料(從 eval dataset 改編),不依賴 `eval/` 目錄。
-6. **API 文件沿用 `docs/api_reference.md`。** plan 寫的 `docs/api.md` 實際上已經以 `api_reference.md` 之名存在,內容完整,只需更新(補 prod base URL 說明),不另開新檔造成兩份文件。
+6. **API 文件沿用既有檔案並改名為 `docs/api.md`。** plan 寫的 `docs/api.md` 原本已以 `api_reference.md` 之名存在,內容完整,因此不另開新檔造成兩份文件,而是就地更新(補 prod base URL 說明)後改名對齊 plan 的命名。
 7. **CD 產出 multi-arch image(`linux/amd64` + `linux/arm64`)。** GitHub 的 runner 是 x86(amd64),但你的 Mac 是 Apple Silicon(arm64)——只建 amd64 的話,在 Mac 上 `pull && up` 會走 QEMU 模擬,慢且偶有相容性問題。用 buildx + QEMU 同時建兩種架構,兩種機器都原生執行。代價是 CD build 時間變長(arm64 那份在模擬器裡編),若實測太慢可退回 amd64-only(文末風險節有備案)。
 
 ---
@@ -474,7 +474,7 @@ seed 後用 `demo@careerpilot.ai` 登入 → 看得到履歷與 5 個 job;跑 ma
 
 ---
 
-## 7. 文件:architecture.md、api_reference.md、.env.example
+## 7. 文件:architecture.md、api.md、.env.example
 
 ### `docs/architecture.md`(新增)
 
@@ -485,7 +485,7 @@ seed 後用 `demo@careerpilot.ai` 登入 → 看得到履歷與 5 個 job;跑 ma
    - Application kit agent:7 tools + planner 的 ReAct 迴圈 + match-score 條件分岔。
 3. **部署拓撲**:dev compose vs prod compose 的差異圖(port、代理、image 來源)。
 
-### `docs/api_reference.md`(更新)
+### `docs/api.md`(更新 + 由 `api_reference.md` 改名)
 
 - Base URL 說明補上 production 情境:`同源 /api 前綴,由 nginx 代理`;
 - 快速核對 endpoint 清單與現行程式碼一致(Phase 9 之後若有增減)。
@@ -540,7 +540,7 @@ IMAGE_TAG=latest
    ```
    加 GHCR image 表(兩個 image 的名稱與 tags 說明);
 7. **Tests / Eval**:`pytest`(coverage 80% 門檻)、`npm test`、`python eval/run_eval.py`,連結 `docs/eval_report.md`;
-8. **Docs 索引**:architecture / api_reference / eval_report / SRS / plan。
+8. **Docs 索引**:architecture / api / eval_report / SRS / plan。
 
 ---
 
@@ -592,7 +592,7 @@ IMAGE_TAG=latest
 4. docker-compose.prod.yml → 本地 up --build 驗證  ┘
 5. seed.py + seed_data.json → 本地 seed 驗證
 6. cd.yml + ci.yml workflow_call                  (推上去才驗得到,先寫好)
-7. architecture.md / api_reference.md / .env.example
+7. architecture.md / api.md / .env.example
 8. 自動截圖(需要 4、5 完成)
 9. README 最終版(需要 8 的圖)
 10. 你執行:commit / push / merge / package public / tag v1.0.0
