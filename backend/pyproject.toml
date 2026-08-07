@@ -42,6 +42,10 @@ dev = [
 eval = [
     "scikit-learn>=1.5",
 ]
+# Phase 10 production image（Dockerfile.prod）
+prod = [
+    "gunicorn>=22",
+]
 
 # torch CPU-only：不用 extra-index-url——PyTorch index 同時掛著 2022 年的
 # requests/urllib3/certifi，uv 的 first-index 策略會把它們靜默釘舊（帶 CVE）。

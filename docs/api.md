@@ -2,12 +2,34 @@
 
 本文件整理後端目前所有對外 API endpoint（來源：`backend/app/api/`）。
 
-- **Base URL**：`http://localhost:8000`（前端由 `VITE_API_URL` 覆寫，見 `frontend/src/api/client.ts`）
+- **Base URL**
+  - **開發**：`http://localhost:8000`（前端直連 backend，由 `VITE_API_URL` 指定，
+    見 `frontend/src/api/client.ts`）
+  - **正式（Phase 10）**：同源相對路徑 **`/api`**（production build 不設
+    `VITE_API_URL`，client 落到預設值 `/api`）。nginx 反向代理
+    （`frontend/nginx.conf`）會在轉發前**剝掉 `/api` 前綴**：瀏覽器呼叫
+    `/api/auth/login` → nginx 轉發 `/auth/login` 到 `backend:8000`。
+    **後端路由本身沒有 `/api` 前綴**；同源代理下也無 CORS 問題。
 - **API 文件**：FastAPI 自動產生於 `/docs`（Swagger UI）與 `/openapi.json`
 - **認證**：除 `/health` 與 `/auth/register|login|refresh|logout` 外，全部需要
   `Authorization: Bearer <access_token>`（`app/api/deps.py::get_current_user`）
 - **資料隔離**：所有資源皆以目前使用者為範圍，查不到他人資料一律回 404
-- **共同錯誤**：`401` 未帶 / 無效 access token、`422` request body 驗證失敗
+- **共同錯誤**：`401` 未帶 / 無效 access token、`422` request body 驗證失敗、
+  `429` 超過 rate limit（見下）、`503` DB 連線失敗
+- **Rate limits**（Phase 9，slowapi；`app/core/ratelimit.py`）：已登入請求以
+  bearer token 為 key（≈ per-user），未登入以 client IP 為 key；超限回
+  `429 { "detail": "Too many requests. ..." }`。預設值（除 `/auth/refresh`
+  為程式內固定值外，皆定義於 `app/core/config.py`，可由環境變數覆寫）：
+
+  | Endpoint | 限制 |
+  | --- | --- |
+  | `POST /auth/register`、`POST /auth/login` | 10/minute |
+  | `POST /auth/refresh` | 30/minute（固定） |
+  | `POST /resumes/upload`、`PATCH /resumes/{id}` | 10/minute |
+  | `POST /jobs` | 20/minute |
+  | `POST /matches/run` | 5/minute |
+  | `POST /jobs/{id}/skill-gap` | 5/minute |
+  | `POST /jobs/{id}/generate-application-kit` | 3/minute |
 
 ## Endpoint 總覽
 
@@ -48,7 +70,9 @@
 ```json
 { "status": "ok", "db": "ok", "pgvector": "ok" }
 ```
-`db` 失敗時為 `"error: <訊息>"`；`pgvector` 可能為 `ok` / `not_installed` / `error` / `unknown`。
+DB 連線失敗時回 **503**，`status` 為 `"degraded"`、`db` 為 `"error: <訊息>"`
+（可供 readiness check 使用）；`pgvector` 僅為資訊性欄位，可能為
+`ok` / `not_installed` / `error` / `unknown`（未安裝仍回 200）。
 
 ---
 
@@ -130,7 +154,7 @@
 
 **錯誤**
 - `400` 兩者都給或都不給
-- `413` 檔案超過 `MAX_UPLOAD_SIZE_MB`
+- `413` 檔案超過 `MAX_UPLOAD_SIZE_MB`，或文字超過 `MAX_TEXT_INPUT_CHARS`
 - `415` 非 PDF / DOCX
 - `422` 文字擷取失敗（如空白、過短）
 

@@ -1,0 +1,81 @@
+# CD（Phase 10）：push main / tag v* → 跑完整 CI → build production images
+# → 推 GHCR（multi-arch：amd64 + arm64）。
+# 發佈後部署：docker compose -f docker-compose.prod.yml pull && ... up -d
+name: CD
+
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+
+# 同一 ref 的 CD 不併行：連續 push main 時取消較舊的 run，避免舊 commit 的
+# image 較晚 build 完反把 latest 蓋回舊版（tag ref 各自成組，release 不受影響）。
+concurrency:
+  group: cd-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # 發佈閘門：reusable workflow 完整重跑 lint + tests + secret scan，
+  # 任何紅燈 build-and-push 都不會執行（needs 依賴）。
+  ci:
+    uses: ./.github/workflows/ci.yml
+    secrets: inherit
+
+  build-and-push:
+    needs: ci
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write # 授權內建 GITHUB_TOKEN 推 GHCR，無需自建密鑰
+    strategy:
+      matrix:
+        include:
+          - component: backend
+            context: ./backend
+            dockerfile: ./backend/Dockerfile.prod
+          - component: frontend
+            context: ./frontend
+            dockerfile: ./frontend/Dockerfile.prod
+    steps:
+      - uses: actions/checkout@v4
+
+      # runner 是 x86；QEMU + buildx 讓同一次 build 產出 amd64 + arm64
+      #（Apple Silicon 上 pull 才能原生執行，不走模擬）
+      - uses: docker/setup-qemu-action@v3
+      - uses: docker/setup-buildx-action@v3
+
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # 標籤策略：sha（永遠可追溯）、latest（僅 main）、semver（僅 v* tag：
+      # v1.0.0 → 1.0.0 / 1.0 / 1，使用者可鎖版本或追大版）
+      - uses: docker/metadata-action@v5
+        id: meta
+        with:
+          images: ghcr.io/${{ github.repository_owner }}/careerpilot-${{ matrix.component }}
+          # latest=false：關掉 metadata-action 對 semver tag 的自動 latest——
+          # 否則對舊 commit 打 v* tag 會把 latest 拉回舊版；latest 僅由下面的
+          # is_default_branch 規則（main）控制。
+          flavor: |
+            latest=false
+          tags: |
+            type=sha
+            type=raw,value=latest,enable={{is_default_branch}}
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{major}}
+
+      - uses: docker/build-push-action@v6
+        with:
+          context: ${{ matrix.context }}
+          file: ${{ matrix.dockerfile }}
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          # build 層快取存 GitHub Actions cache：之後的 CD 只重建有變動的層
+          cache-from: type=gha,scope=${{ matrix.component }}
+          cache-to: type=gha,mode=max,scope=${{ matrix.component }}

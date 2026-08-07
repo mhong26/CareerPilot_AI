@@ -2,9 +2,15 @@ name: CI
 
 on:
   push:
-    branches: ["**"]
+    # main 排除：push main 已由 cd.yml 以 workflow_call 完整重跑本套 CI 當
+    # 發佈閘門，這裡再跑一次會讓同一 commit 重複 10 個 job；PR 進 main 仍由
+    # 下面的 pull_request 事件覆蓋。
+    branches-ignore: [main]
   pull_request:
     branches: ["**"]
+  # Phase 10：允許 cd.yml 以 reusable workflow 呼叫整套 CI 當發佈閘門
+  # （tag push 不觸發上面的 branches 條件，經 CD 呼叫補上測試）
+  workflow_call:
 
 jobs:
   backend-lint:
